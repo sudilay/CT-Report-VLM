@@ -1,0 +1,54 @@
+# Veri - asla commit edilmez (lisans + boyut)
+data/raw/
+data/interim/
+data/processed/
+# Harici makale PDF'leri (43 MB) - depoya girmez, indirme yolu docs'ta yazili
+# NOT: .gitignore satir sonu yorumu DESTEKLEMEZ, yorumlar ayri satirda olmali
+# NOT: ust dizin dislanirsa alt dosya geri dahil EDILEMEZ, o yuzden alt klasor dislaniyor
+data/external/papers/
+*.nii
+*.nii.gz
+*.dcm
+*.npz
+
+# Ortam
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Cikti
+reports/figures/*.png
+.env
+*.log
+
+# Sirlar
+*token*
+!*/tokenizer*
+
+# Baskasinin projesine ait ornek dosya (bu repoya girmemeli)
+PDF_PARSER_*.xlsx
+
+# Basliksiz not defterleri
+Untitled*.ipynb
+
+# ---------------------------------------------------------------
+# Yerelde kalan calisma dosyalari - depoya girmez
+# Depo yalnizca kodu, testleri ve kodun gerekcesini aciklayan
+# teknik belgeleri tasir. Plan yonetimi ve gunluk yerel isler.
+# ---------------------------------------------------------------
+
+# Task plani (Excel ve onu ureten kaynak)
+RADYOLOJI_VLM_TASK_LISTESI.xlsx
+radyoloji_raporu_degerlendirme_tasklari.xlsx
+scripts/03_build_task_plan.py
+scripts/_plan_data.py
+
+# Agent koordinasyonu ve gunluk
+AGENTS.md
+CLAUDE.md
+docs/02_bilinmesi_gerekenler.md
+docs/04_uygulama_gunlugu.md
+
+# Ucuncu taraf kaynaklar - indirilebilir, atif yeterli
+data/external/
