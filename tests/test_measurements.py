@@ -191,8 +191,12 @@ def test_meas_idx_cumle_icinde_sirali(meas):
     assert g.apply(lambda s: sorted(s) == list(range(len(s)))).all()
 
 
-def test_pipeline_surumu_tek(meas):
-    assert meas.pipeline_version.nunique() == 1
+def test_surum_zinciri_ucdan_uca(meas):
+    """Olcu kaydi, hangi bolutleme ve sablon surumunden turedigini tasimali."""
+    for kol in ("segmentation_version", "template_version", "measurement_version"):
+        assert kol in meas.columns, f"{kol} kolonu yok - surum zinciri kopuk"
+        assert meas[kol].nunique() == 1
+    assert "pipeline_version" not in meas.columns, "eski tekil surum kolonu geri gelmis"
 
 
 # =====================================================================

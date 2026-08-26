@@ -99,9 +99,10 @@ def test_bolumler_beklenen_degerler(sent):
     assert set(sent.section.unique()) <= {"findings", "impression"}
 
 
-def test_pipeline_surumu_kayitli(sent):
-    assert sent.pipeline_version.notna().all()
-    assert sent.pipeline_version.nunique() == 1
+def test_bolutleme_surumu_kayitli(sent):
+    """D10: her satir hangi bolutleme kural setinden geldigini tasir."""
+    assert sent.segmentation_version.notna().all()
+    assert sent.segmentation_version.nunique() == 1
 
 
 def test_cumle_sayisi_beklenen_aralikta(sent):

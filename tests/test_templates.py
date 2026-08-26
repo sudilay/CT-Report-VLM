@@ -41,7 +41,8 @@ def split_map():
 
 def test_beklenen_kolonlar_var(sent):
     for c in ["template_id_exact", "template_id_norm", "n_patients_train",
-              "is_stock_phrasing", "has_technical_caveat", "pipeline_version"]:
+              "is_stock_phrasing", "has_technical_caveat",
+              "segmentation_version", "template_version"]:
         assert c in sent.columns, f"{c} kolonu yok"
 
 
@@ -62,8 +63,13 @@ def test_teknik_cekince_bool(sent):
     assert sent.has_technical_caveat.dtype == bool
 
 
-def test_pipeline_surumu_tek(sent):
-    assert sent.pipeline_version.nunique() == 1
+def test_surum_zinciri_korunuyor(sent):
+    """Her katman KENDI surumunu ayri kolona yazar. Tek bir pipeline_version
+    kolonu kullanildiginda ust katman alt katmanin surumunu eziyordu; cikti
+    hangi bolutlemeden geldigini soyleyemez hale geliyordu."""
+    assert sent.segmentation_version.nunique() == 1
+    assert sent.template_version.nunique() == 1
+    assert "pipeline_version" not in sent.columns, "eski tekil surum kolonu geri gelmis"
 
 
 # --- Normalizasyon ve kimlik ---------------------------------------------

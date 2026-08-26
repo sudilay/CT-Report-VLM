@@ -38,7 +38,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "processed" / "reports_study_level.parquet"
 OUT = ROOT / "data" / "processed" / "sentences.parquet"
 
-PIPELINE_VERSION = "seg-1.1"
+SEGMENTATION_VERSION = "seg-1.1"
 
 # Blok siniri: 2+ bosluk VEYA madde isareti.
 # Orta nokta (U+00B7) ilk taramada kacirilmisti: 238 raporda (%0,93), yalnizca
@@ -126,7 +126,7 @@ def main() -> None:
     dt = time.time() - t0
     out = pd.DataFrame(kayitlar, columns=[
         "study_id", "section", "sent_idx", "text", "char_start", "char_end", "n_char"])
-    out["pipeline_version"] = PIPELINE_VERSION
+    out["segmentation_version"] = SEGMENTATION_VERSION
 
     # --- Ofset dogrulamasi: text, report_text'ten birebir kesilebilmeli ---
     hatali = 0

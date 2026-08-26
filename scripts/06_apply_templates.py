@@ -50,14 +50,17 @@ SENT = ROOT / "data" / "processed" / "sentences.parquet"
 REPS = ROOT / "data" / "processed" / "reports_study_level.parquet"
 OUTD = ROOT / "reports"
 
-PIPELINE_VERSION = "tmpl-1.0"
+TEMPLATE_VERSION = "tmpl-1.0"
 K_ESIK = 10          # D4
 ELLE_ETIKET_N = 350  # kabul olcutu: ilk 200 %46,2 kapsadi (<%50), sayi artirildi
 
 # 04_segment_sentences.py'nin urettigi taban kolonlar. Bu scriptin ciktisi
 # tekrar calistirildiginda eski kolonlar birikmesin diye acikca listelenir.
+# segmentation_version taban kolondur: hangi bolutleme surumunden geldigi
+# kaybolmamali. Her katman KENDI surumunu ayri kolona yazar; tek bir
+# pipeline_version kolonu kullanmak zinciri kopariyordu.
 TABAN_KOLONLAR = ["study_id", "section", "sent_idx", "text",
-                  "char_start", "char_end", "n_char"]
+                  "char_start", "char_end", "n_char", "segmentation_version"]
 
 SAYI = re.compile(r"\d+(?:\.\d+)?")
 BOSLUK = re.compile(r"\s+")
@@ -117,7 +120,7 @@ def main() -> None:
     sent["n_patients_train"] = sent.norm.map(katalog).fillna(0).astype(int)
     sent["is_stock_phrasing"] = sent.n_patients_train >= K_ESIK
     sent["has_technical_caveat"] = sent.text.map(teknik_cekince)
-    sent["pipeline_version"] = PIPELINE_VERSION
+    sent["template_version"] = TEMPLATE_VERSION
 
     valid = sent[sent.split == "valid"]
     eslesmeyen = (valid.n_patients_train == 0).sum()

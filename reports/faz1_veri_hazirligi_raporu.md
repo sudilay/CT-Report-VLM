@@ -42,13 +42,15 @@ Her cümle, orijinal metindeki karakter konumuyla birlikte kaydedilmiştir. Bu i
 
 ### 3.3 Şablon cümlelerin karakterize edilmesi
 
-Radyolog her raporu sıfırdan yazmaz; hazır kalıpları kullanıp içindeki sayıyı değiştirir. Korpusta cümlelerin **%75'i tekrar etmektedir**; en sık cümle sekiz binden fazla hastada birebir aynıdır.
+Radyolog her raporu sıfırdan yazmaz; hazır kalıpları kullanıp içindeki sayıyı değiştirir. Bölütlenmiş korpusta cümle oluşumlarının **%71'i** birden fazla kez geçen bir cümleye aittir; yalnızca Findings bölümüne bakıldığında bu oran **%74,8**'e çıkar. En sık cümle sekiz binden fazla hastada birebir aynıdır.
 
 Sayılar maskelenerek kalıp aileleri çıkarılmış ve her kalıbın **kaç farklı hastada** geçtiği sayılmıştır. Sayım hasta üzerinden yapılır: bir hastanın birden çok çekimi olması cümleyi yapay olarak sık göstermemelidir.
 
 İstatistik **yalnızca eğitim kümesinden** hesaplanmış, doğrulama kümesine uygulanmıştır. Doğrulama kümesini de saymak, test verisinden ön işlemeye bilgi sızması anlamına gelirdi.
 
-Frekans dağılımında beklenen keskin kırılma noktası çıkmamıştır; dağılım düzgün bir güç yasası izler. Bu nedenle eşik niteliksel olarak, her seviyeden örnek cümleler incelenerek belirlenmiştir. Eşik iki bağımsız incelemeyle doğrulanmıştır.
+Bu tasarımın ölçülebilir bir sonucu vardır: doğrulama kümesindeki cümlelerin **%29,27'si** (8.542 / 29.183) eğitim kataloğunda karşılık bulmamakta ve tanım gereği kalıp sayılmamaktadır. Bu oran, kalıp bayrağına dayanan sonraki analizlerde doğrulama kümesinin eğitim kümesinden farklı davranacağını gösterir ve raporlanmalıdır.
+
+Frekans dağılımında beklenen keskin kırılma noktası çıkmamıştır; dağılım düzgün bir güç yasası izler. Bu nedenle eşik niteliksel olarak, her seviyeden örnek cümleler incelenerek belirlenmiştir. Eşik iki bağımsız incelemeyle doğrulanmıştır: eşiğin hemen üstündeki (en düşük frekanslı) ailelerden sabit tohumla yüz örnek çekilmiş, tamamı standart kalıp bulunmuştur. Üçünde hastaya özgü ayrıntı (ölçü ve lokalizasyon) bulunmakla birlikte cümle iskeleti kalıptır; bu, kalıp bayrağının bilgi değeri hakkında iddia taşımadığını gösteren örnektir.
 
 ### 3.4 Ölçü ifadelerinin normalize edilmesi
 
@@ -85,6 +87,8 @@ Bu ayrım gereği Faz 1 yalnızca yapısal bilgi kaydeder. Negasyon çözümleme
 ## 6. Doğrulama
 
 Doğrulama iki katmanlıdır.
+
+**Sınır örneklemleri.** Kabul ölçütlerinin gerektirdiği iki örneklem üretilmiş ve değerlendirilmiştir: bölütleme kuralının uygulandığı madde sınırlarından yüz örnek (risk taşıyan noktalamasız sınırlar ağırlıklı) ve kalıp eşiğinin hemen üstündeki ailelerden yüz örnek. Değerlendirme sonuçları ilgili dosyalarda kayıtlıdır.
 
 **Zor vaka takımı.** Elle seçilmiş zorlayıcı örnekler sabit bir dosyada tutulur ve her değişiklikten sonra çalıştırılır: ondalıklı ölçüler, aralıklar, çok eksenli ölçüler, aynı cümlede birden çok ölçü, negasyon, belirsizlik ifadeleri, madde işaretleri, bozuk noktalama, teknik ile klinik ölçü ayrımı.
 

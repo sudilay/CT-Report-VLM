@@ -50,7 +50,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SENT = ROOT / "data" / "processed" / "sentences.parquet"
 OUT = ROOT / "data" / "processed" / "measurements.parquet"
 
-PIPELINE_VERSION = "meas-1.0"
+MEASUREMENT_VERSION = "meas-1.0"
 CM_MM = 10.0
 TEKNIK_PENCERE = 60      # karakter, olcunun iki yaninda
 AYKIRI_MM = 200.0        # bu degerin ustu tek tek incelenir
@@ -151,7 +151,12 @@ def main() -> None:
             kayitlar.append(kayit)
 
     df = pd.DataFrame(kayitlar)
-    df["pipeline_version"] = PIPELINE_VERSION
+    # Surum zinciri: olcunun hangi bolutleme ve sablon surumunden geldigi
+    # kaybolmasin diye ust katmanlarin surumleri de tasinir.
+    for kol in ("segmentation_version", "template_version"):
+        if kol in sent.columns:
+            df[kol] = sent[kol].iloc[0]
+    df["measurement_version"] = MEASUREMENT_VERSION
     df.to_parquet(OUT, index=False)
 
     say = df.kind.value_counts()
