@@ -171,3 +171,24 @@ def test_bos_rapor_sayisi_beklenen(df):
 
 def test_hicbir_rapor_tamamen_bos_degil(df):
     assert (df["report_text"].str.len() > 0).all()
+
+
+# --- Impression'i olmayan calismalar -------------------------------------
+
+def test_impression_is_null_kolonu_var(df):
+    assert "impression_is_null" in df.columns
+    assert df["impression_is_null"].dtype == bool
+
+
+def test_impression_is_null_dogru_sayida(df):
+    """811 calisma "Not given." yaziyor, 14 tanesi tamamen bos -> 825."""
+    assert df["impression_is_null"].sum() == 825
+    assert (df["Impressions_EN"] == "").sum() == 14
+
+
+def test_impression_is_null_report_text_degistirmedi(df):
+    """D10: isaretleme yapildi ama report_text'e DOKUNULMADI."""
+    yeniden = (df["Findings_EN"] + "\n\n" + df["Impressions_EN"]).str.strip()
+    assert (df["report_text"] == yeniden).all()
+    bos = df[df["impression_is_null"] & (df["Impressions_EN"] != "")]
+    assert (bos["Impressions_EN"].str.strip().str.lower() == "not given.").all()

@@ -1,6 +1,6 @@
 # Standartlaştırma Planı — TASK-08 ve TASK-09
 
-Veri hazırlığının kalan kısmının ayrıntılı planı. Mentörün listesindeki **T-01**'in ikinci yarısı.
+Veri hazırlığının kalan kısmının ayrıntılı planı. Kaynak görev listesindeki **T-01**'in ikinci yarısı.
 
 **Sürüm 2** — bağımsız bir inceleme sonrası güncellendi. Değişenler bölüm 11'de özetli.
 
@@ -112,11 +112,12 @@ Faz 2'de bulgu (entity) tablosu eklenecek ve **ölçüler bulgulara bağlanacak*
 | `n_char` | Uzunluk |
 | `template_id_exact` | Birebir aynı cümlelerin kimliği |
 | `template_id_norm` | Sayılar maskelendikten sonraki kimlik |
-| `is_boilerplate` | Şablon mu |
-| `template_type` | `negatif_ifade` / `normal_beyan` / `teknik` / `serbest` |
+| `n_patients_train` | Kalıbın kaç farklı **train** hastasında geçtiği (sürekli değer) |
+| `is_stock_phrasing` | `n_patients_train >= 10` (D4) — **"standart kalıp", "önemsiz" değil** |
+| `has_technical_caveat` | Cümle tetkik sınırlılığı bildiriyor mu (D12) |
 | `pipeline_version` | Üreten kural setinin sürümü |
 
-> `template_type` **dilbilimsel/yapısal** bir sınıflandırmadır, klinik değil. `negatif_ifade` "olumsuz cümle" demektir, "malignite aleyhine kanıt" demek değildir.
+> Bu kolonlar **yapısal**dır, klinik değil. Negasyon ve normal/pozitif ayrımı **Faz 2'de** medspaCy ConText ile üretilir (D12); Faz 1 bu işi yapmaz.
 
 ### `measurements.parquet`
 
@@ -204,7 +205,7 @@ Tek bir rapora bakıp "çift boşluktan böleriz" demek zayıf kanıt olurdu. Bu
 
 **Neden:** Valid verisini de sayarsak test kümesinden ön işlemeye bilgi sızar. İnce ama gerçek bir sızıntı.
 
-**Eşleşmeyen cümleler için kural:** Valid'deki bazı cümleler train kataloğunda karşılık bulamayacak. Bunlar **`is_boilerplate = False`** olarak işaretlenir — boş bırakılmaz.
+**Eşleşmeyen cümleler için kural:** Valid'deki bazı cümleler train kataloğunda karşılık bulamayacak. Bunlar **`is_stock_phrasing = False`** olarak işaretlenir — boş bırakılmaz.
 
 **Hasta bazında sayım:** Bir hastanın üç çekimi varsa aynı cümle üç kez sayılıp şablon gibi görünür. Hasta üzerinden saymak bunu engeller.
 
@@ -225,26 +226,68 @@ Anatomi ve taraf **klinik olarak anlamlı** — maskelersek "sağ üst lobda nod
 
 İki seviye birden tutulur (`template_id_exact`, `template_id_norm`) — karşılaştırılabilsin.
 
-### `[KARAR] D4` — Eşik: dağılım + manuel doğrulama
+### `[KARAR] D4` — Eşik **K = 10** (verildi)
 
-`K` keyfî seçilmeyecek. Train frekans dağılımı çizilip **kırılma noktası** aranacak; grafik gösterilecek ve birlikte seçilecek.
+Train frekans dağılımı çizildi (`reports/figures/sablon_dagilimi.png`). **Beklenen kırılma noktası çıkmadı** — düzgün bir güç yasası eğrisi var. Tek keskin kırılma `n=1` ile `n≥2` arasında: benzersiz kalıpların %89,8'i tek hastada geçiyor.
+
+Veri hazır eşik vermediği için seçim niteliksel yapıldı. Her seviyeden örnek cümlelere bakıldı:
+
+| Hasta sayısı | Örnek | Değerlendirme |
+|---|---|---|
+| 2–4 | *"Nodular thickening in left adrenal gland corpus"* | Gerçek özgün bulgu, şablon değil |
+| 10–20 | *"Calibration of other vascular structures is natural"* | **Kalıp ifade burada başlıyor** |
+| 20+ | *"Pericardial, pleural effusion or thickness increase is not observed"* | Net şablon |
+
+**K = 10** seçildi: 2.188 şablon ailesi, cümlelerin %61,8'i.
+
+Ayrıca **`n_patients_train` sürekli değer olarak saklanıyor.** Bayrak bir kısayol; sonraki fazlar kendi eşiğini seçebilir. Kalıcı olan sayı.
 
 **Ve kritik:** sık geçen her cümle şablon değildir. *"No mass, nodule-infiltration was detected in both lung parenchyma"* hem sık hem **gerçek klinik bilgi** taşıyor. Bu yüzden eşik seçildikten sonra **manuel örneklemle doğrulanacak**: eşiğin üstünde kalan cümlelerden rastgele seçilenler gerçekten kalıp mı?
 
-### Şablon tipleri — dilbilimsel, klinik değil
+### `[KARAR] D13` — `is_boilerplate` → `is_stock_phrasing`
 
-| Tip | Örnek |
+Elle doğrulama sırasında ortaya çıktı: 1–2 kelimelik **69 şablon ailesinin neredeyse tamamı tek başına tanı**:
+
+```
+761 hasta | hepatosteatosis.       413 hasta | Cholelithiasis.
+751 hasta | Hiatal hernia.         315 hasta | Cardiomegaly.
+219 hasta | Thoracic spondylosis.  162 hasta | Left nephrolithiasis.
+```
+
+Bunlar `is_boilerplate=True` işaretli ama **bilgi yoğunluğu en yüksek cümleler**. Sebep sistematik: bir tanının adı ne kadar kısa ve standartsa, o kadar kesin "kalıp" çıkar — çünkü `Cholelithiasis` yazmanın tek bir yolu var.
+
+Bu düzeltilecek bir hata değil; ölçtüğümüz şey gerçekten "bu ifade standart mı". Sorun **adlandırmada**: `boilerplate` kulağa "işe yaramaz" geliyor ve Faz 6'da biri bunu filtre olarak kullanırsa `Cholelithiasis`, `Cardiomegaly`, `Millimetric nodule` gibi gerçek bulguları siler.
+
+**Karar:** kolon adı **`is_stock_phrasing`**. Anlamı: "bu ifade standart kalıptır" — bilgi değeri hakkında hiçbir iddia yok.
+
+> **Bu bayrak asla filtreleme için kullanılmaz.** "Bu cümle bilgi taşıyor mu" sorusunun cevabı **Faz 2'den**, bulgu (entity) çıkarımından gelir; frekanstan değil.
+
+### `[KARAR] D14` — Impression'ı olmayan çalışmalar
+
+Ölçüldü: **811 çalışmanın Impression'ı yalnızca `"Not given."`**, 14 tanesi tamamen boş → **825 çalışmada radyolog kanaati yok** (önceki "14 boş" ölçümü eksikti).
+
+Çalışma düzeyinde `impression_is_null` ile işaretlenir. **`report_text` değiştirilmez** — D10 gereği ofsetler ona bağlı. Faz 2'de "bu rapordan kanaat çıkarılamaz" demek için kullanılacak.
+
+### `[KARAR] D12` — Dörtlü tip sınıflandırması Faz 2'ye taşındı
+
+Planın ilk hâlinde şablonlar dört tipe ayrılacaktı: `negatif_ifade` / `normal_beyan` / `teknik` / `serbest`. Uygulamada iki sorun çıktı:
+
+1. **Kural çakışması.** 120 teknik ailenin 62'si aynı zamanda negasyon içeriyordu. *"In the upper abdominal sections within the image, no solid mass was detected as far as can be observed"* hem teknik çekince hem negatif bulgu taşıyor; tek etiket vermek bilgi kaybı.
+2. **D9 ihlali.** Dört tipin üçü negasyon analizi gerektiriyor. D9 negasyonun **Faz 2'de** yapılacağını söylüyordu; Faz 1'de basit regex ile yapmak hem karara aykırı hem de Faz 2'de medspaCy ConText ile üretilecek doğru analizin kötü bir kopyası olurdu.
+
+**Karar:** dörtlü sınıflandırma Faz 2'ye taşındı. Faz 1'de kalan tek yapısal özellik:
+
+| Kolon | İçerik |
 |---|---|
-| `negatif_ifade` | *"Pericardial effusion-thickening was not observed."* |
-| `normal_beyan` | *"Trachea, both main bronchi are open."* |
-| `teknik` | *"...evaluated as suboptimal since the examination was unenhanced."* |
-| `serbest` | Şablon olmayan cümleler |
+| `has_technical_caveat` | Cümle tetkik sınırlılığı bildiriyor mu — *"as far as can be seen"*, *"could not be evaluated"*, *"unenhanced"* |
 
-> Bu tipler **malignite ilgisi taşımaz** (bkz. D9). `negatif_ifade` yalnızca "olumsuz cümle" demektir.
+Bu **bağımsız bir boolean**, tip değil. Bir cümle hem klinik içerik hem teknik çekince taşıyabilir; çakışma böylece ortadan kalkar.
 
-### `[SEN BAK]` — Şablonları birlikte etiketleyeceğiz
+Faz 2'de ConText ile negasyon üretildiğinde `is_stock_phrasing` + `negated` birleştirilerek "rutin negatif" ile "kasıtlı negatif" ayrımı zaten elde edilecek. Üç eksen bağımsız kalır.
 
-Katalog çıkınca en sık 100–200 şablonu birlikte sınıflandıracağız. **Radyoloji metnini gerçekten tanıyacağın adım burası.**
+### `[SEN BAK]` — Şablon bayrağını birlikte doğrulayacağız
+
+D4 manuel doğrulama istiyordu. `reports/sablon_dogrulama.csv` içinde en sık **350 şablon** var (train cümlelerinin %51,1'i). Bunların gerçekten kalıp olup olmadığını birlikte geçeceğiz. **Radyoloji metnini gerçekten tanıyacağın adım burası.**
 
 Şimdiden fikir edinmek için:
 
@@ -258,7 +301,7 @@ En sondaki **"SABLON CUMLE SORUNU"** başlığına bak.
 
 ### `[ÖLÇ]` Kabul ölçütleri *(önceden yazıldı)*
 
-1. En sık 200 şablonun toplam cümlelerdeki **kapsama oranı ≥ %50** — altındaysa elle etiketleme sayısı artırılır
+1. ~~En sık 200 şablonun kapsama oranı ≥ %50~~ → **ölçüldü: %46,2, ölçüt tutmadı.** Kurala uyularak sayı **350**'ye çıkarıldı → %51,1 ✓
 2. Manuel doğrulama örnekleminde **yanlış şablon oranı ≤ %5**
 3. Valid'de eşleşmeyen cümle oranı raporlanır
 
@@ -387,15 +430,18 @@ Zorunlu standartlaştırma adımı değil, denenebilecek **yardımcı özellik**
 | D1 | Üç tablo — Faz 1 için, nihai değil | Onaylandı |
 | D2 | Hibrit bölütleme, üç aday kural, ölçerek seçim | Onaylandı |
 | D3 | Sayıları maskele · anatomiyi koru · **tarih ayrımı yok** | Onaylandı |
-| D3-b | Teknik ölçüler `is_technical` ile ayrılır (dar desenle) | Onaylandı |
-| D4 | Eşik: train dağılımı + manuel doğrulama | Onaylandı |
-| D5 | `millimetric` → ayrı niteliksel kategori | Onaylandı |
-| D6 | Alt ve üst sınır birlikte | Onaylandı |
-| D7 | cm → mm, ham birim korunur | Onaylandı |
+| D3-b | Teknik ölçüler `is_technical` ile ayrılır (dar desenle) | **Uygulandı** · gerçek etki 6 kayıt |
+| D4 | Eşik **K = 10** · `n_patients_train` sürekli saklanır | **Verildi** |
+| D5 | `millimetric` → ayrı niteliksel kategori | **Uygulandı** · 16.726 kayıt |
+| D6 | Alt ve üst sınır birlikte | **Uygulandı** · 166 aralık |
+| D7 | cm → mm, ham birim korunur | **Uygulandı** |
 | D8 | Önem sinyali → Faz 2 | Onaylandı |
 | D9 | Negasyon / şablon / malignite ilgisi ayrı; ilgi Faz 3'te | Onaylandı |
 | D10 | Ofsetler `report_text`'e göre; kaynak değişmez; sürüm kaydedilir | Onaylandı |
 | D11 | Şablonlar train'de hesaplanır; eşleşmeyen = şablon değil | Onaylandı |
+| D12 | Dörtlü tip sınıflandırması Faz 2'ye taşındı; Faz 1'de `has_technical_caveat` kalır | **Verildi** |
+| D13 | Kolon adı `is_boilerplate` → **`is_stock_phrasing`**; asla filtreleme için kullanılmaz | **Verildi** |
+| D14 | Impression'ı olmayan 825 çalışma `impression_is_null` ile işaretlenir; `report_text` değişmez | **Verildi** |
 
 ---
 

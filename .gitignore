@@ -17,8 +17,10 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
-# Cikti
-reports/figures/*.png
+# Cikti - uretilen ara analiz dosyalari (scriptlerden yeniden uretilebilir)
+# .md raporlar HARIC tutulmaz: faz sonu raporlari depoya girebilsin
+reports/*.csv
+reports/figures/
 .env
 *.log
 

@@ -71,10 +71,18 @@ def main() -> None:
     df["report_text"] = (df["Findings_EN"] + "\n\n" + df["Impressions_EN"]).str.strip()
     df["n_char"] = df["report_text"].str.len()
 
+    # Impression'i olmayan calismalar: 811 rapor "Not given." yaziyor, 14 rapor
+    # tamamen bos. Toplam 825 calismada radyolog kanaati yok.
+    # report_text DEGISTIRILMEZ (D10: ofsetler ona gore hesaplandi), isaretlenir.
+    df["impression_is_null"] = (df["Impressions_EN"].str.strip().str.lower()
+                                .isin(["", "not given.", "not given"]))
+
     out = OUT / "reports_study_level.parquet"
     df.to_parquet(out, index=False)
     print(f"\nyazildi: {out}  ({len(df)} calisma, {df['patient_id'].nunique()} hasta)")
-    print(f"bos Findings: {(df['Findings_EN'] == '').sum()} | bos Impressions: {(df['Impressions_EN'] == '').sum()}")
+    print(f"bos Findings: {(df['Findings_EN'] == '').sum()} | "
+          f"Impression'i olmayan calisma: {df['impression_is_null'].sum()} "
+          f"(tamamen bos {(df['Impressions_EN'] == '').sum()} + 'Not given.')")
     print(f"rapor uzunlugu (karakter) medyan={df['n_char'].median():.0f} p95={df['n_char'].quantile(.95):.0f}")
 
 
