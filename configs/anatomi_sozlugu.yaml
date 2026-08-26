@@ -1,0 +1,257 @@
+# Toraks BT anatomi sozlugu  ·  TASK-11  ·  surum: anat-1.0
+#
+# KAYNAK: korpus frekans madeni (YALNIZCA train - 449.868 cumle, 20.000 hasta).
+# Ders kitabindan terim kopyalanmadi; her kavram korpusta gecen yuzeylerden dogdu.
+# Bu D16'nin mantigidir: ithal sozluk baslangic noktasidir, bitis noktasi degil.
+#
+# RADLEX NOTU - onemli:
+#   RadLex eslemesi YAPILMADI. RadLex BioPortal hesabi gerektiriyor ve elimizde yok.
+#   RadLex kimligi EZBERDEN YAZILMAZ - uydurma kimlik, kimliksiz olmaktan kotudur.
+#   Bu sozlukteki kavram kimlikleri YERELDIR: concept_source = "yerel_sozluk".
+#   Semada radlex yuvasi hazir; erisim saglaninca `radlex` alani doldurulur ve
+#   concept_source "radlex" olur. Uretilen veri bozulmaz, kolon zenginlesir.
+#
+# DESEN KURALLARI:
+#   - Hepsi kucuk/buyuk harf duyarsiz eslesir
+#   - Kelime siniri otomatik eklenir
+#   - EN UZUN eslesme kazanir ("upper lobe" > "lobe")
+#   - taraf_alir: bu kavram sag/sol/iki tarafli olabilir mi
+
+surum: anat-1.0
+tarih: 2026-08-26
+
+kavramlar:
+
+  # ---------------- Akciger ----------------
+  lung:
+    desenler: ["lungs?", "pulmonary parenchyma"]
+    taraf_alir: true
+    korpus: 90784          # deseni iceren train cumlesi
+  lung_parenchyma:
+    # DUZELTME (inceleme): ciplak "parenchyma|parenchymal" deseni buradaydi ve
+    # "liver parenchyma" (2.191 cumle), "thyroid parenchyma" (136), "breast
+    # parenchyma" (46) hepsini AKCIGER parankimi yapiyordu. Ciplak bicim asagida
+    # organsiz 'parenchyma' kavramina tasindi - 'segment'te verdigimiz kararin
+    # aynisi: desen ayirt edemiyorsa yanlis ust kavram IDDIA EDILMEZ.
+    desenler: ["lung parenchyma", "pulmonary parenchyma"]
+    ust_kavram: lung
+    taraf_alir: true
+    korpus: 24734
+  parenchyma:
+    # Organi belirsiz parankim anmasi. Hangi organin parankimi oldugu
+    # located_at iliskisinden okunur.
+    desenler: ["parenchymal?"]
+    taraf_alir: true
+    korpus: 34789
+  upper_lobe:
+    desenler: ["upper lobes?"]
+    ust_kavram: lung
+    taraf_alir: true
+    korpus: 14918
+  middle_lobe:
+    desenler: ["middle lobes?"]
+    ust_kavram: lung
+    taraf_alir: true
+    korpus: 8233
+  lower_lobe:
+    desenler: ["lower lobes?"]
+    ust_kavram: lung
+    taraf_alir: true
+    korpus: 21240
+  lingula:
+    desenler: ["lingulan?", "lingular segment"]
+    ust_kavram: lung
+    taraf_alir: false        # lingula her zaman sol
+    korpus: 5585
+  anatomic_segment:
+    # "segment" hem akciger ("superior segment of the lower lobe") hem karaciger
+    # ("liver segment 8") baglaminda geciyor. Desen ikisini AYIRT EDEMEZ; bu yuzden
+    # ust_kavram: lung IDDIASI KALDIRILDI. Yanlis ust kavram, ust kavramsizliktan
+    # kotudur. Hangi organin segmenti oldugu located_at iliskisinden okunur.
+    desenler: ["segments?"]
+    taraf_alir: true
+    korpus: 24025
+  lung_apex:
+    desenler: ["apices", "apexe?s?", "apical region"]
+    ust_kavram: lung
+    taraf_alir: true
+    korpus: 2133
+  hemithorax:
+    desenler: ["hemithora(?:x|ces)"]
+    taraf_alir: true
+    korpus: 4519
+  pleura:
+    desenler: ["pleurae?", "pleural", "pleural space"]
+    taraf_alir: true
+    korpus: 21583
+  fissure:
+    desenler: ["fissures?", "major fissure", "minor fissure"]
+    ust_kavram: lung
+    taraf_alir: true
+    korpus: 2325
+  trachea:
+    desenler: ["trachean?"]
+    korpus: 28483
+  bronchus:
+    desenler: ["bronchi", "bronchus", "main bronchi", "bronchial tree"]
+    taraf_alir: true
+    korpus: 29166
+  lumen:
+    desenler: ["lumens?", "luminal"]
+    korpus: 10294
+  soft_tissue:
+    desenler: ["soft tissue plan[es]?", "soft tissues?"]
+    korpus: 2432
+  airway:
+    desenler: ["airways?"]
+    korpus: 2407
+
+  # ---------------- Mediasten ve lenf istasyonlari ----------------
+  mediastinum:
+    desenler: ["mediastinum", "mediastinal"]
+    korpus: 46187
+  hilum:
+    desenler: ["hil(?:um|us|uses|i)", "hilar", "hilar regions?"]
+    taraf_alir: true
+    korpus: 18288
+  lymph_node:
+    desenler: ["lymph nodes?", "lymphatic nodes?"]
+    taraf_alir: true
+    korpus: 33052
+  station_prevascular:
+    desenler: ["prevascular"]
+    ust_kavram: lymph_node
+    korpus: 9132
+  station_paratracheal:
+    desenler: ["pre-?paratracheal", "paratracheal", "pretracheal"]
+    ust_kavram: lymph_node
+    korpus: 11478
+  station_subcarinal:
+    desenler: ["subcarinal"]
+    ust_kavram: lymph_node
+    korpus: 9544
+  station_hilar_axillary:
+    desenler: ["hilar-?axillary"]
+    ust_kavram: lymph_node
+    korpus: 7924
+  station_axillary:
+    desenler: ["axillary", "axillae?"]
+    ust_kavram: lymph_node
+    taraf_alir: true
+    korpus: 11968
+  station_supraclavicular:
+    desenler: ["supraclavicular"]
+    ust_kavram: lymph_node
+    taraf_alir: true
+    korpus: 2673
+  station_aortopulmonary:
+    desenler: ["aorto-?pulmonary(?: window)?", "AP window"]
+    ust_kavram: lymph_node
+    korpus: 690
+  thymus:
+    desenler: ["thymus", "thymic"]
+    korpus: 800
+
+  # ---------------- Kalp ve damarlar ----------------
+  heart:
+    desenler: ["hearts?", "cardiac silhouette"]
+    korpus: 22665
+  pericardium:
+    desenler: ["pericardium", "pericardial"]
+    korpus: 21417
+  aorta:
+    desenler: ["aortan?", "aortic arch", "ascending aorta", "descending aorta",
+               "thoracic aorta"]
+    korpus: 19295
+  coronary_artery:
+    desenler: ["coronary arter(?:y|ies)", "coronary"]
+    korpus: 8819
+  pulmonary_artery:
+    desenler: ["pulmonary arter(?:y|ies)", "pulmonary trunk"]
+    korpus: 2732
+  vena_cava:
+    desenler: ["vena cava", "superior vena cava", "SVC"]
+    korpus: 697
+  vascular_structure:
+    desenler: ["vascular structures?", "vessels?"]
+    korpus: 25036
+
+  # ---------------- Ozofagus ve ust batin ----------------
+  esophagus:
+    desenler: ["esophagus", "esophageal"]
+    korpus: 22321
+  liver:
+    desenler: ["livers?", "hepatic"]
+    korpus: 15492
+  adrenal_gland:
+    desenler: ["adrenal glands?", "adrenals?", "surrenal"]
+    taraf_alir: true
+    korpus: 14627
+  kidney:
+    desenler: ["kidneys?", "renal"]
+    taraf_alir: true
+    korpus: 6662
+  spleen:
+    desenler: ["spleen", "splenic"]
+    korpus: 2753
+  gallbladder:
+    desenler: ["gall-?bladder"]
+    korpus: 2554
+  pancreas:
+    desenler: ["pancreas", "pancreatic"]
+    korpus: 1055
+  thyroid:
+    desenler: ["thyroid(?: glands?)?"]
+    taraf_alir: true
+    korpus: 2086
+  abdomen:
+    desenler: ["upper abdominal", "upper abdomen", "abdominal organs?",
+               "abdominal sections?", "abdomen", "abdominal"]
+    korpus: 26931
+
+  # ---------------- Kemik ve gogus duvari ----------------
+  bone:
+    desenler: ["bone structures?", "bones?", "osseous structures?"]
+    korpus: 24320
+  vertebra:
+    desenler: ["vertebral cor(?:pus|pora)", "vertebrae?", "vertebral bod(?:y|ies)"]
+    korpus: 15215
+  intervertebral_disc:
+    desenler: ["intervertebral discs?", "discs?"]
+    korpus: 1987
+  neural_foramen:
+    desenler: ["neural foram(?:en|ina)", "foram(?:en|ina)"]
+    korpus: 2300
+  rib:
+    desenler: ["ribs?", "costal"]
+    taraf_alir: true
+    korpus: 1362
+  sternum:
+    desenler: ["sternum", "sternal"]
+    korpus: 656
+  chest_wall:
+    desenler: ["chest wall", "thoracic wall"]
+    taraf_alir: true
+    korpus: 534
+  breast:
+    desenler: ["breasts?", "mammary"]
+    taraf_alir: true
+    korpus: 1246
+  diaphragm:
+    desenler: ["diaphragm(?:atic)?"]
+    taraf_alir: true
+    korpus: 383
+
+# --------------------------------------------------------------------------
+# Taraf sozlugu.  UYARI - olculdu:
+#   'both'      95.616 cumle   <- Turkce "her iki"nin cevirisi
+#   'bilateral' 32.789 cumle
+#   'right'     41.065 · 'left' 33.764
+# Standart Ingilizce sozluk yalnizca 'bilateral' arar ve korpusun buyuk
+# kismini kacirir. 'both' MUTLAKA bilateral'e eslenmelidir.
+# --------------------------------------------------------------------------
+taraf:
+  right:     ["right"]
+  left:      ["left"]
+  bilateral: ["bilateral", "both", "biliteral"]
+  midline:   ["midline"]

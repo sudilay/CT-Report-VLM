@@ -1,0 +1,389 @@
+# Bulgu, niteleyici ve cihaz sozlugu  ·  TASK-11  ·  surum: bulgu-1.0
+#
+# KAYNAK: korpus frekans madeni (YALNIZCA train - 449.868 cumle, 20.000 hasta).
+# Her 'korpus' degeri OLCULDU; elle yazilmadi.
+# SAYIM TABANI: train (449.868 cumle). extraction_schema.json'daki niteleyici
+# sayilari TUM korpus (479.051) uzerinden olculdu - kucuk farklar bundandir.
+#
+# Ceviri artefaktlari korunmustur - bu korpus Turkce yazilip Ingilizceye cevrildi:
+#   "space-occupying lesion"   <- yer kaplayici lezyon
+#   "effusion-thickening"      <- efuzyon-kalinlasma  (tek tireli bilesik)
+#   "lytic-destructive lesion" <- litik-destruktif lezyon
+#   "natural calibration"      <- kalibrasyonu tabii  (damar/ozofagus normallik beyani)
+#   "sequela changes"          <- sekel degisiklikler
+# Standart Ingilizce radyoloji sozlugu bu yuzeylerin HICBIRINI icermez.
+
+surum: bulgu-1.0
+tarih: 2026-08-26
+
+kavramlar:
+
+  # =================== GOZLEM (observation) ===================
+
+  lesion:
+    tip: observation
+    desenler: ["lesions?"]
+    korpus: 47145
+  space_occupying_lesion:
+    tip: observation
+    desenler: ["space-?occupying lesions?"]
+    korpus: 18315
+  nodule:
+    tip: observation
+    desenler: ["nodules?", "nodular formations?"]
+    korpus: 25336
+  mass:
+    tip: observation
+    desenler: ["mass(?:es)?"]
+    korpus: 16973
+  tumor:
+    tip: observation
+    desenler: ["tumou?rs?", "tumou?ral"]
+    korpus: 8305
+  metastasis:
+    tip: observation
+    desenler: ["metasta(?:sis|ses|tic)"]
+    korpus: 2622
+  effusion:
+    tip: observation
+    desenler: ["effusions?"]
+    korpus: 36439
+  effusion_thickening:
+    tip: observation
+    desenler: ["effusion-thickening", "thickening-effusion"]
+    korpus: 17839
+  thickening:
+    tip: observation
+    desenler: ["thickenings?", "thickness increases?", "wall thickness"]
+    korpus: 47637
+  septal_thickening:
+    tip: observation
+    desenler: ["interlobular septal thickening", "septal thickenings?"]
+    korpus: 1533
+  enlarged_lymph_node:
+    tip: observation
+    desenler: ["(?:pathologically )?enlarged lymph nodes?", "lymphadenopath(?:y|ies)"]
+    korpus: 15472
+  consolidation:
+    tip: observation
+    desenler: ["consolidations?", "consolidated areas?"]
+    korpus: 7624
+  infiltration:
+    tip: observation
+    desenler: ["infiltrations?", "infiltrative lesions?", "infiltrative areas?"]
+    korpus: 14555
+  atelectasis:
+    tip: observation
+    desenler: ["atelecta(?:sis|ses|tic)", "collapsed?"]
+    korpus: 11256
+  pneumonia:
+    tip: observation
+    desenler: ["pneumonias?", "pneumonic infiltrations?", "pneumonic"]
+    korpus: 16526
+  emphysema:
+    tip: observation
+    # DUZELTME (inceleme): ciplak "centriacinar" buradaydi. Olculdu: 1.413
+    # cumlenin 757'si "centriacinar nodules", yalnizca 257'si amfizem.
+    # Ciplak bicim bir DAGILIM niteleyicisidir, amfizem degil.
+    desenler: ["emphysemas?", "emphysematous changes?", "emphysematous",
+               "centriacinar emphysema", "centrilobular emphysema"]
+    korpus: 8052
+  bronchiectasis:
+    tip: observation
+    desenler: ["bronchiecta(?:sis|ses|tic)", "bronchiectatic changes?"]
+    korpus: 3961
+  fibrosis:
+    tip: observation
+    desenler: ["fibrosis", "fibrotic changes?", "fibrotic"]
+    korpus: 2685
+  sequela_change:
+    tip: observation
+    desenler: ["sequela(?:e)? changes?"]   # bare "sequela" niteleyicidir, asagida
+    korpus: 5126
+  cyst:
+    tip: observation
+    desenler: ["cysts?"]
+    korpus: 4502
+  calcification:
+    tip: observation
+    desenler: ["calcifications?"]
+    korpus: 3301
+  granuloma:
+    tip: observation
+    desenler: ["granuloman?s?"]            # "granulomatous" niteleyicidir, asagida
+    korpus: 23
+  pneumothorax:
+    tip: observation
+    desenler: ["pneumothora(?:x|ces)"]
+    korpus: 1512
+  hernia:
+    tip: observation
+    desenler: ["hiatal hernian?s?", "hernian?s?"]
+    korpus: 5716
+  cardiomegaly:
+    tip: observation
+    desenler: ["cardiomegaly", "heart size increase[ds]?"]
+    korpus: 2345
+  hepatosteatosis:
+    tip: observation
+    desenler: ["hepatosteatosis", "hepatic steatosis", "fatty liver"]
+    korpus: 2958
+  cholelithiasis:
+    tip: observation
+    desenler: ["cholelithiasis", "gallstones?"]
+    korpus: 899
+  atheroma_plaque:
+    tip: observation
+    desenler: ["atheroma plaques?", "atheromatous plaques?",
+               "athero(?:sclerosis|sclerotic|matous)", "arteriosclerosis",
+               "plaques?"]
+    korpus: 12957
+  degenerative_change:
+    tip: observation
+    desenler: ["degenerative changes?", "degenerative"]
+    korpus: 6043
+  lytic_destructive_lesion:
+    tip: observation
+    desenler: ["lytic-?destructive lesions?", "lytic lesions?",
+               "destructive lesions?"]
+    korpus: 9678
+  fracture:
+    tip: observation
+    desenler: ["fractures?"]
+    korpus: 1997
+  density_increase:
+    # DUZELTME (inceleme): ciplak "density|densities" bu kavramin altindaydi ve
+    # 26.578 kaydin 19.187'si yalnizca ciplak bicimdi. Daha kotusu, "decrease in
+    # density" (1.389 cumle) de ARTIS olarak isaretleniyordu. Kavram adi metnin
+    # SOYLEMEDIGI bir seyi iddia ediyordu. Ciplak bicim notr 'density'ye ayrildi.
+    tip: observation
+    desenler: ["densit(?:y|ies) increases?", "increased densit(?:y|ies)"]
+    korpus: 5981
+  density:
+    # Notr dansite/opasite anmasi - yon (artis/azalis) IDDIA ETMEZ.
+    tip: observation
+    desenler: ["densit(?:y|ies)", "opacit(?:y|ies)"]
+    korpus: 24329
+  mosaic_attenuation:
+    tip: observation
+    desenler: ["mosaic attenuation", "mosaic patterns?", "mosaic"]
+    korpus: 3422
+  dilatation:
+    tip: observation
+    desenler: ["dilatations?", "dilated", "ectasia", "ectatic"]
+    korpus: 4066
+  aneurysm:
+    tip: observation
+    desenler: ["aneurysma?s?", "aneurysmal"]
+    korpus: 75
+  fluid_collection:
+    tip: observation
+    desenler: ["fluid-?collections?", "free fluid", "ascites"]
+    korpus: 4869
+  cavitation:
+    tip: observation
+    desenler: ["cavitations?", "cavitary lesions?", "cavit(?:y|ies)"]
+    korpus: 423
+  reticulation:
+    tip: observation
+    desenler: ["reticular patterns?", "reticulations?", "reticular",
+               "honeycombing"]
+    korpus: 400
+  occlusive_pathology:
+    tip: observation
+    desenler: ["occlusive patholog(?:y|ies)", "obstructive patholog(?:y|ies)"]
+    korpus: 11426
+  nodular_lesion:
+    tip: observation
+    desenler: ["nodular lesions?", "nodular densit(?:y|ies)"]
+    korpus: 3048
+  air_bronchogram:
+    tip: observation
+    desenler: ["air bronchograms?"]
+    korpus: 1295
+  cardiothoracic_ratio:
+    # OLCULDU: "CTO" 2.003 cumle + "cardiothoracic" 964 cumle.
+    # CTO = Turkce "KTO" (kardiyotorasik oran) harf ceviresi. Standart Ingilizce
+    # radyoloji sozlugunde BOYLE BIR KISALTMA YOK - saf ceviri artefakti.
+    # Klinik olarak anlamli: "CTO increased in favor of the heart" = kardiyomegali.
+    tip: observation
+    desenler: ["CTO(?: ratio)?", "cardiothoracic (?:ratio|index)"]
+    korpus: 2778
+  spondylosis:
+    tip: observation
+    desenler: ["spondylosis", "spondylotic", "spondyloarthrosis"]
+    korpus: 568
+  nephrolithiasis:
+    tip: observation
+    desenler: ["nephrolithiasis", "renal stones?", "kidney stones?"]
+    korpus: 851
+  bulla:
+    tip: observation
+    desenler: ["bullae?", "bullous"]
+    korpus: 395
+
+  # =================== NITELEYICI (qualifier) ===================
+  # Gruplar configs/extraction_schema.json > niteleyici_gruplari ile AYNI.
+  # Semada 'olculup_alinmayan' listesindeki degerler buraya ALINMADI.
+
+  spiculated:
+    tip: qualifier
+    grup: margin
+    desenler: ["spicula(?:ted|tion)s?", "spicular"]
+    korpus: 163
+  irregular:
+    tip: qualifier
+    grup: margin
+    desenler: ["irregular(?:ly)?", "irregularit(?:y|ies)"]
+    korpus: 1817
+  lobulated:
+    tip: qualifier
+    grup: margin
+    desenler: ["lobulated", "lobulations?"]
+    korpus: 454
+  smooth:
+    tip: qualifier
+    grup: margin
+    desenler: ["smooth(?:ly)?"]
+    korpus: 357
+  well_defined:
+    tip: qualifier
+    grup: margin
+    desenler: ["well-? ?(?:defined|circumscribed|demarcated|limited)"]
+    korpus: 475
+  indistinct:
+    tip: qualifier
+    grup: margin
+    desenler: ["indistinct", "indistinguishable"]
+    korpus: 271
+  halo:
+    tip: qualifier
+    grup: margin
+    desenler: ["halo signs?", "halo"]
+    korpus: 353
+
+  calcific:
+    tip: qualifier
+    grup: density
+    desenler: ["calcific", "calcified"]
+    korpus: 12958
+  ground_glass:
+    tip: qualifier
+    grup: density
+    desenler: ["ground-? ?glass"]
+    korpus: 12377
+  hypodense:
+    tip: qualifier
+    grup: density
+    desenler: ["hypodense", "hypodensit(?:y|ies)", "hypoattenuating"]
+    korpus: 5355
+  hyperdense:
+    tip: qualifier
+    grup: density
+    desenler: ["hyperdense", "hyperdensit(?:y|ies)", "hyperattenuating"]
+    korpus: 835
+  isodense:
+    tip: qualifier
+    grup: density
+    desenler: ["isodense", "isodensit(?:y|ies)"]
+    korpus: 99
+  solid:
+    tip: qualifier
+    grup: density
+    desenler: ["solid"]
+    korpus: 1362
+  part_solid:
+    tip: qualifier
+    grup: density
+    desenler: ["part-? ?solid", "semi-? ?solid"]
+    korpus: 86
+  fat_containing:
+    tip: qualifier
+    grup: density
+    desenler: ["fat-?containing", "lipomatous", "fatty"]
+    korpus: 1168
+  cystic:
+    tip: qualifier
+    grup: density
+    desenler: ["cystic"]
+    korpus: 849
+  necrotic:
+    tip: qualifier
+    grup: density
+    desenler: ["necrotic", "necrosis"]
+    korpus: 127
+
+  diffuse:
+    tip: qualifier
+    grup: distribution
+    desenler: ["diffusely?"]
+    korpus: 648
+  subpleural:
+    tip: qualifier
+    grup: distribution
+    desenler: ["subpleural(?:ly)?"]
+    korpus: 5665
+  apical:
+    tip: qualifier
+    grup: distribution
+    desenler: ["apical", "apicoposterior"]
+    korpus: 3698
+  peripheral:
+    tip: qualifier
+    grup: distribution
+    desenler: ["peripheral(?:ly)?"]
+    korpus: 4097
+  basal:
+    tip: qualifier
+    grup: distribution
+    desenler: ["basal", "posterobasal", "laterobasal", "basally"]
+    korpus: 8913
+  central:
+    tip: qualifier
+    grup: distribution
+    desenler: ["centrally?"]
+    korpus: 380
+
+  sequela:
+    tip: qualifier
+    grup: chronicity
+    desenler: ["sequela(?:e)?"]
+    korpus: 11397
+  granulomatous:
+    tip: qualifier
+    grup: chronicity
+    desenler: ["granulomatous"]
+    korpus: 87
+
+  punctate:
+    tip: qualifier
+    grup: calcification_pattern
+    desenler: ["punctate"]
+    korpus: 47
+
+  # =================== CIHAZ (device) ===================
+
+  catheter:
+    tip: device
+    desenler: ["catheters?", "port-?a-?cath", "port catheters?"]
+    korpus: 1537
+  stent:
+    tip: device
+    desenler: ["stents?"]
+    korpus: 812
+  pacemaker:
+    tip: device
+    desenler: ["pace-? ?makers?", "ICD lead"]
+    korpus: 390
+  surgical_clip:
+    tip: device
+    desenler: ["surgical clips?", "clips?", "sutures?", "suture materials?"]
+    korpus: 915
+  prosthesis:
+    tip: device
+    desenler: ["prosthes[ei]s", "prosthetic", "grafts?"]
+    korpus: 210
+  drainage_tube:
+    tip: device
+    desenler: ["drainage tubes?", "chest tubes?", "thorax tubes?"]
+    korpus: 33
