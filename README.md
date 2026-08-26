@@ -6,36 +6,26 @@ Projenin ayırt edici vurgusu yalnızca malignite yakalamak değil, **yanlış p
 
 ---
 
-## Durum
+## Kapsam
 
-| | |
+| Aşama | İçerik |
 |---|---|
-| Aktif faz | **Faz 1 — Veri Hazırlığı** |
-| Aktif iş | Cümle bölütleme tamamlandı, şablon karakterizasyonu sırada |
-| Testler | **43 / 43 geçiyor** |
+| **Veri hazırlığı** | Rapor korpusunun kurulması, cümle bölütleme, şablon karakterizasyonu, ölçü normalizasyonu |
+| **Yapılandırılmış çıkarım** | Bulgu, anatomik bölge, niteleyici, negasyon ve belirsizlik çıkarımı |
+| **Değerlendirme şeması** | Malignite sınıflandırma şeması ve uyum ölçümlü altın standart |
+| **VLM/LLM çıkarımı** | Standart prompt protokolüyle metin tabanlı gösterge çıkarımı |
+| **VLM benchmark** | 3B BT üzerinde lezyon tespiti, lokalizasyon ve morfoloji karşılaştırması |
+| **Malignite değerlendirme** | Kanıt birleştirme, karar katmanı, yanlış pozitif azaltma |
+| **Patoloji doğrulama** | Patoloji raporlarının yapılandırılması ve uyum analizi |
+| **Değerlendirme** | Ayrım gücü, kalibrasyon, alt grup ve ablasyon analizleri |
 
 ---
 
-## Şu ana kadar üretilenler
+## Veri
 
-**Rapor korpusu** — 50.188 rekonstrüksiyon çalışma düzeyinde tekilleştirilerek **25.692 çalışma / 21.304 hasta**. Bu üç sayı da CT-RATE yayınında bildirilenlerle birebir örtüşüyor.
+**Veri bu depoda tutulmaz.** CT-RATE `CC-BY-NC-SA-4.0` lisanslıdır (ticari kullanım yok) ve HuggingFace üzerinde erişim onayı gerektirir.
 
-**Cümle tablosu** — **479.051 cümle**, her biri orijinal metindeki karakter ofsetiyle. Ofset doğrulaması %100: her cümle `report_text[char_start:char_end]` ile birebir eşleşiyor. Bu izlenebilirlik, sonraki fazlarda "model bu bulguyu gerçekten raporda gördü mü?" sorusunu yanıtlamak için gerekli.
-
-**Doğrulama takımı** — 43 test: korpus bütünlüğü, hasta düzeyinde sızıntı kontrolü, tekilleştirmenin bilgi kaybetmediğinin doğrulanması ve elle seçilmiş zor vakalar (ondalık ölçüler, aralıklar, çoklu ölçü, negasyon, madde işaretleri, bozuk noktalama).
-
----
-
-## Kurulum
-
-```bash
-python -m venv .venv
-.venv/Scripts/python.exe -m pip install -r requirements.txt
-```
-
-### Veri
-
-**Veri bu depoda yoktur.** CT-RATE `CC-BY-NC-SA-4.0` lisanslıdır (ticari kullanım yok) ve HuggingFace üzerinde erişim onayı gerektirir.
+Kohort: kontrastsız toraks BT, 25.692 çalışma / 21.304 hasta, eşleşen radyoloji raporları ve 18 anormallik etiketi.
 
 1. [huggingface.co/datasets/ibrahimhamamci/CT-RATE](https://huggingface.co/datasets/ibrahimhamamci/CT-RATE) üzerinden erişim al
 2. Şu dosyaları `data/raw/ct_rate/` altına indir:
@@ -43,11 +33,24 @@ python -m venv .venv
    - `dataset/multi_abnormality_labels/{train,valid}_predicted_labels.csv`
    - `dataset/metadata/{train,validation}_metadata.csv`
    - `dataset/metadata/no_chest_{train,valid}.txt`
-3. Korpusu üret ve doğrula:
+
+---
+
+## Kurulum ve çalıştırma
 
 ```bash
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install -r requirements.txt
+```
+
+```bash
+# Ham CSV -> çalışma düzeyi korpus
 .venv/Scripts/python.exe scripts/01_build_report_corpus.py
+
+# Cümlelere bölme (karakter ofsetleriyle)
 .venv/Scripts/python.exe scripts/04_segment_sentences.py
+
+# Doğrulama
 .venv/Scripts/python.exe -m pytest tests/ -q
 ```
 
@@ -65,8 +68,8 @@ scripts/
   05_template_stats.py         şablon istatistiği ve eşik adayları
 
 tests/
-  test_corpus.py               korpus bütünlüğü (17 test)
-  test_sentences.py            bölütleme + zor vaka takımı (26 test)
+  test_corpus.py               korpus bütünlüğü
+  test_sentences.py            bölütleme ve zor vaka takımı
 
 docs/
   01_veri_notlari.md           ölçülmüş veri bulguları ve tuzaklar
@@ -77,14 +80,18 @@ data/                          veri (depoya dahil değil)
 
 ---
 
-## Tasarım gerekçeleri
+## Yöntem ilkeleri
 
-Koddaki kararların çoğu veriden ölçülerek verildi, varsayımla değil. İki belge bunları taşıyor:
+Tasarım kararları veriden **ölçülerek** verilir, varsayımla değil. Projeye yön veren kurallar:
 
-- **[docs/01_veri_notlari.md](docs/01_veri_notlari.md)** — Neden çalışma düzeyinde tekilleştirme yapıldığı, cümlelerin %75'inin neden şablon olduğu, `tumoral` kelimesinin neden %100 olumsuz cümlelerde geçtiği, CT-RATE'te neden malignite ground truth'u bulunmadığı.
-- **[docs/03_standartlastirma_plani.md](docs/03_standartlastirma_plani.md)** — D1–D11 kararları: veri modeli, bölütleme kuralının nasıl seçildiği, ofset referansı, şablon istatistiğinin neden yalnızca eğitim kümesinde hesaplandığı, ölçü normalizasyonu.
+- **Bölme hasta düzeyinde yapılır.** Aynı çalışmanın farklı rekonstrüksiyonları birebir aynı raporu taşır; hacim düzeyinde bölmek aynı raporu hem eğitime hem teste düşürür.
+- **Her cümle ve ölçü, kaynak metindeki karakter ofsetini taşır.** Bu izlenebilirlik, sonraki fazlarda model çıktısının rapora dayanıp dayanmadığını denetlemek için gereklidir.
+- **Veri hazırlığı korur, karar vermez.** Eşik ve ağırlık kuralları değerlendirme katmanına aittir.
+- **Negasyon, şablon ve malignite ilgisi üç ayrı eksendir.** Olumsuzlanmış bir bulgu otomatik olarak malignite aleyhine kanıt değildir.
+- **Şablon istatistiği yalnızca eğitim kümesinde hesaplanır**, doğrulama kümesinden ön işlemeye bilgi sızmaması için.
+- **Kabul ölçütleri sonuç görülmeden yazılır.**
 
-Örnek: `04_segment_sentences.py` blok bölme kuralı kullanır. Sebebi ölçüldü — Impression'daki 27.985 çift boşluk sınırının **%14,1'inde öncesinde noktalama yok**, dolayısıyla yalnızca cümle bölütleyici kullanmak bu maddeleri birleştirip kaybediyordu.
+Ayrıntılı gerekçeler: [docs/01_veri_notlari.md](docs/01_veri_notlari.md) ve [docs/03_standartlastirma_plani.md](docs/03_standartlastirma_plani.md)
 
 ---
 
@@ -107,13 +114,8 @@ Koddaki kararların çoğu veriden ölçülerek verildi, varsayımla değil. İk
 
 ---
 
-## Atıf
+## Kaynaklar
 
-CT-RATE veri seti kullanıldığında atıf zorunludur:
-
-> Hamamci et al., *Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography*, arXiv:2403.17834
-
-Negasyon ve belirsizlik çözümlemesi için kullanılan araçlar:
-
-> Eyre et al., *Launching into clinical space with medspaCy*, AMIA 2021
-> Chapman et al., *A simple algorithm for identifying negated findings and diseases in discharge summaries*, J Biomed Inform 2001 (NegEx)
+- Hamamci et al., *Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography*, arXiv:2403.17834 — CT-RATE veri seti
+- Eyre et al., *Launching into clinical space with medspaCy*, AMIA 2021
+- Chapman et al., *A simple algorithm for identifying negated findings and diseases in discharge summaries*, J Biomed Inform 2001 — NegEx
