@@ -30,7 +30,7 @@ def sema():
 # =====================================================================
 
 def test_sema_yuklenir_ve_surum_tasir(sema):
-    assert sema["schema_version"] == "sema-1.1"
+    assert sema["schema_version"] == "sema-1.2"
     for k in ("varlik_tipleri", "iliski_tipleri", "kontrollu_degerler",
               "niteleyici_gruplari", "tablolar", "dogrulama_kurallari"):
         assert k in sema, f"sema {k} bolumunu tasimiyor"
@@ -147,7 +147,8 @@ def test_surum_zinciri_semada_var(sema):
 def test_measurements_eki_yikici_degil(sema):
     """Mevcut olcu tablosuna yalnizca kolon EKLENIR."""
     ek = sema["tablolar"]["measurements_ek"]["kolonlar"]
-    assert set(ek) == {"measurement_id", "temporality"}
+    assert set(ek) == {"measurement_id", "temporality",
+                       "temporality_cue", "temporality_rule"}
 
 
 # =====================================================================
@@ -160,8 +161,14 @@ def _ent(**degis) -> pd.DataFrame:
         "char_start": 10, "char_end": 16, "raw_text": "nodule",
         "entity_type": "observation", "qualifier_group": None,
         "normalized_concept": "nodule", "concept_source": "yerel_sozluk",
-        "laterality": "right", "assertion": "present", "temporality": "current",
-        "change_type": "none", "mentioned_in_findings": True,
+        "laterality": "right",
+        "assertion": "present", "assertion_cue": None,
+        "assertion_rule": "varsayilan_present",
+        "temporality": "current", "temporality_cue": None,
+        "temporality_rule": "varsayilan_current",
+        "change_type": "none", "change_cue": None,
+        "change_rule": "karsilastirma_yok", "context_version": "ctx-1.0",
+        "mentioned_in_findings": True,
         "mentioned_in_impression": False, "promoted_to_impression": False,
         "extraction_rule": "sozluk_eslesme", "segmentation_version": "seg-1.1",
         "template_version": "tmpl-1.0", "entity_version": "ent-1.0",

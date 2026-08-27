@@ -200,6 +200,26 @@ def dogrula_entities(ent: pd.DataFrame, sema: dict | None = None, *,
             ihl.append(Ihlal("K3e", "niteleyici kavrami grubunun degerlerinde yok",
                              len(kotu), kotu[:3]))
 
+    # K3f - varsayilan disi her kesinlik atamasinin bir IPUCU dayanagi olmali.
+    # sema-1.2: TASK-12 'absent'/'uncertain' yazdiysa neye dayandigi kayitli olmali.
+    if "assertion_cue" in ent.columns:
+        gerekli = ent.assertion.isin(["absent", "uncertain"])
+        bos = gerekli & (ent.assertion_cue.astype("string").fillna("").str.strip() == "")
+        if bos.any():
+            ihl.append(Ihlal("K3f", "assertion 'absent'/'uncertain' ama assertion_cue bos",
+                             int(bos.sum()),
+                             ent.loc[bos, "raw_text"].head(3).tolist()))
+
+    # K3g - 'increased'/'decreased' ACIK zamansal referans ister (olculdu: increas*
+    # 25.522 cumlede ama yalnizca %3,4'unde zamansal referans var).
+    if "change_cue" in ent.columns:
+        gerekli = ent.change_type.isin(["increased", "decreased"])
+        bos = gerekli & (ent.change_cue.astype("string").fillna("").str.strip() == "")
+        if bos.any():
+            ihl.append(Ihlal("K3g", "change_type 'increased'/'decreased' ama change_cue bos",
+                             int(bos.sum()),
+                             ent.loc[bos, "raw_text"].head(3).tolist()))
+
     # K3 - surum zinciri tekil olmali (katman basina tek surum)
     for kol in ("segmentation_version", "template_version", "entity_version"):
         if ent[kol].nunique(dropna=False) > 1:

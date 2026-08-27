@@ -405,7 +405,7 @@ kanıtı sayılmaz. Faz 1'in `is_stock_phrasing` bayrağıyla birleştiğinde
 **Bu görev metnin ne söylediğini kaydeder; söylenenin klinik anlamını yorumlamaz.**
 
 **Çıktı:** `src/radyovlm/extraction/context.py` · `configs/ipucu_sozlugu.yaml`
-· güncellenmiş `entities.parquet`
+· güncellenmiş `entities.parquet` · **ayrıntılı plan: `docs/07_task12_plani.md`**
 **Önkoşul:** TASK-11
 
 ### TASK-13 — Çıkarım Doğruluğunun Manuel Örneklemle Ölçülmesi
@@ -417,7 +417,7 @@ kümeler ayrı**, zamansal sınıf doğruluğu ölçülür. Hata tipleri sınıf
 `extraction_rule` / `attachment_rule` alanları üzerinden hangi kuralın ürettiği
 gösterilir.
 
-**Çıktı:** `data/processed/altin_aciklama_faz2.csv` · `docs/07_isaretleme_kilavuzu.md`
+**Çıktı:** `data/processed/altin_aciklama_faz2.csv` · `docs/08_isaretleme_kilavuzu.md`
 · `reports/cikarim_dogruluk_raporu.md`
 **Önkoşul:** TASK-11 · TASK-12
 

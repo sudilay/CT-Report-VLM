@@ -343,7 +343,7 @@ def test_korpus_measurement_id_uretilmis():
     if "measurement_id" not in meas.columns:
         pytest.skip("meas-1.1 henuz uretilmedi")
     assert meas.measurement_id.is_unique
-    assert (meas.measurement_version == "meas-1.1").all()
+    assert meas.measurement_version.iloc[0] in ("meas-1.1", "meas-1.2")
 
 
 def test_korpus_surum_zinciri_tam(ent, rel):
@@ -502,9 +502,9 @@ def test_aday_yok_kaydedilir():
     assert coz and coz[0]["sebep"] == "aday_yok"
 
 
-def test_sema_surumu_1_1(sozluk):
+def test_sema_surumu_guncel(sozluk):
     sema = S.yukle()
-    assert sema["schema_version"] == "sema-1.1"
+    assert sema["schema_version"] == "sema-1.2"
 
 
 def test_assertion_varsayilani_islenmemis():

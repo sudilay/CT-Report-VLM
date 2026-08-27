@@ -1,0 +1,261 @@
+# Negasyon, belirsizlik ve zamansallik ipucu sozlugu  ·  TASK-12  ·  ipucu-1.0
+#
+# KAYNAK: korpustan turetildi (YALNIZCA train - 449.868 cumle). D16.
+#
+# ITHAL LISTE OLCULDU, OLDUGU GIBI ALINMADI:
+#   data/external/negex/negex_triggers.txt - 272 tetikleyici
+#   -> 220'si (%81) bu korpusta HIC GECMIYOR
+#   -> yalnizca 20'si (%7) 100+ cumlede geciyor
+#   Sebep: raporlar Turkce yazilip Ingilizceye cevrildi. "no evidence of" 94,
+#   "free of" 0, "negative for" 0. Buna karsilik "in favor of" 7.910.
+#
+# YON:
+#   ileri  = ipucu hedeften ONCE  (FORWARD)   "No mass was seen"
+#   geri   = ipucu hedeften SONRA (BACKWARD)  "Mass was not observed"
+#   cift   = iki yonlu
+# Olculdu: negatif cumlelerin %19,9'unda ipucu hedeften SONRA. Yalnizca ileri
+# yonlu bir kurulum her bes negatif cumleden birini kacirir.
+#
+# Her deger yaninda OLCULMUS korpus destegi tasir; sifir destekli ipucu alinmaz.
+
+surum: ipucu-1.0
+tarih: 2026-08-27
+
+# =====================================================================
+# 1. BELIRSIZLIK - ONCELIKLI  (negasyondan ONCE uygulanir)
+# =====================================================================
+# "cannot be excluded" icinde "not" gecer; naif negasyon kurali bunu 'absent'
+# yazar - ANLAMIN TAM TERSI. Bulgu OLABILIR demek.
+belirsizlik_oncelikli:
+  cannot_be_excluded:
+    desenler: ["can ?not be excluded", "can ?not be ruled out",
+               "cannot be definitively excluded"]
+    yon: cift
+    sonuc: uncertain
+    korpus: 466
+
+# =====================================================================
+# 2. TEKNIK CEKINCE - NEGASYON TETIKLEYICISI DEGIL
+# =====================================================================
+# "could not be evaluated" = "kalp yok" demek DEGIL, tetkikin siniri demek.
+# UYARI: bu ipuclari cumleyi SUSTURMAZ. Olculdu: teknik cekince isaretli
+# 26.325 cumlenin %42'sinde teknik ifade cikarildiktan sonra hâlâ BAGIMSIZ
+# gercek negasyon var. Kural yalnizca KENDI kapsaminda etkisizdir.
+teknik_cekince:
+  degerlendirilemedi:
+    desenler: ["(?:could|can) ?not be (?:optimally )?(?:evaluated|assessed)",
+               "not evaluated optimally", "(?:could|can) ?not be evaluated"]
+    korpus: 8976
+  gorulebildigi_kadar:
+    desenler: ["as far as (?:can|could) be (?:seen|observed|evaluated|assessed)"]
+    korpus: 11589
+  tetkik_siniri:
+    desenler: ["within the (?:examination|study|image) (?:limits|borders)",
+               "within the borders of"]
+    korpus: 2632
+  ayirt_edilemedi:
+    desenler: ["(?:could|can) ?not be (?:distinguished|selected|differentiated)"]
+    korpus: 367
+  goruntu_kalitesi:
+    desenler: ["suboptimal", "artifacts?", "motion artifact"]
+    korpus: 3648
+
+# =====================================================================
+# 3. SAHTE NEGASYON - bulguyu degil BASKA SEYI olumsuzlar
+# =====================================================================
+# 'assertion' alanini ETKILEMEZ; 'change_type' alanini etkiler.
+sahte_negasyon:
+  degisim_yok:
+    desenler: ["no significant change", "no interval change", "no change",
+               "no significant difference"]
+    etki: change_type=stable
+    korpus: 1057
+
+# =====================================================================
+# 4. NEGASYON
+# =====================================================================
+negasyon:
+  # ---- ILERI (FORWARD) - klasik Ingilizce bicim, korpusta baskin ----
+  no_oncul:
+    desenler: ["\\bno\\b"]
+    yon: ileri
+    korpus: 119877
+    not: "En genis ipucu. Tek basina kullanilmaz - kapsam sonlandiriciyla sinirlanir."
+  no_significant:
+    desenler: ["no significant", "no obvious", "no definite"]
+    yon: ileri
+    korpus: 17174
+  no_suspicious:
+    desenler: ["no suspicious"]
+    yon: ileri
+    korpus: 944
+    not: "Kapsam ici 'suspicious' belirsizlik sayilmaz; negasyon kazanir."
+  no_sign_of:
+    desenler: ["no signs? of", "no evidence of", "no findings? (?:of|in favor of)"]
+    yon: ileri
+    korpus: 1534
+  without:
+    desenler: ["\\bwithout\\b"]
+    yon: ileri
+    korpus: 850
+  absence:
+    desenler: ["absence of", "\\babsent\\b"]
+    yon: ileri
+    korpus: 74
+
+  # ---- GERI (BACKWARD) - Turkce fiil-sonlu yapinin cevirisi ----
+  # "Pericardial effusion-thickening was not observed."
+  #  ^hedef                            ^ipucu SONRA
+  gozlenmedi_ardil:
+    desenler: ["(?:was|were) not (?:observed|detected|seen|identified|found)"]
+    yon: geri
+    korpus: 23039
+  mevcut_degil_ardil:
+    desenler: ["(?:is|are) not (?:present|observed|seen|detected)"]
+    yon: geri
+    korpus: 1456
+
+  # ---- ONEK - YALNIZCA niteleyici varliga uygulanir ----
+  # "nonspecific nodule" -> nodul MEVCUT (12.992 cumle). Onek komsu gozleme
+  # SICRAMAZ; yalnizca onekin yapisik oldugu niteleyici varligi etkiler.
+  onek_non:
+    desenler: ["non-?(?=calcified|enhancing|contrast)"]
+    yon: yapisik
+    kapsam: yalnizca_kendi_varligi
+    korpus: 6354
+    not: "'nonspecific' BU LISTEDE DEGIL - o bir niteleyicidir, negasyon degil."
+
+# --- OLCULUP ALINMAYANLAR (kayit; sifir/olu destek) ---
+# Silinmiyor, sayisiyla duruyor ki sonradan "neden yok" sorusunun cevabi olsun.
+negasyon_olculup_alinmayan:
+  saptanmadi_ardil: 3        # "was not noted", "has not been observed" - olu
+  no_evidence_of: 94         # ithal NegEx'in klasik tetikleyicisi; burada yok denecek kadar az
+  free_of: 0                 # ithal listede var, korpusta SIFIR
+  negative_for: 0            # ithal listede var, korpusta SIFIR
+  ruled_out_ardil: 4         # "should be ruled out"
+
+# =====================================================================
+# 5. KAPSAM SONLANDIRICI
+# =====================================================================
+sonlandirici:
+  noktali_virgul:
+    desenler: [";"]
+    korpus: 26579
+  karsitlik:
+    desenler: ["\\bhowever\\b", "\\bbut\\b", "\\balthough\\b", "\\bwhereas\\b"]
+    korpus: 3078
+  haric:
+    desenler: ["apart from", "\\bexcept\\b", "other than", "aside from"]
+    korpus: 2044
+
+# =====================================================================
+# 6. BELIRSIZLIK
+# =====================================================================
+belirsizlik:
+  parantez_soru:
+    desenler: ["\\([^)]{1,60}\\?\\)"]
+    korpus: 5505
+    not: "KORPUSA OZGU. Soru isaretlerinin %70'i parantez icinde: '(cyst?)'.
+          Hicbir standart belirsizlik sozlugunde yoktur."
+  lehine:
+    desenler: ["in favor of", "evaluated (?:primarily )?in favor of"]
+    korpus: 7910
+    not: "Turkce '...lehine degerlendirilmistir'. Standart listelerde yok."
+  degerlendirildi_kalip:
+    desenler: ["evaluated as", "evaluated (?:to be )?(?:compatible|consistent) with"]
+    korpus: 3825
+    not: "YALNIZCA TAM KALIP. Ciplak 'evaluated' 24.432 cumlede gecer ama
+          bunlarin 3.667'si 'recommended to be evaluated' (ONERI),
+          4.206'si 'cannot be evaluated' (TEKNIK), 1.686'si notr.
+          Ciplak bicim alinsaydi ~15.000 cumle yanlis 'uncertain' olurdu."
+  uyumlu:
+    desenler: ["compatible with", "consistent with", "in keeping with"]
+    korpus: 12219
+  supheli:
+    desenler: ["suspicious", "suspected", "suspect"]
+    korpus: 2278
+  oncelikle:
+    desenler: ["\\bprimarily\\b", "most likely", "\\blikely\\b"]
+    korpus: 2351
+  ayirici_tani:
+    desenler: ["differential diagnos[ei]s", "\\bdifferential\\b"]
+    korpus: 1957
+  dusunuldu:
+    desenler: ["thought to be", "considered (?:to be|as)", "may (?:be|represent)"]
+    korpus: 3961
+  olasilik:
+    desenler: ["\\bpossibl[ey]\\b", "\\bprobabl[ey]\\b", "\\bmight\\b"]
+    korpus: 1059
+  ikincil:
+    desenler: ["secondary to"]
+    korpus: 2950
+  onerir:
+    desenler: ["suggest\\w*"]
+    korpus: 519
+
+# =====================================================================
+# 7. ZAMANSALLIK
+# =====================================================================
+zamansal:
+  onceki:
+    desenler: ["\\bprevious(?:ly)?\\b", "\\bprior\\b", "\\bformer\\b",
+               "old (?:CT|examination|study)", "earlier (?:CT|examination)"]
+    sonuc: prior
+    korpus: 6303
+  guncel:
+    desenler: ["in the current examination", "current (?:CT|examination|study)",
+               "present examination"]
+    sonuc: current
+    korpus: 2277
+  karsilastirma:
+    desenler: ["\\bcontrol\\b", "follow-?up", "compared (?:to|with)",
+               "in comparison"]
+    sonuc: karsilastirma_var
+    korpus: 3533
+    not: "Zaman atamaz ama KARSILASTIRMA oldugunu bildirir - change_type
+          'none' yerine en az 'unknown' olur."
+
+# =====================================================================
+# 8. DEGISIM
+# =====================================================================
+# UYARI: 'increase' TEK BASINA degisim kaniti DEGIL. Olculdu: increas* 25.522
+# cumlede ama yalnizca %3,4'unde acik zamansal referans var. Kalani
+# "peribronchial thickness increases" gibi DURAGAN tanimlardir.
+# YON: cift. Ingilizcede degisim fiili OZNEDEN SONRA gelir
+# ("The nodule has increased"), bu yuzden ileri yonlu kapsam ozneyi kacirir.
+degisim:
+  stabil:
+    desenler: ["\\bstable\\b", "\\bunchanged\\b", "no significant change",
+               "similar to (?:the )?previous"]
+    sonuc: stable
+    yon: cift
+    zamansal_referans_gerekir: false
+    korpus: 4319
+  yeni:
+    desenler: ["newly developed", "\\bnewly\\b", "new(?:ly)? (?:developed|appeared|emerged)",
+               "not (?:present|observed) in the previous"]
+    sonuc: new
+    yon: cift
+    zamansal_referans_gerekir: false
+    korpus: 1419
+  artmis:
+    desenler: ["increas\\w*", "enlarg\\w*", "progress\\w*"]
+    sonuc: increased
+    yon: cift
+    zamansal_referans_gerekir: true
+    korpus: 39520
+    not: "ZAMANSAL REFERANS SART. Yoksa 'thickness increase' gibi duragan
+          tanimlar yanlislikla buyume sayilir - 25 bin cumlede yanilirdi."
+  azalmis:
+    desenler: ["decreas\\w*", "regress\\w*", "diminish\\w*", "shrink\\w*"]
+    sonuc: decreased
+    yon: cift
+    zamansal_referans_gerekir: true
+    korpus: 3968
+  kaybolmus:
+    desenler: ["\\bresolved\\b", "disappear\\w*", "no longer (?:seen|observed|present)",
+               "completely regressed"]
+    sonuc: resolved
+    yon: cift
+    zamansal_referans_gerekir: false
+    korpus: 169

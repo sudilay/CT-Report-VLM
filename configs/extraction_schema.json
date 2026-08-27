@@ -1,5 +1,5 @@
 {
-  "schema_version": "sema-1.1",
+  "schema_version": "sema-1.2",
   "olusturma_tarihi": "2026-08-26",
   "gorev": "TASK-10",
   "aciklama": "Faz 2 yapilandirilmis cikarim semasi. Varlik ve iliski tablolarinin kolon tanimlari, kontrollu deger kumeleri ve otomatik dogrulama kurallari. Gerekce: docs/06_sema_gerekce.md",
@@ -77,7 +77,7 @@
       "varsayilan": "not_processed",
       "degerler": ["not_processed", "present", "absent", "uncertain"],
       "uyari": "TASK-12 kosmadan ONCE deger 'not_processed' olmalidir. sema-1.0'da varsayilan 'present' idi; TASK-11 tum varliklara 'present' yazdi ve negasyon ipuclu cumlelerdeki 426.099 anma da 'mevcut' gorundu. Bu sessizce yanlis veriydi. 'uncertain' bu amacla KULLANILAMAZ - o KLINIK belirsizlik demektir, islenmemislik degil.",
-      "surum_notu": "sema-1.1'de 'not_processed' eklendi ve varsayilan yapildi."
+      "surum_notu": "sema-1.1'de 'not_processed' eklendi ve varsayilan yapildi. sema-1.2'de assertion_cue/assertion_rule izlenebilirlik alanlari eklendi (TASK-12)."
     },
     "temporality": {
       "aciklama": "Varlik bu tetkike mi yoksa onceki bir tetkike mi ait. TASK-12 doldurur.",
@@ -251,8 +251,15 @@
         "concept_source":         {"tip": "str",  "bos_olabilir": true,  "degerler": ["radlex", "yerel_sozluk", null]},
         "laterality":             {"tip": "str",  "bos_olabilir": true,  "kume": "kontrollu_degerler.laterality"},
         "assertion":              {"tip": "str",  "bos_olabilir": false, "kume": "kontrollu_degerler.assertion"},
+        "assertion_cue":          {"tip": "str",  "bos_olabilir": true},
+        "assertion_rule":         {"tip": "str",  "bos_olabilir": false},
         "temporality":            {"tip": "str",  "bos_olabilir": false, "kume": "kontrollu_degerler.temporality"},
+        "temporality_cue":        {"tip": "str",  "bos_olabilir": true},
+        "temporality_rule":       {"tip": "str",  "bos_olabilir": false},
         "change_type":            {"tip": "str",  "bos_olabilir": false, "kume": "kontrollu_degerler.change_type"},
+        "change_cue":             {"tip": "str",  "bos_olabilir": true},
+        "change_rule":            {"tip": "str",  "bos_olabilir": false},
+        "context_version":        {"tip": "str",  "bos_olabilir": false},
         "mentioned_in_findings":  {"tip": "bool", "bos_olabilir": false},
         "mentioned_in_impression":{"tip": "bool", "bos_olabilir": false},
         "promoted_to_impression": {"tip": "bool", "bos_olabilir": false},
@@ -298,10 +305,12 @@
 
     "measurements_ek": {
       "dosya": "data/processed/measurements.parquet",
-      "aciklama": "Mevcut tabloya EKLENIR; hicbir kolon silinmez veya degistirilmez (meas-1.0 -> meas-1.1)",
+      "aciklama": "Mevcut tabloya EKLENIR; hicbir kolon silinmez veya degistirilmez (meas-1.0 -> meas-1.1 -> meas-1.2). Olcu duzeyi zamansallik AYRI hesaplanir: 661 cumlede ayni cumlede iki farkli zamana ait iki olcu var, varlik duzeyi tek deger bunu tasiyamaz.",
       "kolonlar": {
-        "measurement_id": {"tip": "str", "bos_olabilir": false, "tekil": true},
-        "temporality":    {"tip": "str", "bos_olabilir": false, "kume": "kontrollu_degerler.temporality"}
+        "measurement_id":    {"tip": "str", "bos_olabilir": false, "tekil": true},
+        "temporality":       {"tip": "str", "bos_olabilir": false, "kume": "kontrollu_degerler.temporality"},
+        "temporality_cue":   {"tip": "str", "bos_olabilir": true},
+        "temporality_rule":  {"tip": "str", "bos_olabilir": false}
       }
     }
   },
@@ -316,6 +325,8 @@
     {"kod": "K3", "kural": "surum_zinciri_tam", "aciklama": "Tum surum kolonlari dolu ve tekil", "esik": 1.0, "zorunlu": true},
     {"kod": "K3b", "kural": "kimlik_tekil", "aciklama": "entity_id ve relation_id tekrar etmez", "esik": 1.0, "zorunlu": true},
     {"kod": "K3c", "kural": "kontrollu_deger_uyumu", "aciklama": "Kume tanimli her kolon yalnizca tanimli degerleri icerir", "esik": 1.0, "zorunlu": true},
+    {"kod": "K3f", "kural": "kesinlik_ipucu_tutarli", "aciklama": "assertion 'absent' veya 'uncertain' ise assertion_cue dolu olmali - varsayilan disi her atamanin bir ipucu dayanagi vardir. assertion 'not_processed' ise assertion_rule 'islenmedi' olmali.", "esik": 1.0, "zorunlu": true},
+    {"kod": "K3g", "kural": "degisim_zaman_tutarli", "aciklama": "change_type 'increased' veya 'decreased' ise change_cue dolu olmali; bu degerler ACIK zamansal referans olmadan yazilamaz (olculdu: increas* 25.522 cumlede ama yalnizca %3,4'unde zamansal referans var).", "esik": 1.0, "zorunlu": true},
     {"kod": "K3e", "kural": "niteleyici_kavram_grubunda", "aciklama": "entity_type=qualifier ise normalized_concept o niteleyici grubunun kabul edilen degerleri arasinda olmali. sema-1.0'da yalnizca grup ADI denetleniyordu, kavramin o gruba ait olup olmadigi denetlenmiyordu.", "esik": 1.0, "zorunlu": true},
     {"kod": "K3d", "kural": "kural_alani_dolu", "aciklama": "extraction_rule ve attachment_rule bos birakilamaz (D18)", "esik": 1.0, "zorunlu": true}
   ],
