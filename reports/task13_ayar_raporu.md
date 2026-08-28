@@ -128,3 +128,75 @@ kendini kandırmaya müsait yer. Bu yüzden:
 
 ⚠ `prior` sınıfının desteği 0–5. Zamansallık hakkında bu kümeyle karar verilemez;
 `test-v1` örnekleminde `onceki_tetkik` grubunun ağırlığı gözden geçirilmeli.
+
+---
+
+## 6. Yeni kavramların kesinliği — ayrı ölçüldü
+
+Sözlüğe eklenen 13 kavram 20.435 varlık üretti; işaretleyiciler bunların
+hiçbirini görmemişti. Duyarlılık kazancını gösterip kesinliği ölçmeden
+geçmemek için **ayrı paket** hazırlandı: 130 aday (104 gerçek + 26 çeldirici),
+103 hasta, hepsi train'den, D26 kapıları geçildi.
+
+| | A | B |
+|---|---|---|
+| Çeldirici reddi | %100 (26/26) | %100 (26/26) |
+| **K4 kesinlik** | **%100** (104/104) | **%100** (104/104) |
+| Sistemin kesinlik doğruluğu | %92,3 | %92,3 |
+
+**13 kavramın hiçbirinde yanlış pozitif yok.** İkisi de her gerçek adayı kabul
+etti; kavram bazında da tam örtüşme:
+
+| kavram | n | A | B |
+|---|---|---|---|
+| covid · pleuroparenchymal · small_airway_disease · small_vessel_disease · soft_tissue_density · adiposity · edema · infective_pathology · aortic_valve · pulmonary_conus · lymphadenomegaly · lymphoma · goiter | 8'er | 8/8 | 8/8 |
+
+⚠ Varlık ve kavram eksenlerinde kappa **hesaplanamaz**: ikisi de her satıra
+`E` dediği için varyans yok. Uyum %100 ama kappa tanımsız — bu "zayıf uyum"
+değildir, **ölçülemez**dir. Kappa tek sınıflı dağılımda anlamsızdır (aynı
+tuzağa zaman ekseninde de düşülmüştü).
+
+### Kesinlik ekseninde kalan ayrışma sistematik değil
+
+12/104 satırda ayrıştılar (kappa 0,705, güçlü) ama **yön iki taraflı**:
+`belirsiz→mevcut` 5 · `mevcut→belirsiz` 5 · `mevcut→yok` 2.
+
+Anatomi boşluğundaki gibi tek yönlü değil. İçerikleri gerçek zor vakalar:
+
+> *"Acute interstitial edema and other viral pneumonias are considered in the
+> **differential diagnosis**."*
+>
+> *"Mass lesions-lymphadenomegaly **(lymphoma?)** that are widespread..."*
+>
+> *"It may belong to the area of focal adiposity, but it **cannot be clearly
+> characterized** in this examination."*
+
+Bunlar şartname boşluğu değil, **indirgenemez zorluk**. Kılavuz bu turda yeni
+bir eksik göstermedi.
+
+---
+
+## 7. Ayar kümesi ölçümü — toplu tablo
+
+| ölçüt | A | B | eşik | durum |
+|---|---|---|---|---|
+| Çeldirici reddi | %100 | %100 | %80 | ✅ |
+| **K5 duyarlılık** (katı) | %93,0 | %89,7 | %80 | ✅ |
+| K5 duyarlılık (tip-bağımsız) | %97,1 | %93,7 | — | |
+| K4 kesinlik · özgün adaylar | %99,0 | %85,8 | %90 | ⚠ ayrışık |
+| **K4 kesinlik · yeni kavramlar** | **%100** | **%100** | %90 | ✅ |
+| K6 · present F1 | %98 | %97 | — | ✅ |
+| K6 · absent F1 | %93 | %95 | — | ✅ |
+| K6 · uncertain F1 | %50 | %21 | — | ❌ destek 4–16 |
+| K6 makro-F1 | %80,3 | %70,8 | %85 | ❌ *(ölçülemez)* |
+| İşaretleyici uyumu (kesinlik) | kappa **0,845** | | — | ✅ |
+
+**Okunuşu:** sistem `present` ve `absent` sınıflarında iki bağımsız
+işaretleyiciye göre de güçlü. `uncertain` hakkında **bu kümeyle bir şey
+söylenemez** — destek 4–16 ve makro-F1 bu sınıfı 300+ destekli sınıflarla eşit
+ağırlıklandırıyor. `test-v2` bunu düzeltmek için çekildi (belirsizlik kotası
+20 → 55).
+
+K4'teki A/B farkı kural boşluğu değil: `anatomic_segment`, `pneumonia`,
+`density`, `abdomen` kavramlarının **span ve granülerlik** tartışması. Gerçek
+değer %86–99 arasında; ayrışma sözlük gözden geçirme listesine girdi.
