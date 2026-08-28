@@ -192,3 +192,69 @@ Bu istenmeye değer: elimizdeki 25.692 tetkikin **Türkçesi** demek, bugüne ka
 ⚠ RadTr deposunun `LICENSE` dosyası **MIT** ama telif *"David Wadden 2021"* —
 bu, çatallanılan DyGIE++ **kodunun** lisansı. **Verinin** lisansı ayrıca
 doğrulanmalı; yazarlara sorulmadan yayında kullanılmamalı.
+
+---
+
+# Türkçe kapsama ölçümü — 2026-08-28
+
+**Soru:** İngilizce üzerinde kurduğumuz 144 kavramlık envanter Türkçeye taşınıyor mu?
+Bu, mimari kararını belirler:
+
+| çıksaydı | anlamı |
+|---|---|
+| Kavramların çoğu Türkçe'de de var | **Sözlüğü çevirmek yeterli**, mimari aynı kalır |
+| Ciddi kısmı yok / farklı | Türkçe çıkarım **sıfırdan** kurulmalı |
+
+**Yöntem:** 82 kavram için Türkçe yüzey deseni yazıldı ve **RadTr'nin 429
+uzman-yazımı Türkçe toraks belgesinde** (59.041 kelime) ölçüldü.
+→ `configs/turkce_yuzeyler_taslak.yaml` · `scripts/20_turkce_yuzey_taslagi.py`
+
+## Sonuç: **%88 taşınıyor**
+
+72 / 82 kavram RadTr'de geçiyor. Çekirdek kavramların tamamı var:
+
+| kavram | RadTr | kavram | RadTr |
+|---|---|---|---|
+| lung | 1.104 | nodule | 223 |
+| heart | 660 | pneumonia | 215 |
+| lymph_node | 583 | calcification | 214 |
+| bronchus | 501 | density | 203 |
+| pleura | 493 | atelectasis | 136 |
+| effusion | 420 | covid | var |
+
+**Okunuşu:** kavram envanteri Türkçeye taşınıyor. Mimariyi değiştirmeye gerek yok;
+**sözlüğe Türkçe yüzey eklemek yeterli.** Bu, bugüne kadarki işin Türkçeye
+aktarılabileceği anlamına gelir.
+
+## Geçmeyen 10 kavram — çoğu açıklanabilir
+
+| kavram | CT-RATE | neden geçmiyor olabilir |
+|---|---|---|
+| fluid_collection | 5.141 | RadTr toraks alt kümesi; sıvı koleksiyonu abdominal |
+| hepatosteatosis | 3.677 | karaciğer bulgusu |
+| cholelithiasis · nephrolithiasis | 945 · 908 | safra/böbrek taşı — abdominal |
+| cardiomegaly | 2.523 | RadTr'de *"kalp boyutları artmıştır"* kalıbı kullanılıyor olabilir |
+| spondylosis · lymphoma · goiter · granuloma | 602–23 | seyrek |
+
+RadTr **59.041 kelime**, CT-RATE milyonlarca. Bir kavramın geçmemesi *"Türkçe'de
+yok"* demek değil, *"bu 429 belgede yok"* demektir. Ayrıca yüzeyler taslak —
+`cardiomegaly` için *"kalp boyutları artmış"* gibi betimleyici kalıplar
+denenmedi.
+
+## ⚠ Bu bir taslaktır
+
+`turkce_yuzeyler_taslak.yaml`'daki **her girdi `uzman_onayi: false`** taşıyor.
+Radyoloji Türkçesi büyük ölçüde Latin kökenli translitasyondur (*nodül*,
+*plevra*, *efüzyon*) ve yüzeyler makul görünüyor — ama **makul görünmek
+doğrulama değildir**. Radyolog onayından geçmeden sisteme alınmaz.
+
+## Türkçeye özgü desen tuzağı — kayda geçti
+
+İlk ölçümde `bulla` için `b[uü]l` deseni kullanıldı ve **"bulgu"**, **"bulunmaktadır"**
+kelimelerini yakalayarak `bulla`yı RadTr'de CT-RATE'ten daha sık gösterdi (815 vs 415).
+
+Türkçe **sondan eklemeli**: *akciğerde*, *akciğerin*, *nodülleri*. Bu yüzden
+desenler **başta sınırlı, sonda sınırsız** olmalı. Aynı ölçümde `fracture` da
+yanlış desenle 6 çıkmıştı, düzeltince **125** oldu.
+
+Bu, `tools/README.md`'deki kelime sınırı tuzağının Türkçe hâlidir.
