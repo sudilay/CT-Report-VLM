@@ -440,11 +440,6 @@ kavramlar:
     tip: observation
     desenler: ["goit(?:er|re)s?"]
     korpus: 52
-  laterobasal:
-    tip: qualifier
-    grup: distribution
-    desenler: ["laterobasal"]
-    korpus: 1958
 
 # =====================================================================
 # OLCULUP ALINMAYANLAR (bulgu-1.1) - reddedilenler de kayittir
@@ -459,6 +454,14 @@ kavramlar:
 #                                thickening'e esliyor. Ciplak 'wall' gurultu uretir.
 #   aneurysmatic appear.     22  REDDEDILDI - cok seyrek; 'aneurysm' kapsiyor.
 #   shrinkage                44  REDDEDILDI - cok seyrek ve belirsiz yuzey.
+#   laterobasal           1.958  GERI ALINDI - eklendi, sonra kaldirildi.
+#                                'basal' deseni ZATEN "laterobasal" iceriyor
+#                                (['basal','posterobasal','laterobasal','basally']).
+#                                Eklenen kavram ERISILEMEZDI: birlesik regex'te
+#                                esit uzunlukta eslesme ilk dala gidiyor ve
+#                                korpusta 0 anma uretti. Ders: yeni kavram
+#                                eklemeden once MEVCUT desenlerin o yuzeyi
+#                                kapsayip kapsamadigi denetlenmeli.
 #   hepatic steotase          1  REDDEDILDI - kaynak yazim hatasi, TEK ornek.
 #                                Bunun yerine 'steatosis' deseni eklendi (+499).
 #

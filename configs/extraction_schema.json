@@ -202,8 +202,7 @@
         "apical": 5757,
         "peripheral": 4374,
         "basal": 3836,
-        "central": 3240,
-        "laterobasal": 1958
+        "central": 3240
       },
       "olculup_alinmayan": {
         "perifissural": 7
@@ -713,5 +712,5 @@
       "change_of": null
     }
   },
-  "surum_notu_1_3": "sema-1.3 (2026-08-28): Kor listelemenin ortaya cikardigi sozluk bosluklari kapatildi (bulgu-1.1: +11 kavram, anat-1.1: +3 kavram). distribution grubuna 'laterobasal' (1.958) eklendi. Kaynak: 120 cumlelik ayar kumesinde IKI BAGIMSIZ isaretleyicinin kor listelemede yazip sistemin bulamadigi terimler; ikisinin kacirdiklari ortustugu icin gercek bosluk sayildi. 'soft_tissue_density' 'density'den AYRILDI - isaretleyiciler indirgemeye itiraz etti."
+  "surum_notu_1_3": "sema-1.3 (2026-08-28): Kor listelemenin ortaya cikardigi sozluk bosluklari kapatildi (bulgu-1.1: +11 kavram, anat-1.1: +3 kavram). 'laterobasal' once eklendi sonra GERI ALINDI: 'basal' deseni zaten o yuzeyi kapsiyor, eklenen kavram erisilemez kaldi ve 0 anma uretti. Kaynak: 120 cumlelik ayar kumesinde IKI BAGIMSIZ isaretleyicinin kor listelemede yazip sistemin bulamadigi terimler; ikisinin kacirdiklari ortustugu icin gercek bosluk sayildi. 'soft_tissue_density' 'density'den AYRILDI - isaretleyiciler indirgemeye itiraz etti."
 }
