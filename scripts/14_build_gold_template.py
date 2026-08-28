@@ -122,9 +122,19 @@ def main() -> None:
             })
 
     b_df = pd.DataFrame(satir).sample(frac=1, random_state=TOHUM + 3).reset_index(drop=True)
+
+    # SATIR KIMLIGI (2026-08-28): (study_id, section, sent_idx, aday_metin,
+    # aday_kavram) benzersiz DEGIL - ayni cumlede ayni kavram iki kez gecebilir
+    # ("lung parenchyma ... lung parenchyma") ve anahtarda karakter ofseti yok.
+    # Ayar kumesinde 513 satirin tekil anahtari 493 cikti; bu anahtarla yapilan
+    # birlestirme satirlari 527'ye sisirip skorlari bozdu. aday_no her satira
+    # kalici kimlik verir; puanlama ve yeniden yargilama bunun uzerinden hizalanir.
+    b_df.insert(0, "aday_no", range(len(b_df)))
+
     # gizli kolonlari AYRI dosyaya al - isaretleyici gormesin
-    gizli = b_df[["study_id", "section", "sent_idx", "aday_metin", "aday_kavram",
-                  "_gizli_sahte", "_gizli_assertion", "_gizli_temporality"]]
+    gizli = b_df[["aday_no", "study_id", "section", "sent_idx", "aday_metin",
+                  "aday_kavram", "_gizli_sahte", "_gizli_assertion",
+                  "_gizli_temporality"]]
     gorunen = b_df.drop(columns=["_gizli_sahte", "_gizli_assertion",
                                  "_gizli_temporality"])
     yol_b = PROC / f"task13_B_yargilama_{a.kume}.csv"
