@@ -10,7 +10,7 @@ makale özetine güvenilmedi.
 
 | Kaynak | Ne | Karar |
 |---|---|---|
-| **RadTr** | 1.364 belge · **292 toraks BT** · radyologlar yazdı, 3 radyolog etiketledi | ✅ **kullanılabilir** |
+| **RadTr** | 1.364 belge · **429 toraks BT** · radyologlar yazdı, 3 radyolog etiketledi | ✅ **alındı** |
 | PARROT | 48 Türkçe · 28 toraks BT ama **hepsi koroner anjiyo** | ❌ elendi |
 | CT-RATE Türkçe aslı | Yayımlanmadı; yalnızca İngilizce çevirisi açık | ⚠ istenebilir |
 | Model-SEY (Elazığ) | Türkçe göğüs **röntgeni**; hastane verisi paylaşılmıyor | ❌ |
@@ -18,6 +18,8 @@ makale özetine güvenilmedi.
 | `Turkish-Medical-Notes` | blog yazıları, radyoloji raporu değil | ❌ |
 | `turkish-medical-deid-eval` | kimliksizleştirme değerlendirmesi | ❌ |
 | TurkMedNLI | çeviriyle üretilmiş çıkarım veri seti | ❌ |
+| **"Yedikule 1.180 rapor"** | Kamuya açık **hiçbir izine rastlanmadı** | ⚠ kaynağı sorulmalı |
+| BioBERTurk modeli | `hazal/BioBERTurkcased-*` HuggingFace'te açık | ✅ ileride kullanılır |
 
 ---
 
@@ -25,6 +27,24 @@ makale özetine güvenilmedi.
 
 [Diagnostic and Interventional Radiology, 2025](https://www.dirjournal.org/articles/deep-learning-for-named-entity-recognition-in-turkish-radiology-reports/doi/dir.2025.243100) ·
 [github.com/BIGDaTA-Lab-AI/dygiepp-multilingual-radiology](https://github.com/BIGDaTA-Lab-AI/dygiepp-multilingual-radiology)
+
+### Toraks alt kümesi ayrıldı
+
+`scripts/16_extract_radtr_thorax.py` → `data/processed/radtr_toraks.jsonl`
+
+| | |
+|---|---|
+| Toraks belgesi | **429** (%31) |
+| Etiketli varlık | **13.829** |
+
+Koroner BT anjiyo **dışarıda bırakıldı** — PARROT'ta görüldüğü gibi akciğer
+içeriği taşımıyor.
+
+**İçerik denetimi:** plevra %88 · lenf %89 · efüzyon %60 · **nodül %39** ·
+buzlu cam %35 · amfizem %12 · kitle %4 · malignite %3.
+
+Malignite oranının düşüklüğü sentetik verinin bilinen sınırı: gerçek sıklıkları
+yansıtmaz.
 
 ### Ölçülen içerik (indirilip sayıldı, makaleden alınmadı)
 
@@ -127,6 +147,27 @@ Fransızca 475) ve veri seti zaten *"çok dilli LLM sınaması"* için tasarlanm
 Lisans CC BY-NC-SA 4.0; yazarlar **"eğitim için değil, test için"** diyor.
 
 ---
+
+## "Yedikule 1.180 gerçek Türkçe toraks BT raporu" — bulunamadı
+
+Arandığı yerler: web araması (Türkçe ve İngilizce), HuggingFace veri seti
+dizini (`yedikule`, `turkish thorax CT`, `toraks`, `turkish chest CT report`),
+GitHub depo araması, akademik literatür.
+
+**Kamuya açık hiçbir izine rastlanmadı.** GitHub'da `yedikule` adlı tek depo bir
+Flutter uygulaması, ilgisiz.
+
+⚠ Bu **yok demek değil.** İki olasılık var:
+
+1. **Kurum içi veri** — Yedikule Göğüs Hastalıkları Hastanesi'nde duruyor, erişim
+   için başvuru/etik kurul gerekiyor. Bu durumda **çok değerlidir**: RadTr'den
+   farklı olarak **gerçek** raporlar demektir ve sentetik verinin bütün sınırlarını
+   aşar.
+2. Sayı belirli bir çalışmadan geliyor ve veri o çalışmayla birlikte
+   yayımlanmamış.
+
+**Yapılacak:** bilginin kaynağı öğrenilmeli. Gerçek raporlarsa, elimizdeki her
+şeyden değerlidir.
 
 ## Geriye kalan en değerli yol
 
