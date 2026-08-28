@@ -36,12 +36,40 @@ REPORTS = ROOT / "reports"
 
 TOHUM = 20260827
 N_DEV = 150
-N_TEST = 200
+N_TEST = 200          # eski test-v1 boyutu (kayit icin)
+N_TEST_YENI = 295     # 195 hedefli + 100 rastgele; nadir siniflari olculebilir
+                      # kilan kotalarla buyudu (bkz. HEDEFLI_TEST gerekcesi)
 
 # Hedefli zor kume bilesimi - rastgele ile AYRI raporlanir (D26/6)
-HEDEFLI = {
+#
+# AYAR ve TEST kotalari AYRIDIR. Ayar kumesi 2026-08-27'de cekildi, 150 cumlesi
+# iki bagimsiz isaretleyici tarafindan isaretlendi ve puanlandi. Kotasi
+# DEGISTIRILEMEZ - degisirse ornek degisir ve o isaretlemeler sahipsiz kalir.
+HEDEFLI_AYAR = {
     "negasyon": 20, "belirsizlik": 20, "coklu_bulgu": 20,
     "onceki_tetkik": 20, "coklu_olcu": 20,
+}
+
+# TEST kotalari OLCULEREK yeniden belirlendi (2026-08-28).
+# Sorun: ilk test-v1 orneklemi 587 varlik uretiyordu ama bunlarin YALNIZCA
+# 3'u uncertain, 5'i prior. Makro-F1 uc sinifi esit agirliklandirdigi icin
+# destegi 3 olan bir sinif olcumun tamamini belirler - bu olcum degil gurultudur.
+#
+# Kok sebep: 'belirsizlik' grubu D29'DAN ONCE tanimlanmisti ve "compatible
+# with", "in favor of", "suspicious" iceriyordu. D29 bunlari PRESENT saydigi
+# icin grup artik belirsizligi hedeflemiyordu.
+#
+# Train uzerinde olculen verim (test havuzuna BAKILMADAN):
+#   gercek belirsizlik ipuclari : 0,92 uncertain/cumle -> ~54 cumle = ~50
+#   dar 'onceki tetkik' deseni  : 0,83 prior/cumle     -> ~60 cumle = ~50
+#   (genis 'onceki' deseni 0,36 veriyordu - "stable" gibi zaman bildirmeyen
+#    kelimeleri de topluyordu)
+#
+# 'cikarim' YENI gruptur: D29 bu ifadelerin present oldugunu soyluyor ve
+# kararin dogrulugu ayrica olculebilsin diye ayri kota aldi.
+HEDEFLI_TEST = {
+    "negasyon": 20, "belirsizlik": 55, "cikarim": 20, "coklu_bulgu": 20,
+    "onceki_tetkik": 60, "coklu_olcu": 20,
 }
 
 
@@ -76,11 +104,32 @@ def hedefli_maske(sent: pd.DataFrame, ent: pd.DataFrame,
 
     neg = set(map(tuple, sent.loc[sent.text.str.contains(
         r"\bno\b|\bnot\b|\bwithout\b", case=False, regex=True), a].values))
-    bel = set(map(tuple, sent.loc[sent.text.str.contains(
-        r"\?|in favor of|suspicious|compatible with|consistent with|"
-        r"cannot be excluded|thought to be", case=False, regex=True), a].values))
+    # BELIRSIZLIK: yalnizca GERCEK belirsizlik ipuclari. Ilk surum
+    # "compatible with", "in favor of", "suspicious" iceriyordu; D29 ile
+    # bunlar PRESENT sayildigindan grup artik belirsizligi hedeflemiyordu.
+    # Ipuclari koddan degil ipucu_sozlugu.yaml'in belirsizlik bolumlerinden
+    # turetilmistir - sistemin ETIKETINDEN degil, METINDEKI IPUCUNDAN
+    # secilir; yoksa yalnizca sistemin dogru bildigi yerler sinanir.
+    # Parantez-soru dali AYRI derlenir: tek bir birlesik ham dizede yazilirken
+    # kacis karakterleri iki kez kacti ve dal OLU kaldi (korpusta 5.967 boyle
+    # cumle varken havuza yalnizca baska ipucu da tasiyan 8 tanesi giriyordu).
+    BEL_METIN = (r"cannot be excluded|could not be excluded|"
+                 r"cannot be characteri|differential")
+    BEL_PARANTEZ = r"\([^)]*\?\s*\)"
+    bel = set(map(tuple, sent.loc[
+        sent.text.str.contains(BEL_METIN, case=False, regex=True)
+        | sent.text.str.contains(BEL_PARANTEZ, regex=True), a].values))
+    # CIKARIM: D29 karari BUNLARIN present oldugunu soyluyor. Ayri grup
+    # olarak sinanir - kararin dogrulugu olculebilsin diye.
+    cik = set(map(tuple, sent.loc[sent.text.str.contains(
+        r"compatible with|consistent with|in favor of|suspicious|"
+        r"thought to be|probabl", case=False, regex=True), a].values))
+    # ONCEKI TETKIK: desen DARALTILDI. Genis desen ("previous|control|
+    # follow-up|stable|newly") cumle basina 0,36 prior veriyordu; dar desen
+    # 0,83. Genisi "stable" gibi ZAMAN BILDIRMEYEN kelimeleri de topluyordu.
     onc = set(map(tuple, sent.loc[sent.text.str.contains(
-        r"previous|control|follow-?up|stable|newly|current examination",
+        r"in the previous|on the previous|prior (?:examination|study|ct)|"
+        r"previous (?:examination|study|ct|pet)",
         case=False, regex=True), a].values))
 
     goz = ent[ent.entity_type == "observation"].groupby(a).size()
@@ -88,6 +137,7 @@ def hedefli_maske(sent: pd.DataFrame, ent: pd.DataFrame,
     cok_o = {k for k, v in meas.groupby(a).size().items() if v >= 2}
 
     return {"negasyon": neg & anahtar, "belirsizlik": bel & anahtar,
+            "cikarim": cik & anahtar,
             "onceki_tetkik": onc & anahtar, "coklu_bulgu": cok_b & anahtar,
             "coklu_olcu": cok_o & anahtar}
 
@@ -98,14 +148,14 @@ def sec(havuz: set, n: int, tohum: int) -> list:
 
 
 def kume_kur(sent: pd.DataFrame, ent: pd.DataFrame, meas: pd.DataFrame,
-             hastalar: set, n_rastgele: int, tohum: int, etiket: str) -> pd.DataFrame:
+             hastalar: set, n_rastgele: int, tohum: int, etiket: str, kota: dict) -> pd.DataFrame:
     a = ["study_id", "section", "sent_idx"]
     alt = sent[sent.patient_id.isin(hastalar)]
     gruplar = hedefli_maske(alt, ent, meas)
     havuz = set(map(tuple, alt[a].values))
 
     secilen, satir = set(), []
-    for grup, n in HEDEFLI.items():
+    for grup, n in kota.items():
         aday = gruplar[grup] - secilen
         for k in sec(aday, n, tohum + hash(grup) % 1000):
             secilen.add(k)
@@ -142,10 +192,21 @@ def main() -> None:
     print(f"test havuzu (valid - yanmis) : {len(test_h):,} hasta "
           f"(yanmis olan {len(valid_h & yanmis)} valid hastasi cikarildi)")
 
-    dev = kume_kur(sent, ent, meas, dev_h, N_DEV - sum(HEDEFLI.values()),
-                   TOHUM, "ayar")
-    test = kume_kur(sent, ent, meas, test_h, N_TEST - sum(HEDEFLI.values()),
-                    TOHUM + 7, args.surum)
+    # AYAR KUMESI DONDURULDU (2026-08-28).
+    # Disktekinden yeniden URETILMEZ, OKUNUR. Sebep: ornek yalnizca kotaya degil
+    # hedefli_maske DESENLERINE de bagli. Desenler duzeltilince (D29 sonrasi
+    # belirsizlik tanimi, dar 'onceki tetkik' deseni) ayni tohumla bile ayar
+    # kumesinin 150 cumlesinin 149'u degisiyordu - ve o cumleler iki bagimsiz
+    # isaretleyici tarafindan isaretlenmisti. Kilit bunu yakaladi.
+    ayar_yol = PROC / "task12_ayar.csv"
+    if ayar_yol.exists():
+        dev = pd.read_csv(ayar_yol, encoding="utf-8-sig")
+        print(f"ayar kumesi DISKTEN okundu (dondurulmus): {len(dev)} cumle")
+    else:
+        dev = kume_kur(sent, ent, meas, dev_h, N_DEV - sum(HEDEFLI_AYAR.values()),
+                       TOHUM, "ayar", HEDEFLI_AYAR)
+    test = kume_kur(sent, ent, meas, test_h, N_TEST_YENI - sum(HEDEFLI_TEST.values()),
+                    TOHUM + 7, args.surum, HEDEFLI_TEST)
 
     # ---------------- KORUMALAR ----------------
     h = dict(zip(reps.study_id, reps.patient_id))
@@ -170,7 +231,7 @@ def main() -> None:
           "dev=train · test=valid")
 
     # ---------------- YAZ ----------------
-    for df, ad in ((dev, "task12_ayar"), (test, f"task12_{args.surum}")):
+    for df, ad in ((test, f"task12_{args.surum}"),):
         df = df.merge(sent[["study_id", "section", "sent_idx", "text"]],
                       on=["study_id", "section", "sent_idx"], how="left")
         for k in ("assertion_dogru", "temporality_dogru", "change_type_dogru", "not"):
