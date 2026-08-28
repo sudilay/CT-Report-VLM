@@ -54,3 +54,7 @@ docs/04_uygulama_gunlugu.md
 
 # Ucuncu taraf kaynaklar - indirilebilir, atif yeterli
 data/external/
+
+# Kurum ici kaynak belgeler - depoya girmez, atif yeterli
+*.docx
+~$*.xlsx
