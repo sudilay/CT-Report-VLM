@@ -214,6 +214,14 @@ Ayırt etme yolu: cümlede o yapıda **aranan bir bulgu** var mı? Varsa yer
 ⚠ Bu kural **belirsizlik** için de geçerlidir:
 *"A nodule that cannot be characterized **in the liver**"* → `liver` **mevcut**.
 
+**Cümle başındaki `?` veya `??` işaretini yok say.** Biçim artığıdır, belirsizlik
+ifadesi değildir. Korpusta 479.051 cümlenin yalnızca 20'sinde geçiyor.
+
+> *"?? Minimal atelectatic changes in the basal segment..."* → `atelectasis` **mevcut**
+
+Belirsizlik yalnızca **parantez içi** soru işaretinden gelir: *"(cyst?)"*.
+
+
 **Üç kural, ezberle:**
 
 **1.** *"cannot be excluded"* → **belirsiz**. İçinde *"not"* var diye `yok` deme.

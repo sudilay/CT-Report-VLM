@@ -29,8 +29,13 @@ P = ROOT / "data" / "processed"
 K = ["study_id", "section", "sent_idx", "aday_metin", "aday_kavram"]
 
 # Kapsam kurucu ifadeler: bu cumlelerdeki anatomi adaylari etkilenmis olabilir.
+# TUR-2 GENISLETMESI: ilk surum YALNIZCA negasyon kaliplarini yakaliyordu ve
+# BELIRSIZLIK kapsamindaki anatomiyi disarida birakti. Oysa D28 her ikisi icin
+# de gecerli: "(cyst?)" iceren cumlede de 'liver' MEVCUTtur. Iki isaretleyici
+# tam bu satirlarda ayrisiyordu, cunku kural onlara sorulmamisti.
 KAPSAM = re.compile(
-    r"\bno\b|\bnot\b|absence|without|could not|cannot be|free of|negative for",
+    r"\bno\b|\bnot\b|absence|without|could not|cannot be|free of|negative for"
+    r"|\([^)]*\?\s*\)|cannot be characteri|differential|nonspecific",
     re.I)
 
 ISARETLEYICILER = ("codex", "gemini")
@@ -57,6 +62,22 @@ def main() -> None:
         etkilenen = etkilenen.drop(columns=["_gizli_sahte", "_sahte"])
 
         cikti = P / f"YENIDEN_{m}.csv"
+
+        # GUVENLIK KILIDI (2026-08-28 kaybindan sonra eklendi):
+        # Bu script bir kez DOLDURULMUS YENIDEN_*.csv'nin uzerine yazdi ve
+        # tamamlanmis 75 satirlik yeniden yargilamayi sildi. Sonuclar onceden
+        # hesaplanmisti ama dosyalar gitti; isaretleme yeniden istendi.
+        # Bir daha olmasin diye: dolu dosyanin uzerine YAZILMAZ.
+        if cikti.exists():
+            var = pd.read_csv(cikti, encoding="utf-8-sig")
+            if ("kesinlik_ne_olmali" in var.columns
+                    and var.kesinlik_ne_olmali.notna().any()):
+                sys.exit(
+                    f"DURDU: {cikti.name} DOLU ({int(var.kesinlik_ne_olmali.notna().sum())} "
+                    f"cevap). Uzerine yazilmadi.\n"
+                    f"Yeni tur icin once dosyayi baska ada tasi:\n"
+                    f"  mv {cikti.name} {cikti.stem}_tur1.csv")
+
         etkilenen.to_csv(cikti, index=False, encoding="utf-8-sig")
 
         onc = etkilenen._onceki_cevap.astype(str).str.strip().str.lower()
