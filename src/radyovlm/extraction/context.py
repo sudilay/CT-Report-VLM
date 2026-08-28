@@ -20,6 +20,7 @@ KARAR ONCELIGI (bolum 6, plan):
   1. cannot be excluded ailesi kapsiyorsa -> uncertain
   2. negasyon ipucu kapsiyorsa            -> absent
   3. belirsizlik ipucu kapsiyorsa         -> uncertain
+  4. cikarim ifadesi kapsiyorsa           -> present (ipucu kaydedilir)
   4. hicbiri                              -> present
 
   Teknik cekince bu listede YOKTUR: hicbir varliga 'absent' yazdirmaz, yalnizca
@@ -37,10 +38,13 @@ import yaml
 ROOT = Path(__file__).resolve().parents[3]
 SOZLUK = ROOT / "configs" / "ipucu_sozlugu.yaml"
 
-CONTEXT_VERSION = "ctx-1.0"
+CONTEXT_VERSION = "ctx-1.1"
 
 # 'increase' gibi ifadeler icin ACIK zamansal referans sarti (plan 4.11).
 # Olculdu: increas* 25.522 cumlede ama yalnizca %3,4'unde zamansal referans var.
+# Konum edati: ardindaki anatomi BAKILAN YERDIR, olumsuzlanan sey degil.
+KONUM_EDATI_ONCE = re.compile(r"\b(?:in|within|at|on|into|inside)\b", re.I)
+
 ZAMANSAL_REFERANS = re.compile(
     r"\bprevious(?:ly)?\b|\bprior\b|\bformer\b|\bcontrol\b|follow-?up|"
     r"compared (?:to|with)|current examination|old (?:CT|examination)|"
@@ -132,6 +136,44 @@ def _ortusen(a: Bulunan, b: Bulunan) -> bool:
     return a.bas < b.son and b.bas < a.son
 
 
+def _tip(v: dict) -> str:
+    """Varlik tipini esnek okur - sozluk nesnesi veya duz alan."""
+    if "tip" in v:
+        return v["tip"]
+    k = v.get("kavram")
+    return getattr(k, "tip", "") if k is not None else ""
+
+
+def _anatomi_korunur(metin: str, kapsam: "Bulunan", v: dict,
+                     varliklar: list[dict]) -> bool:
+    """Bu ANATOMI varligi olumsuzlamadan/belirsizlikten KORUNMALI mi?
+
+    PILOT BULGUSU (2026-08-28): negasyon anatomiye siciriyordu.
+      "No mass was detected in both LUNGS." -> akcigerler DURUYOR; yok olan KITLE.
+    Olculdu: 177.922 anatomi 'absent', 24.416 'uncertain' - tum varliklarin %17,1'i.
+    RadGraph tasariminda da ANAT-DP ayri etikettir; olumsuz cumledeki anatomi yine
+    DP'dir. ANAT-DA yalnizca anatominin GERCEKTEN yok oldugu durumdur
+    ("The right breast was not observed secondary to the operation").
+
+    Iki korunma kosulu (biri yeterse korunur):
+      1. Kapsamda bir GOZLEM/niteleyici de var -> olumsuzlanan odur, anatomi degil
+         "Pleural effusion-thickening was not detected" -> plevra DURUYOR
+      2. Anatomi bir KONUM EDATININ ardinda -> bakilan yerdir
+         "no lymph nodes are observed IN THE mediastinum" -> mediasten DURUYOR
+
+    Ikisi de yoksa anatomi olumsuzlanabilir - gercekten yok olma durumu.
+    """
+    if _tip(v) != "anatomy":
+        return False
+    # 1. kapsamda gozlem/niteleyici/cihaz var mi
+    for x in varliklar:
+        if _tip(x) in ("observation", "qualifier", "device") and                 kapsam.kapsiyor(x["bas"], x["son"]):
+            return True
+    # 2. kapsam basindan varliga kadar konum edati var mi
+    onceki = metin[max(kapsam.kapsam_bas, 0):v["bas"]]
+    return bool(KONUM_EDATI_ONCE.search(onceki))
+
+
 def _teknik_kapsaminda(b: Bulunan, teknikler: list[Bulunan]) -> bool:
     """Bir negasyon ipucu bir teknik cekince ifadesinin ICINDE mi.
 
@@ -157,6 +199,11 @@ def kesinlik_ata(metin: str, varliklar: list[dict], ipuclari: list[Ipucu],
                 and not any(_ortusen(b, s) for s in sahte)
                 and not any(_ortusen(b, o) for o in oncelikli)]
     belirsiz = [b for b in bulunan if b.ipucu.bolum == "belirsizlik"]
+    # CIKARIM IFADESI (ctx-1.1): 'ile uyumlu', 'lehine', 'supheli', 'olasilikla'
+    # ALAN SOZLUGU BELGESI §12.2 bunlari PRESENT sayar - bulgu vardir, yalnizca
+    # dayanagi cikarimdir. ctx-1.0'da belirsizlik altindaydilar ve 20.587 varligi
+    # yanlislikla uncertain yapiyorlardi. Ipucu kaydedilir, sonuc present kalir.
+    cikarim = [b for b in bulunan if b.ipucu.bolum == "cikarim_ifadesi"]
 
     out = []
     for v in varliklar:
@@ -175,13 +222,22 @@ def kesinlik_ata(metin: str, varliklar: list[dict], ipuclari: list[Ipucu],
                         continue
                 elif not k.kapsiyor(b, s):
                     continue
+                if _anatomi_korunur(metin, k, v, varliklar):
+                    continue          # anatomi bakilan yerdir, olumsuzlanan degil
                 kaynak, kural = k, f"negasyon_{k.ipucu.yon}"
                 sonuc = "absent"
                 break
         if kaynak is None:
             for k in belirsiz:
                 if k.kapsiyor(b, s):
+                    if _anatomi_korunur(metin, k, v, varliklar):
+                        continue
                     kaynak, kural, sonuc = k, "belirsizlik", "uncertain"
+                    break
+        if kaynak is None:
+            for k in cikarim:
+                if k.kapsiyor(b, s):
+                    kaynak, kural, sonuc = k, "cikarim", "present"
                     break
 
         out.append({**v, "assertion": sonuc,

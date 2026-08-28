@@ -58,7 +58,8 @@ def main() -> None:
         cb = cumle_bas[k]
 
         if varlik_df is not None:
-            vs = [{"id": r.entity_id, "bas": r.char_start - cb, "son": r.char_end - cb}
+            vs = [{"id": r.entity_id, "bas": r.char_start - cb,
+                   "son": r.char_end - cb, "tip": r.entity_type}
                   for r in varlik_df.itertuples(index=False)]
             for x in C.zaman_ata(metin, C.kesinlik_ata(metin, vs, ipuclari,
                                                        sonlandirici),

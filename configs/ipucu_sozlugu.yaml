@@ -157,10 +157,51 @@ belirsizlik:
     korpus: 5505
     not: "KORPUSA OZGU. Soru isaretlerinin %70'i parantez icinde: '(cyst?)'.
           Hicbir standart belirsizlik sozlugunde yoktur."
+  ayirici_tani:
+    desenler: ["differential diagnos[ei]s", "\\bdifferential\\b"]
+    korpus: 1957
+
+# =====================================================================
+# 6-B. CIKARIM IFADESI - 'present' uretir, BELIRSIZ DEGIL
+# =====================================================================
+# ALAN SOZLUGU BELGESI §12.2 BAGLAYICI:
+#   'ile uyumludur'          -> present
+#   'lehine degerlendirilmistir' -> present
+#   'supheli'                -> present (+ suspicious_appearing bayragi)
+#   'olasilikla', 'muhtemel' -> present (orta-yuksek certainty)
+# Ilk surumde bunlar 'belirsizlik' altindaydi ve 20.587 varligi yanlislikla
+# 'uncertain' yapiyordu - belirsiz isaretlenenlerin %70'i. Pilot bunu
+# ortaya cikardi. Ipucu KAYDEDILIR (assertion_cue), yalnizca sonuc present.
+cikarim_ifadesi:
+  uyumlu:
+    desenler: ["compatible with", "consistent with", "in keeping with"]
+    korpus: 12219
+
   lehine:
     desenler: ["in favor of", "evaluated (?:primarily )?in favor of"]
     korpus: 7910
     not: "Turkce '...lehine degerlendirilmistir'. Standart listelerde yok."
+
+  supheli:
+    desenler: ["suspicious", "suspected", "suspect"]
+    korpus: 2278
+
+  oncelikle:
+    desenler: ["\\bprimarily\\b", "most likely", "\\blikely\\b"]
+    korpus: 2351
+
+  olasilik:
+    desenler: ["\\bpossibl[ey]\\b", "\\bprobabl[ey]\\b", "\\bmight\\b"]
+    korpus: 1059
+
+  dusunuldu:
+    desenler: ["thought to be", "considered (?:to be|as)", "may (?:be|represent)"]
+    korpus: 3961
+
+  ikincil:
+    desenler: ["secondary to"]
+    korpus: 2950
+
   degerlendirildi_kalip:
     desenler: ["evaluated as", "evaluated (?:to be )?(?:compatible|consistent) with"]
     korpus: 3825
@@ -168,27 +209,7 @@ belirsizlik:
           bunlarin 3.667'si 'recommended to be evaluated' (ONERI),
           4.206'si 'cannot be evaluated' (TEKNIK), 1.686'si notr.
           Ciplak bicim alinsaydi ~15.000 cumle yanlis 'uncertain' olurdu."
-  uyumlu:
-    desenler: ["compatible with", "consistent with", "in keeping with"]
-    korpus: 12219
-  supheli:
-    desenler: ["suspicious", "suspected", "suspect"]
-    korpus: 2278
-  oncelikle:
-    desenler: ["\\bprimarily\\b", "most likely", "\\blikely\\b"]
-    korpus: 2351
-  ayirici_tani:
-    desenler: ["differential diagnos[ei]s", "\\bdifferential\\b"]
-    korpus: 1957
-  dusunuldu:
-    desenler: ["thought to be", "considered (?:to be|as)", "may (?:be|represent)"]
-    korpus: 3961
-  olasilik:
-    desenler: ["\\bpossibl[ey]\\b", "\\bprobabl[ey]\\b", "\\bmight\\b"]
-    korpus: 1059
-  ikincil:
-    desenler: ["secondary to"]
-    korpus: 2950
+
   onerir:
     desenler: ["suggest\\w*"]
     korpus: 519

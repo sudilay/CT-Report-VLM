@@ -269,3 +269,122 @@ def test_korpus_sema_dogrulamasindan_gecer(ent):
 
 def test_korpus_surum_kaydedilmis(ent):
     assert ent.context_version.nunique() == 1
+
+
+# =====================================================================
+# 4. ANATOMI KORUMASI — pilot bulgusu (2026-08-28)
+# =====================================================================
+# Negasyon/belirsizlik ANATOMIYE siciriyordu. Olculdu: 177.922 anatomi 'absent',
+# 24.416 'uncertain' = tum varliklarin %17,1'i. Pilot isaretlemede anatomi hata
+# orani %43 iken gozlemlerde %6 idi - hata tamamen anatomideydi.
+
+def _t(motor, metin):
+    r = motor(metin)
+    return {x["kavram"].ad: x["assertion"] for x in r}
+
+
+def test_anatomi_negasyondan_korunur_gozlem_varken(motor):
+    """'No mass was detected in both LUNGS' -> akcigerler DURUYOR, yok olan KITLE."""
+    d = _t(motor, "No mass or infiltrative lesion was detected in both lungs.")
+    assert d["mass"] == "absent"
+    assert d["lung"] == "present"
+
+
+def test_sifat_anatomi_korunur(motor):
+    """'Pleural effusion-thickening was not detected' -> plevra DURUYOR."""
+    d = _t(motor, "Pleural effusion-thickening was not detected.")
+    assert d["effusion_thickening"] == "absent"
+    assert d["pleura"] == "present"
+
+
+def test_lenf_istasyonlari_korunur(motor):
+    d = _t(motor, "No enlarged lymph nodes in prevascular, pre-paratracheal, "
+                  "subcarinal areas were detected.")
+    assert d["enlarged_lymph_node"] == "absent"
+    for st in ("station_prevascular", "station_paratracheal", "station_subcarinal"):
+        assert d[st] == "present", f"{st} korunmali"
+
+
+def test_konum_edati_ardindaki_anatomi_korunur(motor):
+    """Kapsamda gozlem YOK ama anatomi konum edatinin ardinda -> korunur."""
+    d = _t(motor, "No lymph nodes are observed in the mediastinum.")
+    assert d["lymph_node"] == "absent"      # olumsuzlanan bas
+    assert d["mediastinum"] == "present"    # bakilan yer
+
+
+def test_gercekten_yok_olan_anatomi_absent_kalir(motor):
+    """Koruma her anatomiyi kurtarmamali - ameliyatla alinmis yapi GERCEKTEN yok.
+    Ne kapsamda gozlem var ne de konum edati."""
+    d = _t(motor, "The right breast was not observed secondary to the operation.")
+    assert d["breast"] == "absent"
+
+
+def test_belirsizlik_de_anatomiye_sicramaz(motor):
+    """'(cyst?)' belirsizligi karacigere gecmez - karaciger KESIN var."""
+    d = _t(motor, "Stable hypodense lesion (cyst?) in the right lobe of the liver.")
+    assert d["cyst"] == "uncertain"
+    assert d["liver"] == "present"
+
+
+def test_gozlem_hala_dogru_olumsuzlaniyor(motor):
+    """Koruma gozlemleri etkilememeli."""
+    d = _t(motor, "There is no obstructive pathology in the trachea and both main bronchi.")
+    assert d["occlusive_pathology"] == "absent"
+    assert d["trachea"] == "present"
+    assert d["bronchus"] == "present"
+
+
+# ===================================================================
+# ctx-1.1 - CIKARIM IFADESI 'present' uretir, 'uncertain' degil
+# ===================================================================
+# PILOT BULGUSU (2026-08-28): 'ile uyumlu' / 'lehine' / 'supheli' ctx-1.0'da
+# belirsizlik altindaydi ve 20.587 varligi (belirsizlerin %70'i) yanlislikla
+# uncertain yapiyordu. ALAN SOZLUGU BELGESI §12.2 bunlari PRESENT sayar:
+# bulgu vardir, yalnizca dayanagi cikarimdir. Ipucu KAYDEDILIR.
+
+def _ck_kes(metin, varliklar):
+    ip, son = C.ipuclarini_kur()
+    return C.kesinlik_ata(metin, varliklar, ip, son)
+
+
+def _ck_v(metin, kelime, tip="observation"):
+    b = metin.index(kelime)
+    return {"bas": b, "son": b + len(kelime), "tip": tip}
+
+
+@pytest.mark.parametrize("metin,kelime", [
+    ("Findings compatible with pneumonia are observed in the right lung.", "pneumonia"),
+    ("Appearance consistent with emphysema in both lungs.", "emphysema"),
+    ("Evaluated in favor of a benign nodule.", "nodule"),
+    ("A suspicious mass is observed in the left upper lobe.", "mass"),
+    ("The lesion is probably a hemangioma.", "hemangioma"),
+    ("It is thought to be a sequela of infection.", "infection"),
+])
+def test_cikarim_ifadesi_present_uretir(metin, kelime):
+    """Belge §12.2: cikarim ifadeleri bulguyu MEVCUT sayar."""
+    r = _ck_kes(metin, [_ck_v(metin, kelime)])[0]
+    assert r["assertion"] == "present", (kelime, r["assertion_rule"])
+
+
+def test_cikarim_ipucusu_kaydedilir():
+    """Sonuc present olsa da hangi ifadeden geldigi izlenebilir kalmali -
+    ileride 'certainty' alani eklenirse bu kayit olmadan geri uretilemez."""
+    m = "Findings compatible with pneumonia are observed."
+    r = _ck_kes(m, [_ck_v(m, "pneumonia")])[0]
+    assert r["assertion_rule"].startswith("cikarim:")
+    assert r["assertion_cue"]
+
+
+def test_negasyon_cikarimi_yener():
+    """'X ile uyumlu bulgu YOK' -> absent. Cikarim negasyonu ezmemeli."""
+    m = "No findings compatible with pneumonia were detected in the lungs."
+    r = _ck_kes(m, [_ck_v(m, "pneumonia")])[0]
+    assert r["assertion"] == "absent", r["assertion_rule"]
+
+
+def test_gercek_belirsizlik_cikarimdan_etkilenmez():
+    """'dislanamaz' ve parantez-soru hâlâ uncertain kalmali."""
+    m1 = "Malignancy cannot be excluded for the nodule."
+    assert _ck_kes(m1, [_ck_v(m1, "nodule")])[0]["assertion"] == "uncertain"
+    m2 = "A hypodense area (cyst?) is seen in the liver."
+    assert _ck_kes(m2, [_ck_v(m2, "cyst")])[0]["assertion"] == "uncertain"
