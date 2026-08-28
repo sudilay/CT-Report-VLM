@@ -486,3 +486,33 @@ kavramlar:
 #   SONUC: KORUNUYOR. Bilinen sinir olarak kayda gecti - span dar, cogu
 #   yerde fazlalik, ama %8'de tasiyici. Isaretleyici itirazi span estetigi
 #   hakkindadir, bilgi kaybi hakkinda degil.
+
+# =====================================================================
+# TARTISMALI KAVRAM KARARLARI (olculerek, 2026-08-28) - DONDURMA ONCESI
+# =====================================================================
+# Iki bagimsiz isaretleyicinin K4 farkinin (%99 vs %86) kaynagi dort kavramdi.
+# Bunlar KURAL BOSLUGU DEGIL, span/granulerlik tartismasiydi. Dondurmadan once
+# dordu de olculdu; hicbiri degistirilmedi, hepsinin gerekcesi asagida.
+#
+# 1) pneumonia <- "pneumonic infiltration"        3.533 anma
+#    KORUNUYOR. Pnomonik infiltrasyon pnomoninin radyolojik bulgusudur; ayri
+#    kavram olarak tutmak klinik olarak yanlis ayrim yaratirdi. CIFT SAYIM YOK:
+#    ayni cumlede ayrica 'infiltration' kavrami yalnizca 7 kez esliyor.
+#
+# 2) abdomen <- "upper abdominal"                 21.082 / 29.072 anma (%72)
+#    KORUNUYOR. Toraks BT'de goruntulenen abdomen ZATEN ust abdomendir; ayrim
+#    bu korpusta bos bir ayrimdir. KAPSAMA BAGLI karardir: korpus toraks disina
+#    genisletilirse yeniden degerlendirilmeli.
+#
+# 3) density <- "densities/opacities"             19.334 anma
+#    KORUNUYOR. Ayrisma ilkelidir: "X density" kaliplari niteleyici + gozlem
+#    olarak COZULUR, bilgi kaybolmaz:
+#      "ground glass densities" -> qualifier(ground_glass) + observation(density)
+#      "nodular densities"      -> observation(nodular_lesion)   [bilesik kavram]
+#      "soft tissue densities"  -> observation(soft_tissue_density)  [AYRILDI]
+#    soft_tissue AYRILDI cunku 'soft tissue' bizde ANATOMIDIR; ayrilmasaydi
+#    "yumusak dokuda dansite" gibi YANLIS bir ayrisma uretirdi. ground_glass
+#    ise niteleyici oldugu icin ayrisma dogrudur.
+#
+# 4) anatomic_segment <- "segments?"              25.627 anma
+#    KORUNUYOR - gerekcesi yukarida ayrica yazili.
