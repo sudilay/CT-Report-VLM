@@ -95,6 +95,34 @@ Kaynak: alan sözlüğü belgesi §12.2 eşleme tablosu.
 | Lehine | *"lehine değerlendirilmiştir"*, *"in favor of"* | **mevcut** |
 | Düz beyan | *"nodül izlenmektedir"* | **mevcut** |
 
+### ⚠ En kritik kural — anatomi olumsuzlanmaz
+
+**Bir bulgu bir YERDE yoksa, o YER hâlâ mevcuttur.** Olumsuzlanan bulgudur,
+bulgunun arandığı yer değil.
+
+> *"**No** mass was observed **in both lungs**."*
+> `mass` → **yok** · `lungs` → **mevcut**   ← akciğerler yerinde duruyor
+
+> *"**No** pathologically enlarged lymph nodes were detected **in the mediastinum**."*
+> `enlarged lymph node` → **yok** · `mediastinum` → **mevcut**
+
+Ölçüt basit: **cümle o yapının yokluğunu mu söylüyor, yoksa orada bir şey
+bulunmadığını mı?** İkincisi ise yapı `mevcut`tur.
+
+**İstisna — yapı gerçekten yoksa `yok` yazılır:**
+
+> *"The right breast was **not observed** secondary to the **operation**."*
+> `breast` → **yok**   ← meme ameliyatla alınmış, gerçekten orada değil
+
+> *"**Status post** left nephrectomy."*
+> `kidney` → **yok**
+
+Ayırt etme yolu: cümlede o yapıda **aranan bir bulgu** var mı? Varsa yer
+`mevcut`tur. Yoksa ve yapının kendisi kayıpsa `yok`tur.
+
+⚠ Bu kural **belirsizlik** için de geçerlidir:
+*"A nodule that cannot be characterized **in the liver**"* → `liver` **mevcut**.
+
 ### ⚠ Üç kritik kural
 
 **Kural 1 — "dışlanamaz" `belirsiz`dir, `yok` değildir.**
