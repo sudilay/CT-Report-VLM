@@ -1,18 +1,28 @@
 {
-  "schema_version": "sema-1.2",
+  "schema_version": "sema-1.3",
   "olusturma_tarihi": "2026-08-26",
   "gorev": "TASK-10",
   "aciklama": "Faz 2 yapilandirilmis cikarim semasi. Varlik ve iliski tablolarinin kolon tanimlari, kontrollu deger kumeleri ve otomatik dogrulama kurallari. Gerekce: docs/06_sema_gerekce.md",
-
   "temel_alinan": {
     "kaynak": "RadGraph-XL (Delbrouck et al., ACL Findings 2024)",
     "dogrulandi": "2026-08-26 · physionet.org/content/radgraph-xl/1.0.0 ve aclanthology.org/2024.findings-acl.765",
     "kapsam": "gogus BT · abdomen/pelvis BT · beyin MR · gogus rontgeni",
-    "radgraph_varlik_etiketleri": ["ANAT-DP", "ANAT-DA", "ANAT-U", "OBS-DP", "OBS-DA", "OBS-U", "MEAS"],
-    "radgraph_iliskileri": ["modify", "located_at", "suggestive_of"],
+    "radgraph_varlik_etiketleri": [
+      "ANAT-DP",
+      "ANAT-DA",
+      "ANAT-U",
+      "OBS-DP",
+      "OBS-DA",
+      "OBS-U",
+      "MEAS"
+    ],
+    "radgraph_iliskileri": [
+      "modify",
+      "located_at",
+      "suggestive_of"
+    ],
     "not": "Degisim/zamansallik RadGraph-XL'de YOKTUR; RadGraph2'nin (Khanna et al., PMLR 219, 2023) katkisidir. Bu semada degisim ekseni ayri alanla karsilanir."
   },
-
   "sapmalar": [
     {
       "ne": "Kesinlik (assertion) varlik etiketine gomulmez, AYRI ALANDA tutulur",
@@ -47,57 +57,100 @@
       "geri_donusum": "RadGraph-XL formatina cevrilirken bu bilgi dusdurulur"
     }
   ],
-
   "varlik_tipleri": {
     "observation": {
       "aciklama": "Radyolojik gozlem veya bulgu",
-      "ornek": ["nodule", "effusion", "atelectasis", "thickening", "consolidation"],
+      "ornek": [
+        "nodule",
+        "effusion",
+        "atelectasis",
+        "thickening",
+        "consolidation"
+      ],
       "radgraph": "OBS"
     },
     "anatomy": {
       "aciklama": "Anatomik yapi veya bolge",
-      "ornek": ["upper lobe", "mediastinum", "aorta", "pleura", "liver"],
+      "ornek": [
+        "upper lobe",
+        "mediastinum",
+        "aorta",
+        "pleura",
+        "liver"
+      ],
       "radgraph": "ANAT"
     },
     "qualifier": {
       "aciklama": "Gozlemi veya anatomiyi niteleyen ozellik",
-      "ornek": ["spiculated", "ground-glass", "calcific", "irregular", "sequela"],
+      "ornek": [
+        "spiculated",
+        "ground-glass",
+        "calcific",
+        "irregular",
+        "sequela"
+      ],
       "radgraph": "OBS"
     },
     "device": {
       "aciklama": "Tibbi cihaz, implant veya girisim izi",
-      "ornek": ["catheter", "stent", "pacemaker", "surgical clip"],
+      "ornek": [
+        "catheter",
+        "stent",
+        "pacemaker",
+        "surgical clip"
+      ],
       "radgraph": "OBS"
     }
   },
-
   "kontrollu_degerler": {
     "assertion": {
       "aciklama": "Varligin metinde nasil ileri suruldugu. TASK-12 doldurur.",
       "varsayilan": "not_processed",
-      "degerler": ["not_processed", "present", "absent", "uncertain"],
+      "degerler": [
+        "not_processed",
+        "present",
+        "absent",
+        "uncertain"
+      ],
       "uyari": "TASK-12 kosmadan ONCE deger 'not_processed' olmalidir. sema-1.0'da varsayilan 'present' idi; TASK-11 tum varliklara 'present' yazdi ve negasyon ipuclu cumlelerdeki 426.099 anma da 'mevcut' gorundu. Bu sessizce yanlis veriydi. 'uncertain' bu amacla KULLANILAMAZ - o KLINIK belirsizlik demektir, islenmemislik degil.",
       "surum_notu": "sema-1.1'de 'not_processed' eklendi ve varsayilan yapildi. sema-1.2'de assertion_cue/assertion_rule izlenebilirlik alanlari eklendi (TASK-12)."
     },
     "temporality": {
       "aciklama": "Varlik bu tetkike mi yoksa onceki bir tetkike mi ait. TASK-12 doldurur.",
       "varsayilan": "unknown",
-      "degerler": ["current", "prior", "unknown"],
+      "degerler": [
+        "current",
+        "prior",
+        "unknown"
+      ],
       "uyari": "TASK-12 kosmadan ONCE deger 'unknown' olmalidir. sema-1.0'da varsayilan 'current' idi."
     },
     "change_type": {
       "aciklama": "Onceki tetkike gore bildirilen degisim. TASK-12 doldurur. UYARI: klinik yorum DEGILDIR (D17).",
       "varsayilan": "none",
-      "degerler": ["none", "stable", "new", "increased", "decreased", "resolved", "unknown"]
+      "degerler": [
+        "none",
+        "stable",
+        "new",
+        "increased",
+        "decreased",
+        "resolved",
+        "unknown"
+      ]
     },
     "laterality": {
       "aciklama": "Taraf. D3'te normalizasyon sirasinda bilerek korundu.",
       "varsayilan": null,
-      "degerler": ["right", "left", "bilateral", "midline", null],
+      "degerler": [
+        "right",
+        "left",
+        "bilateral",
+        "midline",
+        null
+      ],
       "korpus_notu": "'both' 95.616 cumlede, 'bilateral' 32.789 cumlede geciyor. Turkce 'her iki'nin cevirisi 'both'; sozluk bunu bilateral'e eslemelidir."
     }
   },
-
   "niteleyici_gruplari": {
     "_not": "korpus_destegi degerleri 2026-08-26'da 479.051 cumle uzerinde OLCULDU. Sifir veya seyrek destekli deger uydurulmadi; olcum sonucu asagida acikca yaziyor.",
     "margin": {
@@ -149,7 +202,8 @@
         "apical": 5757,
         "peripheral": 4374,
         "basal": 3836,
-        "central": 3240
+        "central": 3240,
+        "laterobasal": 1958
       },
       "olculup_alinmayan": {
         "perifissural": 7
@@ -180,42 +234,65 @@
       "uyari": "OLCULDU: bu eksen korpusta PRATIK OLARAK YOK. 'popcorn kalsifikasyon' sifir cumlede geciyor. Faz 3'un benign gosterge sozlugu kalsifikasyon paternine dayanamaz; yalnizca 'kalsifiye mi' (density.calcific, 17.193) sorusu cevaplanabilir."
     }
   },
-
   "iliski_tipleri": {
     "located_at": {
       "aciklama": "Gozlem hangi anatomik bolgede",
-      "head": ["observation", "device"],
-      "tail": ["anatomy"],
+      "head": [
+        "observation",
+        "device"
+      ],
+      "tail": [
+        "anatomy"
+      ],
       "radgraph": "located_at"
     },
     "modify": {
       "aciklama": "Niteleyici hangi varligi niteliyor",
-      "head": ["qualifier"],
-      "tail": ["observation", "anatomy", "device"],
+      "head": [
+        "qualifier"
+      ],
+      "tail": [
+        "observation",
+        "anatomy",
+        "device"
+      ],
       "radgraph": "modify"
     },
     "suggestive_of": {
       "aciklama": "Bir gozlemden cikarilan baska bir gozlem",
-      "head": ["observation"],
-      "tail": ["observation"],
+      "head": [
+        "observation"
+      ],
+      "tail": [
+        "observation"
+      ],
       "radgraph": "suggestive_of",
       "korpus_notu": "Bu korpusta cikarim dili cevirilidir: 'in favor of' 8.428 · 'compatible with' 7.067 · 'consistent with' 5.985 · 'evaluated' 26.020."
     },
     "measured_by": {
       "aciklama": "Varligin olcusu",
-      "head": ["observation", "anatomy", "device"],
-      "tail": ["measurement"],
+      "head": [
+        "observation",
+        "anatomy",
+        "device"
+      ],
+      "tail": [
+        "measurement"
+      ],
       "radgraph": "modify",
       "korpus_notu": "tail=anatomy hali ONEMLIDIR: olcu iceren 10.627 cumlede lezyon adi yok, olcu dogrudan organa ait (aort capi, trakea, tiroid, kalp). Ayri varlik tipi yerine anatomiye baglanarak cozulur."
     },
     "change_of": {
       "aciklama": "Guncel gozlemin onceki tetkikteki karsiligi",
-      "head": ["observation"],
-      "tail": ["observation"],
+      "head": [
+        "observation"
+      ],
+      "tail": [
+        "observation"
+      ],
       "radgraph": null
     }
   },
-
   "baglama_kurallari": {
     "aciklama": "D18: her iliskinin hangi kuralla kuruldugu kaydedilir. Tahmine dayali bag SESSIZCE kurulmaz.",
     "degerler": {
@@ -232,58 +309,204 @@
       "aday_yok": "Cumlede baglanabilecek hicbir varlik yoktu - unresolved_attachments'a yazildi"
     }
   },
-
   "tablolar": {
     "entities": {
       "dosya": "data/processed/entities.parquet",
       "birim": "1 satir = metinde 1 varlik ANMASI",
       "kolonlar": {
-        "entity_id":              {"tip": "str",  "bos_olabilir": false, "tekil": true},
-        "study_id":               {"tip": "str",  "bos_olabilir": false},
-        "section":                {"tip": "str",  "bos_olabilir": false, "degerler": ["findings", "impression"]},
-        "sent_idx":               {"tip": "int",  "bos_olabilir": false},
-        "char_start":             {"tip": "int",  "bos_olabilir": false},
-        "char_end":               {"tip": "int",  "bos_olabilir": false},
-        "raw_text":               {"tip": "str",  "bos_olabilir": false},
-        "entity_type":            {"tip": "str",  "bos_olabilir": false, "kume": "varlik_tipleri"},
-        "qualifier_group":        {"tip": "str",  "bos_olabilir": true,  "kume": "niteleyici_gruplari"},
-        "normalized_concept":     {"tip": "str",  "bos_olabilir": true},
-        "concept_source":         {"tip": "str",  "bos_olabilir": true,  "degerler": ["radlex", "yerel_sozluk", null]},
-        "laterality":             {"tip": "str",  "bos_olabilir": true,  "kume": "kontrollu_degerler.laterality"},
-        "assertion":              {"tip": "str",  "bos_olabilir": false, "kume": "kontrollu_degerler.assertion"},
-        "assertion_cue":          {"tip": "str",  "bos_olabilir": true},
-        "assertion_rule":         {"tip": "str",  "bos_olabilir": false},
-        "temporality":            {"tip": "str",  "bos_olabilir": false, "kume": "kontrollu_degerler.temporality"},
-        "temporality_cue":        {"tip": "str",  "bos_olabilir": true},
-        "temporality_rule":       {"tip": "str",  "bos_olabilir": false},
-        "change_type":            {"tip": "str",  "bos_olabilir": false, "kume": "kontrollu_degerler.change_type"},
-        "change_cue":             {"tip": "str",  "bos_olabilir": true},
-        "change_rule":            {"tip": "str",  "bos_olabilir": false},
-        "context_version":        {"tip": "str",  "bos_olabilir": false},
-        "mentioned_in_findings":  {"tip": "bool", "bos_olabilir": false},
-        "mentioned_in_impression":{"tip": "bool", "bos_olabilir": false},
-        "promoted_to_impression": {"tip": "bool", "bos_olabilir": false},
-        "extraction_rule":        {"tip": "str",  "bos_olabilir": false},
-        "segmentation_version":   {"tip": "str",  "bos_olabilir": false},
-        "template_version":       {"tip": "str",  "bos_olabilir": false},
-        "entity_version":         {"tip": "str",  "bos_olabilir": false}
+        "entity_id": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "tekil": true
+        },
+        "study_id": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "section": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "degerler": [
+            "findings",
+            "impression"
+          ]
+        },
+        "sent_idx": {
+          "tip": "int",
+          "bos_olabilir": false
+        },
+        "char_start": {
+          "tip": "int",
+          "bos_olabilir": false
+        },
+        "char_end": {
+          "tip": "int",
+          "bos_olabilir": false
+        },
+        "raw_text": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "entity_type": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "varlik_tipleri"
+        },
+        "qualifier_group": {
+          "tip": "str",
+          "bos_olabilir": true,
+          "kume": "niteleyici_gruplari"
+        },
+        "normalized_concept": {
+          "tip": "str",
+          "bos_olabilir": true
+        },
+        "concept_source": {
+          "tip": "str",
+          "bos_olabilir": true,
+          "degerler": [
+            "radlex",
+            "yerel_sozluk",
+            null
+          ]
+        },
+        "laterality": {
+          "tip": "str",
+          "bos_olabilir": true,
+          "kume": "kontrollu_degerler.laterality"
+        },
+        "assertion": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "kontrollu_degerler.assertion"
+        },
+        "assertion_cue": {
+          "tip": "str",
+          "bos_olabilir": true
+        },
+        "assertion_rule": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "temporality": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "kontrollu_degerler.temporality"
+        },
+        "temporality_cue": {
+          "tip": "str",
+          "bos_olabilir": true
+        },
+        "temporality_rule": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "change_type": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "kontrollu_degerler.change_type"
+        },
+        "change_cue": {
+          "tip": "str",
+          "bos_olabilir": true
+        },
+        "change_rule": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "context_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "mentioned_in_findings": {
+          "tip": "bool",
+          "bos_olabilir": false
+        },
+        "mentioned_in_impression": {
+          "tip": "bool",
+          "bos_olabilir": false
+        },
+        "promoted_to_impression": {
+          "tip": "bool",
+          "bos_olabilir": false
+        },
+        "extraction_rule": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "segmentation_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "template_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "entity_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        }
       }
     },
     "relations": {
       "dosya": "data/processed/relations.parquet",
       "birim": "1 satir = 1 iliski",
       "kolonlar": {
-        "relation_id":       {"tip": "str",  "bos_olabilir": false, "tekil": true},
-        "study_id":          {"tip": "str",  "bos_olabilir": false},
-        "head_id":           {"tip": "str",  "bos_olabilir": false},
-        "head_kind":         {"tip": "str",  "bos_olabilir": false, "degerler": ["entity", "measurement"]},
-        "tail_id":           {"tip": "str",  "bos_olabilir": false},
-        "tail_kind":         {"tip": "str",  "bos_olabilir": false, "degerler": ["entity", "measurement"]},
-        "relation_type":     {"tip": "str",  "bos_olabilir": false, "kume": "iliski_tipleri"},
-        "attachment_rule":   {"tip": "str",  "bos_olabilir": false, "kume": "baglama_kurallari"},
-        "is_cross_sentence": {"tip": "bool", "bos_olabilir": false},
-        "entity_version":    {"tip": "str",  "bos_olabilir": false},
-        "relation_version":  {"tip": "str",  "bos_olabilir": false}
+        "relation_id": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "tekil": true
+        },
+        "study_id": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "head_id": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "head_kind": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "degerler": [
+            "entity",
+            "measurement"
+          ]
+        },
+        "tail_id": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "tail_kind": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "degerler": [
+            "entity",
+            "measurement"
+          ]
+        },
+        "relation_type": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "iliski_tipleri"
+        },
+        "attachment_rule": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "baglama_kurallari"
+        },
+        "is_cross_sentence": {
+          "tip": "bool",
+          "bos_olabilir": false
+        },
+        "entity_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "relation_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        }
       }
     },
     "unresolved_attachments": {
@@ -291,46 +514,175 @@
       "birim": "1 satir = kurulamayan 1 bag",
       "aciklama": "sema-1.1'de eklendi. D18 'belirsiz bag sessizce kurulmaz' diyor; sema-1.0'da bu baglar tamamen DUSURULUYORDU, yani sessizce YOK oluyorlardi. Artik izlenebilir - K9 kabul olcutunun 'belirsiz alt kume'si buradan uretilir.",
       "kolonlar": {
-        "source_id":      {"tip": "str", "bos_olabilir": false},
-        "source_kind":    {"tip": "str", "bos_olabilir": false, "degerler": ["entity", "measurement"]},
-        "study_id":       {"tip": "str", "bos_olabilir": false},
-        "section":        {"tip": "str", "bos_olabilir": false, "degerler": ["findings", "impression"]},
-        "sent_idx":       {"tip": "int", "bos_olabilir": false},
-        "relation_type":  {"tip": "str", "bos_olabilir": false, "kume": "iliski_tipleri"},
-        "reason":         {"tip": "str", "bos_olabilir": false, "degerler": ["belirsiz", "aday_yok"]},
-        "n_candidates":   {"tip": "int", "bos_olabilir": false},
-        "entity_version": {"tip": "str", "bos_olabilir": false}
+        "source_id": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "source_kind": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "degerler": [
+            "entity",
+            "measurement"
+          ]
+        },
+        "study_id": {
+          "tip": "str",
+          "bos_olabilir": false
+        },
+        "section": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "degerler": [
+            "findings",
+            "impression"
+          ]
+        },
+        "sent_idx": {
+          "tip": "int",
+          "bos_olabilir": false
+        },
+        "relation_type": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "iliski_tipleri"
+        },
+        "reason": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "degerler": [
+            "belirsiz",
+            "aday_yok"
+          ]
+        },
+        "n_candidates": {
+          "tip": "int",
+          "bos_olabilir": false
+        },
+        "entity_version": {
+          "tip": "str",
+          "bos_olabilir": false
+        }
       }
     },
-
     "measurements_ek": {
       "dosya": "data/processed/measurements.parquet",
       "aciklama": "Mevcut tabloya EKLENIR; hicbir kolon silinmez veya degistirilmez (meas-1.0 -> meas-1.1 -> meas-1.2). Olcu duzeyi zamansallik AYRI hesaplanir: 661 cumlede ayni cumlede iki farkli zamana ait iki olcu var, varlik duzeyi tek deger bunu tasiyamaz.",
       "kolonlar": {
-        "measurement_id":    {"tip": "str", "bos_olabilir": false, "tekil": true},
-        "temporality":       {"tip": "str", "bos_olabilir": false, "kume": "kontrollu_degerler.temporality"},
-        "temporality_cue":   {"tip": "str", "bos_olabilir": true},
-        "temporality_rule":  {"tip": "str", "bos_olabilir": false}
+        "measurement_id": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "tekil": true
+        },
+        "temporality": {
+          "tip": "str",
+          "bos_olabilir": false,
+          "kume": "kontrollu_degerler.temporality"
+        },
+        "temporality_cue": {
+          "tip": "str",
+          "bos_olabilir": true
+        },
+        "temporality_rule": {
+          "tip": "str",
+          "bos_olabilir": false
+        }
       }
     }
   },
-
   "dogrulama_kurallari": [
-    {"kod": "K1", "kural": "ofset_metne_oturur", "aciklama": "raw_text == report_text[char_start:char_end]", "esik": 1.0, "zorunlu": true},
-    {"kod": "K1b", "kural": "ofset_araligi_gecerli", "aciklama": "char_end > char_start", "esik": 1.0, "zorunlu": true},
-    {"kod": "K1c", "kural": "varlik_cumle_icinde", "aciklama": "Varligin ofsetleri kaynak cumlenin ofsetleri icinde kalir", "esik": 1.0, "zorunlu": true},
-    {"kod": "K2", "kural": "iliski_uclari_var", "aciklama": "head_id ve tail_id var olan bir entity_id veya measurement_id gosterir", "esik": 1.0, "zorunlu": true},
-    {"kod": "K2b", "kural": "iliski_tip_uyumu", "aciklama": "head ve tail varlik tipleri iliski_tipleri tanimindaki listelere uyar", "esik": 1.0, "zorunlu": true},
-    {"kod": "K2c", "kural": "iliski_ayni_calisma", "aciklama": "head ve tail ayni study_id icinde", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3", "kural": "surum_zinciri_tam", "aciklama": "Tum surum kolonlari dolu ve tekil", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3b", "kural": "kimlik_tekil", "aciklama": "entity_id ve relation_id tekrar etmez", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3c", "kural": "kontrollu_deger_uyumu", "aciklama": "Kume tanimli her kolon yalnizca tanimli degerleri icerir", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3f", "kural": "kesinlik_ipucu_tutarli", "aciklama": "assertion 'absent' veya 'uncertain' ise assertion_cue dolu olmali - varsayilan disi her atamanin bir ipucu dayanagi vardir. assertion 'not_processed' ise assertion_rule 'islenmedi' olmali.", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3g", "kural": "degisim_zaman_tutarli", "aciklama": "change_type 'increased' veya 'decreased' ise change_cue dolu olmali; bu degerler ACIK zamansal referans olmadan yazilamaz (olculdu: increas* 25.522 cumlede ama yalnizca %3,4'unde zamansal referans var).", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3e", "kural": "niteleyici_kavram_grubunda", "aciklama": "entity_type=qualifier ise normalized_concept o niteleyici grubunun kabul edilen degerleri arasinda olmali. sema-1.0'da yalnizca grup ADI denetleniyordu, kavramin o gruba ait olup olmadigi denetlenmiyordu.", "esik": 1.0, "zorunlu": true},
-    {"kod": "K3d", "kural": "kural_alani_dolu", "aciklama": "extraction_rule ve attachment_rule bos birakilamaz (D18)", "esik": 1.0, "zorunlu": true}
+    {
+      "kod": "K1",
+      "kural": "ofset_metne_oturur",
+      "aciklama": "raw_text == report_text[char_start:char_end]",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K1b",
+      "kural": "ofset_araligi_gecerli",
+      "aciklama": "char_end > char_start",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K1c",
+      "kural": "varlik_cumle_icinde",
+      "aciklama": "Varligin ofsetleri kaynak cumlenin ofsetleri icinde kalir",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K2",
+      "kural": "iliski_uclari_var",
+      "aciklama": "head_id ve tail_id var olan bir entity_id veya measurement_id gosterir",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K2b",
+      "kural": "iliski_tip_uyumu",
+      "aciklama": "head ve tail varlik tipleri iliski_tipleri tanimindaki listelere uyar",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K2c",
+      "kural": "iliski_ayni_calisma",
+      "aciklama": "head ve tail ayni study_id icinde",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3",
+      "kural": "surum_zinciri_tam",
+      "aciklama": "Tum surum kolonlari dolu ve tekil",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3b",
+      "kural": "kimlik_tekil",
+      "aciklama": "entity_id ve relation_id tekrar etmez",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3c",
+      "kural": "kontrollu_deger_uyumu",
+      "aciklama": "Kume tanimli her kolon yalnizca tanimli degerleri icerir",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3f",
+      "kural": "kesinlik_ipucu_tutarli",
+      "aciklama": "assertion 'absent' veya 'uncertain' ise assertion_cue dolu olmali - varsayilan disi her atamanin bir ipucu dayanagi vardir. assertion 'not_processed' ise assertion_rule 'islenmedi' olmali.",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3g",
+      "kural": "degisim_zaman_tutarli",
+      "aciklama": "change_type 'increased' veya 'decreased' ise change_cue dolu olmali; bu degerler ACIK zamansal referans olmadan yazilamaz (olculdu: increas* 25.522 cumlede ama yalnizca %3,4'unde zamansal referans var).",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3e",
+      "kural": "niteleyici_kavram_grubunda",
+      "aciklama": "entity_type=qualifier ise normalized_concept o niteleyici grubunun kabul edilen degerleri arasinda olmali. sema-1.0'da yalnizca grup ADI denetleniyordu, kavramin o gruba ait olup olmadigi denetlenmiyordu.",
+      "esik": 1.0,
+      "zorunlu": true
+    },
+    {
+      "kod": "K3d",
+      "kural": "kural_alani_dolu",
+      "aciklama": "extraction_rule ve attachment_rule bos birakilamaz (D18)",
+      "esik": 1.0,
+      "zorunlu": true
+    }
   ],
-
   "radgraph_eslemesi": {
     "aciklama": "Bu tablolar RadGraph-XL bicimine cevrilebilir. change_type ve temporality disinda kayipsizdir.",
     "eslenemeyen_not": "not_processed TASK-12 kosmadan onceki durumdur ve RadGraph'a ESLENEMEZ - RadGraph her varliga kesinlik atamak zorundadir. Bu kombinasyonlar null'dir; RadGraph'a disa aktarim ancak TASK-12 kostuktan SONRA yapilabilir.",
@@ -360,5 +712,6 @@
       "measured_by": "modify",
       "change_of": null
     }
-  }
+  },
+  "surum_notu_1_3": "sema-1.3 (2026-08-28): Kor listelemenin ortaya cikardigi sozluk bosluklari kapatildi (bulgu-1.1: +11 kavram, anat-1.1: +3 kavram). distribution grubuna 'laterobasal' (1.958) eklendi. Kaynak: 120 cumlelik ayar kumesinde IKI BAGIMSIZ isaretleyicinin kor listelemede yazip sistemin bulamadigi terimler; ikisinin kacirdiklari ortustugu icin gercek bosluk sayildi. 'soft_tissue_density' 'density'den AYRILDI - isaretleyiciler indirgemeye itiraz etti."
 }

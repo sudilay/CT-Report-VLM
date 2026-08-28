@@ -504,7 +504,7 @@ def test_aday_yok_kaydedilir():
 
 def test_sema_surumu_guncel(sozluk):
     sema = S.yukle()
-    assert sema["schema_version"] == "sema-1.2"
+    assert sema["schema_version"] == "sema-1.3"
 
 
 def test_assertion_varsayilani_islenmemis():

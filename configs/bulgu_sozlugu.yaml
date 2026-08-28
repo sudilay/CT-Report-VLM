@@ -1,4 +1,4 @@
-# Bulgu, niteleyici ve cihaz sozlugu  ·  TASK-11  ·  surum: bulgu-1.0
+# Bulgu, niteleyici ve cihaz sozlugu  ·  TASK-11  ·  surum: bulgu-1.1
 #
 # KAYNAK: korpus frekans madeni (YALNIZCA train - 449.868 cumle, 20.000 hasta).
 # Her 'korpus' degeri OLCULDU; elle yazilmadi.
@@ -13,7 +13,7 @@
 #   "sequela changes"          <- sekel degisiklikler
 # Standart Ingilizce radyoloji sozlugu bu yuzeylerin HICBIRINI icermez.
 
-surum: bulgu-1.0
+surum: bulgu-1.1
 tarih: 2026-08-26
 
 kavramlar:
@@ -126,8 +126,8 @@ kavramlar:
     korpus: 2345
   hepatosteatosis:
     tip: observation
-    desenler: ["hepatosteatosis", "hepatic steatosis", "fatty liver"]
-    korpus: 2958
+    desenler: ["hepatosteatosis", "hepatic steatosis", "fatty liver", "steatosis"]
+    korpus: 3457
   cholelithiasis:
     tip: observation
     desenler: ["cholelithiasis", "gallstones?"]
@@ -387,3 +387,99 @@ kavramlar:
     tip: device
     desenler: ["drainage tubes?", "chest tubes?", "thorax tubes?"]
     korpus: 33
+
+  # =========== KOR LISTELEME BOSLUKLARI (bulgu-1.1) ===========
+  # KAYNAK: 120 cumlelik ayar kumesinde IKI BAGIMSIZ isaretleyicinin
+  # KOR LISTELEMEDE yazip sistemin bulamadigi terimler. Ikisinin de
+  # kacirdiklari ortustugu icin bunlar gercek bosluktur, tek kisinin
+  # yorumu degil. Sayilar train uzerinde OLCULDU.
+
+  covid:
+    tip: observation
+    desenler: ["covid[- ]?19", "covid"]
+    korpus: 7888
+    # En buyuk tekil bosluk. "Covid pneumonia" ayrica pneumonia da esler;
+    # ikisi FARKLI kavramdir ve birlikte gecmeleri dogrudur.
+  small_airway_disease:
+    tip: observation
+    desenler: ["small airway diseases?"]
+    korpus: 2003
+  small_vessel_disease:
+    tip: observation
+    desenler: ["small vessel diseases?"]
+    korpus: 1866
+  soft_tissue_density:
+    tip: observation
+    desenler: ["soft tissue densit(?:y|ies)"]
+    korpus: 905
+    # 'density' kavramindan AYRILDI: iki isaretleyici "soft tissue densities"
+    # ifadesinin 'density'ye indirgenmesine itiraz etti - yumusak doku
+    # atenuasyonu ayri bir radyolojik kavramdir. Uzun eslesme once denenir.
+  adiposity:
+    tip: observation
+    desenler: ["adiposit(?:y|ies)"]
+    korpus: 602
+  edema:
+    tip: observation
+    desenler: ["o?edema"]
+    korpus: 582
+  infective_pathology:
+    tip: observation
+    desenler: ["infective patholog(?:y|ies)"]
+    korpus: 564
+  lymphadenomegaly:
+    tip: observation
+    desenler: ["lymphadenomegal(?:y|ies)"]
+    korpus: 138
+    # enlarged_lymph_node'dan ayri: bu, raporun kendi kullandigi terim.
+  lymphoma:
+    tip: observation
+    desenler: ["lymphomas?"]
+    korpus: 112
+  goiter:
+    tip: observation
+    desenler: ["goit(?:er|re)s?"]
+    korpus: 52
+  laterobasal:
+    tip: qualifier
+    grup: distribution
+    desenler: ["laterobasal"]
+    korpus: 1958
+
+# =====================================================================
+# OLCULUP ALINMAYANLAR (bulgu-1.1) - reddedilenler de kayittir
+# =====================================================================
+# Kor listelemede isaretleyicilerin yazdigi ama sozluge ALINMAYAN terimler.
+# Alinmama gerekcesi sayiyla birlikte yazilir; ileride yeniden tartisilabilir.
+#
+#   wall                 27.251  REDDEDILDI - tek basina bulgu/anatomi degil,
+#                                daima niteleyen: "chest wall", "bronchial wall",
+#                                "wall thickening". chest_wall zaten var;
+#                                "bronchial wall" bronchus'a, "wall thickening"
+#                                thickening'e esliyor. Ciplak 'wall' gurultu uretir.
+#   aneurysmatic appear.     22  REDDEDILDI - cok seyrek; 'aneurysm' kapsiyor.
+#   shrinkage                44  REDDEDILDI - cok seyrek ve belirsiz yuzey.
+#   hepatic steotase          1  REDDEDILDI - kaynak yazim hatasi, TEK ornek.
+#                                Bunun yerine 'steatosis' deseni eklendi (+499).
+#
+# ANATOMIC_SEGMENT KARARI (olculerek verildi, 2026-08-28):
+#   Iki bagimsiz isaretleyici "segment" span'ina 18 kez itiraz etti: desen
+#   ciplak "segments?" ve 26.468 anmanin yalnizca 98'i gercekten ciplak;
+#   gerisinde onunde tanimlayici var ("basal segment", "liver segment 5").
+#
+#   SPAN'I UZATMA REDDEDILDI: onundeki tanimlayicilarin 25.028'i ZATEN
+#   sozlukte esleniyor - basal/apical/laterobasal 'distribution' niteleyicisi,
+#   lingular 'lingula' anatomisi. Span'i uzatmak bu eslesmeleri yutar ve
+#   niteleyici bilgisini KAYBETTIRIR. Kazanctan buyuk kayip.
+#
+#   KAVRAMI SILME DE REDDEDILDI: 22.344 cumlenin %92'sinde yaninda lob veya
+#   dagilim niteleyicisi var (yani orada gercekten fazlalik), AMA %8'inde
+#   (1.893 cumle) HICBIRI yok ve segment tek basina bilgi tasiyor:
+#     "millimetric calcification at the level of liver segment 5"
+#     "the examination at the level of the liver segment 5-8 was unenhanced"
+#   Bunlar KARACIGER segmentasyonu; lob/dagilim ekseninde karsiligi yok.
+#   Silinseydi 1.893 cumlede yer bilgisi tamamen kaybolurdu.
+#
+#   SONUC: KORUNUYOR. Bilinen sinir olarak kayda gecti - span dar, cogu
+#   yerde fazlalik, ama %8'de tasiyici. Isaretleyici itirazi span estetigi
+#   hakkindadir, bilgi kaybi hakkinda degil.

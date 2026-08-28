@@ -118,6 +118,19 @@ def main() -> None:
                 # ipuclu cumlelerdeki 426.099 anma da "mevcut" gorunuyordu.
                 "assertion": "not_processed", "temporality": "unknown",
                 "change_type": "unknown",
+                # sema-1.2 IZLENEBILIRLIK ALANLARI (2026-08-28'de eklendi):
+                # Bu betik sema-1.1 doneminde yazilmisti; sema-1.2 kesinlik ve
+                # zaman atamalarinin DAYANAGINI zorunlu kildiginda guncellenmedi.
+                # Sonuc: sozluk genisletilip 08 yeniden kosuldugunda sema kapisi
+                # ciktiyi reddetti (K0: kolon eksik). Kapi dogru davrandi.
+                # Degerler burada None'dir - TASK-12 dolduracak (D21).
+                "assertion_cue": None, "assertion_rule": "islenmedi",
+                "temporality_cue": None, "temporality_rule": "islenmedi",
+                "change_cue": None, "change_rule": "islenmedi",
+                # Surum zincirinin son halkasi. Burada "islenmedi" yazar;
+                # TASK-12 kosunca gercek ctx surumuyle DEGISTIRILIR. Boylece
+                # baglam atanmamis bir ciktinin ctx surumu tasimasi engellenir.
+                "context_version": "islenmedi",
                 "mentioned_in_findings": False,
                 "mentioned_in_impression": False,
                 "promoted_to_impression": False,

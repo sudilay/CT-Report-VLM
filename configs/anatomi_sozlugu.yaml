@@ -1,4 +1,4 @@
-# Toraks BT anatomi sozlugu  ·  TASK-11  ·  surum: anat-1.0
+# Toraks BT anatomi sozlugu  ·  TASK-11  ·  surum: anat-1.1
 #
 # KAYNAK: korpus frekans madeni (YALNIZCA train - 449.868 cumle, 20.000 hasta).
 # Ders kitabindan terim kopyalanmadi; her kavram korpusta gecen yuzeylerden dogdu.
@@ -17,7 +17,7 @@
 #   - EN UZUN eslesme kazanir ("upper lobe" > "lobe")
 #   - taraf_alir: bu kavram sag/sol/iki tarafli olabilir mi
 
-surum: anat-1.0
+surum: anat-1.1
 tarih: 2026-08-26
 
 kavramlar:
@@ -250,6 +250,25 @@ kavramlar:
 # Standart Ingilizce sozluk yalnizca 'bilateral' arar ve korpusun buyuk
 # kismini kacirir. 'both' MUTLAKA bilateral'e eslenmelidir.
 # --------------------------------------------------------------------------
+
+  # =========== KOR LISTELEME BOSLUKLARI (anat-1.1) ===========
+  # Iki bagimsiz isaretleyicinin kor listelemede yazip sistemin
+  # bulamadigi anatomik yapilar. Sayilar train uzerinde OLCULDU.
+
+  pleuroparenchymal:
+    desenler: ["pleuroparenchymal"]
+    taraf_alir: true
+    korpus: 3738
+    # Plevra + parankim bilesigi; ikisine de indirgenemez, ayri yuzey.
+  aortic_valve:
+    desenler: ["aortic valves?"]
+    taraf_alir: false
+    korpus: 332
+  pulmonary_conus:
+    desenler: ["pulmonary conus"]
+    taraf_alir: false
+    korpus: 173
+
 taraf:
   right:     ["right"]
   left:      ["left"]

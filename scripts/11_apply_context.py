@@ -5,7 +5,7 @@ Gunceller:
   data/processed/entities.parquet      assertion/temporality/change_type + ipucu ve kural
   data/processed/measurements.parquet  olcu duzeyi temporality (meas-1.2)
 
-Cikti SEMAYA KARSI DOGRULANIR (sema-1.2); ihlal varsa YAZILMAZ.
+Cikti SEMAYA KARSI DOGRULANIR (sema-1.3); ihlal varsa YAZILMAZ.
 
 OLCU DUZEYI ZAMANSALLIK NEDEN AYRI:
   661 cumlede ayni cumlede iki farkli zamana ait iki olcu var:
@@ -105,7 +105,7 @@ def main() -> None:
     meas["measurement_version"] = "meas-1.2"
 
     # ---------------- sema kapisi ----------------
-    print("\nsema dogrulamasi (sema-1.2)...")
+    print("\nsema dogrulamasi (sema-1.3)...")
     ihl = S.dogrula_entities(ent, sentences=sent, reports=reps)
     S.dogrula_veya_dur(ihl, "TASK-12 ciktisi")
     print("  gecti - K1, K1b, K1c, K3, K3b, K3c, K3d, K3e, K3f, K3g")

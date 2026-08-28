@@ -30,7 +30,7 @@ def sema():
 # =====================================================================
 
 def test_sema_yuklenir_ve_surum_tasir(sema):
-    assert sema["schema_version"] == "sema-1.2"
+    assert sema["schema_version"] == "sema-1.3"
     for k in ("varlik_tipleri", "iliski_tipleri", "kontrollu_degerler",
               "niteleyici_gruplari", "tablolar", "dogrulama_kurallari"):
         assert k in sema, f"sema {k} bolumunu tasimiyor"
