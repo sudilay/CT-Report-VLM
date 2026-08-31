@@ -1,0 +1,171 @@
+# TURKCE IPUCU TASLAGI - surum: tr-ipucu-0.1 (TASLAK)
+#
+# ⚠ HICBIR IPUCU UZMAN ONAYINDAN GECMEDI.
+#
+# KORPUSTAN TURETILDI: RadTr train+dev (373 belge · 4864 cumle). Ithal liste alinmadi.
+#
+# TURKCEYE OZGU IKI BULGU:
+#  1) YON: negasyon ipuclarinin %97'i cumle SONUNDA (Ingilizcede %19,9).
+#     Turkce fiil-sonlu; olumsuzluk ayri kelime degil SON EKtir.
+#  2) Teknik cekince (961) gercek negasyondan (843) 1.1 kat BUYUK.
+#     Genel '-ma/-me' kurali kitlesel yanlis 'absent' uretir.
+#
+# 'korpus: 0' olan ipuclari ALINMADI; kayitta durur ki baska bir
+# korpusta yeniden olculebilsin.
+
+surum: tr-ipucu-0.1
+durum: taslak
+kaynak: RadTr train+dev (373 belge) - test HARIC
+bolumler:
+  belirsizlik_oncelikli:
+    ekarte_edilemez:
+      desen: ekarte edileme|d[ıi][şs]lanama
+      korpus: 9
+      uzman_onayi: false
+      sonuc: uncertain
+      cumle: 9
+      sonda: 7
+      basta: 0
+      yon: geri
+    ayirt_edilemedi:
+      desen: ay[ıi]rt edileme
+      korpus: 6
+      uzman_onayi: false
+      sonuc: uncertain
+      cumle: 6
+      sonda: 3
+      basta: 0
+      yon: cift
+  teknik_cekince:
+    kontrast_verilmedi:
+      desen: kontrast.{0,20}verilme|verilmedi[gğ]in
+      korpus: 441
+      uzman_onayi: false
+    yapilamadi:
+      desen: yap[ıi]lama
+      korpus: 244
+      uzman_onayi: false
+    degerlendirilemedi:
+      desen: de[gğ]erlendirileme|se[çc]ileme
+      korpus: 16
+      uzman_onayi: false
+    optimal_degil:
+      desen: optimal|yeterince
+      korpus: 260
+      uzman_onayi: false
+  negasyon:
+    saptanmadi:
+      desen: saptanma(?:d|m)
+      korpus: 583
+      uzman_onayi: false
+      sonuc: absent
+      cumle: 583
+      sonda: 576
+      basta: 1
+      yon: geri
+    izlenmedi:
+      desen: izlenme(?:d|m)
+      korpus: 260
+      uzman_onayi: false
+      sonuc: absent
+      cumle: 260
+      sonda: 244
+      basta: 2
+      yon: geri
+  negasyon_olculup_alinmayan:
+    gorulmedi:
+      desen: g[oö]r[uü]lme(?:d|m)
+      korpus: 0
+      uzman_onayi: false
+      sonuc: absent
+    rastlanmadi:
+      desen: rastlanm|rastlanmad
+      korpus: 0
+      uzman_onayi: false
+      sonuc: absent
+    tespit_edilmedi:
+      desen: tespit edilme
+      korpus: 0
+      uzman_onayi: false
+      sonuc: absent
+    mevcut_degil:
+      desen: mevcut de[gğ]il
+      korpus: 1
+      uzman_onayi: false
+      sonuc: absent
+    bulunmamaktadir:
+      desen: bulunma(?:d|m)
+      korpus: 0
+      uzman_onayi: false
+      sonuc: absent
+    negatif:
+      desen: negatif
+      korpus: 0
+      uzman_onayi: false
+      sonuc: absent
+  belirsizlik:
+    parantez_soru:
+      desen: \([^)]{2,40}\?\s*\)
+      korpus: 117
+      uzman_onayi: false
+      sonuc: uncertain
+    ayirici_tani:
+      desen: ay[ıi]r[ıi]c[ıi] tan[ıi]
+      korpus: 6
+      uzman_onayi: false
+      sonuc: uncertain
+  cikarim_ifadesi:
+    uyumlu:
+      desen: uyumlu
+      korpus: 166
+      uzman_onayi: false
+      sonuc: present
+    lehine:
+      desen: lehine
+      korpus: 41
+      uzman_onayi: false
+      sonuc: present
+    olasi:
+      desen: olas[ıi]|olabil
+      korpus: 101
+      uzman_onayi: false
+      sonuc: present
+    oncelikle:
+      desen: '[oö]ncelikle'
+      korpus: 32
+      uzman_onayi: false
+      sonuc: present
+    dusunuldu:
+      desen: d[uü][şs][uü]n[uü]l
+      korpus: 23
+      uzman_onayi: false
+      sonuc: present
+    supheli:
+      desen: '[şs][uü]pheli'
+      korpus: 12
+      uzman_onayi: false
+      sonuc: present
+  zamansal:
+    onceki_tetkik:
+      desen: '[oö]nceki tetkik|[oö]nceki incelem|eski tetkik'
+      korpus: 4
+      uzman_onayi: false
+      sonuc: prior
+    karsilastirma:
+      desen: kar[şs][ıi]la[şs]t[ıi]r|g[oö]re
+      korpus: 10
+      uzman_onayi: false
+      sonuc: prior
+  degisim:
+    artis:
+      desen: artm[ıi][şs]|art[ıi][şs]
+      korpus: 280
+      uzman_onayi: false
+    gerileme:
+      desen: gerile|azalm
+      korpus: 31
+      uzman_onayi: false
+    stabil:
+      desen: stabil|sebat|de[gğ]i[şs]iklik yok
+      korpus: 1
+      uzman_onayi: false

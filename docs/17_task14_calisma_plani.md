@@ -7,7 +7,7 @@ dil ablasyonunun (TASK-15) ölçüm yapabileceği zemini hazırlamak.
 > görüldüğü** yazılır — yalnızca "yapıldı" değil, çıkan sayı ve varsa sürpriz.
 > Diğer agent da buradan takip eder.
 
-**Durum:** 4/7 adım bitti · son güncelleme 2026-08-31
+**Durum:** 5/7 adım bitti · son güncelleme 2026-08-31
 
 ---
 
@@ -158,31 +158,84 @@ geçmemesi *"Türkçe'de yok"* demek değil, *"bu alt kümede yok"* demektir.
 
 ---
 
-### ⬜ 5 · Türkçe ipucu sözlüğü — ⚠ **en kritik adım**
+### ✅ 5 · Türkçe ipucu sözlüğü — **en kritik adım**
 
-Sistemin **en güçlü yanı** negasyon: `test-v2`de `absent` 73/73. Ama bu tamamen
-İngilizce ipuçlarına dayanıyor (*"no"*, *"not observed"*, *"was not detected"*).
+**Bitti — 2026-08-31.** `scripts/22_turkce_ipucu_taslagi.py` →
+`configs/turkce_ipuclari_taslak.yaml` (**`tr-ipucu-0.1`**)
 
-**Çevrilmezse Türkçede negasyon tamamen çöker** — en güçlü yanımız sıfırlanır.
+İpuçları **ithal edilmedi, korpustan türetildi** — İngilizce tarafta olduğu gibi (D16).
 
-Ve bu, İngilizceden **birebir kopyalanamayacak tek parça**: Türkçe'de olumsuzluk
-ayrı kelimeyle değil **son ekle** yapılır.
+#### ⚠ Bulgu 1 · **Yön ters** — mimariyi doğrudan etkiliyor
 
-> *"Plevral efüzyon **izlenmemiştir**."*
-> *"Kitle **saptanmadı**."*
-> *"Lenfadenopati **görülmedi**."*
+| | negasyon ipucu cümlenin **sonunda** |
+|---|---|
+| İngilizce (CT-RATE) | **%19,9** |
+| **Türkçe (RadTr)** | **%97** |
 
-Çevrilecek bölümler (`ipucu-1.0`, 9 bölüm):
+Türkçe **fiil-sonlu** bir dil; olumsuzluk ayrı kelime değil **son ek** (*-ma/-me*).
 
-- [ ] `negasyon` (9 ipucu) — **en kritik**
-- [ ] `belirsizlik` + `belirsizlik_oncelikli` (3) — *"ekarte edilemez"*, *"ayırıcı tanı"*
-- [ ] `cikarim_ifadesi` (9) — *"ile uyumlu"*, *"lehine"*, *"şüpheli"*
-- [ ] `teknik_cekince` (5) — *"optimal değerlendirilemedi"*
-- [ ] `zamansal` (3) + `degisim` (5) — *"önceki tetkikte"*, *"artmış"*
-- [ ] `sahte_negasyon` (1) + `sonlandirici` (3)
-- [ ] Kapsam yönü ölçülecek: İngilizcede olumsuzlanan cümlelerin beşte birinde
-      ipucu bulgudan **sonra** geliyordu. Türkçede ek sonda olduğu için bu oran
-      **çok daha yüksek** olmalı — ölçülmeli, varsayılmamalı.
+> *"Mediastende ve her iki hilusta patolojik boyutta lenf nodu **saptanmadı**."*
+
+İngilizceye göre ayarlanmış **ileri yönlü** bir kurulum, Türkçede negasyonun
+**neredeyse tamamını kaçırır**. Sistemimiz `yon: geri` destekliyor (K15 bu yüzden
+var) — ama varsayılan yön çevrilmeli.
+
+#### ⚠ Bulgu 2 · Teknik çekince **gerçek negasyondan büyük**
+
+| | anma |
+|---|---|
+| teknik çekince (*"kontrast verilmediğinden"*, *"yapılamamıştır"*, *"optimal değerlendirilemedi"*) | **961** |
+| gerçek negasyon (*"saptanmadı"*, *"izlenmedi"*) | **843** |
+
+Bunların **hepsi** *-ma/-me* eki taşıyor. Genel bir *"-ma/-me olumsuzluktur"*
+kuralı 961 anmayı da olumsuzlama sayar → **kitlesel yanlış `absent`**.
+
+**D30 (teknik çekince kesinliği değiştirmez) Türkçede İngilizceden daha kritik.**
+
+#### İthal liste ölçüldü ve reddedildi — İngilizcedeki sonucun aynısı
+
+Ders kitabı bir Türkçe olumsuzlama listesi şunları içerirdi:
+
+| aday | anma | alındı mı |
+|---|---|---|
+| *görülmedi* | **0** | ⛔ |
+| *rastlanmadı* | **0** | ⛔ |
+| *tespit edilmedi* | **0** | ⛔ |
+| *bulunmamaktadır* | **0** | ⛔ |
+| *negatif* | **0** | ⛔ |
+| *mevcut değil* | 1 | ⛔ |
+| **saptanmadı** | **583** | ✅ |
+| **izlenmedi** | **260** | ✅ |
+
+**İki biçim 843 anmanın tamamını taşıyor.** İngilizce tarafta ithal NegEx
+listesinin 272 tetikleyicisinin 220'si hiç geçmiyordu — aynı sonuç, aynı sebep.
+Sıfır destekli ipuçları kayıtta tutuldu (*"denenmedi"* ile *"denendi, çıkmadı"*
+ayrı şeylerdir).
+
+#### D29 taşınıyor · belirsizlik taşınıyor
+
+`cikarim_ifadesi`: *uyumlu* 166 · *olası* 101 · *lehine* 41 · *öncelikle* 32 ·
+*düşünül* 23 · *şüpheli* 12 → hepsi `present`.
+
+`belirsizlik`: **parantez-soru 117** (*"(küçük hava yolu hastalığı?)"*) ·
+*ayırıcı tanı* 6 · *ekarte edilemez* 10.
+
+#### ⛔ Zaman ekseni RadTr'de **ölçülemez**
+
+| ipucu | anma |
+|---|---|
+| *önceki tetkik / önceki inceleme* | **4** |
+| *karşılaştır / göre* | 10 |
+| *stabil / değişiklik yok* | 1 |
+
+RadTr **tek zamanlı sentetik** raporlardan oluşuyor; önceki tetkik referansı
+neredeyse yok. `artmış/artış` 280 kez geçiyor ama açık zaman referansı olmadan —
+İngilizce tarafta ölçülen sonucun aynısı (artış bildiren 25.522 cümlenin yalnızca
+%3,4'ünde açık zaman referansı vardı).
+
+⚠ **Ablasyon zaman eksenini ölçemeyecek.** Bu, ölçüm yapılmadan **önce** bilinen
+bir sınırdır ve rapora böyle geçer. `test-v2`de K7 zaten eşiği geçememişti;
+Türkçe tarafta karşılaştırma yapılamayacak.
 
 ---
 
@@ -208,6 +261,7 @@ düşük çıkar ve yanlışlıkla *"Türkçe veri işe yaramıyor"* sonucuna va
 - [ ] `tr-1.0` donduruldu, sağlama toplamları kayıtlı
 - [ ] `test` 56 belge hâlâ **açılmamış**
 - [ ] Protokol hazır → [`docs/16_dil_ablasyon_protokolu.md`](16_dil_ablasyon_protokolu.md)
+- [ ] ⛔ **Zaman ekseni ölçülmeyecek** — RadTr'de önceki-tetkik referansı 4 anma (adım 5)
 
 Bundan sonrası TASK-15: 56 belgeyi iki yolla İngilizceye çevir, üç kolu
 (TR · EN-çeviri · EN-tıbbi) aynı altın veriye karşı puanla, **dil kararını** ver.
