@@ -1,4 +1,4 @@
-# TURKCE YUZEY TASLAGI - surum: tr-0.2 (TASLAK)
+# TURKCE YUZEY TASLAGI - surum: tr-0.3 (TASLAK)
 #
 # ⚠ HICBIR YUZEY UZMAN ONAYINDAN GECMEDI. 'uzman_onayi: false'
 #   olan hicbir girdi sisteme alinmaz.
@@ -10,7 +10,7 @@
 #
 # Desenler BASTA sinirlidir - Turkce sondan eklemelidir.
 
-surum: tr-0.2
+surum: tr-0.3
 durum: taslak
 kaynak: RadTr toraks train+dev (373 belge) - test HARIC
 yuzeyler:
@@ -105,8 +105,8 @@ yuzeyler:
     ct_rate_ingilizce: 1599
     uzman_onayi: false
   cardiomegaly:
-    desen: kardiyomegali
-    radtr: 0
+    desen: kardiyomegali|kalp boyut|kardiyak boyut
+    radtr: 313
     ct_rate_ingilizce: 2523
     uzman_onayi: false
   aneurysm:
@@ -423,4 +423,315 @@ yuzeyler:
     desen: segment
     radtr: 374
     ct_rate_ingilizce: 25627
+    uzman_onayi: false
+  tumor:
+    desen: t[uü]m[oö]r|neoplaz|kitlesel
+    radtr: 4
+    ct_rate_ingilizce: 8868
+    uzman_onayi: false
+  effusion_thickening:
+    desen: ef[uü]zyon.{0,3}kal[ıi]nla[şs]|kal[ıi]nla[şs]ma.{0,3}ef[uü]zyon
+    radtr: 0
+    ct_rate_ingilizce: 19013
+    uzman_onayi: false
+  atheroma_plaque:
+    desen: aterom|ateroskler
+    radtr: 38
+    ct_rate_ingilizce: 13866
+    uzman_onayi: false
+  lytic_destructive_lesion:
+    desen: litik|destr[uü]ktif
+    radtr: 3
+    ct_rate_ingilizce: 10297
+    uzman_onayi: false
+  mosaic_attenuation:
+    desen: mozaik
+    radtr: 28
+    ct_rate_ingilizce: 3678
+    uzman_onayi: false
+  dilatation:
+    desen: dilate|dilatasyon|ektazi
+    radtr: 53
+    ct_rate_ingilizce: 4429
+    uzman_onayi: false
+  nodular_lesion:
+    desen: nod[uü]ler lezyon|nod[uü]ler dansite
+    radtr: 32
+    ct_rate_ingilizce: 3311
+    uzman_onayi: false
+  small_airway_disease:
+    desen: k[uü][çc][uü]k hava yolu
+    radtr: 3
+    ct_rate_ingilizce: 2147
+    uzman_onayi: false
+  small_vessel_disease:
+    desen: k[uü][çc][uü]k damar
+    radtr: 0
+    ct_rate_ingilizce: 1997
+    uzman_onayi: false
+  soft_tissue_density:
+    desen: yumu[şs]ak doku dansite
+    radtr: 8
+    ct_rate_ingilizce: 974
+    uzman_onayi: false
+  adiposity:
+    desen: adipozite|ya[gğ]lanma
+    radtr: 0
+    ct_rate_ingilizce: 639
+    uzman_onayi: false
+  infective_pathology:
+    desen: enfekt[iı]f|enfeksiy[oö]n
+    radtr: 60
+    ct_rate_ingilizce: 602
+    uzman_onayi: false
+  spiculated:
+    desen: spik[uü]l
+    radtr: 2
+    ct_rate_ingilizce: 175
+    uzman_onayi: false
+  irregular:
+    desen: d[uü]zensiz|irreg[uü]ler
+    radtr: 57
+    ct_rate_ingilizce: 1991
+    uzman_onayi: false
+  lobulated:
+    desen: lob[uü]le|lob[uü]lasyon
+    radtr: 14
+    ct_rate_ingilizce: 486
+    uzman_onayi: false
+  smooth:
+    desen: d[uü]zg[uü]n
+    radtr: 2
+    ct_rate_ingilizce: 380
+    uzman_onayi: false
+  well_defined:
+    desen: iyi s[ıi]n[ıi]rl|d[uü]zg[uü]n s[ıi]n[ıi]rl|keskin s[ıi]n[ıi]rl|d[uü]zg[uü]n
+      kont|keskin kont
+    radtr: 1
+    ct_rate_ingilizce: 509
+    uzman_onayi: false
+  indistinct:
+    desen: belirsiz s[ıi]n[ıi]r|s[ıi]n[ıi]rlar[ıi] se[çc]ilemeyen
+    radtr: 1
+    ct_rate_ingilizce: 299
+    uzman_onayi: false
+  halo:
+    desen: halo
+    radtr: 0
+    ct_rate_ingilizce: 385
+    uzman_onayi: false
+  calcific:
+    desen: kalsifiye|kalsifik
+    radtr: 184
+    ct_rate_ingilizce: 13914
+    uzman_onayi: false
+  ground_glass:
+    desen: buzlu cam
+    radtr: 142
+    ct_rate_ingilizce: 13650
+    uzman_onayi: false
+  hypodense:
+    desen: hipodens
+    radtr: 56
+    ct_rate_ingilizce: 5743
+    uzman_onayi: false
+  hyperdense:
+    desen: hiperdens
+    radtr: 13
+    ct_rate_ingilizce: 891
+    uzman_onayi: false
+  isodense:
+    desen: izodens
+    radtr: 3
+    ct_rate_ingilizce: 103
+    uzman_onayi: false
+  solid:
+    desen: solid
+    radtr: 24
+    ct_rate_ingilizce: 1472
+    uzman_onayi: false
+  part_solid:
+    desen: yar[ıi] solid|k[ıi]smen solid|par[çc]a solid
+    radtr: 0
+    ct_rate_ingilizce: 103
+    uzman_onayi: false
+  fat_containing:
+    desen: ya[gğ] i[çc]er|lipomat[oö]z|ya[gğ]l[ıi]
+    radtr: 4
+    ct_rate_ingilizce: 1217
+    uzman_onayi: false
+  cystic:
+    desen: kistik
+    radtr: 28
+    ct_rate_ingilizce: 918
+    uzman_onayi: false
+  necrotic:
+    desen: nekro
+    radtr: 1
+    ct_rate_ingilizce: 134
+    uzman_onayi: false
+  diffuse:
+    desen: dif[uü]z|yayg[ıi]n
+    radtr: 161
+    ct_rate_ingilizce: 681
+    uzman_onayi: false
+  subpleural:
+    desen: subplevral|plevra alt
+    radtr: 47
+    ct_rate_ingilizce: 6269
+    uzman_onayi: false
+  apical:
+    desen: apikal
+    radtr: 23
+    ct_rate_ingilizce: 4089
+    uzman_onayi: false
+  peripheral:
+    desen: perifer
+    radtr: 47
+    ct_rate_ingilizce: 4423
+    uzman_onayi: false
+  basal:
+    desen: bazal
+    radtr: 68
+    ct_rate_ingilizce: 10102
+    uzman_onayi: false
+  central:
+    desen: santral|merkezi
+    radtr: 28
+    ct_rate_ingilizce: 412
+    uzman_onayi: false
+  sequela:
+    desen: sekel
+    radtr: 38
+    ct_rate_ingilizce: 6849
+    uzman_onayi: false
+  granulomatous:
+    desen: gran[uü]lomat
+    radtr: 0
+    ct_rate_ingilizce: 92
+    uzman_onayi: false
+  punctate:
+    desen: punktat|noktasal
+    radtr: 0
+    ct_rate_ingilizce: 50
+    uzman_onayi: false
+  catheter:
+    desen: kateter|port kateter|port hazne
+    radtr: 9
+    ct_rate_ingilizce: 1652
+    uzman_onayi: false
+  stent:
+    desen: stent
+    radtr: 6
+    ct_rate_ingilizce: 861
+    uzman_onayi: false
+  pacemaker:
+    desen: kalp pili|pacemaker|pil elektrod
+    radtr: 11
+    ct_rate_ingilizce: 419
+    uzman_onayi: false
+  surgical_clip:
+    desen: klips|cerrahi klip|s[uü]t[uü]r
+    radtr: 34
+    ct_rate_ingilizce: 977
+    uzman_onayi: false
+  prosthesis:
+    desen: protez|greft
+    radtr: 3
+    ct_rate_ingilizce: 241
+    uzman_onayi: false
+  drainage_tube:
+    desen: dren|g[oö][gğ][uü]s t[uü]p|toraks t[uü]p
+    radtr: 0
+    ct_rate_ingilizce: 34
+    uzman_onayi: false
+  parenchyma:
+    desen: parankim
+    radtr: 298
+    ct_rate_ingilizce: 12096
+    uzman_onayi: false
+  lumen:
+    desen: l[uü]men
+    radtr: 69
+    ct_rate_ingilizce: 11042
+    uzman_onayi: false
+  airway:
+    desen: hava yolu
+    radtr: 4
+    ct_rate_ingilizce: 441
+    uzman_onayi: false
+  station_prevascular:
+    desen: prevask[uü]ler
+    radtr: 9
+    ct_rate_ingilizce: 9764
+    uzman_onayi: false
+  station_paratracheal:
+    desen: paratrakeal|pretrakeal
+    radtr: 31
+    ct_rate_ingilizce: 12575
+    uzman_onayi: false
+  station_subcarinal:
+    desen: subkarinal
+    radtr: 19
+    ct_rate_ingilizce: 10281
+    uzman_onayi: false
+  station_hilar_axillary:
+    desen: hiler.{0,2}aksiller
+    radtr: 0
+    ct_rate_ingilizce: 8441
+    uzman_onayi: false
+  station_axillary:
+    desen: aksiller|koltuk alt
+    radtr: 2
+    ct_rate_ingilizce: 4345
+    uzman_onayi: false
+  station_supraclavicular:
+    desen: supraklavik[uü]ler
+    radtr: 0
+    ct_rate_ingilizce: 2846
+    uzman_onayi: false
+  station_aortopulmonary:
+    desen: aortopulmoner|aortikopulmoner
+    radtr: 3
+    ct_rate_ingilizce: 743
+    uzman_onayi: false
+  thymus:
+    desen: timus|timik
+    radtr: 1
+    ct_rate_ingilizce: 874
+    uzman_onayi: false
+  vena_cava:
+    desen: vena ka?va
+    radtr: 0
+    ct_rate_ingilizce: 748
+    uzman_onayi: false
+  pancreas:
+    desen: pankreas
+    radtr: 5
+    ct_rate_ingilizce: 1155
+    uzman_onayi: false
+  intervertebral_disc:
+    desen: intervertebral disk|disk mesafe
+    radtr: 0
+    ct_rate_ingilizce: 2169
+    uzman_onayi: false
+  neural_foramen:
+    desen: n[oö]ral foramen|foramen
+    radtr: 1
+    ct_rate_ingilizce: 2438
+    uzman_onayi: false
+  rib:
+    desen: kosta|kaburga
+    radtr: 36
+    ct_rate_ingilizce: 1557
+    uzman_onayi: false
+  sternum:
+    desen: sternum|sternal
+    radtr: 33
+    ct_rate_ingilizce: 709
+    uzman_onayi: false
+  diaphragm:
+    desen: diyafra
+    radtr: 5
+    ct_rate_ingilizce: 425
     uzman_onayi: false

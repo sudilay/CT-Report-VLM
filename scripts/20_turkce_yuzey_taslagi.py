@@ -19,7 +19,7 @@ DESEN KURALI - TURKCEYE OZGU:
   yakalayarak bulla'yi RadTr'de CT-RATE'ten daha sik gosterdi. Bu, tools/
   README'deki kelime siniri tuzaginin Turkce hali.
 
-BOLUNME DISIPLINI (tr-0.2 ile eklendi):
+BOLUNME DISIPLINI (tr-0.3 ile eklendi):
   RadTr KENDI yayimlanmis bolunmesini tasiyor (train 327 / dev 46 / test 56) ve
   16_extract_radtr_thorax.py bunu `kaynak_bolum` alaninda korudu. Turkce yuzeyler
   YALNIZCA train+dev uzerinde gelistirilir; test 56 belge DOKUNULMAZDIR.
@@ -61,7 +61,11 @@ YUZEY = {
     "calcification": "kalsifi|kire[çc]len", "atelectasis": "atelektazi",
     "fibrosis": "fibro", "metastasis": "metastaz", "granuloma": "gran[uü]lom",
     "cavitation": "kavit", "pneumothorax": "pn[oö]motoraks",
-    "cardiomegaly": "kardiyomegali", "aneurysm": "anevrizma",
+    # BETIMLEYICI KALIP (tr-0.3): "kardiyomegali" train+dev'de 0 anma verdi ama
+    # "kalp boyutlari" 313 kez geciyor. Turkce raporlar Latince adlastirma yerine
+    # TAM CUMLE kuruyor. Kesinligi tasiyan kelime kalibin ICINDE ("artmistir" =
+    # present, "normal sinirlarda" = absent) - ipucu sozlugunde ele alinacak.
+    "cardiomegaly": "kardiyomegali|kalp boyut|kardiyak boyut", "aneurysm": "anevrizma",
     "hernia": "herni|f[ıi]t[ıi]k", "fracture": "frakt[uü]r|k[ıi]r[ıi]k",
     "bulla": "b[uü]l(?:l|[oö]z)", "reticulation": "retik[uü]l",
     "density": "dansite", "density_increase": "dansite art",
@@ -92,6 +96,61 @@ YUZEY = {
     "coronary_artery": "koroner", "abdomen": "abdomen|bat[ıi]n", "breast": "meme",
     "pleuroparenchymal": "plevroparankimal", "aortic_valve": "aort kapa",
     "pulmonary_conus": "pulmoner konus", "anatomic_segment": "segment",
+
+    # ---------------- tr-0.3: kalan 62 kavram ----------------
+    # Radyoloji Turkcesi buyuk olcude Latin kokenli translitasyondur; bu yuzden
+    # cogu yuzey Ingilizce terimin Turkce yazimidir (nodul, plevra, efuzyon).
+    # Ozturkce karsiligi yaygin olanlarda IKISI de yazilir ("dif[uü]z|yayg[ıi]n").
+    # --- gozlem ---
+    "tumor": "t[uü]m[oö]r|neoplaz|kitlesel",
+    "effusion_thickening": "ef[uü]zyon.{0,3}kal[ıi]nla[şs]|kal[ıi]nla[şs]ma.{0,3}ef[uü]zyon",
+    "atheroma_plaque": "aterom|ateroskler",
+    "lytic_destructive_lesion": "litik|destr[uü]ktif",
+    "mosaic_attenuation": "mozaik",
+    "dilatation": "dilate|dilatasyon|ektazi",
+    "nodular_lesion": "nod[uü]ler lezyon|nod[uü]ler dansite",
+    "small_airway_disease": "k[uü][çc][uü]k hava yolu",
+    "small_vessel_disease": "k[uü][çc][uü]k damar",
+    "soft_tissue_density": "yumu[şs]ak doku dansite",
+    "adiposity": "adipozite|ya[gğ]lanma",
+    "infective_pathology": "enfekt[iı]f|enfeksiy[oö]n",
+    # --- niteleyici ---
+    "spiculated": "spik[uü]l", "irregular": "d[uü]zensiz|irreg[uü]ler",
+    "lobulated": "lob[uü]le|lob[uü]lasyon", "smooth": "d[uü]zg[uü]n",
+    "well_defined": "iyi s[ıi]n[ıi]rl|d[uü]zg[uü]n s[ıi]n[ıi]rl|keskin s[ıi]n[ıi]rl"
+                    "|d[uü]zg[uü]n kont|keskin kont",
+    "indistinct": "belirsiz s[ıi]n[ıi]r|s[ıi]n[ıi]rlar[ıi] se[çc]ilemeyen",
+    "halo": "halo", "calcific": "kalsifiye|kalsifik",
+    "ground_glass": "buzlu cam", "hypodense": "hipodens",
+    "hyperdense": "hiperdens", "isodense": "izodens", "solid": "solid",
+    "part_solid": "yar[ıi] solid|k[ıi]smen solid|par[çc]a solid",
+    "fat_containing": "ya[gğ] i[çc]er|lipomat[oö]z|ya[gğ]l[ıi]",
+    "cystic": "kistik", "necrotic": "nekro", "diffuse": "dif[uü]z|yayg[ıi]n",
+    "subpleural": "subplevral|plevra alt", "apical": "apikal",
+    "peripheral": "perifer", "basal": "bazal", "central": "santral|merkezi",
+    "sequela": "sekel", "granulomatous": "gran[uü]lomat", "punctate": "punktat|noktasal",
+    # --- cihaz ---
+    # "port" tek basina "portal hilus" yakaliyordu (yanlis pozitif, D34) - daraltildi
+    "catheter": "kateter|port kateter|port hazne", "stent": "stent",
+    "pacemaker": "kalp pili|pacemaker|pil elektrod",
+    "surgical_clip": "klips|cerrahi klip|s[uü]t[uü]r",
+    "prosthesis": "protez|greft",
+    "drainage_tube": "dren|g[oö][gğ][uü]s t[uü]p|toraks t[uü]p",
+    # --- anatomi ---
+    "parenchyma": "parankim", "lumen": "l[uü]men", "airway": "hava yolu",
+    "station_prevascular": "prevask[uü]ler",
+    "station_paratracheal": "paratrakeal|pretrakeal",
+    "station_subcarinal": "subkarinal",
+    "station_hilar_axillary": "hiler.{0,2}aksiller",
+    "station_axillary": "aksiller|koltuk alt",
+    "station_supraclavicular": "supraklavik[uü]ler",
+    "station_aortopulmonary": "aortopulmoner|aortikopulmoner",
+    "thymus": "timus|timik", "vena_cava": "vena ka?va",
+    "pancreas": "pankreas",
+    "intervertebral_disc": "intervertebral disk|disk mesafe",
+    "neural_foramen": "n[oö]ral foramen|foramen",
+    "rib": "kosta|kaburga", "sternum": "sternum|sternal",
+    "diaphragm": "diyafra",
 }
 
 
@@ -137,7 +196,7 @@ def main() -> None:
 
     cikti = ROOT / "configs" / "turkce_yuzeyler_taslak.yaml"
     with cikti.open("w", encoding="utf-8") as f:
-        f.write("# TURKCE YUZEY TASLAGI - surum: tr-0.2 (TASLAK)\n"
+        f.write("# TURKCE YUZEY TASLAGI - surum: tr-0.3 (TASLAK)\n"
                 "#\n"
                 "# ⚠ HICBIR YUZEY UZMAN ONAYINDAN GECMEDI. 'uzman_onayi: false'\n"
                 "#   olan hicbir girdi sisteme alinmaz.\n"
@@ -148,7 +207,7 @@ def main() -> None:
                 "# icin sayilar dogrudan kiyaslanamaz, VARLIK/YOKLUK anlamlidir.\n"
                 "#\n"
                 "# Desenler BASTA sinirlidir - Turkce sondan eklemelidir.\n\n")
-        yaml.safe_dump({"surum": "tr-0.2", "durum": "taslak",
+        yaml.safe_dump({"surum": "tr-0.3", "durum": "taslak",
                         "kaynak": "RadTr toraks train+dev (373 belge) - test HARIC",
                         "yuzeyler": kayit},
                        f, allow_unicode=True, sort_keys=False)
