@@ -109,6 +109,11 @@ bolumler:
       korpus: 117
       uzman_onayi: false
       sonuc: uncertain
+    soru_isareti:
+      desen: '[A-Za-zİıŞşĞğÜüÖöÇç]{3,}\s*\?'
+      korpus: 461
+      uzman_onayi: false
+      sonuc: uncertain
     ayirici_tani:
       desen: ay[ıi]r[ıi]c[ıi] tan[ıi]
       korpus: 6

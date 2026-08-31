@@ -7,7 +7,7 @@ dil ablasyonunun (TASK-15) ölçüm yapabileceği zemini hazırlamak.
 > görüldüğü** yazılır — yalnızca "yapıldı" değil, çıkan sayı ve varsa sürpriz.
 > Diğer agent da buradan takip eder.
 
-**Durum:** 5/7 adım bitti · son güncelleme 2026-08-31
+**Durum:** 6/7 adım bitti · son güncelleme 2026-08-31
 
 ---
 
@@ -239,20 +239,106 @@ Türkçe tarafta karşılaştırma yapılamayacak.
 
 ---
 
-### ⬜ 6 · `dev` üzerinde sına ve düzelt
+### ✅ 6 · `dev` üzerinde sına ve düzelt
 
-`dev` = 46 belge · 1.490 varlık · absent 87 · uncertain 106.
-**Ayar kümesidir — sınırsız bakılır, düzeltme serbesttir.**
+**Bitti — 2026-08-31.** `scripts/23_turkce_dev_olcum.py` · 46 belge · 618 varlık
 
-- [ ] Türkçe çıkarımı `dev` üzerinde koş
-- [ ] RadTr altın etiketlerine karşı puanla (belge düzeyi, bkz. protokol §3)
-- [ ] Eksen kırılımı: `present` / `absent` / `uncertain` **ayrı**
-- [ ] Kaçan kavramları bul, yüzey/ipucu düzelt, tekrar ölç
-- [ ] Yeterli olduğunda `tr-1.0` olarak **dondur** (sağlama toplamıyla)
+İlk kez **Türkçe metinden Türkçe sözlükle** çıkarım yapıldı ve ölçüldü.
 
-⚠ Bu adım bitmeden çeviri koluna geçilmez: Türkçe kol eksik sözlükle koşulursa
-düşük çıkar ve yanlışlıkla *"Türkçe veri işe yaramıyor"* sonucuna varılır. Oysa
-ölçülen şey dil değil, **kendi sözlüğümüzün eksikliği** olur.
+#### Sonuç · D2 kesinlik ataması
+
+Altın kesinlik RadTr'nin **kendi etiketinden** gelir, bizim sözlüğümüzden
+bağımsızdır — bu yüzden ölçüm dairesel değildir.
+
+| sınıf | destek | P | R | **F1** |
+|---|---|---|---|---|
+| `present` | 450 | %84,3 | %97,6 | **%90,4** |
+| **`absent`** | 72 | %84,3 | **%97,2** | **%90,3** |
+| `uncertain` | 96 | %92,9 | %13,5 | %23,6 |
+
+**Doğruluk %84,5.**
+
+#### 🎯 **Negasyon Türkçede çalışıyor**
+
+`absent` **F1 %90,3 · duyarlılık %97,2**. Adım 5'te ölçtüğümüz "yön ters"
+bulgusuna göre kurulan **geri yönlü** kapsam işe yaradı. İngilizce tarafta
+`absent` en güçlü eksendi; Türkçede de öyle.
+
+Bu, TASK-14'ün asıl sorusunun cevabı: **çıkarım katmanı Türkçeye taşınıyor.**
+
+#### İki düzeltme yapıldı — ikisi de ölçümle gerekçeli
+
+**① Belirsizlik kapsamı çok genişti.** İlk sürüm cümlede parantez-soru görünce
+**tüm** varlıkları `uncertain` yapıyordu. Ölçüldü: altın `present` span'ların
+41/450'sinin cümlesinde parantez-soru var — ve hatamız **tam 41 satırdı**.
+Birebir bu sebepti.
+
+> *"Mozaik atenüasyon paterni (küçük hava yolu hastalığı?)"*
+> → mozaik atenüasyon **MEVCUT**, küçük hava yolu hastalığı **BELİRSİZ**
+
+Belirsizlik parantezin **içindedir**. Kapsam daraltıldı → `present` F1 %85,3 →
+%89,9, `uncertain` kesinliği %19,2 → %87,5.
+
+**② Parantezsiz soru işareti eksikti.** Türkçe raporlar ayırıcı tanıyı
+parantezsiz de yazıyor:
+
+> *"KLİNİK BİLGİ: **PTE? PNÖMONİ?**"* · *"nodül? metastaz?"*
+
+Ölçüldü: parantezsiz biçim **461 anma**, parantezli biçimin **4 katı** (117).
+Eklendi → `uncertain` F1 %13,5 → **%23,6**, doğruluk %83,5 → **%84,5**.
+
+#### ⚠ `uncertain` neden hâlâ düşük — ölçüldü, iddia edilmedi
+
+Altın `uncertain`ın (106) nereye gittiği:
+
+| sebep | n | pay |
+|---|---|---|
+| **teknik ifade — şema farkı** | 54 | **%51** |
+| gerçek kaçak | 25 | %24 |
+| çıkarım ifadesi (D29 gerilimi) | 10 | %9 |
+| span'ın cümlesi bulunamadı | 10 | %9 |
+| doğru yakalandı | 7 | %7 |
+
+**Yarısı sistem hatası değil, şema farkı.** RadTr *"değerlendirme optimal
+yapılamamıştır"* ifadesini `Obs_Uncertain` sayıyor; bizim **D30**'umuz teknik
+çekinceyi ayrı eksende tutuyor ve kesinliği değiştirmiyor. İki şema aynı fikirde
+değil — ve bu, kuralı değiştirme gerekçesi değil, **raporlanacak bir farktır**.
+
+Şema farkı dışlanınca:
+
+| sınıf | destek | P | R | **F1** |
+|---|---|---|---|---|
+| `present` | 450 | %93,8 | %97,6 | **%95,6** |
+| `absent` | 72 | %84,3 | %97,2 | **%90,3** |
+| `uncertain` | 42 | %92,3 | %28,6 | **%43,6** |
+
+**Doğruluk %92,4.** İki sayı da rapora girer; hangisinin okunacağı şema
+tercihine bağlıdır ve bu açıkça yazılır.
+
+**D29 gerilimi Türkçede de var:** *"ile uyumlu"* ifadesini biz `present`
+sayıyoruz (D29), RadTr `uncertain` sayıyor. İngilizce `test-v2`de de aynı
+gerilim `uncertain` duyarlılığını düşürmüştü. Aynı karar, iki dilde aynı fatura.
+
+#### ⚠ Ofset hatası yakalandı — puanlamada kullanılmadan önce
+
+Adım 6'ya girerken RadTr altın span'larının **bir token kaymış** olduğu görüldü:
+`Obs_Anatomy` etiketi *"artmıştır."* fiiline denk geliyordu. RadTr indeksleri
+**1-tabanlı**, çıkarım betiği 0-tabanlı varsaymıştı.
+
+Nesnel ölçütle sınandı (span, son tokeni dışında nokta ile biten token içermez):
+kayma −1 → %9,6 · **0 (hatalı) → %16,3** · +1 → %22,7. İkinci doğrulama:
+`Obs_Anatomy` span'larının yüklemle bitme oranı **%8,3 → %2,4**.
+
+⚠ Bu hata daha önce bir kez *"ofset 0 doğru"* diye **yanlış doğrulanmıştı** —
+o doğrulama örneklere göz atmaya dayanıyordu. Dondurma bozulmadı: bölüm üyeliği
+sağlama toplamları değişmedi.
+
+#### Altın veri kalitesi — denetlendi
+
+`Obs_Present` span'larının yalnızca **%0,1'i** (4/3939) negasyon ipucu taşıyor.
+Bir örnekte *"sıvı saptanmadı."* `Obs_Present` etiketliydi; nadir bir altın
+hatası, sistemik değil. Span'ların **%10,9'u** hâlâ cümle sınırını aşıyor —
+ölçümde 77 span'ın cümlesi bulunamadı.
 
 ---
 

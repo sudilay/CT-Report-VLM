@@ -77,6 +77,11 @@ IPUCU = {
     },
     "belirsizlik": {
         "parantez_soru": (r"\([^)]{2,40}\?\s*\)", "uncertain"),
+        # PARANTEZSIZ SORU (dev olcumunde bulundu): Turkce raporlar ayirici
+        # taniyi parantezsiz de yaziyor - "KLINIK BILGI: PTE? PNOMONI?",
+        # "nodul? metastaz?". Parantezli bicimin 4 KATI kadar geciyor
+        # (461'e 117). Kapsam: soru isaretinin ONUNDEKI terim.
+        "soru_isareti": (r"[A-Za-zİıŞşĞğÜüÖöÇç]{3,}\s*\?", "uncertain"),
         "ayirici_tani": ("ay[ıi]r[ıi]c[ıi] tan[ıi]", "uncertain"),
     },
     "cikarim_ifadesi": {

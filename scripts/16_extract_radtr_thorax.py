@@ -85,12 +85,25 @@ def main() -> None:
         varliklar = []
         for b, e, t in [(b, e, t) for s in d["ner"] for b, e, t in s]:
             tip, kesinlik = ESLEME.get(t, (None, None))
+            # OFSET DUZELTMESI (2026-08-31): RadTr token indeksleri 1-TABANLI.
+            # Ilk surum kel[b:e+1] aliyordu ve span'lar BIR TOKEN saga kaymisti:
+            # Obs_Anatomy etiketi "artmistir." fiiline denk geliyor, span'lar
+            # cumle sinirini asiyordu.
+            #
+            # Nesnel olcut: iyi hizalanmis bir span, SON tokeni disinda nokta ile
+            # biten token ICERMEZ. Kaymalar -4..+4 denendi:
+            #     -1 -> %9,6   0 -> %16,3   +1 -> %22,7   (31.847 span)
+            # -1 net minimum. Ikinci dogrulama: Obs_Anatomy span'larinin yuklemle
+            # bitme orani %8,3 -> %2,4'e dustu.
+            #
+            # ⚠ Bu hata daha once bir kez "ofset 0 dogru" diye YANLIS
+            # dogrulanmisti. Simdiki dogrulama nesnel olcute dayaniyor.
             varliklar.append({
-                "metin": " ".join(kel[b:e + 1]),
+                "metin": " ".join(kel[max(0, b - 1):e]),
                 "radtr_etiket": t,
                 "bizim_tip": tip,
                 "bizim_kesinlik": kesinlik,
-                "tok_bas": b, "tok_son": e,
+                "tok_bas": b - 1, "tok_son": e - 1,   # 0-tabanli, kapsayici
             })
             etiket_say[t] += 1
         kayitlar.append({

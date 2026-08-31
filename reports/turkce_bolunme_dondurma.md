@@ -33,7 +33,37 @@ korumuştu. Kendi bölünmemizi uydurmuyoruz.
 | **dev** | 46 | 6.416 | 1.490 | 502 | 87 | 106 | `b8aaeabe3b701244` |
 | **test** | 56 | 7.784 | 1.817 | 613 | **86** | **128** | `55d21d9b5a3bf328` |
 
-`data/processed/radtr_toraks.jsonl` → `b23029f63140459d`
+`data/processed/radtr_toraks.jsonl` → `8ce5ef37cdfd4504`
+
+### ⚠ Ofset düzeltmesi — 2026-08-31, dondurmadan sonra
+
+Adım 6'ya girerken RadTr altın span'larının **bir token sağa kaymış** olduğu
+görüldü: `Obs_Anatomy` etiketi *"artmıştır."* fiiline denk geliyor, span'lar
+cümle sınırını aşıyordu. RadTr token indeksleri **1-tabanlı**; çıkarım betiği
+0-tabanlı varsaymıştı.
+
+Nesnel ölçüt — iyi hizalanmış span, son tokeni dışında nokta ile biten token
+**içermez**:
+
+| kayma | span-içi nokta (31.847 span) |
+|---|---|
+| −1 | **%9,6** ✅ |
+| 0 (hatalı) | %16,3 |
+| +1 | %22,7 |
+
+İkinci doğrulama: `Obs_Anatomy` span'larının yüklemle bitme oranı
+**%8,3 → %2,4**.
+
+⚠ Bu hata daha önce bir kez *"ofset 0 doğru"* diye **yanlış doğrulanmıştı**;
+o doğrulama örneklere göz atmaya dayanıyordu, bu nesnel ölçüte dayanıyor.
+
+**Dondurma bozulmadı:** bölüm üyeliği sağlama toplamları (`train`
+`9a4fd147…`, `dev` `b8aaeabe…`, `test` `55d21d9b…`) **değişmedi** — onlar belge
+kimliği ve belge metnini özetliyor, düzeltme yalnızca span alanını etkiledi.
+Belge sayıları ve varlık sayıları da aynı (429 / 13.829).
+
+⚠ Düzeltme **puanlamada kullanılmadan önce** yakalandı; hatalı span'larla hiçbir
+ölçüm yapılmadı.
 
 ### Yayımlanmış bölünmeyi kullanmanın ek faydası
 
