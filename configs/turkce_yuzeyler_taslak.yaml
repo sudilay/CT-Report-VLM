@@ -1,4 +1,4 @@
-# TURKCE YUZEY TASLAGI - surum: tr-0.1 (TASLAK)
+# TURKCE YUZEY TASLAGI - surum: tr-0.2 (TASLAK)
 #
 # ⚠ HICBIR YUZEY UZMAN ONAYINDAN GECMEDI. 'uzman_onayi: false'
 #   olan hicbir girdi sisteme alinmaz.
@@ -10,83 +10,83 @@
 #
 # Desenler BASTA sinirlidir - Turkce sondan eklemelidir.
 
-surum: tr-0.1
+surum: tr-0.2
 durum: taslak
-kaynak: RadTr toraks alt kumesi (429 belge)
+kaynak: RadTr toraks train+dev (373 belge) - test HARIC
 yuzeyler:
   nodule:
     desen: nod[uü]l
-    radtr: 223
+    radtr: 190
     ct_rate_ingilizce: 27465
     uzman_onayi: false
   mass:
     desen: kitle
-    radtr: 24
+    radtr: 22
     ct_rate_ingilizce: 18168
     uzman_onayi: false
   lesion:
     desen: lezyon
-    radtr: 80
+    radtr: 70
     ct_rate_ingilizce: 12652
     uzman_onayi: false
   effusion:
     desen: ef[uü]zyon
-    radtr: 420
+    radtr: 359
     ct_rate_ingilizce: 20357
     uzman_onayi: false
   thickening:
     desen: kal[ıi]nla[şs]
-    radtr: 153
+    radtr: 127
     ct_rate_ingilizce: 30386
     uzman_onayi: false
   consolidation:
     desen: konsolidasyon
-    radtr: 35
+    radtr: 34
     ct_rate_ingilizce: 8385
     uzman_onayi: false
   infiltration:
     desen: infiltrasyon
-    radtr: 321
+    radtr: 278
     ct_rate_ingilizce: 11953
     uzman_onayi: false
   pneumonia:
     desen: pn[oö]moni
-    radtr: 215
+    radtr: 186
     ct_rate_ingilizce: 18617
     uzman_onayi: false
   emphysema:
     desen: amfizem
-    radtr: 51
+    radtr: 42
     ct_rate_ingilizce: 8604
     uzman_onayi: false
   bronchiectasis:
     desen: bron[şs]ektazi
-    radtr: 34
+    radtr: 30
     ct_rate_ingilizce: 4336
     uzman_onayi: false
   cyst:
     desen: kist
-    radtr: 86
+    radtr: 69
     ct_rate_ingilizce: 4877
     uzman_onayi: false
   calcification:
     desen: kalsifi|kire[çc]len
-    radtr: 214
+    radtr: 185
     ct_rate_ingilizce: 3561
     uzman_onayi: false
   atelectasis:
     desen: atelektazi
-    radtr: 136
+    radtr: 119
     ct_rate_ingilizce: 12106
     uzman_onayi: false
   fibrosis:
     desen: fibro
-    radtr: 84
+    radtr: 73
     ct_rate_ingilizce: 2904
     uzman_onayi: false
   metastasis:
     desen: metastaz
-    radtr: 8
+    radtr: 7
     ct_rate_ingilizce: 2925
     uzman_onayi: false
   granuloma:
@@ -101,7 +101,7 @@ yuzeyler:
     uzman_onayi: false
   pneumothorax:
     desen: pn[oö]motoraks
-    radtr: 41
+    radtr: 37
     ct_rate_ingilizce: 1599
     uzman_onayi: false
   cardiomegaly:
@@ -111,42 +111,42 @@ yuzeyler:
     uzman_onayi: false
   aneurysm:
     desen: anevrizma
-    radtr: 15
+    radtr: 12
     ct_rate_ingilizce: 81
     uzman_onayi: false
   hernia:
     desen: herni|f[ıi]t[ıi]k
-    radtr: 38
+    radtr: 37
     ct_rate_ingilizce: 6098
     uzman_onayi: false
   fracture:
     desen: frakt[uü]r|k[ıi]r[ıi]k
-    radtr: 125
+    radtr: 114
     ct_rate_ingilizce: 2124
     uzman_onayi: false
   bulla:
     desen: b[uü]l(?:l|[oö]z)
-    radtr: 6
+    radtr: 4
     ct_rate_ingilizce: 415
     uzman_onayi: false
   reticulation:
     desen: retik[uü]l
-    radtr: 47
+    radtr: 42
     ct_rate_ingilizce: 437
     uzman_onayi: false
   density:
     desen: dansite
-    radtr: 203
+    radtr: 178
     ct_rate_ingilizce: 19334
     uzman_onayi: false
   density_increase:
     desen: dansite art
-    radtr: 48
+    radtr: 42
     ct_rate_ingilizce: 6257
     uzman_onayi: false
   enlarged_lymph_node:
     desen: lenfadenopati|patolojik.{0,20}lenf
-    radtr: 106
+    radtr: 93
     ct_rate_ingilizce: 16460
     uzman_onayi: false
   lymphadenomegaly:
@@ -156,12 +156,12 @@ yuzeyler:
     uzman_onayi: false
   covid:
     desen: covid|kovid
-    radtr: 45
+    radtr: 38
     ct_rate_ingilizce: 8569
     uzman_onayi: false
   edema:
     desen: '[oö]dem'
-    radtr: 48
+    radtr: 41
     ct_rate_ingilizce: 617
     uzman_onayi: false
   hepatosteatosis:
@@ -181,7 +181,7 @@ yuzeyler:
     uzman_onayi: false
   sequela_change:
     desen: sekel
-    radtr: 42
+    radtr: 38
     ct_rate_ingilizce: 5499
     uzman_onayi: false
   spondylosis:
@@ -191,17 +191,17 @@ yuzeyler:
     uzman_onayi: false
   degenerative_change:
     desen: dejeneratif
-    radtr: 114
+    radtr: 99
     ct_rate_ingilizce: 6470
     uzman_onayi: false
   septal_thickening:
     desen: septal kal[ıi]nla
-    radtr: 82
+    radtr: 67
     ct_rate_ingilizce: 1640
     uzman_onayi: false
   air_bronchogram:
     desen: hava bronkogram
-    radtr: 38
+    radtr: 35
     ct_rate_ingilizce: 1405
     uzman_onayi: false
   goiter:
@@ -216,12 +216,12 @@ yuzeyler:
     uzman_onayi: false
   occlusive_pathology:
     desen: t[ıi]kay[ıi]c[ıi]|okl[uü]z
-    radtr: 7
+    radtr: 5
     ct_rate_ingilizce: 12175
     uzman_onayi: false
   cardiothoracic_ratio:
     desen: kardiyotorasik|KTO
-    radtr: 7
+    radtr: 5
     ct_rate_ingilizce: 2955
     uzman_onayi: false
   space_occupying_lesion:
@@ -236,42 +236,42 @@ yuzeyler:
     uzman_onayi: false
   lung:
     desen: akci[gğ]er
-    radtr: 1104
+    radtr: 958
     ct_rate_ingilizce: 97114
     uzman_onayi: false
   lung_parenchyma:
     desen: parankim
-    radtr: 343
+    radtr: 298
     ct_rate_ingilizce: 32802
     uzman_onayi: false
   pleura:
     desen: plevra
-    radtr: 493
+    radtr: 426
     ct_rate_ingilizce: 24022
     uzman_onayi: false
   mediastinum:
     desen: mediasten
-    radtr: 157
+    radtr: 139
     ct_rate_ingilizce: 49517
     uzman_onayi: false
   heart:
     desen: kalp|kardiyak
-    radtr: 660
+    radtr: 575
     ct_rate_ingilizce: 23643
     uzman_onayi: false
   aorta:
     desen: aort
-    radtr: 178
+    radtr: 160
     ct_rate_ingilizce: 23122
     uzman_onayi: false
   trachea:
     desen: trakea
-    radtr: 399
+    radtr: 344
     ct_rate_ingilizce: 30359
     uzman_onayi: false
   bronchus:
     desen: bron[şs]
-    radtr: 501
+    radtr: 434
     ct_rate_ingilizce: 31605
     uzman_onayi: false
   esophagus:
@@ -281,62 +281,62 @@ yuzeyler:
     uzman_onayi: false
   liver:
     desen: karaci[gğ]er
-    radtr: 40
+    radtr: 34
     ct_rate_ingilizce: 16449
     uzman_onayi: false
   kidney:
     desen: b[oö]brek
-    radtr: 109
+    radtr: 83
     ct_rate_ingilizce: 7669
     uzman_onayi: false
   lymph_node:
     desen: lenf
-    radtr: 583
+    radtr: 513
     ct_rate_ingilizce: 20468
     uzman_onayi: false
   upper_lobe:
     desen: '[uü]st lob'
-    radtr: 192
+    radtr: 171
     ct_rate_ingilizce: 16957
     uzman_onayi: false
   lower_lobe:
     desen: alt lob
-    radtr: 472
+    radtr: 409
     ct_rate_ingilizce: 24466
     uzman_onayi: false
   middle_lobe:
     desen: orta lob
-    radtr: 97
+    radtr: 79
     ct_rate_ingilizce: 8882
     uzman_onayi: false
   lingula:
     desen: lingul
-    radtr: 58
+    radtr: 51
     ct_rate_ingilizce: 5998
     uzman_onayi: false
   hilum:
     desen: hilus|hiler
-    radtr: 106
+    radtr: 93
     ct_rate_ingilizce: 11144
     uzman_onayi: false
   pericardium:
     desen: perikard
-    radtr: 234
+    radtr: 205
     ct_rate_ingilizce: 22913
     uzman_onayi: false
   pulmonary_artery:
     desen: pulmoner arter
-    radtr: 185
+    radtr: 158
     ct_rate_ingilizce: 3621
     uzman_onayi: false
   vertebra:
     desen: vertebra
-    radtr: 65
+    radtr: 59
     ct_rate_ingilizce: 16496
     uzman_onayi: false
   bone:
     desen: kemik
-    radtr: 135
+    radtr: 117
     ct_rate_ingilizce: 26208
     uzman_onayi: false
   chest_wall:
@@ -346,57 +346,57 @@ yuzeyler:
     uzman_onayi: false
   thyroid:
     desen: tiroid
-    radtr: 75
+    radtr: 62
     ct_rate_ingilizce: 2325
     uzman_onayi: false
   spleen:
     desen: dalak
-    radtr: 15
+    radtr: 13
     ct_rate_ingilizce: 3807
     uzman_onayi: false
   adrenal_gland:
     desen: s[uü]rrenal|adrenal
-    radtr: 24
+    radtr: 22
     ct_rate_ingilizce: 15734
     uzman_onayi: false
   gallbladder:
     desen: safra kesesi
-    radtr: 34
+    radtr: 28
     ct_rate_ingilizce: 2749
     uzman_onayi: false
   fissure:
     desen: fiss[uü]r
-    radtr: 27
+    radtr: 20
     ct_rate_ingilizce: 2625
     uzman_onayi: false
   hemithorax:
     desen: hemitoraks
-    radtr: 427
+    radtr: 375
     ct_rate_ingilizce: 4940
     uzman_onayi: false
   lung_apex:
     desen: apeks|apikal
-    radtr: 78
+    radtr: 70
     ct_rate_ingilizce: 2299
     uzman_onayi: false
   soft_tissue:
     desen: yumu[şs]ak doku
-    radtr: 22
+    radtr: 19
     ct_rate_ingilizce: 1647
     uzman_onayi: false
   vascular_structure:
     desen: vask[uü]ler
-    radtr: 311
+    radtr: 268
     ct_rate_ingilizce: 25439
     uzman_onayi: false
   coronary_artery:
     desen: koroner
-    radtr: 98
+    radtr: 87
     ct_rate_ingilizce: 9518
     uzman_onayi: false
   abdomen:
     desen: abdomen|bat[ıi]n
-    radtr: 97
+    radtr: 83
     ct_rate_ingilizce: 29072
     uzman_onayi: false
   breast:
@@ -416,11 +416,11 @@ yuzeyler:
     uzman_onayi: false
   pulmonary_conus:
     desen: pulmoner konus
-    radtr: 110
+    radtr: 97
     ct_rate_ingilizce: 190
     uzman_onayi: false
   anatomic_segment:
     desen: segment
-    radtr: 438
+    radtr: 374
     ct_rate_ingilizce: 25627
     uzman_onayi: false

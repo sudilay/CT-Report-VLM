@@ -258,3 +258,32 @@ desenler **başta sınırlı, sonda sınırsız** olmalı. Aynı ölçümde `fra
 yanlış desenle 6 çıkmıştı, düzeltince **125** oldu.
 
 Bu, `tools/README.md`'deki kelime sınırı tuzağının Türkçe hâlidir.
+
+
+---
+
+## Bölünme ve kilit (2026-08-31)
+
+RadTr **kendi yayımlanmış bölünmesini** taşıyor ve `16_extract_radtr_thorax.py`
+bunu `kaynak_bolum` alanında korumuştu:
+
+| bölüm | belge | kelime | varlık | present | absent | uncertain |
+|---|---|---|---|---|---|---|
+| train | 327 | 44.841 | 10.522 | 3.615 | 573 | 706 |
+| dev | 46 | 6.416 | 1.490 | 502 | 87 | 106 |
+| **test** | **56** | 7.784 | 1.817 | 613 | **86** | **128** |
+
+Türkçe yüzeyler yalnızca `train+dev` üzerinde geliştirilir; `test` dil ablasyonu
+için **bir kez** açılır. Ayrıntı ve gerekçe:
+[`reports/turkce_bolunme_dondurma.md`](../reports/turkce_bolunme_dondurma.md)
+
+⚠ Kirlenmenin **yönü** tehlikeli: desenler test'e uydurulursa Türkçe taraf haksız
+yere iyi çıkar ve ablasyondan yanlışlıkla *"Türkçe veri önemliymiş"* sonucu
+çıkar — yani kirlenme tam da varmak istediğimiz sonucu bozar.
+
+**Maruziyet ölçüldü ve sıfır çıktı:** `tr-0.1` sayımları bölünmeden önce 429
+belgenin tamamında yapılmıştı; kapsama sonucu test dahil (%88) ve hariç (%88)
+**birebir aynı**.
+
+Ablasyonun nasıl ölçüleceği:
+[`docs/16_dil_ablasyon_protokolu.md`](16_dil_ablasyon_protokolu.md)

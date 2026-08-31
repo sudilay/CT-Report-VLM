@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""TASK-13 / C1: Yapisal degismezleri olcer (K11-K15).
+"""TASK-13 / C1: Yapisal degismezleri olcer (K11-K16).
 
 NEDEN ALTIN ACIKLAMA GEREKMEZ:
   Bu olcutler "cevap dogru mu" diye sormuyor, "sistem kendi kuraluna uyuyor mu"
@@ -147,7 +147,68 @@ def olc(ent: pd.DataFrame, sent: pd.DataFrame) -> list[dict]:
          "esik": 85.0, "deger": oran(k15["en_az_bir_absent"], k15["cumle"]),
          "payda": k15["cumle"], "ihlal": k15["cumle"] - k15["en_az_bir_absent"],
          "ornek": ornek["k15"]},
+        k16_olc(),
     ]
+
+
+# --------------------------------------------------------------------- K16
+
+KILAVUZLAR = ("docs/11_isaretleme_kilavuzu.md", "docs/12_pilot_rehberi.md")
+
+
+def k16_olc() -> dict:
+    """Sozlukte alinan her kapsam karari kilavuzda da yaziyor mu?
+
+    NEDEN VAR:
+      Bu bosluk olcumu IKI KEZ bozdu ve her ikisinde de ayrisma TEK YONLUYDU:
+
+        ayar kumesi  · D28 "anatomi olumsuzlanmaz"  -> 99 ayrisma
+        test-v2      · anatomic_segment + abdomen   -> 37 ayrisma
+
+      Ikisinde de kural SISTEMDE VARDI ve DOGRUYDU; yalnizca isaretleyiciye
+      sorulmamisti. Isaretleyiciye sorulmayan kuralda ayrisma DIKKATSIZLIK DEGIL,
+      beklenen sonuctur - ve o eksende olcum alinamaz.
+
+      Sozlukte `kilavuz_karari: true` tasiyan kavram, kilavuzda ADIYLA veya bir
+      DESENIYLE gecmelidir. Gecmiyorsa bu bir degismez ihlalidir.
+
+    ⚠ Bu olcut "kural dogru mu" demez; "kural isaretleyiciye SORULDU MU" der.
+    """
+    import yaml
+
+    eksik, toplam, isaretli = [], 0, []
+    kilavuz = " ".join(
+        (ROOT / k).read_text(encoding="utf-8").lower()
+        for k in KILAVUZLAR if (ROOT / k).exists())
+
+    for dosya in ("configs/anatomi_sozlugu.yaml", "configs/bulgu_sozlugu.yaml"):
+        ham = yaml.safe_load((ROOT / dosya).read_text(encoding="utf-8"))
+        kavramlar = ham.get("kavramlar", ham)
+        for ad, tanim in kavramlar.items():
+            if not isinstance(tanim, dict) or not tanim.get("kilavuz_karari"):
+                continue
+            toplam += 1
+            isaretli.append(ad)
+            # Ad ya da desenlerinden HERHANGI biri kilavuzda geciyorsa yeterli.
+            # Kilavuz kavrami `anatomic_segment` diye de "anatomic segment" diye de
+            # yazabilir; ikisi de gecerli sayilir. Desenler regex oldugu icin
+            # metakarakterleri atilir ("segments?" -> "segment").
+            adaylar = {ad, ad.replace("_", " ")}
+            for d in tanim.get("desenler", []):
+                sade = re.sub(r"[^a-z ]", "", str(d).lower()).strip()
+                if len(sade) >= 4:
+                    adaylar.add(sade)
+            if not any(a and a in kilavuz for a in adaylar):
+                eksik.append(ad)
+
+    return {
+        "kod": "K16", "ad": "sozlukteki kapsam karari kilavuzda da yazili",
+        "esik": 100.0,
+        "deger": 100.0 * (toplam - len(eksik)) / toplam if toplam else float("nan"),
+        "payda": toplam, "ihlal": len(eksik),
+        "ornek": [f"`{a}` — sozlukte kapsam karari var, kilavuzda YOK" for a in eksik],
+        "ek": f"denetlenen kapsam karari: {', '.join(sorted(isaretli))}",
+    }
 
 
 def main() -> None:

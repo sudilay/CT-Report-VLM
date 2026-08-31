@@ -199,35 +199,52 @@ ilk kez ölçüldü.** D33'ün zenginleştirmesi amacına ulaştı.
 
 ---
 
-## 5. K7 · Zaman — **ölçülemedi**
+## 5. K7 · Zaman — **ölçüldü ve KALDI** *(bu bölüm düzeltildi)*
 
-| | A | B |
-|---|---|---|
-| rastgele | %99,3 | %78,2 |
-| hedefli | %68,4 | %59,4 |
+### ⚠ Önceki teşhisim yanlıştı — kayda geçiyor
 
-Bu sayılar raporlanmıyor, çünkü **altın verinin kendisi geçerli değil**:
+Bu bölümün ilk hâlinde *"K7 ölçülemedi, çünkü kılavuz önceki-tetkik cümlesini
+tanımlamıyor"* yazmıştım. **Yanlış.** Kılavuzu K16 için açtığımda kuralın
+`docs/12_pilot_rehberi.md`'de — işaretleyicilere okumaları söylenen dosyada —
+⚠ işaretiyle ve tam bu vakayla yazılı olduğunu gördüm:
 
-| eksen | uyum | kappa |
-|---|---|---|
-| ZAMAN | %85,0 | **0,017** |
+> | ⚠ *"has increased **compared to the previous** examination"* | **guncel** |
+>
+> **Son satır önemli:** *"önceki tetkike göre büyümüş"* cümlesinde bulgu
+> **şimdi vardır**. "Önceki" sadece kıyas noktasıdır.
 
-Kappa 0,017 = **rastlantı düzeyi**. Ham uyumun %85 olması aldatıcıdır (kappa
-paradoksu): neredeyse her şey `guncel`, dolayısıyla kör atış bile %85 tutturur.
+`docs/11_isaretleme_kilavuzu.md` §5 de aynı kuralı yazıyor.
 
-Kanıt, iki işaretleyicinin `prior` saydığı bulgu adedinde: **A 15, B 56.**
-Aynı 838 aday, aynı cümleler, dört kat fark.
+Yani bu bir **kılavuz boşluğu değil**. Ayrışan 62 satırın tamamı bu kuralın
+kapsadığı vakalar: *"önceki tetkike göre artmış"*, *"önceki tetkikte de
+gözlenen"*. **A kuralı uyguladı, B uygulamadı.**
 
-Sebep — üçüncü kılavuz boşluğu: kılavuz *"bu bulgu bu tetkike mi, önceki bir
-tetkike mi ait"* diye soruyor ama **radyolojinin en sık cümlesini tanımlamıyor**:
+Bu, B'nin kavram ekseninde de görülen güvenilmezliğiyle (3b) **aynı yönde**.
 
-> *"Önceki tetkikte 8 mm olan nodül şimdi 10 mm'dir."*
-> Nodül `guncel` mi (şu an var), `onceki` mi (önceki tetkike atıfla anılıyor)?
+### Sonuç: K7 ölçülebilir — A'nın işaretlemesinden
 
-İkisi de savunulabilir. Kılavuz seçmediği için işaretleyiciler farklı seçti.
+| | değer |
+|---|---|
+| doğruluk (tüm eksen) | %96,6 |
+| **`prior` desteği** | **15** |
+| `prior` kesinlik | **%27,6** |
+| `prior` duyarlılık | **%53,3** |
+| `prior` F1 | **%36,4** |
+| yanlış `prior` ataması | **21** |
 
-**K7 bu turda ölçülmemiştir.** Düzeltmesi kural değişikliği değil, kılavuza
-yazılmış bir tanım ve 3–4 örnektir.
+**K7 eşiği geçmiyor.** Sistem `prior` sınıfında hem kaçırıyor (15'in 7'si) hem
+uyduruyor (21 yanlış atama). Doğruluğun %96,6 olması aldatıcıdır — neredeyse her
+şey `guncel` olduğu için kör atış bile yüksek çıkar.
+
+⚠ **Bu okuma tek işaretleyiciye dayanıyor** ve bunu uyum katsayısıyla
+doğrulayamıyoruz (kappa 0,017). Dayanağı uzlaşma değil **kurala uygunluk**:
+A'nın cevapları yazılı kuralla tutarlı, B'ninkiler değil. Bu bir gerekçedir,
+kanıt değil — okuyucu bu gerekçeye katılmayabilir.
+
+`prior` desteğinin yalnızca 15 olması ayrı bir sorundur. `onceki_tetkik` grubuna
+60 cümle konmuştu ama bunların çoğu *"önceki tetkike göre"* kıyas cümlesi çıktı
+ve kural gereği `guncel` sayıldı. **Hedefleme deseni yanlış şeyi yakalamış** —
+D33 kotası bu eksende amacına ulaşmadı.
 
 ---
 
@@ -250,7 +267,7 @@ yazılmış bir tanım ve 3–4 örnektir.
 | **K5** duyarlılık | %80 | ✅ **%88,1 / %97,0** *(üst sınır)* |
 | **K4** varlık kesinliği | %90 | ⚠ **%81,4 – %99,5** — tek sayı iddia edilemez |
 | **K6** kesinlik ataması | %85 | ✅ **%87,9 / %88,9** (A) · ❌ %76,1 / %83,2 (B) |
-| **K7** zaman | %85 | ⛔ **ölçülemedi** — altın veri geçersiz |
+| **K7** zaman | %85 | ❌ **KALDI** — `prior` F1 %36,4 (tek işaretleyici) |
 
 ### Savunulabilir olan
 
@@ -264,7 +281,7 @@ yazılmış bir tanım ve 3–4 örnektir.
 
 1. **K4 tek sayı olarak iddia edilemez.** Kavram ekseni pratikte tek
    işaretleyiciye dayanıyor.
-2. **K7 yok.** Zaman ekseni için ölçüm üretilmedi.
+2. **K7 tek işaretleyiciye dayanıyor** ve eşiği geçmiyor: `prior` F1 %36,4. Dayanağı uzlaşma değil kurala uygunluk.
 3. **`uncertain` duyarlılığı düşük** (%71 / %46) ve sebebi bilinen bir karardır
    (D29).
 4. **K5 üst sınırdır**, gevşek dize eşleştirmesinden.
@@ -282,8 +299,9 @@ Kılavuz boşluğu iki turda iki kez ölçüm bozdu. Tek seferlik yama yetmiyor:
    *(K16 — yazılacak.)*
 2. **Çeldirici kapısına pozitif kontrol kolu eklenir** — aşırı reddi görebilmek
    için.
-3. **Kılavuza yazılacak üç tanım:** `anatomic_segment`, `abdomen` kapsamı, ve
-   zaman ekseni için "önceki tetkikle karşılaştırma" cümlesi.
+3. **Kılavuza yazıldı:** `anatomic_segment`, `abdomen`, `density_increase` kapsamı
+   ve `qualifier` türü. Zaman kuralı **zaten yazılıydı** — eksik olan kural
+   değil, işaretleyicinin ona uymasıydı.
 4. **`uncertain` / D29** yeniden değerlendirilir; etkisi `test-v3`te ölçülür.
 
 ⚠ 1–4'ün hiçbiri `test-v2` sayılarını değiştirmez. Bu küme **kapandı**.

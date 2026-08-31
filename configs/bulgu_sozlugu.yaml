@@ -77,6 +77,7 @@ kavramlar:
     desenler: ["atelecta(?:sis|ses|tic)", "collapsed?"]
     korpus: 11256
   pneumonia:
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     tip: observation
     desenler: ["pneumonias?", "pneumonic infiltrations?", "pneumonic"]
     korpus: 16526
@@ -156,11 +157,13 @@ kavramlar:
     # 26.578 kaydin 19.187'si yalnizca ciplak bicimdi. Daha kotusu, "decrease in
     # density" (1.389 cumle) de ARTIS olarak isaretleniyordu. Kavram adi metnin
     # SOYLEMEDIGI bir seyi iddia ediyordu. Ciplak bicim notr 'density'ye ayrildi.
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     tip: observation
     desenler: ["densit(?:y|ies) increases?", "increased densit(?:y|ies)"]
     korpus: 5981
   density:
     # Notr dansite/opasite anmasi - yon (artis/azalis) IDDIA ETMEZ.
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     tip: observation
     desenler: ["densit(?:y|ies)", "opacit(?:y|ies)"]
     korpus: 24329

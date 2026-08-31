@@ -19,8 +19,25 @@ DESEN KURALI - TURKCEYE OZGU:
   yakalayarak bulla'yi RadTr'de CT-RATE'ten daha sik gosterdi. Bu, tools/
   README'deki kelime siniri tuzaginin Turkce hali.
 
-Kullanim: .venv/Scripts/python.exe scripts/20_turkce_yuzey_taslagi.py
+BOLUNME DISIPLINI (tr-0.2 ile eklendi):
+  RadTr KENDI yayimlanmis bolunmesini tasiyor (train 327 / dev 46 / test 56) ve
+  16_extract_radtr_thorax.py bunu `kaynak_bolum` alaninda korudu. Turkce yuzeyler
+  YALNIZCA train+dev uzerinde gelistirilir; test 56 belge DOKUNULMAZDIR.
+
+  Neden bu kadar onemli: kirlenmenin YONU tehlikeli. Desenler test'e uydurulursa
+  Turkce taraf haksiz yere iyi cikar ve dil ablasyonundan yanlislikla "Turkce veri
+  onemliymis" sonucu cikar - yani kirlenme tam da varmak istedigimiz sonucu bozar.
+
+  MARUZIYET KAYDI: tr-0.1 sayimlari bolunmeden ONCE 429 belgenin tamaminda bir kez
+  yapildi. Sinirli ve olculmus bir maruziyettir: hicbir belge okunmadi, hicbir skor
+  hesaplanmadi, ve sonuc train+dev uzerinde BIREBIR yeniden uretildi (72/82 = %88,
+  test dahil ve haric ayni). Test bolumu o sonuca hicbir sey katmadi.
+
+Kullanim:
+    .venv/Scripts/python.exe scripts/20_turkce_yuzey_taslagi.py
+    .venv/Scripts/python.exe scripts/20_turkce_yuzey_taslagi.py --bolum test  # KILITLI
 """
+import argparse
 import json
 import re
 import sys
@@ -78,11 +95,34 @@ YUZEY = {
 }
 
 
+GELISTIRME_BOLUMLERI = ("train", "dev")
+
+
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--bolum", default="gelistirme",
+                    help="gelistirme (train+dev) | test")
+    a = ap.parse_args()
+
+    # KILIT: test bolumu yuzey gelistirmede KULLANILAMAZ.
+    # Bu betik desen yazmaya hizmet eder; test'i acmak olcumu gecersiz kilar.
+    if a.bolum != "gelistirme":
+        sys.exit(
+            "DURDU: bu betik yalnizca train+dev uzerinde calisir.\n"
+            "  test bolumu (56 belge) dil ablasyonu icin dokunulmazdir ve BIR KEZ\n"
+            "  acilir - desen gelistirirken degil, olcum yapilirken.\n"
+            "  Kilit gerekcesi: reports/turkce_bolunme_dondurma.md")
+
     yol = PROC / "radtr_toraks.jsonl"
     if not yol.exists():
         sys.exit("once scripts/16_extract_radtr_thorax.py calistirilmali")
-    metin = " ".join(json.loads(l)["metin"] for l in yol.open(encoding="utf-8"))
+    belgeler = [json.loads(l) for l in yol.open(encoding="utf-8")]
+    secili = [b for b in belgeler if b["kaynak_bolum"] in GELISTIRME_BOLUMLERI]
+    metin = " ".join(b["metin"] for b in secili)
+    print(f"olcum tabani: {len(secili)}/{len(belgeler)} belge "
+          f"({'+'.join(GELISTIRME_BOLUMLERI)}) · {len(metin.split())} kelime")
+    print(f"DISARIDA BIRAKILAN: "
+          f"{len(belgeler)-len(secili)} test belgesi - dokunulmaz\n")
     ing = pd.read_parquet(PROC / "entities.parquet").normalized_concept.value_counts()
 
     kayit, var, yok = {}, 0, []
@@ -97,7 +137,7 @@ def main() -> None:
 
     cikti = ROOT / "configs" / "turkce_yuzeyler_taslak.yaml"
     with cikti.open("w", encoding="utf-8") as f:
-        f.write("# TURKCE YUZEY TASLAGI - surum: tr-0.1 (TASLAK)\n"
+        f.write("# TURKCE YUZEY TASLAGI - surum: tr-0.2 (TASLAK)\n"
                 "#\n"
                 "# ⚠ HICBIR YUZEY UZMAN ONAYINDAN GECMEDI. 'uzman_onayi: false'\n"
                 "#   olan hicbir girdi sisteme alinmaz.\n"
@@ -108,8 +148,8 @@ def main() -> None:
                 "# icin sayilar dogrudan kiyaslanamaz, VARLIK/YOKLUK anlamlidir.\n"
                 "#\n"
                 "# Desenler BASTA sinirlidir - Turkce sondan eklemelidir.\n\n")
-        yaml.safe_dump({"surum": "tr-0.1", "durum": "taslak",
-                        "kaynak": "RadTr toraks alt kumesi (429 belge)",
+        yaml.safe_dump({"surum": "tr-0.2", "durum": "taslak",
+                        "kaynak": "RadTr toraks train+dev (373 belge) - test HARIC",
                         "yuzeyler": kayit},
                        f, allow_unicode=True, sort_keys=False)
 

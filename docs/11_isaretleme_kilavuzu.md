@@ -194,6 +194,33 @@ Bir olumsuzlama **birden çok bulguyu** kapsayabilir:
 | Cihaz (kateter, stent) | Anatomiye değil, ayrı yaz ve `notlar`a "cihaz" düş |
 | Cümle anlaşılmıyor | Boş bırak, `notlar`a yaz. **Tahmin etme** |
 
+### ⚠ Kapsam kararları — bunlar **tanım**, tercih değil
+
+Aşağıdakiler tartışmalı görünen ama **karara bağlanmış** kavramlardır. Sistemde
+böyle uygulanıyor, bu yüzden işaretlemede de böyle yapılır. Bunlar `E`/`H`
+tercihine bırakılmaz.
+
+| kavram | kural | örnek |
+|---|---|---|
+| **`anatomic_segment`** — *"segment"* | Tek başına geçse bile **anatomik yapıdır** → `dogru_varlik_mi = E` | *"in the anterior **segment**"* → segment `E`, kavram `anatomic_segment` `E` |
+| **`abdomen`** — *"upper abdominal"*, *"abdominal sections"* | Toraks BT'de görülen batın kesitleri de **anatomik yapıdır** → `E`. Toraks dışı diye elenmez | *"In the upper **abdominal** sections…"* → `E` |
+| **`density_increase`** — *"increased density"*, *"density increase"* | Yoğunluk artışı **bulgudur**, niteleyici değil → `E` | *"areas of **increased density**"* → `E` |
+
+**Neden yazılı:** bu üç karar sözlükte verilmişti ama kılavuza geçirilmemişti ve
+iki işaretleyici bunlarda **tam ters** yanıt verdi (biri hepsine `E`, diğeri
+hepsine `H`). Sana sorulmayan kuralda ayrışman senin hatan değil — bu yüzden
+artık yazılı.
+
+### Niteleyiciler (`qualifier`) hakkında
+
+`dogru_varlik_mi` sorusu *"bu bir bulgu veya anatomi mi"* diye sorar.
+**Niteleyiciler üçüncü bir türdür** (*irregular*, *spiculated*, *solid*) ve
+sistem bunları ayrı bir eksende tutar.
+
+> Aday `aday_tip` kolonunda **`qualifier`** yazıyorsa: niteleyici gerçekten
+> cümlede geçiyorsa `dogru_varlik_mi = E`. "Bulgu değil" diye `H` **deme**.
+
+---
 ---
 
 ## 7. Emin olamadığında

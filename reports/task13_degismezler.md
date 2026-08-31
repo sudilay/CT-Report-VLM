@@ -11,6 +11,7 @@ Kesinlik, duyarlılık ve F1 (K4–K10) insan işaretlemesi bekliyor.
 | **K13** | 'no X or Y' -> ikinci gozlem de 'absent' | 90% | **99.6%** | 10,826 | 43 | gecti |
 | **K14** | 'absent'/'uncertain' satirlarda assertion_cue dolu | 100% | **100.0%** | 188,520 | 0 | gecti |
 | **K15** | YALNIZCA ardil ipuclu cumlede 'absent' yakalandi | 85% | **98.9%** | 25,606 | 279 | gecti |
+| **K16** | sozlukteki kapsam karari kilavuzda da yazili | 100% | **100.0%** | 7 | 0 | gecti |
 
 **K12 ek:** ayni cumlede bagimsiz negasyon calisan: 2,700 cumle
 
@@ -25,5 +26,6 @@ Kesinlik, duyarlılık ve F1 (K4–K10) insan işaretlemesi bekliyor.
 > As far as can be observed in the sections, the right lobe of the liver was not observed (operated).
 > In the sections passing through the upper abdomen, the gallbladder was not observed in the lodge.
 > Contrast material given to the patient by lymphangiography was not detected to pass into the right effusion.
+**K16 ek:** denetlenen kapsam karari: abdomen, anatomic_segment, density, density_increase, lung_parenchyma, parenchyma, pneumonia
 
 **Sonuç: tüm değişmezler geçti**

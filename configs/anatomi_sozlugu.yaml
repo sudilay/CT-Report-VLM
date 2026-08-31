@@ -33,6 +33,7 @@ kavramlar:
     # parenchyma" (46) hepsini AKCIGER parankimi yapiyordu. Ciplak bicim asagida
     # organsiz 'parenchyma' kavramina tasindi - 'segment'te verdigimiz kararin
     # aynisi: desen ayirt edemiyorsa yanlis ust kavram IDDIA EDILMEZ.
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     desenler: ["lung parenchyma", "pulmonary parenchyma"]
     ust_kavram: lung
     taraf_alir: true
@@ -40,6 +41,7 @@ kavramlar:
   parenchyma:
     # Organi belirsiz parankim anmasi. Hangi organin parankimi oldugu
     # located_at iliskisinden okunur.
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     desenler: ["parenchymal?"]
     taraf_alir: true
     korpus: 34789
@@ -68,6 +70,7 @@ kavramlar:
     # ("liver segment 8") baglaminda geciyor. Desen ikisini AYIRT EDEMEZ; bu yuzden
     # ust_kavram: lung IDDIASI KALDIRILDI. Yanlis ust kavram, ust kavramsizliktan
     # kotudur. Hangi organin segmenti oldugu located_at iliskisinden okunur.
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     desenler: ["segments?"]
     taraf_alir: true
     korpus: 24025
@@ -205,6 +208,7 @@ kavramlar:
     taraf_alir: true
     korpus: 2086
   abdomen:
+    kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
     desenler: ["upper abdominal", "upper abdomen", "abdominal organs?",
                "abdominal sections?", "abdomen", "abdominal"]
     korpus: 26931
