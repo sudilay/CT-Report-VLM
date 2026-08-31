@@ -1,4 +1,4 @@
-# TURKCE IPUCU TASLAGI - surum: tr-ipucu-0.1 (TASLAK)
+# TURKCE IPUCU TASLAGI - surum: tr-ipucu-1.0 (TASLAK)
 #
 # ⚠ HICBIR IPUCU UZMAN ONAYINDAN GECMEDI.
 #
@@ -13,7 +13,7 @@
 # 'korpus: 0' olan ipuclari ALINMADI; kayitta durur ki baska bir
 # korpusta yeniden olculebilsin.
 
-surum: tr-ipucu-0.1
+surum: tr-ipucu-1.0
 durum: taslak
 kaynak: RadTr train+dev (373 belge) - test HARIC
 bolumler:

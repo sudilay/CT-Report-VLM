@@ -1,4 +1,4 @@
-# TURKCE YUZEY TASLAGI - surum: tr-0.3 (TASLAK)
+# TURKCE YUZEY TASLAGI - surum: tr-1.0 (TASLAK)
 #
 # ⚠ HICBIR YUZEY UZMAN ONAYINDAN GECMEDI. 'uzman_onayi: false'
 #   olan hicbir girdi sisteme alinmaz.
@@ -10,7 +10,7 @@
 #
 # Desenler BASTA sinirlidir - Turkce sondan eklemelidir.
 
-surum: tr-0.3
+surum: tr-1.0
 durum: taslak
 kaynak: RadTr toraks train+dev (373 belge) - test HARIC
 yuzeyler:

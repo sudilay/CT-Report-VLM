@@ -198,7 +198,7 @@ def main() -> None:
     yol = ROOT / "configs" / "turkce_ipuclari_taslak.yaml"
     with yol.open("w", encoding="utf-8") as f:
         f.write(
-            "# TURKCE IPUCU TASLAGI - surum: tr-ipucu-0.1 (TASLAK)\n"
+            "# TURKCE IPUCU TASLAGI - surum: tr-ipucu-1.0 (TASLAK)\n"
             "#\n"
             "# ⚠ HICBIR IPUCU UZMAN ONAYINDAN GECMEDI.\n"
             "#\n"
@@ -215,7 +215,7 @@ def main() -> None:
             "#\n"
             "# 'korpus: 0' olan ipuclari ALINMADI; kayitta durur ki baska bir\n"
             "# korpusta yeniden olculebilsin.\n\n")
-        yaml.safe_dump({"surum": "tr-ipucu-0.1", "durum": "taslak",
+        yaml.safe_dump({"surum": "tr-ipucu-1.0", "durum": "taslak",
                         "kaynak": f"RadTr train+dev ({n_sec} belge) - test HARIC",
                         "bolumler": cikti},
                        f, allow_unicode=True, sort_keys=False, width=100)

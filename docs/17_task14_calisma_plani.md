@@ -7,7 +7,7 @@ dil ablasyonunun (TASK-15) ölçüm yapabileceği zemini hazırlamak.
 > görüldüğü** yazılır — yalnızca "yapıldı" değil, çıkan sayı ve varsa sürpriz.
 > Diğer agent da buradan takip eder.
 
-**Durum:** 6/7 adım bitti · son güncelleme 2026-08-31
+**Durum:** ✅ **7/7 — TASK-14 kapandı** · son güncelleme 2026-08-31
 
 ---
 
@@ -342,26 +342,53 @@ hatası, sistemik değil. Span'ların **%10,9'u** hâlâ cümle sınırını aş
 
 ---
 
-### ⬜ 7 · Ablasyona devret → TASK-15
+### ✅ 7 · Ablasyona devret → TASK-15
 
-- [ ] `tr-1.0` donduruldu, sağlama toplamları kayıtlı
-- [ ] `test` 56 belge hâlâ **açılmamış**
-- [ ] Protokol hazır → [`docs/16_dil_ablasyon_protokolu.md`](16_dil_ablasyon_protokolu.md)
-- [ ] ⛔ **Zaman ekseni ölçülmeyecek** — RadTr'de önceki-tetkik referansı 4 anma (adım 5)
+**Bitti — 2026-08-31.** → [`reports/turkce_dondurma.md`](../reports/turkce_dondurma.md)
 
-Bundan sonrası TASK-15: 56 belgeyi iki yolla İngilizceye çevir, üç kolu
-(TR · EN-çeviri · EN-tıbbi) aynı altın veriye karşı puanla, **dil kararını** ver.
+| bileşen | sürüm | SHA-256 |
+|---|---|---|
+| `configs/turkce_yuzeyler_taslak.yaml` | **tr-1.0** | `b5e2058a04b9a087` |
+| `configs/turkce_ipuclari_taslak.yaml` | **tr-ipucu-1.0** | `4f4efd3fbedf1445` |
+| kapsam mantığı (`23_turkce_dev_olcum.py`) | — | `34ece92a1344d04a` |
+| `data/processed/radtr_toraks.jsonl` | — | `8ce5ef37cdfd4504` |
+
+- [x] `tr-1.0` donduruldu, sağlama toplamları kayıtlı
+- [x] `test` 56 belge hâlâ **açılmamış** — üç betikte de `sys.exit` kilidi
+- [x] Protokol hazır → [`docs/16_dil_ablasyon_protokolu.md`](16_dil_ablasyon_protokolu.md)
+- [x] ⛔ **Zaman ekseni ölçülmeyecek** — RadTr'de önceki-tetkik referansı 4 anma
+- [x] Bilinen sınırlar ölçümden **önce** yazıldı (şema farkı, D29 gerilimi,
+      altın span gürültüsü %10,9, hizalı çift yokluğu)
+
+⚠ `dev` sayıları **geliştirme gözlemidir** (D31). Üzerlerinde düzeltme yapıldı;
+raporlanacak sayı `test`ten gelecek.
 
 ---
 
+## ✅ TASK-14 kapandı
+
+**Sorulan soru:** Faz 2'de kurulan çıkarım katmanı Türkçeye taşınıyor mu?
+
+**Cevap: evet.** `absent` duyarlılığı **%97,2**, F1 **%90,3** — sistemin
+İngilizcedeki en güçlü ekseni Türkçede de en güçlü eksen. Mimari değişmedi;
+sözlüğe Türkçe yüzey ve ipucu eklemek yetti.
+
+**Türkçeye özgü üç bulgu mimariyi ilgilendiriyor:**
+
+1. **Yön ters** — negasyon ipuçlarının %97'si cümle sonunda (İngilizcede %19,9).
+   İleri yönlü bir kurulum Türkçede negasyonun tamamını kaçırırdı.
+2. **Betimleyici kalıp** — *"kardiyomegali"* 0, *"kalp boyutları"* 313.
+   Terim çevirisi yetmiyor.
+3. **Teknik çekince negasyondan büyük** (961'e 843) ve hepsi aynı eki taşıyor.
+   D30 Türkçede daha kritik.
+
+**Kalan zayıflık:** `uncertain` F1 %23,6 (şema farkı hariç %43,6). Yarısı şema
+farkı, kalanı gerçek eksik.
+
 ## Zaman tahmini
 
-| adım | süre |
-|---|---|
-| 4 · kavram yüzeyleri | ~1 gün |
-| 5 · ipucu sözlüğü | ~1 gün |
-| 6 · `dev` üzerinde sına | ~1 gün |
-| **çeviri aşaması açılır** | **3–4 iş günü sonra** |
+Tüm adımlar tamamlandı. **Çeviri aşamasının önünde engel kalmadı** —
+TASK-15 başlayabilir.
 
 ---
 

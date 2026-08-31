@@ -19,7 +19,7 @@ DESEN KURALI - TURKCEYE OZGU:
   yakalayarak bulla'yi RadTr'de CT-RATE'ten daha sik gosterdi. Bu, tools/
   README'deki kelime siniri tuzaginin Turkce hali.
 
-BOLUNME DISIPLINI (tr-0.3 ile eklendi):
+BOLUNME DISIPLINI (tr-1.0 ile eklendi):
   RadTr KENDI yayimlanmis bolunmesini tasiyor (train 327 / dev 46 / test 56) ve
   16_extract_radtr_thorax.py bunu `kaynak_bolum` alaninda korudu. Turkce yuzeyler
   YALNIZCA train+dev uzerinde gelistirilir; test 56 belge DOKUNULMAZDIR.
@@ -61,7 +61,7 @@ YUZEY = {
     "calcification": "kalsifi|kire[çc]len", "atelectasis": "atelektazi",
     "fibrosis": "fibro", "metastasis": "metastaz", "granuloma": "gran[uü]lom",
     "cavitation": "kavit", "pneumothorax": "pn[oö]motoraks",
-    # BETIMLEYICI KALIP (tr-0.3): "kardiyomegali" train+dev'de 0 anma verdi ama
+    # BETIMLEYICI KALIP (tr-1.0): "kardiyomegali" train+dev'de 0 anma verdi ama
     # "kalp boyutlari" 313 kez geciyor. Turkce raporlar Latince adlastirma yerine
     # TAM CUMLE kuruyor. Kesinligi tasiyan kelime kalibin ICINDE ("artmistir" =
     # present, "normal sinirlarda" = absent) - ipucu sozlugunde ele alinacak.
@@ -97,7 +97,7 @@ YUZEY = {
     "pleuroparenchymal": "plevroparankimal", "aortic_valve": "aort kapa",
     "pulmonary_conus": "pulmoner konus", "anatomic_segment": "segment",
 
-    # ---------------- tr-0.3: kalan 62 kavram ----------------
+    # ---------------- tr-1.0: kalan 62 kavram ----------------
     # Radyoloji Turkcesi buyuk olcude Latin kokenli translitasyondur; bu yuzden
     # cogu yuzey Ingilizce terimin Turkce yazimidir (nodul, plevra, efuzyon).
     # Ozturkce karsiligi yaygin olanlarda IKISI de yazilir ("dif[uü]z|yayg[ıi]n").
@@ -196,7 +196,7 @@ def main() -> None:
 
     cikti = ROOT / "configs" / "turkce_yuzeyler_taslak.yaml"
     with cikti.open("w", encoding="utf-8") as f:
-        f.write("# TURKCE YUZEY TASLAGI - surum: tr-0.3 (TASLAK)\n"
+        f.write("# TURKCE YUZEY TASLAGI - surum: tr-1.0 (TASLAK)\n"
                 "#\n"
                 "# ⚠ HICBIR YUZEY UZMAN ONAYINDAN GECMEDI. 'uzman_onayi: false'\n"
                 "#   olan hicbir girdi sisteme alinmaz.\n"
@@ -207,7 +207,7 @@ def main() -> None:
                 "# icin sayilar dogrudan kiyaslanamaz, VARLIK/YOKLUK anlamlidir.\n"
                 "#\n"
                 "# Desenler BASTA sinirlidir - Turkce sondan eklemelidir.\n\n")
-        yaml.safe_dump({"surum": "tr-0.3", "durum": "taslak",
+        yaml.safe_dump({"surum": "tr-1.0", "durum": "taslak",
                         "kaynak": "RadTr toraks train+dev (373 belge) - test HARIC",
                         "yuzeyler": kayit},
                        f, allow_unicode=True, sort_keys=False)
