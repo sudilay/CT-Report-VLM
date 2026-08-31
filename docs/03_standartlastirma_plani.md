@@ -45,7 +45,7 @@ Buna karşılık *"No enlarged lymph nodes were detected"* de negatif ve şablon
 
 ### `[KARAR] D9` — Faz 1 malignite ilgisi atamaz
 
-`malignancy_relevance` diye bir kolonu **Faz 1'de üretmeyeceğiz**. O bilgi Faz 3'teki gösterge sözlüklerine (TASK-15, TASK-16) bağlı; şimdi atamak tahmin yürütmek olur.
+`malignancy_relevance` diye bir kolonu **Faz 1'de üretmeyeceğiz**. O bilgi Faz 3'teki gösterge sözlüklerine (TASK-17, TASK-18) bağlı; şimdi atamak tahmin yürütmek olur.
 
 **Faz 1 yalnızca yapısal bilgi kaydeder:** cümle sınırları, ofsetler, şablon kimliği. Negasyon Faz 2'de, malignite ilgisi Faz 3'te eklenir.
 
@@ -142,7 +142,7 @@ Faz 2'de bulgu (entity) tablosu eklenecek ve **ölçüler bulgulara bağlanacak*
 - Her satır `pipeline_version` taşır; kural setini değiştirdiğimizde eski çıktı ayırt edilebilir
 - Doğrulama testi: her satır için `text == report_text[char_start:char_end]`
 
-**Neden gerekli:** Faz 4'te (TASK-21) "model bu bulguyu uydurdu mu?" sorusunu soracağız. Cevap ancak her bulguyu metindeki tam yerine geri bağlayabilirsek verilebilir. Şimdi bedava, sonra pahalı.
+**Neden gerekli:** Faz 4'te (TASK-23) "model bu bulguyu uydurdu mu?" sorusunu soracağız. Cevap ancak her bulguyu metindeki tam yerine geri bağlayabilirsek verilebilir. Şimdi bedava, sonra pahalı.
 
 ---
 
