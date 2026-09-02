@@ -59,7 +59,7 @@ def main() -> None:
     if tibbi.exists():
         kollar["EN-tibbi"] = (satirlar(tibbi, "text"), en_matcher, en_indeks)
     else:
-        print("(EN-tibbi yok - istem v2 ile yeniden kosulmayi bekliyor)\n")
+        print("(EN-tibbi yok - D63 ile kol dusuruldu)\n")
 
     bulunan = {
         ad: {
