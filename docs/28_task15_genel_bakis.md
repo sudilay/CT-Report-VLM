@@ -216,14 +216,23 @@ yürür ve sonuç bu sınırla birlikte raporlanır.
 | # | iş | engellediği |
 |---|---|---|
 | 1 | İkincil model seçimi tamamlanır | *(kritik yolda değil)* |
-| 2 | **Kanonik altın**: iki bağımsız işaretleyici, kapalı 144 envanter, kör | `test` |
-| 3 | **Uzman incelemesi**: birleşmiş liste incelenir, nihai karar verilir | `test` |
-| 4 | Altın hash'lenip **kilitlenir** | `test` |
-| 5 | Sürüm dondurma raporu (revizyonlar, istem, parametreler, SHA-256) | `test` |
-| 6 | `test` çevirisi — **tek sefer**, ham çıktı saklanır | test skoru |
-| 7 | Skorlama + eşleştirilmiş bootstrap güven aralıkları | — |
+| 2 | **Kesinlik hattı**: Türkçe çıkarıcının span'ları kesinlik atayıcıya bağlanır | `present` ekseni |
+| 3 | **Kanonik altın**: iki bağımsız işaretleyici, kapalı 144 envanter, kör | `test` |
+| 4 | **Uzman incelemesi**: birleşmiş liste incelenir, nihai karar verilir | `test` |
+| 5 | Altın hash'lenip **kilitlenir** | `test` |
+| 6 | Sürüm dondurma raporu (revizyonlar, istem, parametreler, SHA-256) | `test` |
+| 7 | `test` çevirisi — **tek sefer**, ham çıktı saklanır | test skoru |
+| 8 | Skorlama + eşleştirilmiş bootstrap güven aralıkları | — |
 
-Kritik yol **2 → 3 → 4**. Uzman incelemesi dış takvime bağlıdır.
+Kritik yol **3 → 4 → 5**. Uzman incelemesi dış takvime bağlıdır.
+
+**2 hakkında:** Türkçe birleşik çıkarıcı `A1` (kavram çıkarımı) için hazırdır ve
+`§4`'teki bütün sayılar onunla üretildi. `present` ekseni için bir adım daha
+gerekiyor: çıkarıcı şu an belge düzeyinde **kavram kümesi** döndürüyor, kesinlik
+ataması ise span konumu istiyor. İngilizce tarafta bu hat kuruludur
+(`entities.py` → `context.kesinlik_ata`); Türkçe tarafta kesinlik atayıcı vardır
+ama henüz çıkarıcının kendi span'larına bağlı değildir. Küçük ve tanımlı bir
+iştir; skorlamadan önce tamamlanır.
 
 ---
 
