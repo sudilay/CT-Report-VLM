@@ -296,6 +296,15 @@ Bunlar gizlenmiyor; raporlarda ve kararlarda açıkça yazılı.
 6. **Bir sözlüğün boşluğu diğerinin bulgusuyla tespit edildi.** Bu dairesel
    değil ama kesin de değil; hüküm her vakada korpus sayımı ve anlam
    kontrolüyle verildi, karşı sözlüğün bulgusuna güvenilerek değil.
+7. **Türkçe sözlük `dev` bölümünü gördü, İngilizce sözlük görmedi.** Türkçe
+   yüzeyler geliştirme havuzundan (`train` + `dev`, 269 belge) türetildi;
+   İngilizce sözlük CT-RATE'te geliştirildi ve RadTr tarafında yalnız `train`
+   (223 belge) üzerinde onarıldı. Sonucu: **`dev` üzerinde yapılan her
+   karşılaştırma Türkçe lehine hafif yanlıdır** ve ablasyon sonucu olarak
+   sunulamaz. Ablasyonun kendisi `test` üzerindedir ve orayı iki sözlük de
+   görmemiştir; bu yüzden ana ölçüm bu yandan etkilenmez. `dev` sayıları
+   (çeviri kalite kontrolü, model seçimi, inceleme tezgâhı) **betimleyicidir.**
+
 
 ---
 

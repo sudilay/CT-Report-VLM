@@ -231,7 +231,15 @@ görülmedi, hiçbir seçim sonuca bakılarak yapılmadı, ikinci tur yoktur.
 2. **Bir sözlüğün boşluğu diğerinin bulgusuyla tespit edildi.** Bu dairesel
    değil ama kesin de değil; hüküm her vakada korpus sayımı + cümle okumasıyla
    verildi, karşı sözlüğün bulgusuna güvenilerek değil.
-3. **Cümle hizalaması kesin değil.** Komşu cümleler birlikte gösterilerek kayma
+3. **Türkçe sözlük `dev`'i gördü, İngilizce sözlük görmedi.** Türkçe yüzeyler
+   `train`+`dev` (269 belge) havuzundan türetildi; İngilizce sözlük CT-RATE'te
+   geliştirilip RadTr tarafında yalnız `train` (223 belge) üzerinde onarıldı.
+   **Onarımın kendisi temizdir** — bu raporun bütün ölçümleri `train`
+   üzerindedir. Ama `dev` üzerinde yapılan karşılaştırmalar (çeviri kalite
+   kontrolü, model seçimi, inceleme arayüzü) Türkçe lehine hafif yanlıdır ve
+   betimleyici sayılmalıdır. Ablasyon `test` üzerindedir; orayı iki sözlük de
+   görmemiştir.
+4. **Cümle hizalaması kesin değil.** Komşu cümleler birlikte gösterilerek kayma
    görünür kılındı. Hizalama yalnız aday önermek için kullanıldı, ölçüme girmedi.
 4. `scripts/32`–`35` aday/cümle incelemesi için bağımsız tarar; nihai ortak
    karşılaştırma yalnız `scripts/31`deki birleşik matcher yoludur.
@@ -280,3 +288,83 @@ kullanıyor.
 - Her onarımın gerekçesi ve okunan cümle YAML içinde yorum olarak duruyor
 - Birleşik yeniden üretim: `turkce_varliklar.py` + `entities.matcher_kur`;
   `train` sonucu 152 / 167 / 5.009, toplu Jaccard 0,940
+
+---
+
+## 11 · Onarımdan sonra bulunan kapsam boşlukları — kayıt, uygulama değil
+
+Sözlük donduruldu (§ 3. kural). Aşağıdakiler **gelecek sürüm için** kaydedilmiştir;
+hiçbiri uygulanmamıştır. Sonuçlara bakıldıktan sonra sözlüğe dokunmak, tek geçiş
+kuralının engellediği şeydir.
+
+### `plevral sıvı` / `pleural fluid` hiçbir bulgu kavramına bağlı değil
+
+| | |
+|---|---|
+| gözlem | *"Her iki hemitoraksta plevral sıvı saptanmadı."* → yalnız `pleura` (anatomi) |
+| İngilizcesi | *"No pleural fluid was detected…"* → yalnız `pleura` |
+| sebep | `effusion` deseni `ef+[uü]zyon`, `fluid_collection` deseni `sıvı koleksiyon\|serbest sıvı\|assit` — hiçbiri bu öbeği tanımıyor |
+| boyut | öbek 23/46 `dev` belgesinde; **7'sinde** bulgu tamamen kaçıyor |
+| **simetri** | **aynı 7 belge iki tarafta da** — TR/EN karşılaştırmasını bozmuyor |
+| ölçülen düzeltme | TR `+plevral s[ıi]v[ıi]`, EN `+pleural fluid` → `effusion` **32 → 39 belge**, iki tarafta da aynı |
+
+Ertelemenin bedeli yok: boşluk simetrik olduğu için yalnız `effusion` kavramının
+**mutlak** sayısını etkiliyor, iki dil arasındaki **farkı** değil.
+
+### Modellerin işaret ettiği kapsam boşlukları
+
+İkincil model koşusunda üç model de bizde karşılığı olmayan gerçek toraks BT
+bulgularına ad uydurdu: `pneumatocele`, `scoliosis`, `cavitary`, `suture`,
+`electrode`, `bronchopneumonia`. Bu, envanterin **dışarıdan ve bizden bağımsız**
+bir denetimidir. Ayrıntı: [ikincil model raporu](task15_ikincil_model_raporu.md).
+
+---
+
+## 12 · Kutuplaşma ekseni — ön ölçüm
+
+Bu raporun bütün sayıları **A1 · kavram ekseninde**: *"bu kavram raporda konu
+ediliyor mu?"* Kutuplaşma (`present` / `absent` / `uncertain`) ayrı bir eksendir
+ve ayrı bir sistem atar.
+
+⚠ Aşağıdaki ölçüm **ön ölçümdür**, kapı ya da skor sonucu değildir: Türkçe
+kesinlik atayıcı birleşik çıkarıcıya **geçici olarak** bağlanarak yapıldı; resmî
+hat henüz kurulmadı (§ 9'daki açık iş).
+
+| | |
+|---|---:|
+| iki tarafta da bulunan kavram | 1.039 |
+| aynı kesinlik | 1.012 |
+| **farklı kesinlik** | **27 (%2,6)** |
+
+Yön: `uncertain→present` 14 · `absent→present` 10 · `present→uncertain` 2 ·
+`present→absent` 1.
+
+**Üç vaka tek tek açıldı ve üçünde de çeviri kusursuz:**
+
+| kavram | TR | EN | gerçek sebep |
+|---|---|---|---|
+| `heart` | absent | present | *"IVKM verilmediğinden … değerlendirme yapılamamıştır"* — **teknik çekince**; TR sistemi absent sayıyor, EN saymıyor (D30'un bilinen şema farkı) |
+| `gallbladder` | absent | present | *"Safra kesesi izlenmedi (opere)."* → *"was not visualized"*; çeviri doğru, EN'de negasyon kapsamı parantezde kopuyor |
+| `pneumonia` | uncertain | present | *"KLİNİK BİLGİ: PNÖMONİ?"* → *"CLINICAL INFORMATION: PNEUMONIA?"*; çeviri doğru, soru işareti kapsamı iki tarafta farklı çözülüyor |
+
+**Yani %2,6'nın tamamı iki kesinlik sisteminin kural farkıdır, çeviri kaybı
+değil** — ve bu, D51'in `absent`/`uncertain` eksenlerini ölçümden önce güçsüz
+ilan etmesinin somut gerekçesidir.
+
+### ⛔ Yol boyunca yakalanan alet hatası
+
+İlk ölçüm **%70,8** uyumsuzluk ve neredeyse tamamı `present→absent` verdi —
+imkânsız bir sonuç. Sebep: İngilizce tarafa **tüm belge tek parça** verilmişti,
+Türkçe tarafa cümle cümle; negasyon kapsamı belge geneline yayılıp her şeyi
+`absent` yapıyordu. Üretimde ikisi de **cümle düzeyinde** koşar
+(`scripts/11_apply_context.py`). Düzeltilince %2,6'ya indi.
+
+D60'ın tekrarı: **aleti yanlış kurunca sözlükte olmayan bir felaket görünür.**
+
+### Mevcut kanıt
+
+Türkçe kesinlik atayıcı `dev`de altına karşı ölçülmüştü: `absent` kesinlik
+%84,3 · duyarlılık **%97,2** · F1 **%90,3** (`reports/turkce_dondurma.md`).
+Türkçe negasyon ipucunun %97'si cümlenin **sonunda** olduğu için geri yönlü
+kapsam kuralı yazılmıştı; İngilizce mantığı doğrudan uygulansa negasyonun
+neredeyse tamamı kaçardı.
