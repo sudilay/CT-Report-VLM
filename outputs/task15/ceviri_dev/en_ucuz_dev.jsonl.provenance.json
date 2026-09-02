@@ -1,0 +1,25 @@
+{
+  "adapter": "cumle-duzeyi(opus-mt:Helsinki-NLP/opus-mt-tc-big-tr-en@main)",
+  "baslangic_utc": "2026-09-01T13:02:13.777207+00:00",
+  "belge_sayisi": 46,
+  "bitis_utc": "2026-09-01T13:09:40.924711+00:00",
+  "ceviri_birimi": "cumle",
+  "cikti_dosya": "outputs\\task15\\ceviri_dev\\en_ucuz_dev.jsonl",
+  "cikti_sha256": "07bbebcbf2aefe8817f643b5f009a21d9d6ef6bd612088a9d3287be70b168c52",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": null,
+    "num_beams": 1
+  },
+  "girdi_dosya": "outputs\\task15\\dev_packages_v2\\translation_dev.jsonl",
+  "girdi_sha256": "f03b50317292ca698537d702d24b8b9704c97bf04f5807d902a290037bdf39ed",
+  "istem_hash": null,
+  "kol": "en-ucuz",
+  "model_id": "Helsinki-NLP/opus-mt-tc-big-tr-en",
+  "ortam": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9"
+  },
+  "revision": "saglayici tarafindan aciklanmadi",
+  "sayi_korunumu_zorlandi": false
+}

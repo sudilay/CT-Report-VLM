@@ -1,0 +1,15 @@
+{
+  "schema_version": "task15-1.0",
+  "split": "dev",
+  "created_at_utc": "2026-09-01T08:41:29.179781+00:00",
+  "translation": {
+    "file": "translation_dev.jsonl",
+    "records": 46,
+    "sha256": "f03b50317292ca698537d702d24b8b9704c97bf04f5807d902a290037bdf39ed"
+  },
+  "normalization": {
+    "file": "normalization_blind_dev.jsonl",
+    "records": 1490,
+    "sha256": "c65a3cf6c1663d4bde82c8fb4cb5d27eec3d0c078342ebb5de067bf31ea7e9ac"
+  }
+}

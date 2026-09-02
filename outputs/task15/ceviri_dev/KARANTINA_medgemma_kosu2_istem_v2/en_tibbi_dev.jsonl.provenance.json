@@ -1,0 +1,25 @@
+{
+  "adapter": "medgemma-postedit:google/medgemma-1.5-4b-it@main",
+  "baslangic_utc": "2026-09-01T14:05:00.573464+00:00",
+  "belge_sayisi": 46,
+  "bitis_utc": "2026-09-01T14:38:32.545060+00:00",
+  "ceviri_birimi": "belge",
+  "cikti_dosya": "cikti/en_tibbi_dev.jsonl",
+  "cikti_sha256": "e30aec21285b0e6ea1a707b15f6d5d7bca8818066fc3f9bc3ce0b374d91c79c7",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": 1024,
+    "num_beams": 1
+  },
+  "girdi_dosya": "girdi/en_genel_dev.jsonl",
+  "girdi_sha256": "ca1ab8463606f1cd382b9e16c3a57bb7bf9a296de8f4b8657d0daab30af8a8a1",
+  "istem_hash": "e2a670db539cbb08bed53ca1863974b938c63c5e781b941cd59c2f3407976e9e",
+  "kol": "en-tibbi",
+  "model_id": "google/medgemma-1.5-4b-it",
+  "ortam": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12"
+  },
+  "revision": "main",
+  "sayi_korunumu_zorlandi": false
+}

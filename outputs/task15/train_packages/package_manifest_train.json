@@ -1,0 +1,15 @@
+{
+  "schema_version": "task15-1.0",
+  "split": "train",
+  "created_at_utc": "2026-09-01T13:36:16.180116+00:00",
+  "translation": {
+    "file": "translation_train.jsonl",
+    "records": 223,
+    "sha256": "365afaf2e9e49c5599c0463333a28a83fd6c25e2d20bd4f9fa2df3c7231e9f6b"
+  },
+  "normalization": {
+    "file": "normalization_blind_train.jsonl",
+    "records": 7158,
+    "sha256": "9aad781cff855380a5b54131241d1702ab05f795563716594c0e80f97dd009a3"
+  }
+}

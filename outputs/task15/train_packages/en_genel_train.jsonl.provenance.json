@@ -1,0 +1,25 @@
+{
+  "adapter": "google-nmt:general/nmt",
+  "baslangic_utc": "2026-09-01T13:37:09.086766+00:00",
+  "belge_sayisi": 223,
+  "bitis_utc": "2026-09-01T13:38:22.704793+00:00",
+  "ceviri_birimi": "belge",
+  "cikti_dosya": "outputs\\task15\\train_packages\\en_genel_train.jsonl",
+  "cikti_sha256": "79d09e7db1c0dfe523a491809f1674fa9fd882450a0fd1d96e4c9bba86707299",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": null,
+    "num_beams": 1
+  },
+  "girdi_dosya": "outputs\\task15\\train_packages\\translation_train.jsonl",
+  "girdi_sha256": "365afaf2e9e49c5599c0463333a28a83fd6c25e2d20bd4f9fa2df3c7231e9f6b",
+  "istem_hash": null,
+  "kol": "en-genel",
+  "model_id": null,
+  "ortam": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9"
+  },
+  "revision": "saglayici tarafindan aciklanmadi",
+  "sayi_korunumu_zorlandi": false
+}
