@@ -1,0 +1,328 @@
+TASK-15 IKINCIL MODEL KOSUSU - KOSU RAPORU (v2 + v2.1)
+========================================================
+v2 kosu tarihi (UTC)  : 2026-09-02, 10:41 - 11:19 arasi
+Yama (v2 -> v2.1)     : 2026-09-02, 12:00 civari, max_new_tokens 1024 -> 2048
+v2.1 kosu tarihi (UTC): 2026-09-02, 12:01 - 12:48 arasi
+Kosucu: Claude (ajan), talimat: AJAN_TALIMATI.md / SOZLESME.md
+
+
+0. BU RAPORUN YAPISI - IKI KOSU VAR
+
+Paket sahibi v2 sonuclarini gordukten sonra bir duzeltme istedi. Talep once
+iki parcaliydi (yama_v3.py): (1) max_new_tokens 1024->2048, (2) Aya icin
+asistan on-doldurma ('{"findings":' ile baslatma). KOSUCU AJAN (ben) ikinci
+degisiklige ITIRAZ ETTI: on-doldurma sonradan onarmiyor ama uretimden once
+modelin agzina kelime koyuyor, KAPI 2'yi "model talimati izledi mi" olmaktan
+cikarip "biz dogru prefix'i sectik mi"ye cevirir; Aya'nin Markdown sarmasi
+gercek bir model bulgusudur ve duzeltilmemelidir. Bu itiraz PAKET SAHIBI
+TARAFINDAN KABUL EDILDI, on-doldurma GERI CEKILDI. Yerine sadece
+max_new_tokens degisikligini iceren yama_v2_1.py geldi ve o calistirildi.
+
+Bu rapor hem v2 (orijinal, dondurulmus protokol) hem v2.1 (tek ayar
+duzeltmesiyle tekrarlanan) sonuclarini icerir. IKISI DE cikti_v2/ ve cikti/
+klasorleri olarak ayri ayri teslim ediliyor - hicbiri digerinin yerine
+gecmiyor, ikisi de kayittir.
+
+
+1. ORTAM (v2 ve v2.1 icin ayni)
+--------------------------------
+GPU            : NVIDIA A100-SXM4-40GB (makinede 4 adet mevcut, kosular tek GPU'ya sabitlendi)
+GPU toplam VRAM: 40440 MiB (~40 GB)
+torch          : 2.6.0+cu124
+transformers   : 5.16.1
+Python         : 3.10.12
+Platform       : Linux-5.15.0-186-generic-x86_64-with-glibc2.35
+
+torch.cuda.is_available()      -> True
+torch.cuda.is_bf16_supported() -> True
+
+v2 kosusu ONCESI paket_manifest.json'daki tum dosya_sha256, girdi sha256 ve
+envanter sha256 degerleri diskteki dosyalarla dogrulandi (hepsi OK).
+
+
+2. YAMA v2 -> v2.1 DETAYI
+
+Dosya            : yama_v2_1.py (paket kokunde, kullanici tarafindan saglandi)
+Degisen dosyalar : scripts/36_task15_ikincil_model.py, src/radyovlm/evaluation/ikincil_model.py
+Degisiklik       : max_new_tokens 1024 -> 2048 (birer satir, iki dosyada)
+Degismeyen       : istem metni, ISTEM_SURUMU ("ikincil-v2" olarak KALDI),
+                   envanter, girdi dosyalari, uretim parametreleri
+                   (do_sample=False, num_beams=1, dtype=bfloat16, nicemleme
+                   yok), kapi esikleri, erken durdurma kurali (8/%60)
+
+Gerekce: v2'de Qwen'in 10 belgesi (3 kolda toplam, bazi belgeler kollar
+arasi tekrar ediyor) cumle/kelime ortasinda kesilmisti - ornegin
+"...hepatoste" gibi bir kelimenin tam ortasinda. Bu, KOSUCU AJAN TARAFINDAN
+BAGIMSIZ OLARAK DOGRULANDI (v2 verisinde 10 kesilme instance'i bulundu,
+hepsi ~3200-3550 karakterde, kapanmayan JSON yapisiyla - 1024 token
+tavaninin imzasi). Kesme modelin sozlesme ihlali degil, kosucunun uretimi
+erken durdurmasiydi.
+
+Yama betigi calistirilmadan once mevcut v2 paketinin butunlugunu dogruladi,
+degisikligi bellekte uygulayip sozdizimini sinadi, ancak ondan sonra diske
+yazdi. Cikan NORMALIZE (satir-sonu-bagimsiz) hash'ler:
+
+  8775a69ffb0e892c0628c8e9a02a7b7f53802f0a5359703353160a48bac4fddf  scripts/36_task15_ikincil_model.py
+  37debeb3c5ada043d81a5b23e255345c1a446673a841f9105b0ac0d4f036e3c9  src/radyovlm/evaluation/ikincil_model.py
+
+(Not: paket sahibinin verdigi "beklenen" ikinci hash mesajda kisa gorunuyordu
+- muhtemelen kopyalama sirasinda kirpilmis. Ilk hash birebir eslesti.)
+
+GERI CEKILEN ONERI (kayit icin): asistan on-doldurma. Sebep: KAPI 2'yi
+sahtelestirir, Aya'nin gercek bir bulgusunu (Markdown sarma) yapisal olarak
+tekrar uretilemez hale getirirdi. UYGULANMADI.
+
+
+3. v2 vs v2.1 KARSILASTIRMA (yan yana)
+
+model                       kol        v2 gecerlilik   v2.1 gecerlilik   v2 "JSON degil"   v2.1 "JSON degil"
+--------------------------------------------------------------------------------------------------------------
+Qwen/Qwen3.5-4B              tr         %78.3           %80.4             6                 4
+Qwen/Qwen3.5-4B              en-genel   %65.2           %67.4             7                 6
+Qwen/Qwen3.5-4B              en-ucuz    %71.7           %73.9             1                 0
+CohereLabs/aya-expanse-8b     tr         %0.0 (8/46)     %0.0 (8/46)       8/8               8/8
+CohereLabs/aya-expanse-8b     en-genel   %0.0 (8/46)     %0.0 (8/46)       8/8               8/8
+CohereLabs/aya-expanse-8b     en-ucuz    %0.0 (8/46)     %0.0 (8/46)       8/8               8/8
+
+Yorum: Qwen'de "JSON degil" turu ihlaller kismen azaldi (kesilme sorunu
+kismen cozuldu - hala bazi kesilmeler kalmis olabilir, asagida not var),
+geçerlilik hafifce yukseldi. Envanter-disi concept_id turu ihlaller
+DEGISMEDI (bu yamadan etkilenmesi zaten beklenmiyordu - onceden yazilan
+beklenti dogrulandi). Aya'nin uc kolu da HICBIR DEGISIKLIK GOSTERMEDI -
+tam olarak beklendigi gibi, cunku Aya'nin sorunu token tavani degil,
+Markdown kod blogu sarma aliskanligi. Bu, token-tavani hipotezinin doğru
+tanimlanmis oldugunu ve fazla genellenmedigini gosteriyor: sorunu olan
+model duzeldi, sorunu olmayan model degismedi.
+
+v2.1 KOSU KOSU DETAY:
+
+model                       kol        islenen   erken_durdu   gecerlilik   sure(dk)   tepe_VRAM
+---------------------------------------------------------------------------------------------------
+Qwen/Qwen3.5-4B              tr         46/46     Hayir          %80.4        15.4      9104 MiB
+Qwen/Qwen3.5-4B              en-genel   46/46     Hayir          %67.4        12.9      9078 MiB
+Qwen/Qwen3.5-4B              en-ucuz    46/46     Hayir          %73.9         7.6      9079 MiB
+CohereLabs/aya-expanse-8b     tr          8/46    EVET           %0.0          1.7     15755 MiB
+CohereLabs/aya-expanse-8b     en-genel    8/46    EVET           %0.0          2.0     15772 MiB
+CohereLabs/aya-expanse-8b     en-ucuz     8/46    EVET           %0.0          1.3     15682 MiB
+
+Revizyonlar (v2 ile ayni, manifestteki sabit SHA'larla birebir):
+  Qwen/Qwen3.5-4B          @ 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  CohereLabs/aya-expanse-8b @ 5062468bf9bc0c6035fd64e06274333ec127d980
+
+Uretim ayarlari (v2.1, provenance'ta dogrulandi):
+  do_sample=False, num_beams=1, temperature/top_p/top_k=None,
+  max_new_tokens=2048 (DEGISTI, v2'de 1024'tu), dtype=bfloat16,
+  dort_bit=False, dusunme_kapali_istendi=True,
+  sohbet_sablonu_kipi="enable_thinking=False"
+
+<think> veya dusunme izi: v2.1'in hicbir ham yanitinda bulunmadi (grep
+edildi, 0 sonuc) - v2'de de yoktu.
+
+
+3a. QWEN v2.1 - ihlal turleri (ozet.json'dan aynen)
+
+qwen_tr_dev (v2.1):
+  Model cikisi dogrudan JSON degil: 4
+  findings[10] envanter disi concept_id: 1
+  findings[13] envanter disi concept_id: 2
+  findings[14] envanter disi concept_id: 1
+  findings[2] envanter disi concept_id: 1
+
+qwen_en_genel_dev (v2.1):
+  Model cikisi dogrudan JSON degil: 6
+  findings[10] envanter disi concept_id: 1
+  findings[19] envanter disi concept_id: 1
+  findings[1] envanter disi concept_id: 2
+  findings[24] envanter disi concept_id: 1
+  findings[2] envanter disi concept_id: 2
+  findings[3] envanter disi concept_id: 2
+
+qwen_en_ucuz_dev (v2.1):
+  findings[0] envanter disi concept_id: 1
+  findings[11] envanter disi concept_id: 1
+  findings[14] envanter disi concept_id: 1
+  findings[15] envanter disi concept_id: 2
+  findings[15] tekrarli (concept_id, assertion): 1
+  findings[21] envanter disi concept_id: 1
+  findings[2] envanter disi concept_id: 1
+  findings[4] envanter disi concept_id: 1
+  findings[6] envanter disi concept_id: 2
+  findings[8] envanter disi concept_id: 1
+  (Bu kolda "JSON degil" turu ihlal SIFIRA indi - v2'de 1 tane vardi)
+
+
+3b. AYA v2.1 - ERKEN DURDURMA (v2 ile birebir ayni desen, bulgu, hata degil)
+
+Uc kolda da yine ayni sebep, ilk 8 belgenin 8'i de (%100) bozuk:
+  "Model cikisi dogrudan JSON degil: Expecting value" (hepsi 8/8)
+
+max_new_tokens artisi bu sorunu HIC ETKILEMEDI - beklendigi gibi, cunku
+sorun token tavaniyla degil modelin cevabini Markdown kod blogu ile ac
+aliskanligiyla ilgili. Ornegin ham yanit hala su sekilde basliyor:
+
+  "```json\n{\n  \"findings\": [\n    {\n      \"concept_id\": \"...
+
+Bu, on-doldurmanin GERI CEKILMIS OLMASININ dogrudan sonucu: mudahale
+edilmedigi icin Aya yine kendi davranisini sergiledi. Ust uste 4. bir
+deneme YAPILMADI; talimat geregi yasak.
+
+
+4. KULLANILAN BAYRAKLAR VE NEDENI (v2 ve v2.1)
+
+--dort-bit : HICBIR KOSUDA kullanilmadi (v2 veya v2.1). Hicbir model KAPI
+             1'de dusmedi, tam bfloat16 her iki model icin de tek GPU'ya
+             sorunsuz sigdi.
+
+--devam    : v2'de qwen_tr_dev kosusunda 1 kez kullanildi (performans amacli
+             manuel GPU-yerlesim mudahalesi sonrasi, detay asagida ve onceki
+             raporda). v2.1'in hicbir kosusunda --devam kullanilmadi (her
+             kosu tek seferde, kesintisiz tamamlandi ya da erken durdu).
+
+
+5. BEKLENMEDIK HER SEY / ELLE YAPILAN MUDAHALELER
+
+v2 KOSUSUNDAN (once bildirilenler, ozet olarak tekrar):
+a) gereksinimler.txt'de eksik olan torchvision + Pillow eklendi (Qwen3.5'in
+   AutoProcessor'i metin-only cagrida bile bunlari istiyor). Istem/uretimi
+   etkilemedi.
+b) Ilk qwen_tr_dev denemesi device_map=auto ile 3 GPU'ya otomatik bolunmustu;
+   performans icin CUDA_VISIBLE_DEVICES=0 ile tek GPU'ya sabitlendi. Kesinti
+   sirasinda 6 belge zaten yazilmisti, --devam ile kaldigi yerden surduruldu,
+   hicbir belge iki kez hesaplanmadi.
+c) HF hesabi: makinede onceden hazir bulunan paylasimli "chn123" token'ina
+   DOKUNULMADI; kullanicinin kendi "sudilayt" hesabindan alinan token SADECE
+   oturuma ozel HF_TOKEN ortam degiskeni olarak kullanildi.
+
+YAMA VE v2.1 KOSUSUNDAN (yeni):
+d) yama_v3.py (iki parcali: token tavani + on-doldurma) TALEP EDILDI ama
+   CALISTIRILMADI - kosucu ajanin on-doldurma itirazi kabul edildi.
+   yama_v3.py disk uzerinde HIC OLUSTURULMAMISTI (silinmesi istendiginde
+   zaten yoktu).
+e) yama_v2_1.py (sadece token tavani, on-doldurma OLMADAN) paket sahibi
+   tarafindan saglandi, KOD DEGISTIRILMEDEN aynen kaydedildi ve calistirildi.
+   Betigin kendi ic butunluk kontrolleri (v2 paketinin dokunulmamis oldugunu
+   dogrulama, sozdizimi sinama, hepsi basarili olmadan diske yazmama) hepsi
+   basariyla gecti.
+f) Yama oncesi, iddia edilen "10 belge kesildi" gerekcesi KOSUCU AJAN
+   TARAFINDAN BAGIMSIZ OLARAK v2 verisinde dogrulandi (kesilme deseni:
+   ~3200-3550 karakter, kapanmayan JSON, kelime ortasinda kesik) - kor kor
+   kabul edilmedi.
+g) v2 ciktilari SILINMEDI, cikti_v2/ olarak korundu; v2.1 ciktilari ayri
+   bos cikti/ klasorunde uretildi. Ikisi de bu raporla birlikte teslim
+   ediliyor.
+
+
+6. YAPILAMAYAN / ATLANAN ADIM
+
+Hicbir adim atlanmadi. v2'de alti (model, kol) cifti tam olarak bir kez
+calistirildi (qwen_tr_dev'in kesinti+devam istisnasi haric, veri kaybi/
+tekrar hesaplama yaratmadi). Yama sonrasi v2.1'de alti cift YENIDEN ve
+TAM OLARAK BIR KEZ calistirildi - talimatin "bir kez kosulur" kuralina
+YAMA SONRASI YENI BIR TUR olarak uyuldu (ayni cift v2.1 icinde iki kez
+kosulmadi). Hicbir gecersiz cikti elle duzeltilmedi, "daha iyi sonuc icin"
+hicbir kosu tekrar edilmedi, istem/envanter dosyalarina dokunulmadi, test
+bolumune erisilmedi, ucuncu bir model (Qwen3-8B yedegi) hic devreye
+girmedi (KAPI 1 hicbir kosuda dusmedi).
+
+
+7. TESLIM EDILEN DOSYALAR
+
+cikti_v2/ (ORIJINAL v2, dondurulmus protokol, max_new_tokens=1024) - 18 dosya
+cikti/    (v2.1, tek ayar duzeltmesiyle, max_new_tokens=2048)      - 18 dosya
+yama_v2_1.py (calistirilan yama betigi, paket sahibinden aynen alindi)
+paket_manifest.json (guncel - "yama" alani v2->v2.1 gerekcesini tasir)
++ bu rapor (KOSU_RAPORU.txt)
+
+
+8. YAMA v2.1 -> v2.2: YEDEK MODEL (Qwen3-8B) DEVREYE GIRDI
+
+Sebep: v2.1'de iki aday da elendi -
+  Qwen3.5-4B  tr %80.4 · en-genel %67.4 · en-ucuz %73.9   -> KAPI 2 (%100 sart, hicbiri gecmedi)
+              toplam ~25-26 envanter disi concept_id       -> KAPI 3 (sifir sart, gecilemedi)
+  Aya 8B      uc kolda da 0/8, erken durdurma              -> KAPI 2
+
+Bu, SOZLESME.md SS4'te onceden yazili kurala tam uyuyor: "Qwen3-8B yedektir
+ve yalniz Qwen3.5-4B kapi 1, 2 veya 3'ten birini gecemezse devreye girer -
+dusuk skor sebebiyle degil." Iki kapi birden gecilemedigi icin kosul fazlasiyla
+saglandi. Bu bir "daha iyi model arama" DEGIL - yedek sonuc gorulmeden ilan
+edilmisti, karar paket sahibi tarafindan verildi (ajan tarafindan degil).
+
+Yama: yama_v2_2.py, paket sahibinden aynen alindi, kod degistirilmeden
+calistirildi. Revizyon AJAN TARAFINDAN SECILMEDI - betik HF API'sinden
+kendisi coz(d)u:
+
+  Qwen/Qwen3-8B @ b968826d9c46dd6066d109eabc6255188de91218
+
+Cikan dosya hash'i paket sahibinin kendi testiyle BIREBIR ESLESTI:
+  c694ee53852385344149d256a0a666f2d0b19b6945c2d66af31cfbc348dc57ca  scripts/36_task15_ikincil_model.py
+
+Sonrasinda SADECE Qwen3-8B icin uc kosu yapildi (cikti_8b/ klasoru); Qwen3.5-4B
+ve Aya YENIDEN KOSULMADI - onceki gecerli sonuclari (v2.1) aynen kayitli kaldi.
+
+8a. QWEN3-8B SONUCLARI - HEPSI ERKEN DURDU (bulgu, hata degil)
+
+model         kol        islenen   erken_durdu   gecerlilik   tepe_VRAM
+---------------------------------------------------------------------------
+Qwen/Qwen3-8B  tr          8/46    EVET           %12.5       16162 MiB
+Qwen/Qwen3-8B  en-genel    8/46    EVET           %25.0       16003 MiB
+Qwen/Qwen3-8B  en-ucuz     8/46    EVET           %25.0       15999 MiB
+
+Revizyon (her uc provenance'ta ayni, dogrulandi): b968826d9c46dd6066d109eabc6255188de91218
+Uretim ayarlari onceki kosularla ayni (mt=2048, do_sample=False, num_beams=1,
+dtype=bfloat16, dort_bit=False). istem/envanter hash'leri hicbir provenance'ta
+degismedi. <think> izi hicbir ham yanitta yok.
+
+Ihlal turleri (ozet.json'lardan aynen):
+
+qwen3_8b_tr_dev (1/8 gecerli):
+  Model cikisi dogrudan JSON degil: 2
+  findings[0] envanter disi concept_id: 1
+  findings[1] envanter disi concept_id: 1
+  findings[10] envanter disi concept_id: 1
+  findings[11] tekrarli (concept_id, assertion): 1
+  findings[14] envanter disi concept_id: 1
+
+qwen3_8b_en_genel_dev (2/8 gecerli):
+  findings[0] envanter disi concept_id: 1
+  findings[1] envanter disi concept_id: 3
+  findings[3] envanter disi concept_id: 1
+  findings[4] envanter disi concept_id: 1
+
+qwen3_8b_en_ucuz_dev (2/8 gecerli):
+  findings[1] envanter disi concept_id: 3
+  findings[3] gecersiz assertion: 1
+  findings[4] envanter disi concept_id: 1
+  findings[17] envanter disi concept_id: 1
+
+8b. HUKUM (onceden yazilan beklenti dogrulandi)
+
+Qwen3-8B de KAPI 3'ten (ve KAPI 2'den) kaldi - baskin ihlal turu yine
+"envanter disi concept_id" (kapali listeye uymayan, modelin kendi uydurdugu
+kimlikler). Uc model (Qwen3.5-4B, Qwen3-8B, Aya Expanse 8B), iki farkli aile
+(Qwen ve Cohere), hepsi ayni yerde takildi:
+
+  "Kapali 144'luk envanterle kati JSON sozlesmesi 4-8B olcekli uc acik
+   modelle saglanamadi; model tabanli ikincil dogrulama yapilamadi.
+   Birincil sonuc bu sinirla birlikte raporlanir."
+
+Bu bir basarisizlik degil OLCULMUS BULGUDUR - tek bir modelin zayifligina
+indirgenemez, cunku iki farkli aile ayni modda basarisiz oldu. Ablasyon
+(birincil sozluk sistemi) bundan ETKILENMEZ - o zaten hazir ve bagimsiz.
+
+Docs/19'daki karar agacinda (SS5) karsiligi olmayan bir durum CIKMADI:
+KAPI 1 hicbir kosuda dusmedi (hepsi tam GPU'da, OOM/kesilme yok), erken
+durdurma D59 kuraliyla ongorulen sekilde isledi, dorduncu bir model
+denenmedi (denenmesi zaten yasak).
+
+
+SON KONTROL LISTESI (AJAN_TALIMATI.md SS8) - v2.1 VE v2.2 (Qwen3-8B) ICIN
+[x] torch.cuda.is_available() -> True
+[x] Yalniz paketteki uc dev girdisi kullanildi
+[x] Istem dosyasina dokunulmadi (istem_sha256 tum kosularda v2 ile ayni)
+[x] Envanter dosyasina dokunulmadi (envanter_sha256 ayni)
+[x] Provenance'taki uc revizyon manifestteki (guncellenmis) sabit SHA'larla ayni
+[x] Hicbir cikti elle duzeltilmedi
+[x] Hicbir kosu "daha iyi sonuc icin" tekrarlanmadi (her yama SONRASI tek tur)
+[x] cikti/, cikti_v2/ VE cikti_8b/ eksiksiz (kismi dosyalar dahil)
+[x] Qwen3-8B revizyonu ajan tarafindan SECILMEDI - HF API'sinden cozuldu,
+    paket sahibinin kendi testiyle birebir eslesti

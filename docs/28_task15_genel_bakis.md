@@ -183,7 +183,7 @@ edildi. Karar eksenleri `A1` (kavram çıkarımı) ve `present`tir (D51).
 ✅ Çeviri kolları: TR · EN-genel · EN-ucuz        ❌ EN-tıbbi düşürüldü
 ✅ Sözlük onarımı · simetrik geçiş · donduruldu
 ✅ Türkçe birleşik kavram çıkarıcı
-🔄 İkincil model seçimi (dev)
+❌ İkincil model doğrulaması — üç aday da elendi, kol düşürüldü
 ⬜ Kanonik altın + uzman incelemesi
 ⬜ Sürüm dondurma raporu
 🔒 test — çeviri yapılmadı, skor hesaplanmadı
@@ -208,14 +208,27 @@ ayarımızdan** geldiği (üretimin token sınırında kesilmesi) tespit edildi 
 düzeltildi; kalan ihlaller modele aittir ve öyle raporlanacaktır. Ayrıntı
 D64'te.
 
-Bu kol **kritik yolda değildir**: ikincil doğrulama hiç yapılamasa da ablasyon
-yürür ve sonuç bu sınırla birlikte raporlanır.
+**Sonuç: üç adayın üçü de elendi ve kol düşürüldü.** Qwen3.5-4B %73,9,
+Aya Expanse 8B %0 (erken durdurma), önceden ilan edilmiş yedek Qwen3-8B %20,8
+(erken durdurma). Üç farklı arıza — tekrar döngüsü, Markdown çiti, envanteri yok
+sayma — ama tek ortak duvar: **kapalı 144'lük listeye uymamak.** Dördüncü bir
+model seçilmedi; sonucu gördükten sonra model seçmek protokolün engellediği
+şeydir.
+
+Rapora giren hüküm: *"Kapalı 144'lük envanterle katı JSON sözleşmesi 4–8B
+ölçekli üç açık modelle (iki farklı aile) sağlanamadı; model tabanlı ikincil
+doğrulama yapılamamıştır."*
+
+**Ablasyon bundan etkilenmez** — dil kararını birincil ölçüm verir ve hazırdır.
+Kaybedilen tek şey *"sonuç sözlüğe bağlı mı"* itirazını kapatma imkânıdır; bu
+açık bir sınır olarak raporlanır. Ayrıntı:
+[ikincil model raporu](../reports/task15_ikincil_model_raporu.md).
 
 ### Kalan iş — bağımlılık sırasıyla
 
 | # | iş | engellediği |
 |---|---|---|
-| 1 | İkincil model seçimi tamamlanır | *(kritik yolda değil)* |
+| 1 | ~~İkincil model seçimi~~ | **kapandı** — aday havuzu tükendi (D65) |
 | 2 | **Kesinlik hattı**: Türkçe çıkarıcının span'ları kesinlik atayıcıya bağlanır | `present` ekseni |
 | 3 | **Kanonik altın**: iki bağımsız işaretleyici, kapalı 144 envanter, kör | `test` |
 | 4 | **Uzman incelemesi**: birleşmiş liste incelenir, nihai karar verilir | `test` |
@@ -300,3 +313,4 @@ Bunlar gizlenmiyor; raporlarda ve kararlarda açıkça yazılı.
 | [reports/…_sozluk_onarimi_raporu](../reports/task15_sozluk_onarimi_raporu.md) | sözlük onarımı kapanış raporu |
 | [reports/…_ceviri_dev_raporu](../reports/task15_ceviri_dev_raporu.md) | `dev` çeviri koşuları |
 | [reports/…_medgemma_kol_dusurme](../reports/task15_medgemma_kol_dusurme.md) | EN-tıbbi kolunun düşürülme kaydı |
+| [reports/…_ikincil_model_raporu](../reports/task15_ikincil_model_raporu.md) | **ikincil model doğrulaması** — üç modelin elenme kaydı ve gerekçesi |

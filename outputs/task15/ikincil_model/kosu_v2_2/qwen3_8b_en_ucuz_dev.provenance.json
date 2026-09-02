@@ -1,0 +1,63 @@
+{
+  "adapter": "ikincil:Qwen/Qwen3-8B@b968826d9c46dd6066d109eabc6255188de91218:ikincil-v2:bf16:mt2048",
+  "baslangic_utc": "2026-09-02T13:08:22.526015+00:00",
+  "bitis_utc": "2026-09-02T13:09:32.985838+00:00",
+  "bolum": "dev",
+  "cikti_dosya": "cikti_8b/qwen3_8b_en_ucuz_dev.jsonl",
+  "cikti_sha256": "8b552c13c93bafc7a781b6f00ad037f90c7a0c752bc0e63521bfee323d4ccbc4",
+  "envanter_boyutu": 144,
+  "envanter_dosya": "/home/bt/TMP/TASK15_Model_Paketi/envanter/envanter_144.yaml",
+  "envanter_sha256": "67a575f1ff71886ef1663bcb609d4c2fb3d2f2482bd2172fa630446d4e37fd36",
+  "girdi_dosya": "girdi/en_ucuz_dev.jsonl",
+  "girdi_sha256": "caef8f6b3f0c885ea5943e8503e8bbd49485c516c6a2cd07006eeff49bf3196f",
+  "istem_dosya": "/home/bt/TMP/TASK15_Model_Paketi/istem/ikincil_model_v2.txt",
+  "istem_sha256": "25f53d85fad02d798d2ee6e91a90c10d91dd5671ab6983ab642c785a08ef1b4d",
+  "istem_surumu": "ikincil-v2",
+  "kol": "en-ucuz",
+  "model_id": "Qwen/Qwen3-8B",
+  "ortam": {
+    "cuda_var": true,
+    "gpu": "NVIDIA A100-SXM4-40GB",
+    "gpu_toplam_mib": 40440.375,
+    "platform": "Linux-5.15.0-186-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.16.1"
+  },
+  "ozet": {
+    "belge_basina_ortalama_sn": 8.81,
+    "belge_sayisi": 46,
+    "bolum": "dev",
+    "erken_durdu": true,
+    "gecerlilik_orani": 0.25,
+    "ihlal_turleri": {
+      "findings[17] envanter disi concept_id": 1,
+      "findings[1] envanter disi concept_id": 3,
+      "findings[3] gecersiz assertion": 1,
+      "findings[4] envanter disi concept_id": 1
+    },
+    "islenen": 8,
+    "kol": "en-ucuz",
+    "model": "Qwen/Qwen3-8B",
+    "oturum_duvar_sure_sn": 70.5,
+    "revizyon": "b968826d9c46dd6066d109eabc6255188de91218",
+    "tepe_vram_mib": 15998.974609375,
+    "toplam_uretim_sure_sn": 70.5,
+    "yapisal_gecerli": 2,
+    "yapisal_gecersiz": 6
+  },
+  "revizyon": "b968826d9c46dd6066d109eabc6255188de91218",
+  "uretim": {
+    "do_sample": false,
+    "dort_bit": false,
+    "dtype": "bfloat16",
+    "dusunme_kapali_istendi": true,
+    "istem_surumu": "ikincil-v2",
+    "max_new_tokens": 2048,
+    "num_beams": 1,
+    "sohbet_sablonu_kipi": "enable_thinking=False",
+    "temperature": null,
+    "top_k": null,
+    "top_p": null
+  }
+}
