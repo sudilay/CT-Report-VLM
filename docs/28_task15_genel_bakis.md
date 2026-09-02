@@ -354,18 +354,11 @@ Bunlar gizlenmiyor; raporlarda ve kararlarda açıkça yazılı.
 > Tek dosyadır, dış bağımlılığı yoktur. Yeniden üretmek için:
 > `python scripts/38_task15_inceleme_tezgahi.py`
 
-### Tarayıcıda açılabilir sürümler
+### Tarayıcıda açılabilir sürüm
 
-Aşağıdaki sayfalar depodaki belgelerin **barındırılmış** hâlidir; içerik aynıdır,
-kanonik kaynak depodaki dosyalardır.
+**[🔬 Rapor İnceleme Tezgâhı](https://claude.ai/code/artifact/c51fba82-a87e-46f0-bf0f-7d333c800597)** — yukarıdaki `inceleme_tezgahi.html` ile
+birebir aynı dosyanın barındırılmış hâli (`sha256 6e303e55…`).
 
-| sayfa | depodaki karşılığı |
-|---|---|
-| [Rapor İnceleme Tezgâhı](https://claude.ai/code/artifact/c51fba82-a87e-46f0-bf0f-7d333c800597) | `outputs/task15/inceleme_tezgahi.html` — **birebir aynı dosya** (`sha256 6e303e55…`) |
-| [İki Sözlük, Tek Ölçüm](https://claude.ai/code/artifact/99d515e7-5aaf-4f4c-831b-d77c7377e43d) | `reports/task15_sozluk_onarimi_raporu.md` |
-| [Üç Model, Aynı Duvar](https://claude.ai/code/artifact/04aa34f8-8df4-4b07-8c48-911d8323bac8) | `reports/task15_ikincil_model_raporu.md` |
-
-> ⚠ Bu bağlantılar **varsayılan olarak özeldir**; başkasının açabilmesi için
-> sayfanın paylaşım menüsünden paylaşılması gerekir. Erişimi olmayan biri için
-> depodaki markdown dosyaları ve indirilebilir HTML yeterlidir.
-
+İki raporun görsel sürümü de var: [İki Sözlük, Tek Ölçüm](https://claude.ai/code/artifact/99d515e7-5aaf-4f4c-831b-d77c7377e43d) ·
+[Üç Model, Aynı Duvar](https://claude.ai/code/artifact/04aa34f8-8df4-4b07-8c48-911d8323bac8). Barındırılan sayfalar varsayılan olarak özeldir;
+kanonik kaynak her zaman depodaki dosyalardır.

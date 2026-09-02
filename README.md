@@ -131,6 +131,22 @@ kavramlar karşılaştırılıyor. Fark varsa, o fark çevirinin maliyetidir.
 **Durum:** Ölçüm altyapısı kuruldu ve doğrulandı. RadTr `test` bölümü (56 belge)
 **açılmadı** — çevirisi yapılmadı, hiçbir skor hesaplanmadı.
 
+### 🔬 [Rapor İnceleme Tezgâhı → tarayıcıda aç](https://claude.ai/code/artifact/c51fba82-a87e-46f0-bf0f-7d333c800597)
+
+**46 belgenin tamamı tek sayfada:** Türkçe aslı, iki çevirisi, sözlüğün bulduğu
+kavramlar ve aradığı desenler, her kavram için var/yok kararı, ve üç dil
+modelinin çıktıları. Sözlük sisteminin nasıl çalıştığı ve `train`/`dev`/`test`
+bölümlerinde ne koşulduğu da sayfada anlatılıyor.
+
+Depodaki karşılığı [`outputs/task15/inceleme_tezgahi.html`](outputs/task15/inceleme_tezgahi.html)
+ile **birebir aynı dosyadır** (`sha256 6e303e55…`). GitHub `.html` dosyalarını
+kaynak kod olarak gösterdiği için tarayıcıda açmak isteyen bu bağlantıyı,
+indirmek isteyen **Raw → Farklı kaydet** yolunu kullanır.
+
+---
+
+### Okuma sırası
+
 | nereden başlamalı | ne anlatır |
 |---|---|
 | **[docs/28 — Genel Bakış](docs/28_task15_genel_bakis.md)** | **buradan başlayın** — soru, deneyin kurgusu, bulgular, durum, sınırlar |
@@ -139,22 +155,9 @@ kavramlar karşılaştırılıyor. Fark varsa, o fark çevirinin maliyetidir.
 | [reports/…_sozluk_onarimi](reports/task15_sozluk_onarimi_raporu.md) | iki dilli sözlüğün simetrik onarımı ve neden gerekliydi |
 | [reports/…_ikincil_model](reports/task15_ikincil_model_raporu.md) | üç açık modelin elenmesi ve ne öğrettiği |
 | [reports/…_medgemma_kol_dusurme](reports/task15_medgemma_kol_dusurme.md) | tıbbi post-edit kolunun düşürülme kaydı |
-| [outputs/task15/inceleme_tezgahi.html](outputs/task15/inceleme_tezgahi.html) | 46 belgenin görsel dökümü — *indirip tarayıcıda açın; GitHub HTML'i kaynak kod olarak gösterir* |
 
-### Tarayıcıda açılabilir sürümler
-
-Aşağıdaki sayfalar depodaki belgelerin **barındırılmış** hâlidir; içerik aynıdır,
-kanonik kaynak depodaki dosyalardır.
-
-| sayfa | depodaki karşılığı |
-|---|---|
-| [Rapor İnceleme Tezgâhı](https://claude.ai/code/artifact/c51fba82-a87e-46f0-bf0f-7d333c800597) | `outputs/task15/inceleme_tezgahi.html` — **birebir aynı dosya** (`sha256 6e303e55…`) |
-| [İki Sözlük, Tek Ölçüm](https://claude.ai/code/artifact/99d515e7-5aaf-4f4c-831b-d77c7377e43d) | `reports/task15_sozluk_onarimi_raporu.md` |
-| [Üç Model, Aynı Duvar](https://claude.ai/code/artifact/04aa34f8-8df4-4b07-8c48-911d8323bac8) | `reports/task15_ikincil_model_raporu.md` |
-
-> ⚠ Bu bağlantılar **varsayılan olarak özeldir**; başkasının açabilmesi için
-> sayfanın paylaşım menüsünden paylaşılması gerekir. Erişimi olmayan biri için
-> depodaki markdown dosyaları ve indirilebilir HTML yeterlidir.
+Ayrıca iki raporun görsel sürümü: [İki Sözlük, Tek Ölçüm](https://claude.ai/code/artifact/99d515e7-5aaf-4f4c-831b-d77c7377e43d) · [Üç Model, Aynı Duvar](https://claude.ai/code/artifact/04aa34f8-8df4-4b07-8c48-911d8323bac8) — içerikleri yukarıdaki markdown raporlarla aynıdır.
+Barındırılan sayfalar varsayılan olarak özeldir; kanonik kaynak her zaman depodaki dosyalardır.
 
 **Deneyi koruyan kurallar** (hepsi sonuç görülmeden bağlandı): `test` kilitlidir
 ve altın etiketleme hash'lenip kilitlenmeden açılmaz; sözlük onarımı tek
