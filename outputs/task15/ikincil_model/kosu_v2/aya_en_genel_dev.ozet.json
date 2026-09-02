@@ -1,0 +1,19 @@
+{
+  "belge_basina_ortalama_sn": 11.85,
+  "belge_sayisi": 46,
+  "bolum": "dev",
+  "erken_durdu": true,
+  "gecerlilik_orani": 0.0,
+  "ihlal_turleri": {
+    "Model cikisi dogrudan JSON degil": 8
+  },
+  "islenen": 8,
+  "kol": "en-genel",
+  "model": "CohereLabs/aya-expanse-8b",
+  "oturum_duvar_sure_sn": 94.8,
+  "revizyon": "5062468bf9bc0c6035fd64e06274333ec127d980",
+  "tepe_vram_mib": 15685.95703125,
+  "toplam_uretim_sure_sn": 94.8,
+  "yapisal_gecerli": 0,
+  "yapisal_gecersiz": 8
+}

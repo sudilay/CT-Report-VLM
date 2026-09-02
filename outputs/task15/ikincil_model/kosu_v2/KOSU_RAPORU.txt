@@ -1,0 +1,199 @@
+TASK-15 IKINCIL MODEL KOSUSU - KOSU RAPORU
+============================================
+Kosu tarihi (UTC): 2026-09-02, 10:41 - 11:19 arasi
+Kosucu: Claude (ajan), talimat: AJAN_TALIMATI.md / SOZLESME.md
+
+
+1. ORTAM
+--------
+GPU            : NVIDIA A100-SXM4-40GB (makinede 4 adet mevcut, kosular tek GPU'da yapildi)
+GPU toplam VRAM: 40440 MiB (~40 GB)
+torch          : 2.6.0+cu124
+transformers   : 5.16.1
+Python         : 3.10.12
+Platform       : Linux-5.15.0-186-generic-x86_64-with-glibc2.35
+
+torch.cuda.is_available()    -> True
+torch.cuda.is_bf16_supported() -> True
+(her iki bool da True, on kontrol GECTI)
+
+Paket butunlugu kosu ONCESI dogrulandi: paket_manifest.json'daki tum
+dosya_sha256, girdi sha256 ve envanter sha256 degerleri diskteki dosyalarla
+birebir eslesti (10 kod/talimat dosyasi + 3 girdi + 1 envanter, hepsi OK).
+
+
+2. KOSU KOSU SONUCLAR
+
+model                       kol        islenen   erken_durdu   gecerlilik   sure(dk)   tepe_VRAM
+---------------------------------------------------------------------------------------------------
+Qwen/Qwen3.5-4B              tr         46/46     Hayir          %78.3        10.7      9103 MiB
+Qwen/Qwen3.5-4B              en-genel   46/46     Hayir          %65.2        10.0      9078 MiB
+Qwen/Qwen3.5-4B              en-ucuz    46/46     Hayir          %71.7         7.1      9079 MiB
+CohereLabs/aya-expanse-8b     tr          8/46    EVET           %0.0          1.4     15698 MiB
+CohereLabs/aya-expanse-8b     en-genel    8/46    EVET           %0.0          1.6     15686 MiB
+CohereLabs/aya-expanse-8b     en-ucuz     8/46    EVET           %0.0          1.3     15682 MiB
+
+Revizyonlar (provenance'ta dogrulandi, manifestteki sabit SHA'larla birebir ayni):
+  Qwen/Qwen3.5-4B          @ 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+  CohereLabs/aya-expanse-8b @ 5062468bf9bc0c6035fd64e06274333ec127d980
+
+Uretim ayarlari (provenance'ta dogrulandi, her iki modelde ayni):
+  do_sample=False, num_beams=1, temperature/top_p/top_k=None,
+  max_new_tokens=1024, dtype=bfloat16, dort_bit=False,
+  dusunme_kapali_istendi=True, sohbet_sablonu_kipi="enable_thinking=False"
+
+Not (sohbet_sablonu_kipi hakkinda): Bu alan Aya icin de "enable_thinking=False"
+gorunuyor, ama bu Aya'nin dusunme modunu gercekten kapattigi anlamina gelmez -
+sadece apply_chat_template cagrisinin bu argumanla HATA VERMEDIGI anlamina
+gelir (Jinja sablonlari bilinmeyen degiskenleri sessizce yok sayabilir).
+Aya'nin zaten bir "thinking mode" kavrami yok; bu alan sadece koda gore
+DOGRU sekilde raporlaniyor, yanlis yorumlanmasin diye burada belirtiyorum.
+
+<think> veya "Let me analyze..." turu dusunme izi: HICBIR ham yanitta
+bulunmadi (tum cikti/*.jsonl dosyalari grep edildi, 0 sonuc).
+
+
+2a. QWEN - ihlal turleri (ozet.json'dan aynen)
+
+qwen_tr_dev:
+  Model cikisi dogrudan JSON degil: 6
+  findings[13] envanter disi concept_id: 2
+  findings[14] envanter disi concept_id: 1
+  findings[2] envanter disi concept_id: 1
+
+qwen_en_genel_dev:
+  Model cikisi dogrudan JSON degil: 7
+  findings[10] envanter disi concept_id: 1
+  findings[19] envanter disi concept_id: 1
+  findings[1] envanter disi concept_id: 2
+  findings[24] envanter disi concept_id: 1
+  findings[2] envanter disi concept_id: 2
+  findings[3] envanter disi concept_id: 2
+
+qwen_en_ucuz_dev:
+  Model cikisi dogrudan JSON degil: 1
+  findings[0] envanter disi concept_id: 1
+  findings[11] envanter disi concept_id: 1
+  findings[14] envanter disi concept_id: 1
+  findings[15] envanter disi concept_id: 2
+  findings[15] tekrarli (concept_id, assertion): 1
+  findings[21] envanter disi concept_id: 1
+  findings[2] envanter disi concept_id: 1
+  findings[4] envanter disi concept_id: 1
+  findings[6] envanter disi concept_id: 2
+  findings[8] envanter disi concept_id: 1
+
+
+2b. AYA - ERKEN DURDURMA DETAYI (bulgu, hata degil)
+
+Uc kolda da AYNI sebep, ilk 8 belgenin 8'i de (%100) bozuk:
+  "Model cikisi dogrudan JSON degil: Expecting value" (hepsi 8/8)
+
+Aya, istemin acikca yasakladigi seyi tutarli sekilde yapiyor: cevabini
+Markdown kod bloguna sariyor (```json ... ```). Icerideki JSON'un kendisi
+BOZUK DEGIL - sadece kod cevrelemesi sozlesmeyi ihlal ediyor
+(SOZLESME.md: "Markdown, ``` citleri, aciklama, on soz, dusunme izi yasak").
+parse_model_output bunu ONARMADAN (cevreleyen ``` isaretlerini kirpmadan)
+reddediyor - talimatin acikca yasakladigi "iceriginde onarim" bu olurdu.
+
+Ham yanit ornegi (aya_tr_dev.jsonl, ilk belge, AYNEN kopyalandi):
+
+  "```json\n{\n  \"findings\": [\n    {\n      \"concept_id\": \"pneumonia\",\n
+  \"assertion\": \"present\"\n    },\n    {\n      \"concept_id\":
+  \"heart_enlargement\",\n      \"assertion\": \"present\"\n    },\n    ...
+  \n  ]\n}\n```"
+
+Bu tam olarak MedGemma'da yasanan durumun bir varyasyonu (AJAN_TALIMATI.md
+Bolum 5.B'de bahsedilen D59 dersi): kural sonuc gorulmeden baglanmisti,
+gevsetilmedi. Aya'nin uc kolu da bu sekilde dustu. Ust ust 4. bir deneme
+YAPILMADI (talimat geregi yasak); diger kollara/modele gecildi.
+
+
+3. KULLANILAN BAYRAKLAR VE NEDENI
+
+--dort-bit : KULLANILMADI. Hicbir model KAPI 1'de (calisabilirlik) dusmedi,
+             tam bfloat16 ile her iki model de tek GPU'ya sorunsuz sigdi.
+
+--devam    : SADECE qwen_tr_dev kosusunda 1 kez kullanildi. Sebep asagida
+             "Beklenmedik / elle mudahale" bolumunde acikca anlatiliyor -
+             OOM/kesilme DEGIL, benim performans amacli mudahalemdi.
+
+
+4. BEKLENMEDIK HER SEY / ELLE YAPILAN MUDAHALELER
+
+a) Eksik bagimlilik (torchvision, Pillow):
+   gereksinimler.txt'de torchvision ve Pillow YOKTU, ama Qwen3.5-4B'nin
+   model_type'i "qwen3_5" oldugu icin script AutoProcessor/coklu-modal yolunu
+   seciyor ve bu, Qwen2VLImageProcessor uzerinden torchvision+Pillow istiyor
+   - metin-only bir cagrida bile. Ilk kosu denemesi bu yuzden MODEL YUKLEME
+   HATASI ile dustu (cikti dosyasi olusmadan, KAPI 1 anlaminda degil, sadece
+   ortam eksikligi). torchvision==0.21.0 (torch 2.6.0+cu124 ile uyumlu) ve
+   pillow pip ile eklendi. Bu, istemi/uretim ayarlarini/ciktiyi ETKILEMEDI -
+   sadece kullanilmayan bir goruntu-isleme yolunun import edilebilmesini
+   sagladi. Donduruldugu icin bunu rapora ayrica isaretliyorum.
+
+b) Cok-GPU otomatik bolme (performans, DOGRULUK sorunu DEGIL):
+   Script "device_map=auto" kullaniyor; makinede 4 GPU oldugu icin ilk
+   qwen_tr_dev denemesi model agirliklarini otomatik olarak 3 farkli GPU'ya
+   bolmustu (hicbiri CPU/disk'e tasmadi, KAPI 1 kontrolunu GECTI). Bu, tek
+   belge uretiminde GPU'lar arasi veri transferi getirip yavasliga yol
+   acabilecegini dusundugum icin sureci elle durdurup CUDA_VISIBLE_DEVICES=0
+   ile tek GPU'ya sabitledim (4B/8B model bfloat16 ile 40GB'a rahat sigiyor).
+   Kesinti sirasinda 6 belge zaten islenmis ve dosyaya yazilmis durumdaydi;
+   bu kismi dosya SILINMEDI, --devam ile kaldigi yerden surduruldu (kalan 40
+   belge). Hicbir belge iki kez hesaplanmadi. Bu mudahale modelin
+   davranisini/ciktisini degistirmez, sadece hangi donanima yerlestigini
+   degistirir - yine de talimat geregi ("elle yaptigin her mudahale") acikca
+   yaziyorum.
+
+c) Hugging Face hesap degisikligi:
+   Kosulara baslamadan once makinede baska bir kullaniciya (chn123) ait,
+   onceden giris yapilmis paylasimli bir HF token'i hazir bulundu (ben
+   secmedim). Kullanicinin (Sude Dilay Tunc, hf: sudilayt) talebi uzerine bu
+   PAYLASIMLI GLOBAL TOKEN'A HIC DOKUNULMADI; bunun yerine kullanicinin kendi
+   "sudilayt" hesabindan aldigi kisisel erisim token'i SADECE bu kosu
+   oturumuna ozel HF_TOKEN ortam degiskeni olarak kullanildi. Alti kosunun
+   tamami "sudilayt" hesabi uzerinden yapildi. sudilayt hesabinin Aya
+   Expanse 8B lisans kosullarini onceden kabul ettigi API uzerinden
+   dogrulandi. Not: kullanici token'i bu sohbet uzerinden acik metin olarak
+   paylasti (baska bir terminale erisimi olmadigi icin); islem bitince bu
+   token'i Hugging Face hesabindan IPTAL EDIP yenisini olusturmasi onerildi.
+
+d) Aya'nin sistematik Markdown sarmalamasi: Yukarida 2b'de detaylandirildi.
+
+
+5. YAPILAMAYAN / ATLANAN ADIM
+
+Hicbir adim atlanmadi. Alti (model, kol) cifti de talimatta belirtilen
+komutlarla TAM OLARAK BIR KEZ calistirildi (qwen_tr_dev'in tek kesinti+devam
+istisnasi haric - bu da veri kaybi veya tekrar hesaplama YARATMADI). Hicbir
+gecersiz cikti elle duzeltilmedi, hicbir kosu "daha iyi sonuc icin" tekrar
+edilmedi, istem/envanter dosyalarina dokunulmadi, test bolumune erisilmedi,
+ucuncu bir model (Qwen3-8B yedegi) hic devreye girmedi (KAPI 1 hicbir zaman
+dusmedigi icin gerek kalmadi).
+
+
+6. TESLIM EDILEN DOSYALAR
+
+cikti/ klasorunun TAMAMI (18 dosya - her kosu icin .jsonl + .ozet.json +
+.provenance.json; hicbir .hata.json yok cunku KAPI 1 hic tetiklenmedi):
+
+  qwen_tr_dev.{jsonl,ozet.json,provenance.json}
+  qwen_en_genel_dev.{jsonl,ozet.json,provenance.json}
+  qwen_en_ucuz_dev.{jsonl,ozet.json,provenance.json}
+  aya_tr_dev.{jsonl,ozet.json,provenance.json}           (kismi: 8/46 satir)
+  aya_en_genel_dev.{jsonl,ozet.json,provenance.json}     (kismi: 8/46 satir)
+  aya_en_ucuz_dev.{jsonl,ozet.json,provenance.json}      (kismi: 8/46 satir)
+
++ bu rapor (KOSU_RAPORU.txt)
+
+
+SON KONTROL LISTESI (AJAN_TALIMATI.md SS8)
+[x] torch.cuda.is_available() -> True
+[x] Yalniz paketteki uc dev girdisi kullanildi
+[x] Istem dosyasina dokunulmadi (istem_sha256 6 kosuda da ayni)
+[x] Envanter dosyasina dokunulmadi (envanter_sha256 6 kosuda da ayni)
+[x] Provenance'taki iki revizyon manifestteki sabit SHA'larla ayni
+[x] Hicbir cikti elle duzeltilmedi
+[x] Hicbir kosu "daha iyi sonuc icin" tekrarlanmadi
+[x] cikti/ eksiksiz (kismi Aya dosyalari dahil)

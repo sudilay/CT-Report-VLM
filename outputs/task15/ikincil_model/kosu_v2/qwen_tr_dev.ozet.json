@@ -1,0 +1,22 @@
+{
+  "belge_basina_ortalama_sn": 16.48,
+  "belge_sayisi": 46,
+  "bolum": "dev",
+  "erken_durdu": false,
+  "gecerlilik_orani": 0.7826,
+  "ihlal_turleri": {
+    "Model cikisi dogrudan JSON degil": 6,
+    "findings[13] envanter disi concept_id": 2,
+    "findings[14] envanter disi concept_id": 1,
+    "findings[2] envanter disi concept_id": 1
+  },
+  "islenen": 46,
+  "kol": "tr",
+  "model": "Qwen/Qwen3.5-4B",
+  "oturum_duvar_sure_sn": 642.7,
+  "revizyon": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "tepe_vram_mib": 9102.67138671875,
+  "toplam_uretim_sure_sn": 758.2,
+  "yapisal_gecerli": 36,
+  "yapisal_gecersiz": 10
+}

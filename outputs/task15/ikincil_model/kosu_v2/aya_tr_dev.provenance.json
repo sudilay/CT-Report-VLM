@@ -1,0 +1,60 @@
+{
+  "adapter": "ikincil:CohereLabs/aya-expanse-8b@5062468bf9bc0c6035fd64e06274333ec127d980:ikincil-v2:bf16:mt1024",
+  "baslangic_utc": "2026-09-02T11:13:28.998397+00:00",
+  "bitis_utc": "2026-09-02T11:14:53.061352+00:00",
+  "bolum": "dev",
+  "cikti_dosya": "cikti/aya_tr_dev.jsonl",
+  "cikti_sha256": "8ab493c9412ab32c17eb035600b2ead938b8f196c7984be0a856cf20e86181c9",
+  "envanter_boyutu": 144,
+  "envanter_dosya": "/home/bt/TMP/TASK15_Model_Paketi/envanter/envanter_144.yaml",
+  "envanter_sha256": "67a575f1ff71886ef1663bcb609d4c2fb3d2f2482bd2172fa630446d4e37fd36",
+  "girdi_dosya": "girdi/tr_dev.jsonl",
+  "girdi_sha256": "2eda4765b2652a75c67def372a0359590a3b889b20aa9349642545ba0fc35ead",
+  "istem_dosya": "/home/bt/TMP/TASK15_Model_Paketi/istem/ikincil_model_v2.txt",
+  "istem_sha256": "25f53d85fad02d798d2ee6e91a90c10d91dd5671ab6983ab642c785a08ef1b4d",
+  "istem_surumu": "ikincil-v2",
+  "kol": "tr",
+  "model_id": "CohereLabs/aya-expanse-8b",
+  "ortam": {
+    "cuda_var": true,
+    "gpu": "NVIDIA A100-SXM4-40GB",
+    "gpu_toplam_mib": 40440.375,
+    "platform": "Linux-5.15.0-186-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.16.1"
+  },
+  "ozet": {
+    "belge_basina_ortalama_sn": 10.51,
+    "belge_sayisi": 46,
+    "bolum": "dev",
+    "erken_durdu": true,
+    "gecerlilik_orani": 0.0,
+    "ihlal_turleri": {
+      "Model cikisi dogrudan JSON degil": 8
+    },
+    "islenen": 8,
+    "kol": "tr",
+    "model": "CohereLabs/aya-expanse-8b",
+    "oturum_duvar_sure_sn": 84.1,
+    "revizyon": "5062468bf9bc0c6035fd64e06274333ec127d980",
+    "tepe_vram_mib": 15698.4091796875,
+    "toplam_uretim_sure_sn": 84.1,
+    "yapisal_gecerli": 0,
+    "yapisal_gecersiz": 8
+  },
+  "revizyon": "5062468bf9bc0c6035fd64e06274333ec127d980",
+  "uretim": {
+    "do_sample": false,
+    "dort_bit": false,
+    "dtype": "bfloat16",
+    "dusunme_kapali_istendi": true,
+    "istem_surumu": "ikincil-v2",
+    "max_new_tokens": 1024,
+    "num_beams": 1,
+    "sohbet_sablonu_kipi": "enable_thinking=False",
+    "temperature": null,
+    "top_k": null,
+    "top_p": null
+  }
+}
