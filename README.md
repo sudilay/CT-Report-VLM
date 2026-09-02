@@ -141,6 +141,21 @@ kavramlar karşılaştırılıyor. Fark varsa, o fark çevirinin maliyetidir.
 | [reports/…_medgemma_kol_dusurme](reports/task15_medgemma_kol_dusurme.md) | tıbbi post-edit kolunun düşürülme kaydı |
 | [outputs/task15/inceleme_tezgahi.html](outputs/task15/inceleme_tezgahi.html) | 46 belgenin görsel dökümü — *indirip tarayıcıda açın; GitHub HTML'i kaynak kod olarak gösterir* |
 
+### Tarayıcıda açılabilir sürümler
+
+Aşağıdaki sayfalar depodaki belgelerin **barındırılmış** hâlidir; içerik aynıdır,
+kanonik kaynak depodaki dosyalardır.
+
+| sayfa | depodaki karşılığı |
+|---|---|
+| [Rapor İnceleme Tezgâhı](https://claude.ai/code/artifact/c51fba82-a87e-46f0-bf0f-7d333c800597) | `outputs/task15/inceleme_tezgahi.html` — **birebir aynı dosya** (`sha256 6e303e55…`) |
+| [İki Sözlük, Tek Ölçüm](https://claude.ai/code/artifact/99d515e7-5aaf-4f4c-831b-d77c7377e43d) | `reports/task15_sozluk_onarimi_raporu.md` |
+| [Üç Model, Aynı Duvar](https://claude.ai/code/artifact/04aa34f8-8df4-4b07-8c48-911d8323bac8) | `reports/task15_ikincil_model_raporu.md` |
+
+> ⚠ Bu bağlantılar **varsayılan olarak özeldir**; başkasının açabilmesi için
+> sayfanın paylaşım menüsünden paylaşılması gerekir. Erişimi olmayan biri için
+> depodaki markdown dosyaları ve indirilebilir HTML yeterlidir.
+
 **Deneyi koruyan kurallar** (hepsi sonuç görülmeden bağlandı): `test` kilitlidir
 ve altın etiketleme hash'lenip kilitlenmeden açılmaz; sözlük onarımı tek
 geçiştir; model çıktısı onarılmaz; durma eşikleri sonuç kötü çıkınca
