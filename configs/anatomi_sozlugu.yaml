@@ -56,7 +56,21 @@ kavramlar:
     taraf_alir: true
     korpus: 8233
   lower_lobe:
-    desenler: ["lower lobes?"]
+    # ONARIM 2026-09-02 (D58 1. kural · 2. kural GEREKCELI ISTISNA - Sude onayi):
+    # Google `alt lob`u duzenli olarak "lower LUNG lobes" ceviriyor; desen
+    # araya giren "lung"u kaldiramiyordu. Okunan cumleler: "Atelectatic bands
+    # were observed in the basal areas of both lower LUNG lobes." (_102_28) ·
+    # "Aeration of both lower LUNG lobe segments was completely lost..." (_130_311).
+    # Bilgi metinde ACIKCA var - insan da model de okur; duzeltilmezse birincil
+    # sistem 36 belgede SAHTE ceviri kaybi kaydeder, ikincil model kaydetmez ve
+    # iki sistem bir REGEX SINIRI yuzunden celisir.
+    # ⚠ 2. KURAL ISTISNASI: CT-RATE train'de `lower lung lobe` yalniz 31 anma
+    #   (`lower lobe` 23.002). Istisna gerekcesi: bu YENI BIR TERIM DEGIL,
+    #   mevcut yuzeye ISTEGE BAGLI BIR KELIME eklemektir - sozluge RadTr'ye
+    #   ozgu kelime bilgisi girmiyor, araya sikisan bir sozcuge tolerans giriyor.
+    #   Bu istisna raporda acikca yazilidir.
+    # Olculdu: 36 boslugun 31'ini (%86) kapatir, yanlis atesleme 0/68.
+    desenler: ["lower (?:lung )?lobes?"]
     ust_kavram: lung
     taraf_alir: true
     korpus: 21240
@@ -71,7 +85,10 @@ kavramlar:
     # ust_kavram: lung IDDIASI KALDIRILDI. Yanlis ust kavram, ust kavramsizliktan
     # kotudur. Hangi organin segmenti oldugu located_at iliskisinden okunur.
     kilavuz_karari: true    # K16: kilavuzda karsiligi bulunmali
-    desenler: ["segments?"]
+    # ONARIM 2026-09-02 (D58 1. kural): TR deseni `segment` ciplak koktur ve
+    # "segmenter"/"segmental"i de yakalar; EN yalniz isim biciminde ariyordu.
+    # Olculdu: 9 boslugun 9'unu (%100) kapatir, yanlis atesleme 0/103.
+    desenler: ["segments?", "segmental"]
     taraf_alir: true
     korpus: 24025
   lung_apex:
@@ -80,7 +97,11 @@ kavramlar:
     taraf_alir: true
     korpus: 2133
   hemithorax:
-    desenler: ["hemithora(?:x|ces)"]
+    # ONARIM 2026-09-02: DESEN HATASI. Korpus Ingilizce cogul `hemithoraxes`
+    # yaziyor (38 anma); Latin cogul `hemithoraces` korpusta 0 anma. Desen
+    # yanlis cogulu ariyordu. Olculdu: 32 boslugun 32'sini (%100) kapatir,
+    # yanlis atesleme 3/22.
+    desenler: ["hemithora(?:x|xes|ces)"]
     taraf_alir: true
     korpus: 4519
   pleura:

@@ -10,6 +10,17 @@
 #
 # Desenler BASTA sinirlidir - Turkce sondan eklemelidir.
 
+#
+# ⛔ DUZELTME 2026-09-01 (D49/D50) - YUKARIDAKI "test HARIC" IFADESI YANLISTIR.
+#   RadTr `train.json` `dev.json` ve `test.json` belgelerinin TAMAMINI birebir
+#   icerir. Bolum kimligi dosya adindan uretildigi icin 56 test toraks belgesi
+#   `kaynak_bolum="train"` etiketiyle bu turetmeye GIRDI. Gercek havuz 373 degil
+#   325 benzersiz belge; mesru havuz (test haric) 269.
+#   OLCULEN HASAR SIFIRA YAKIN: 144 yuzeyin 0'i, 28 ipucunun 1'i (`stabil`)
+#   yalniz test belgelerine dayaniyor. Test uzerinde hicbir skor hesaplanmadi.
+#   Bu dosya TASLAKTIR ve temiz havuzda yeniden turetilecektir (tr-2.0).
+#   Ayrinti: docs/25_task15_bolunme_kirlenme_denetimi.md
+#
 surum: tr-1.0
 durum: taslak
 kaynak: RadTr toraks train+dev (373 belge) - test HARIC
@@ -30,7 +41,12 @@ yuzeyler:
     ct_rate_ingilizce: 12652
     uzman_onayi: false
   effusion:
-    desen: ef[uü]zyon
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # YAZIM: korpus 'effuzyon' (CIFT F) yaziyor, desen tek f ariyordu.
+    # Okunan cumleler: "Perikardial effuzyon saptanmadi." (_136_331) ·
+    # "...kalinligi 1 cm'ye ulasan effuzyonlar..." (_139_245).
+    # Olculdu: 18 boslugun 17'sini (%94) kapatir, yanlis atesleme 0/72.
+    desen: ef+[uü]zyon
     radtr: 359
     ct_rate_ingilizce: 20357
     uzman_onayi: false
@@ -40,7 +56,12 @@ yuzeyler:
     ct_rate_ingilizce: 30386
     uzman_onayi: false
   consolidation:
-    desen: konsolidasyon
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # TR yalniz isim `konsolidasyon` ariyordu; korpus 'kollabe-konsolide
+    # gorunumde' de yaziyor (_240_89). EN tarafina ayni turda `consolidated`
+    # SIMETRIK olarak eklendi - tek tarafli genisletme yapilmadi.
+    # Olculdu: 15 boslugun 14'unu (%93) kapatir.
+    desen: konsolidasyon|konsolide
     radtr: 34
     ct_rate_ingilizce: 8385
     uzman_onayi: false
@@ -60,7 +81,12 @@ yuzeyler:
     ct_rate_ingilizce: 8604
     uzman_onayi: false
   bronchiectasis:
-    desen: bron[şs]ektazi
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # YAZIM: korpus hem 'bronsektazi' hem 'bronsiektazi' yaziyor (bronsiektazi*
+    # 8 anma), desen yalniz ilkini ariyordu. EN deseni `bronchiecta(sis|ses|tic)`
+    # ile bronchiectatic changes - iki bicimi de goruyor.
+    # Olculdu: 7 boslugun 7'sini (%100) kapatir, yanlis atesleme 0/198.
+    desen: bron[şs]i?ektazi
     radtr: 30
     ct_rate_ingilizce: 4336
     uzman_onayi: false
@@ -70,12 +96,28 @@ yuzeyler:
     ct_rate_ingilizce: 4877
     uzman_onayi: false
   calcification:
-    desen: kalsifi|kire[çc]len
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis): eski desen `kalsifi` CIPLAK
+    # KOKTU ve kardes kavram `calcific`in yuzeylerini (kalsifiye 44 · kalsifik
+    # 27) da yutuyordu - Ingilizce sozluk bu ayrimi yapiyor (`calcification`
+    # vs `calcific`), Turkce yapmiyordu. Bu bir bosluk degil FAZLA ATESLEME.
+    # Kanit: 41 "EN boslugu" belgesinin 41'inde (41/41) Ingilizce metin kardes
+    # kavrami dogru ateshiyor - yani bilgi EN'de VAR, sadece `calcific`te.
+    # Okunan cumleler: "Calcified plaque formations are observed in the
+    # thoracic aorta..." (_129_269, TR "kalsifiye plak formasyonlari") ·
+    # "Minimal calcified plaques..." (_143_109, TR "minimal kalsifik plaklar").
+    # Korpus: kalsifikasyon* 46 anma kalir; kalsifiye/kalsifik `calcific`e gider.
+    # ⚠ `kalsifiksyonlari` (1 anma, yazim hatasi) artik `calcific`e dusuyor.
+    desen: kalsifikasyon|kire[çc]len
     radtr: 185
     ct_rate_ingilizce: 3561
     uzman_onayi: false
   atelectasis:
-    desen: atelektazi
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni `atelecta(sis|ses|tic)|collapsed?` - sifat ve 'collapsed' dahil;
+    # TR yalniz isim `atelektazi`. Okunan cumleler: "...atelektatik bantlar
+    # izlendi" (_102_28) · "...kollabe-konsolide gorunumde..." (_240_89).
+    # Olculdu: 18 boslugun 17'sini (%94) kapatir, yanlis atesleme 0/145.
+    desen: atelekta(?:zi|tik)|kollabe
     radtr: 119
     ct_rate_ingilizce: 12106
     uzman_onayi: false
@@ -135,7 +177,15 @@ yuzeyler:
     ct_rate_ingilizce: 437
     uzman_onayi: false
   density:
-    desen: dansite
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni `densit(y|ies)|opacit(y|ies)` - iki sozcuk; TR yalniz `dansite`.
+    # Okunan cumle: "...buzlu cam opasitesinde infiltrasyon alanlari..." (_163_144).
+    # Olculdu: 32 boslugun 13'unu kapatir, yanlis atesleme 0/114.
+    # ⚠ Kalan 19 boslugun 18'i ONARILMADI ve ONARILMAMALI: TR "buzlu cam
+    # ALANLARI" diyor (yogunluk sozcugu YOK), Google "ground-glass OPACITIES"
+    # yaziyor. Cevirmen terim EKLIYOR - bu gercek bir TR/EN farkidir, olcumun
+    # konusudur, sozluk deligi degildir.
+    desen: dansite|opasite
     radtr: 178
     ct_rate_ingilizce: 19334
     uzman_onayi: false
@@ -180,7 +230,15 @@ yuzeyler:
     ct_rate_ingilizce: 945
     uzman_onayi: false
   sequela_change:
-    desen: sekel
+    # ONARIM 2026-09-02 (KARDES CAKISMASI - `calcification`/`lung_parenchyma`
+    # ile ayni sinif hata): `sekel` deseni HEM `sequela` HEM `sequela_change`
+    # kavramina aitti, yani her 'sekel' anmasi iki kavrami BIRDEN iddia ediyordu.
+    # Ingilizce sozluk ayiriyor: `sequela(?:e)?` vs `sequela(?:e)? changes?`.
+    # Kapali envanterden concept_id secen bir model de ayirir.
+    # Olculdu: TR'nin fazla iddiasi 17 -> 8 belgeye dusuyor.
+    # `sequela` kavrami ciplak `sekel` olarak KALIR; en uzun eslesme kurali
+    # 'sekel degisiklik'i dogru kavrama verir - Ingilizcedeki davranisin ayni.
+    desen: sekel de[gğ]i[şs]
     radtr: 38
     ct_rate_ingilizce: 5499
     uzman_onayi: false
@@ -230,7 +288,13 @@ yuzeyler:
     ct_rate_ingilizce: 19582
     uzman_onayi: false
   fluid_collection:
-    desen: s[ıi]v[ıi] koleksiyon
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni `fluid-collection|free fluid|ascites` - uc yuzey; TR yalniz biri.
+    # Bu kavramda 'ikisinde de var' SIFIRDI - tam kor nokta. Okunan cumleler:
+    # "...batin icerisinde ... serbest sivi izlenmistir." (_139_245) ·
+    # "KLINIK BILGI: ASSIT" (_276_272).
+    # Olculdu: 12 boslugun 10'unu (%83) kapatir, yanlis atesleme 0/211.
+    desen: s[ıi]v[ıi] koleksiyon|serbest s[ıi]v[ıi]|assit
     radtr: 0
     ct_rate_ingilizce: 5141
     uzman_onayi: false
@@ -240,7 +304,19 @@ yuzeyler:
     ct_rate_ingilizce: 97114
     uzman_onayi: false
   lung_parenchyma:
-    desen: parankim
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis): eski desen `parankim` CIPLAKTI
+    # ve organ ayrimi yapmiyordu - karaciger/dalak/bobrek parankimini de
+    # AKCIGER parankimi sayiyordu. Ingilizce sozluk bu ayrimi TASK-11
+    # incelemesinde zaten yapmisti (`lung_parenchyma` = "lung/pulmonary
+    # parenchyma" · `parenchyma` = ciplak "parenchymal?"); Turkce tarafta iki
+    # kardes kavram AYNI deseni paylasiyordu. Bosluk degil FAZLA ATESLEME.
+    # Kanit: 33 "EN boslugu" belgesinin 31'inde Ingilizce metin kardes kavram
+    # `parenchyma`yi dogru ateshiyor - bilgi EN'de VAR, dogru kavramda.
+    # Okunan cumleler: "A 10x9 mm parenchymal nodule..." (_115_201) ·
+    # "...hyperdense nodular lesion ... upper pole of the LEFT KIDNEY"
+    # (_275_76, TR "parankime gore hiperdens" - BOBREK parankimi).
+    # Korpus: "akciger parankim*" 107 anma; ciplak `parankim` `parenchyma`da.
+    desen: akci[gğ]er\w* parankim|pulmoner parankim
     radtr: 298
     ct_rate_ingilizce: 32802
     uzman_onayi: false
@@ -250,7 +326,13 @@ yuzeyler:
     ct_rate_ingilizce: 24022
     uzman_onayi: false
   mediastinum:
-    desen: mediasten
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni zaten `mediastinum|mediastinal` iceriyordu, TR yalniz `mediasten`.
+    # Korpus TR metninde 'mediastinal' yaziyor - 221 anma. Okunan cumleler:
+    # "...mediastinal vaskuler yapilar ve lenf nodlari..." (_115_201) ·
+    # "Mediastinal lenf nodu istasyonlarinda..." (_121_235).
+    # Olculdu: 123 boslugun 123'unu (%100) kapatir, yanlis atesleme 1/23.
+    desen: mediasten|mediastin
     radtr: 139
     ct_rate_ingilizce: 49517
     uzman_onayi: false
@@ -325,7 +407,10 @@ yuzeyler:
     ct_rate_ingilizce: 22913
     uzman_onayi: false
   pulmonary_artery:
-    desen: pulmoner arter
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni `pulmonary arter(y|ies)` YANINDA `pulmonary trunk` iceriyordu,
+    # TR icermiyordu. Olculdu: 11 boslugun 8'ini (%73) kapatir, yanlis 0/142.
+    desen: pulmoner arter|pulmoner trunkus|truncus pulmonalis
     radtr: 158
     ct_rate_ingilizce: 3621
     uzman_onayi: false
@@ -395,7 +480,12 @@ yuzeyler:
     ct_rate_ingilizce: 9518
     uzman_onayi: false
   abdomen:
-    desen: abdomen|bat[ıi]n
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni `abdominal` iceriyor, TR icermiyordu; TR metni de 'abdominal'
+    # yaziyor. Okunan cumleler: "Kesit dahilindeki abdominal organlar normaldir."
+    # (_193_120) · "...abdominal kesitlerin degerlendirilmesinde..." (_139_245).
+    # Olculdu: 11 boslugun 10'unu (%91) kapatir, yanlis atesleme 0/177.
+    desen: abdomen|abdominal|bat[ıi]n
     radtr: 83
     ct_rate_ingilizce: 29072
     uzman_onayi: false
@@ -435,7 +525,16 @@ yuzeyler:
     ct_rate_ingilizce: 19013
     uzman_onayi: false
   atheroma_plaque:
-    desen: aterom|ateroskler
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni CIPLAK `plaques?` iceriyor (35 belge), TR yalniz `aterom`.
+    # Korpus paralelligi birebir: TR 'plak' onunde kalsifiye 20 · aterom 18 ·
+    # kalsifik 13 · plevral 3 ; EN 'plaque' onunde calcified 33 · atherosclerotic
+    # 10 · atheroma 8 · pleural 3. Okunan cumle: "...aort ve dallarinda yaygin
+    # kalsifik plaklar izlenmektedir." (_114_324).
+    # Olculdu: 36 boslugun 35'ini (%97) kapatir, yanlis atesleme 0/161.
+    # ⚠ SIMETRIK KUSUR: ciplak `plak` 3 'plevral plak' anmasini da yakalar -
+    # EN deseni de ayni 3'u yakaliyor. Iki alet ESIT derecede kusurlu birakildi.
+    desen: aterom|ateroskler|plak
     radtr: 38
     ct_rate_ingilizce: 13866
     uzman_onayi: false
@@ -581,7 +680,11 @@ yuzeyler:
     ct_rate_ingilizce: 6269
     uzman_onayi: false
   apical:
-    desen: apikal
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni `apical|apicoposterior`; TR yalniz `apikal`. Okunan cumle:
+    # "Sol akciger ust lob apikoposterior segmenti tama yakin dolduran..."
+    # (_156_12). Olculdu: 9 boslugun 9'unu (%100), yanlis atesleme 0/203.
+    desen: apikal|apikoposterior
     radtr: 23
     ct_rate_ingilizce: 4089
     uzman_onayi: false
@@ -591,7 +694,13 @@ yuzeyler:
     ct_rate_ingilizce: 4423
     uzman_onayi: false
   basal:
-    desen: bazal
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # EN deseni bilesikleri sayiyor (`basal|posterobasal|laterobasal|basally`),
+    # TR yalniz `bazal`. TR desenleri SOLDAN sinirli oldugu icin 'posterobazal'
+    # yakalanmiyordu. Okunan cumleler: "...alt lob posterobazalde dependan staz
+    # ile uyumlu..." (_171_224) · "...sol akciger alt lob posterobazalde..." (_176_201).
+    # Olculdu: 48 boslugun 48'ini (%100) kapatir, yanlis atesleme 4/144.
+    desen: bazal|posterobazal|laterobazal|mediobazal|anterobazal
     radtr: 68
     ct_rate_ingilizce: 10102
     uzman_onayi: false
@@ -721,7 +830,12 @@ yuzeyler:
     ct_rate_ingilizce: 2438
     uzman_onayi: false
   rib:
-    desen: kosta|kaburga
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural):
+    # Turkce radyoloji kaburgaya 'kot' diyor; desende yoktu.
+    # Okunan cumleler: "Sagda 11. ve 12. kotlarin posterior kesimlerinde..."
+    # (_282_168) · "...bilateral kotlarda ... yaygin sklerotik metastazlar"
+    # (_220_45). Olculdu: 14 boslugun 14'unu (%100), yanlis atesleme 0/199.
+    desen: kosta|kaburga|kot
     radtr: 36
     ct_rate_ingilizce: 1557
     uzman_onayi: false

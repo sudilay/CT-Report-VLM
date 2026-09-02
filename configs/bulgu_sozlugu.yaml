@@ -30,7 +30,15 @@ kavramlar:
     korpus: 18315
   nodule:
     tip: observation
-    desenler: ["nodules?", "nodular formations?"]
+    # ONARIM 2026-09-02 (D58 1. kural): TR deseni `nod[uü]l` ciplak koktur ve
+    # "noduler"i de yakalar; EN yalniz isim biciminde ariyordu. Okunan cumleler:
+    # "...nodular infiltration areas..." (_129_269) · "...numerous nodular
+    # lesions were observed..." (_130_311) · "...areas of nodular infiltration
+    # with ground-glass opacity..." (_188_94).
+    # Olculdu: 30 boslugun 30'unu (%100) kapatir, yanlis atesleme 1/137.
+    # Kardes `nodular_lesion` ("nodular lesions?") ile catismaz - EN UZUN
+    # ESLESME KAZANIR kurali "nodular lesion"i dogru kavrama verir.
+    desenler: ["nodules?", "nodular formations?", "nodular"]
     korpus: 25336
   mass:
     tip: observation
@@ -66,7 +74,11 @@ kavramlar:
     korpus: 15472
   consolidation:
     tip: observation
-    desenler: ["consolidations?", "consolidated areas?"]
+    # ONARIM 2026-09-02: TR tarafina `konsolide` eklenirken SIMETRIK olarak
+    # eklendi - EN yalniz "consolidated AREAS" ariyordu, korpus "collapsed-
+    # consolidated appearance" da yaziyor (_240_89). Iki taraf da sifatin
+    # tek basina gectigi bicimi goruyor.
+    desenler: ["consolidations?", "consolidated areas?", "consolidated"]
     korpus: 7624
   infiltration:
     tip: observation
@@ -95,7 +107,12 @@ kavramlar:
     korpus: 3961
   fibrosis:
     tip: observation
-    desenler: ["fibrosis", "fibrotic changes?", "fibrotic"]
+    # ONARIM 2026-09-02 (D58 1. kural): TR deseni `fibro` CIPLAK KOK oldugu icin
+    # "fibroatelektatik"i yakaliyor, EN listesi bilesigi saymamisti. Okunan
+    # cumleler: "Fibroatelectatic sequelae changes are observed..." (_176_201) ·
+    # "Singular fibroatelectatic changes were observed..." (_143_109).
+    # Olculdu: 24 boslugun 21'ini (%88) kapatir, yanlis atesleme 0/183.
+    desenler: ["fibrosis", "fibrotic changes?", "fibrotic", "fibroatelecta(?:tic|sis)"]
     korpus: 2685
   sequela_change:
     tip: observation
@@ -123,7 +140,18 @@ kavramlar:
     korpus: 5716
   cardiomegaly:
     tip: observation
-    desenler: ["cardiomegaly", "heart size increase[ds]?"]
+    # ONARIM 2026-09-02 (TASK-15 simetrik gecis, D58 1. kural): eski desen
+    # `heart size increase[ds]?` kavram adinin cevirisiydi, korpusun yazdigi
+    # bicim degil - RadTr train'de 189 belgede KOR kaldi (ikisinde de var: 0).
+    # Okunan cumleler: "Heart dimensions are increased." (_102_28) ·
+    # "Heart size is slightly enlarged." (_114_324) · "Heart dimensions are
+    # normal." (_115_201) · "Heart dimensions were increased." (_123_231).
+    # Kutuplasmadan bagimsiz eklendi - artmis/normal ayrimini negasyon ekseni
+    # yapar, desen degil; TR `kalp boyut` deseni de ayni sekilde davraniyor.
+    # 2. kural: CT-RATE train `heart dimension` 1.331 · `heart size` 2.043 anma.
+    # Olculdu: 189 boslugun 185'ini (%98) kapatir, yanlis atesleme 0/34.
+    # `heart` kavramiyla catismaz - EN UZUN ESLESME KAZANIR kurali gecerli.
+    desenler: ["cardiomegaly", "heart size increase[ds]?", "heart dimensions?", "heart size"]
     korpus: 2345
   hepatosteatosis:
     tip: observation
@@ -319,7 +347,15 @@ kavramlar:
   diffuse:
     tip: qualifier
     grup: distribution
-    desenler: ["diffusely?"]
+    # ONARIM 2026-09-02 (TASK-15, D58 1. kural): RadTr train'de 67 belge bosluk,
+    # ikisinde de var yalniz 1. Google `yaygin`i duzenli olarak `widespread`
+    # ceviriyor, sozluk yalniz `diffusely?` ariyordu.
+    # Okunan cumleler: "Widespread calcified plaques are observed..." (_114_324) ·
+    # "Widespread centriacinar and paraseptal emphysema areas..." (_121_235) ·
+    # "Widespread interlobular septal thickening..." (_160_317).
+    # 2. kural: CT-RATE train'de `widespread` 1.151 anma.
+    # Olculdu: 67 boslugun 66'sini (%99) kapatir, yanlis atesleme 0/155.
+    desenler: ["diffusely?", "widespread"]
     korpus: 648
   subpleural:
     tip: qualifier
@@ -344,7 +380,11 @@ kavramlar:
   central:
     tip: qualifier
     grup: distribution
-    desenler: ["centrally?"]
+    # ONARIM 2026-09-02: DESEN HATASI. `centrally?` = "central" + "l" + istege
+    # bagli "y" -> yalniz "centrall"/"centrally" esler, "central" kelimesini
+    # HIC ESLEMEZ. Korpusta `central` 17 anma, `centrally` 3. Niyet edilen
+    # `central(?:ly)?` idi. Olculdu: 17 boslugun 16'sini kapatir, yanlis 0/203.
+    desenler: ["central(?:ly)?"]
     korpus: 380
 
   sequela:
@@ -428,7 +468,16 @@ kavramlar:
     korpus: 582
   infective_pathology:
     tip: observation
-    desenler: ["infective patholog(?:y|ies)"]
+    # ONARIM 2026-09-02 (TASK-15, D58 1. kural): eski desen Turkce "enfektif
+    # patoloji"nin birebir cevirisiydi; RadTr train'de 34 belgede KOR kaldi
+    # (ikisinde de var: 0). Metin `infection`/`infectious` yaziyor.
+    # Okunan cumleler: "...significant in terms of atypical infectious
+    # processes." (_123_231) · "...(secondary to infection?)." (_136_331) ·
+    # "Clinical laboratory monitoring is recommended to check for infectious
+    # processes." (_156_12) · "...pandemic viral infection findings..." (_205_289).
+    # 2. kural: CT-RATE train'de `infection|infections|infectious` 3.350 anma.
+    # Olculdu: 34 boslugun 34'unu (%100) kapatir, yanlis atesleme 7/189 (%3,7).
+    desenler: ["infective patholog(?:y|ies)", "infections?", "infectious"]
     korpus: 564
   lymphadenomegaly:
     tip: observation

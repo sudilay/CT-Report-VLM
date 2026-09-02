@@ -1,0 +1,156 @@
+# TASK-15 kapali iki dilli kavram katalogu
+# Regex, korpus frekansi ve span-basina sistem eslesmesi bilerek yoktur.
+surum: task15-katalog-0.1
+durum: taslak
+envanter_surum: tr-1.0
+envanter_sha256: b5e2058a04b9a0870d3329cbbc5a2dc25f1f25c41a2e55e34f0cd397179fc8dd
+uzman_onayi: false
+
+kavramlar:
+  lung: {tip: anatomy, tr: akciğer, en: lung}
+  lung_parenchyma: {tip: anatomy, tr: akciğer parankimi, en: lung parenchyma}
+  pleura: {tip: anatomy, tr: plevra, en: pleura}
+  mediastinum: {tip: anatomy, tr: mediasten, en: mediastinum}
+  heart: {tip: anatomy, tr: kalp, en: heart}
+  aorta: {tip: anatomy, tr: aort, en: aorta}
+  trachea: {tip: anatomy, tr: trakea, en: trachea}
+  bronchus: {tip: anatomy, tr: bronş, en: bronchus}
+  esophagus: {tip: anatomy, tr: özofagus, en: esophagus}
+  liver: {tip: anatomy, tr: karaciğer, en: liver}
+  kidney: {tip: anatomy, tr: böbrek, en: kidney}
+  lymph_node: {tip: anatomy, tr: lenf nodu, en: lymph node}
+  upper_lobe: {tip: anatomy, tr: üst lob, en: upper lobe}
+  lower_lobe: {tip: anatomy, tr: alt lob, en: lower lobe}
+  middle_lobe: {tip: anatomy, tr: orta lob, en: middle lobe}
+  lingula: {tip: anatomy, tr: lingula, en: lingula}
+  hilum: {tip: anatomy, tr: hilus, en: hilum}
+  pericardium: {tip: anatomy, tr: perikard, en: pericardium}
+  pulmonary_artery: {tip: anatomy, tr: pulmoner arter, en: pulmonary artery}
+  vertebra: {tip: anatomy, tr: vertebra, en: vertebra}
+  bone: {tip: anatomy, tr: kemik, en: bone}
+  chest_wall: {tip: anatomy, tr: göğüs duvarı, en: chest wall}
+  thyroid: {tip: anatomy, tr: tiroid, en: thyroid}
+  spleen: {tip: anatomy, tr: dalak, en: spleen}
+  adrenal_gland: {tip: anatomy, tr: adrenal bez, en: adrenal gland}
+  gallbladder: {tip: anatomy, tr: safra kesesi, en: gallbladder}
+  fissure: {tip: anatomy, tr: fissür, en: fissure}
+  hemithorax: {tip: anatomy, tr: hemitoraks, en: hemithorax}
+  lung_apex: {tip: anatomy, tr: akciğer apeksi, en: lung apex}
+  soft_tissue: {tip: anatomy, tr: yumuşak doku, en: soft tissue}
+  vascular_structure: {tip: anatomy, tr: vasküler yapı, en: vascular structure}
+  coronary_artery: {tip: anatomy, tr: koroner arter, en: coronary artery}
+  abdomen: {tip: anatomy, tr: abdomen, en: abdomen}
+  breast: {tip: anatomy, tr: meme, en: breast}
+  pleuroparenchymal: {tip: anatomy, tr: plevroparankimal bölge, en: pleuroparenchymal region}
+  aortic_valve: {tip: anatomy, tr: aort kapağı, en: aortic valve}
+  pulmonary_conus: {tip: anatomy, tr: pulmoner konus, en: pulmonary conus}
+  anatomic_segment: {tip: anatomy, tr: anatomik segment, en: anatomic segment}
+  parenchyma: {tip: anatomy, tr: parankim (organ belirtilmemiş), en: parenchyma (organ unspecified)}
+  lumen: {tip: anatomy, tr: lümen, en: lumen}
+  airway: {tip: anatomy, tr: hava yolu, en: airway}
+  station_prevascular: {tip: anatomy, tr: prevasküler lenf nodu istasyonu, en: prevascular lymph-node station}
+  station_paratracheal: {tip: anatomy, tr: paratrakeal lenf nodu istasyonu, en: paratracheal lymph-node station}
+  station_subcarinal: {tip: anatomy, tr: subkarinal lenf nodu istasyonu, en: subcarinal lymph-node station}
+  station_hilar_axillary: {tip: anatomy, tr: hiler-aksiller lenf nodu istasyonları, en: hilar-axillary lymph-node stations}
+  station_axillary: {tip: anatomy, tr: aksiller lenf nodu istasyonu, en: axillary lymph-node station}
+  station_supraclavicular: {tip: anatomy, tr: supraklaviküler lenf nodu istasyonu, en: supraclavicular lymph-node station}
+  station_aortopulmonary: {tip: anatomy, tr: aortopulmoner lenf nodu istasyonu, en: aortopulmonary lymph-node station}
+  thymus: {tip: anatomy, tr: timus, en: thymus}
+  vena_cava: {tip: anatomy, tr: vena kava, en: vena cava}
+  pancreas: {tip: anatomy, tr: pankreas, en: pancreas}
+  intervertebral_disc: {tip: anatomy, tr: intervertebral disk, en: intervertebral disc}
+  neural_foramen: {tip: anatomy, tr: nöral foramen, en: neural foramen}
+  rib: {tip: anatomy, tr: kosta, en: rib}
+  sternum: {tip: anatomy, tr: sternum, en: sternum}
+  diaphragm: {tip: anatomy, tr: diyafram, en: diaphragm}
+
+  nodule: {tip: observation, tr: nodül, en: nodule}
+  mass: {tip: observation, tr: kitle, en: mass}
+  lesion: {tip: observation, tr: lezyon, en: lesion}
+  effusion: {tip: observation, tr: efüzyon, en: effusion}
+  thickening: {tip: observation, tr: kalınlaşma, en: thickening}
+  consolidation: {tip: observation, tr: konsolidasyon, en: consolidation}
+  infiltration: {tip: observation, tr: infiltrasyon, en: infiltration}
+  pneumonia: {tip: observation, tr: pnömoni, en: pneumonia}
+  emphysema: {tip: observation, tr: amfizem, en: emphysema}
+  bronchiectasis: {tip: observation, tr: bronşektazi, en: bronchiectasis}
+  cyst: {tip: observation, tr: kist, en: cyst}
+  calcification: {tip: observation, tr: kalsifikasyon, en: calcification}
+  atelectasis: {tip: observation, tr: atelektazi, en: atelectasis}
+  fibrosis: {tip: observation, tr: fibrozis, en: fibrosis}
+  metastasis: {tip: observation, tr: metastaz, en: metastasis}
+  granuloma: {tip: observation, tr: granülom, en: granuloma}
+  cavitation: {tip: observation, tr: kavitasyon, en: cavitation}
+  pneumothorax: {tip: observation, tr: pnömotoraks, en: pneumothorax}
+  cardiomegaly: {tip: observation, tr: kardiyomegali, en: cardiomegaly}
+  aneurysm: {tip: observation, tr: anevrizma, en: aneurysm}
+  hernia: {tip: observation, tr: herni, en: hernia}
+  fracture: {tip: observation, tr: kırık, en: fracture}
+  bulla: {tip: observation, tr: bül, en: bulla}
+  reticulation: {tip: observation, tr: retikülasyon, en: reticulation}
+  density: {tip: observation, tr: dansite, en: density}
+  density_increase: {tip: observation, tr: dansite artışı, en: density increase}
+  enlarged_lymph_node: {tip: observation, tr: büyümüş lenf nodu, en: enlarged lymph node}
+  lymphadenomegaly: {tip: observation, tr: lenfadenomegali, en: lymphadenomegaly}
+  covid: {tip: observation, tr: COVID-19, en: COVID-19}
+  edema: {tip: observation, tr: ödem, en: edema}
+  hepatosteatosis: {tip: observation, tr: hepatosteatoz, en: hepatic steatosis}
+  nephrolithiasis: {tip: observation, tr: nefrolitiyazis, en: nephrolithiasis}
+  cholelithiasis: {tip: observation, tr: kolelitiyazis, en: cholelithiasis}
+  sequela_change: {tip: observation, tr: sekel değişiklik, en: sequela change}
+  spondylosis: {tip: observation, tr: spondiloz, en: spondylosis}
+  degenerative_change: {tip: observation, tr: dejeneratif değişiklik, en: degenerative change}
+  septal_thickening: {tip: observation, tr: septal kalınlaşma, en: septal thickening}
+  air_bronchogram: {tip: observation, tr: hava bronkogramı, en: air bronchogram}
+  goiter: {tip: observation, tr: guatr, en: goiter}
+  lymphoma: {tip: observation, tr: lenfoma, en: lymphoma}
+  occlusive_pathology: {tip: observation, tr: tıkayıcı patoloji, en: occlusive pathology}
+  cardiothoracic_ratio: {tip: observation, tr: kardiyotorasik oran, en: cardiothoracic ratio}
+  space_occupying_lesion: {tip: observation, tr: yer kaplayan lezyon, en: space-occupying lesion}
+  fluid_collection: {tip: observation, tr: sıvı koleksiyonu, en: fluid collection}
+  tumor: {tip: observation, tr: tümör, en: tumor}
+  effusion_thickening: {tip: observation, tr: efüzyon-kalınlaşma, en: effusion-thickening}
+  atheroma_plaque: {tip: observation, tr: aterom plağı, en: atheroma plaque}
+  lytic_destructive_lesion: {tip: observation, tr: litik-destrüktif lezyon, en: lytic-destructive lesion}
+  mosaic_attenuation: {tip: observation, tr: mozaik atenüasyon, en: mosaic attenuation}
+  dilatation: {tip: observation, tr: dilatasyon, en: dilatation}
+  nodular_lesion: {tip: observation, tr: nodüler lezyon, en: nodular lesion}
+  small_airway_disease: {tip: observation, tr: küçük hava yolu hastalığı, en: small-airway disease}
+  small_vessel_disease: {tip: observation, tr: küçük damar hastalığı, en: small-vessel disease}
+  soft_tissue_density: {tip: observation, tr: yumuşak doku dansitesi, en: soft-tissue density}
+  adiposity: {tip: observation, tr: adipozite-yağlanma, en: adiposity}
+  infective_pathology: {tip: observation, tr: enfektif patoloji, en: infective pathology}
+
+  spiculated: {tip: qualifier, tr: spiküle, en: spiculated}
+  irregular: {tip: qualifier, tr: düzensiz, en: irregular}
+  lobulated: {tip: qualifier, tr: lobüle, en: lobulated}
+  smooth: {tip: qualifier, tr: düzgün, en: smooth}
+  well_defined: {tip: qualifier, tr: iyi sınırlı, en: well-defined}
+  indistinct: {tip: qualifier, tr: sınırları belirsiz, en: indistinct}
+  halo: {tip: qualifier, tr: halo, en: halo}
+  calcific: {tip: qualifier, tr: kalsifik, en: calcific}
+  ground_glass: {tip: qualifier, tr: buzlu cam, en: ground-glass}
+  hypodense: {tip: qualifier, tr: hipodens, en: hypodense}
+  hyperdense: {tip: qualifier, tr: hiperdens, en: hyperdense}
+  isodense: {tip: qualifier, tr: izodens, en: isodense}
+  solid: {tip: qualifier, tr: solid, en: solid}
+  part_solid: {tip: qualifier, tr: yarı solid, en: part-solid}
+  fat_containing: {tip: qualifier, tr: yağ içeren, en: fat-containing}
+  cystic: {tip: qualifier, tr: kistik, en: cystic}
+  necrotic: {tip: qualifier, tr: nekrotik, en: necrotic}
+  diffuse: {tip: qualifier, tr: diffüz, en: diffuse}
+  subpleural: {tip: qualifier, tr: subplevral, en: subpleural}
+  apical: {tip: qualifier, tr: apikal, en: apical}
+  peripheral: {tip: qualifier, tr: periferik, en: peripheral}
+  basal: {tip: qualifier, tr: bazal, en: basal}
+  central: {tip: qualifier, tr: santral, en: central}
+  sequela: {tip: qualifier, tr: sekel, en: sequela}
+  granulomatous: {tip: qualifier, tr: granülomatöz, en: granulomatous}
+  punctate: {tip: qualifier, tr: punktat, en: punctate}
+
+  catheter: {tip: device, tr: kateter, en: catheter}
+  stent: {tip: device, tr: stent, en: stent}
+  pacemaker: {tip: device, tr: kalp pili, en: pacemaker}
+  surgical_clip: {tip: device, tr: cerrahi klips, en: surgical clip}
+  prosthesis: {tip: device, tr: protez, en: prosthesis}
+  drainage_tube: {tip: device, tr: drenaj tüpü, en: drainage tube}

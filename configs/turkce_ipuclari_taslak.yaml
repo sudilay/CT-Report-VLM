@@ -13,6 +13,17 @@
 # 'korpus: 0' olan ipuclari ALINMADI; kayitta durur ki baska bir
 # korpusta yeniden olculebilsin.
 
+#
+# ⛔ DUZELTME 2026-09-01 (D49/D50) - YUKARIDAKI "test HARIC" IFADESI YANLISTIR.
+#   RadTr `train.json` `dev.json` ve `test.json` belgelerinin TAMAMINI birebir
+#   icerir. Bolum kimligi dosya adindan uretildigi icin 56 test toraks belgesi
+#   `kaynak_bolum="train"` etiketiyle bu turetmeye GIRDI. Gercek havuz 373 degil
+#   325 benzersiz belge; mesru havuz (test haric) 269.
+#   OLCULEN HASAR SIFIRA YAKIN: 144 yuzeyin 0'i, 28 ipucunun 1'i (`stabil`)
+#   yalniz test belgelerine dayaniyor. Test uzerinde hicbir skor hesaplanmadi.
+#   Bu dosya TASLAKTIR ve temiz havuzda yeniden turetilecektir (tr-2.0).
+#   Ayrinti: docs/25_task15_bolunme_kirlenme_denetimi.md
+#
 surum: tr-ipucu-1.0
 durum: taslak
 kaynak: RadTr train+dev (373 belge) - test HARIC

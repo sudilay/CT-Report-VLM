@@ -1,0 +1,23 @@
+# TASK-15 ceviri asamasi - ANA requirements.txt'e BILEREK eklenmedi.
+# Bu paketler agirdir (torch ~2 GB) ve yalniz ceviri/model kolunu kosarken gerekir.
+#
+# NEREDE NE GEREKIR:
+#   EN-genel (Google NMT) -> yalniz `google-cloud-translate` + ag. GPU GEREKMEZ.
+#   EN-ucuz  (Opus-MT)    -> torch CPU yeter (~0,2B parametre, ~0,5 GB). GPU GEREKMEZ.
+#   EN-tibbi (MedGemma)   -> 8 GB VRAM'li uzak makine + 4-bit nicemleme.
+#
+# Yani bu makinede (ayrik GPU yok) EN-genel ve EN-ucuz kollari kosulabilir;
+# yalniz EN-tibbi uzak makineyi bekler.
+
+# --- EN-genel ---
+google-cloud-translate>=3.15
+
+# --- EN-ucuz (Opus-MT / Marian) ---
+transformers>=4.44
+sentencepiece>=0.2
+sacremoses>=0.1
+# torch: platforma gore ayri kurulur, asagidaki komutlara bak.
+
+# --- EN-tibbi (MedGemma 4B, yalniz GPU makinesi) ---
+accelerate>=0.33
+bitsandbytes>=0.43        # Windows'ta tekerlek uyumunu dogrula
