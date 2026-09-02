@@ -46,6 +46,40 @@ ep, ei = matcher_kur(K)
 def sp_tr(m): return [(x.start(), x.end(), ti[x.lastgroup]) for x in tp.finditer(m) if x.lastgroup in ti]
 def sp_en(m): return [(x.start(), x.end(), ei[x.lastgroup].ad) for x in ep.finditer(m) if x.lastgroup in ei]
 
+# --- KESINLIK ATAYICILARI --------------------------------------------------
+# ⚠ ON BAGLAMA: Turkce kesinlik atayici resmi olarak birlesik cikariciya HENUZ
+#   baglanmadi (acik is). Burada YALNIZ GORSEL INCELEME icin gecici baglaniyor.
+#   Ikisi de CUMLE duzeyinde kosuyor - uretimdeki gibi. Belge duzeyinde kosmak
+#   negasyon kapsamini belge geneline yayip her seyi 'absent' yapar (olculdu).
+import importlib.util as _iu
+from radyovlm.extraction import context as CTX
+_sp = _iu.spec_from_file_location("s23", "scripts/23_turkce_dev_olcum.py")
+_s23 = _iu.module_from_spec(_sp); _sp.loader.exec_module(_s23)
+_, TR_IPUCU = _s23.yukle()
+EN_IPUCU, EN_SONL = CTX.ipuclarini_kur()
+CUM = re.compile(r"(?<=[.;])\s+")
+
+def tr_kesinlik(metin):
+    """{kavram: kesinlik} - cumle duzeyinde."""
+    out = {}
+    for c in [x for x in CUM.split(metin) if x.strip()]:
+        for m in tp.finditer(c):
+            k = ti.get(m.lastgroup)
+            if k and k not in out:
+                out[k] = _s23.kesinlik_ata(c, m.start(), TR_IPUCU)[0]
+    return out
+
+def en_kesinlik(metin):
+    out = {}
+    for c in [x for x in CUM.split(metin) if x.strip()]:
+        vs = [{"bas": m.start(), "son": m.end(), "kavram": ei[m.lastgroup].ad}
+              for m in ep.finditer(c) if m.lastgroup in ei]
+        if not vs:
+            continue
+        for v in CTX.kesinlik_ata(c, vs, EN_IPUCU, EN_SONL):
+            out.setdefault(v["kavram"], v.get("assertion", "?"))
+    return out
+
 MODEL = {
     "Qwen3.5-4B":     ("kosu_v2_1", "qwen_{k}_dev.jsonl"),
     "Aya Expanse 8B": ("kosu_v2_1", "aya_{k}_dev.jsonl"),
@@ -120,6 +154,7 @@ kav_tr, kav_en, kav_ort = {}, {}, {}   # kavram bazinda
 sirali = sorted(tr, key=lambda x: x)
 for n, did in enumerate(sirali, 1):
     st, se, su = sp_tr(tr[did]), sp_en(eng[did]), sp_en(euc[did])
+    kesT, kesE = tr_kesinlik(tr[did]), en_kesinlik(eng[did])
     T, EN, U = {k for _, _, k in st}, {k for _, _, k in se}, {k for _, _, k in su}
     hepsi = sorted(T | EN | U)
     ayr = [k for k in hepsi if (k in T) != (k in EN)]
@@ -131,11 +166,22 @@ for n, did in enumerate(sirali, 1):
              '<span class="tag t">yalnız TR</span>' if inT else
              '<span class="tag e">yalnız EN</span>')
         tick = lambda v: '<span class="tick y">✓</span>' if v else '<span class="tick n">·</span>'
-        return (f'<tr><td class="k">{E(k)}'
+        KIS = {"present": ("var", "kp"), "absent": ("yok", "ka"),
+               "uncertain": ("belirsiz", "ku")}
+        def kes(x):
+            if x is None:
+                return '<span class="kes yok">—</span>'
+            ad, c = KIS.get(x, (x, "ku"))
+            return f'<span class="kes {c}">{ad}</span>'
+        a, b = kesT.get(k), kesE.get(k)
+        ayrik = ' kfark' if (a and b and a != b) else ''
+        return (f'<tr class="{ayrik.strip()}"><td class="k">{E(k)}'
                 f'<span class="dsn"><i>TR</i> {E(TRD[k]["desen"])}</span>'
                 f'<span class="dsn"><i>EN</i> {E("  ·  ".join(END.get(k, [])))}</span></td>'
                 f'<td class="c">{tick(inT)}</td><td class="c">{tick(inE)}</td>'
-                f'<td class="c">{tick(inU)}</td><td>{d}</td></tr>')
+                f'<td class="c">{tick(inU)}</td>'
+                f'<td class="c kk">{kes(a)}</td><td class="c kk">{kes(b)}</td>'
+                f'<td>{d}</td></tr>')
 
     yt = [k for k in hepsi if k in T and k not in EN]
     ye = [k for k in hepsi if k in EN and k not in T]
@@ -205,9 +251,29 @@ for n, did in enumerate(sirali, 1):
       <div class="rapor">{isaretle(euc[did], su, lambda k: 'b' if k in T else 'e')}</div></div>
   </div>
 
-  <h3 class="sec">Sözlük ne buldu — kavram ekseni (var/yok değil)</h3>
+  <h3 class="sec">Sözlük ne buldu — kavram ve kutuplaşma</h3>
+  <p class="tnot">İlk üç sütun <b>kavram ekseni</b>: bu kavram o metinde konu ediliyor mu?
+  Son iki sütun <b>kutuplaşma</b>: rapor "var" mı "yok" mu diyor?
+  <span class="kes kp">var</span> <span class="kes ka">yok</span>
+  <span class="kes ku">belirsiz</span> · İki tarafın kutbu farklıysa satır işaretlenir.
+  <b>⚠ Kutuplaşma sütunları ön ölçümdür</b> — Türkçe kesinlik atayıcı çıkarıcıya geçici
+  bağlandı, resmî hat henüz kurulmadı.</p>
+  <p class="tnot" style="background:var(--bad-bg);border:1px solid var(--bad);border-radius:8px;padding:11px 14px">
+  <b>⚠ Bilinen sınır — "normal" ifadeleri.</b> Kesinlik sistemi yalnız <b>açık olumsuzlama</b>
+  tanıyor (<code>saptanmadı</code>, <code>izlenmedi</code> · İngilizcede <code>no</code>,
+  <code>not detected</code>). <em>"Kalp boyutları normaldir"</em> gibi <b>normallik beyanları</b>
+  ipucu listesinde yok, bu yüzden <span class="kes kp">var</span> sayılıyor — oysa rapor
+  kardiyomegalinin <b>olmadığını</b> söylüyor. Ölçüldü: "normal" geçen ama olumsuzlama ipucu
+  içermeyen cümlelerde <b>50 kavram anmasının 50'si</b> present sayılıyor.
+  <b>İki tarafta da aynı</b> (İngilizce <em>"Heart dimensions are normal"</em> de present),
+  yani TR/EN karşılaştırmasını bozmuyor — ama <code>present</code> ekseninin mutlak doğruluğunu
+  etkiliyor ve kanonik altın üretilmeden önce kapatılması gereken bir açıktır.</p>
   <div class="tw"><table>
-    <thead><tr><th>kavram ve sözlüğün aradığı desen</th><th class="c">TR</th><th class="c">EN-genel</th><th class="c">EN-ucuz</th><th>durum</th></tr></thead>
+    <thead><tr><th>kavram ve sözlüğün aradığı desen</th>
+      <th class="c">TR</th><th class="c">EN-genel</th><th class="c">EN-ucuz</th>
+      <th class="c kk">TR<br><small>var/yok</small></th>
+      <th class="c kk">EN<br><small>var/yok</small></th>
+      <th>durum</th></tr></thead>
     <tbody>{"".join(satir(k) for k in ayr)}{"".join(satir(k) for k in ort)}</tbody>
   </table></div>
 

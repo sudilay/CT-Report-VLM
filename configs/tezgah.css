@@ -342,3 +342,21 @@ color:var(--ink-2);margin-bottom:8px}
 .bl li::marker{color:var(--ink-3)}
 .bl code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--surface);
 padding:.05em .3em;border-radius:3px;border:1px solid var(--line)}
+
+/* ---------- kesinlik (var/yok) sutunlari ---------- */
+.kes{display:inline-block;font-size:12px;font-weight:650;padding:3px 9px;border-radius:20px;
+white-space:nowrap;font-family:"IBM Plex Sans",system-ui,sans-serif}
+.kes.kp{background:var(--both-bg);color:var(--both);border:1px solid var(--both-line)}
+.kes.ka{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-2);
+text-decoration:line-through}
+.kes.ku{background:var(--tr-bg);color:var(--tr);border:1px solid var(--tr-line)}
+.kes.yok{background:transparent;color:var(--ink-3);border:1px dashed var(--line-2);
+font-weight:400}
+td.kk,th.kk{width:92px;text-align:center;vertical-align:middle}
+th.kk small{font-weight:400;font-size:9.5px;letter-spacing:0;text-transform:none;
+color:var(--ink-3)}
+tr.kfark{background:var(--bad-bg)}
+tr.kfark td.kk .kes{box-shadow:0 0 0 2px var(--bad)}
+.tnot{font-size:14px;color:var(--ink-2);line-height:1.65;margin:0 0 12px;max-width:96ch}
+.tnot b{color:var(--ink)}
+.tnot .kes{margin:0 2px}

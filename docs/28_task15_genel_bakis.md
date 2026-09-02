@@ -230,6 +230,7 @@ açık bir sınır olarak raporlanır. Ayrıntı:
 |---|---|---|
 | 1 | ~~İkincil model seçimi~~ | **kapandı** — aday havuzu tükendi (D65) |
 | 2 | **Kesinlik hattı**: Türkçe çıkarıcının span'ları kesinlik atayıcıya bağlanır | `present` ekseni |
+| 2b | **Normallik beyanları** — *"kalp boyutları normaldir"* şu an `present` sayılıyor; kılavuz kararı verilip iki tarafa simetrik uygulanacak (D68) | `present` ekseni |
 | 3 | **Kanonik altın**: iki bağımsız işaretleyici, kapalı 144 envanter, kör | `test` |
 | 4 | **Uzman incelemesi**: birleşmiş liste incelenir, nihai karar verilir | `test` |
 | 5 | Altın hash'lenip **kilitlenir** | `test` |
