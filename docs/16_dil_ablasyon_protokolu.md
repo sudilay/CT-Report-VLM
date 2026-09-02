@@ -5,6 +5,11 @@
 Bu belge, o soruyu **ölçülebilir** hâle getirir. Ölçüm başlamadan yazıldı;
 sonucu görüp değiştirilirse sürüm iptal edilir (D26/5, D31).
 
+**Kesin model, değerlendirme ve karar dondurması:**
+[`19_task15_deney_tasarimi_dondurma.md`](19_task15_deney_tasarimi_dondurma.md).
+Bu belgede daha önce genel bırakılmış model rolleri ve “fark küçük” tanımı,
+ölçüm başlamadan önce bu yeni kayıtta kesinleştirilmiştir.
+
 ---
 
 ## 1. Soruyu ölçülebilir hâle getirmek
@@ -28,6 +33,11 @@ değildir**:
 Model yorumu **atılmıyor** — hata analizinde niteliksel destek olarak kalıyor
 (bölüm 7). Yalnızca *sonuç* hanesine yazılmıyor.
 
+Bu yasak, iki dili aynı anda gören **serbest yoruma** aittir. Dilleri ayrı
+koşan, kapalı JSON şemalı ve yalnız `dev`de seçilip testten önce dondurulan
+model değerlendirmesi ikincil sayısal kontroldür; birincil dil kararının
+yerine geçmez.
+
 ---
 
 ## 2. Tek değişkenli tasarım — bağlayıcı
@@ -39,17 +49,21 @@ Model yorumu **atılmıyor** — hata analizinde niteliksel destek olarak kalıy
 | aynı altın açıklama | |
 | aynı ölçütler ve eşikler | |
 
-Üç kol:
+Üç girdi:
 
-| kol | girdi | kullanılan sözlük |
+| kol | girdi | üretim/kullanılan sözlük |
 |---|---|---|
 | **TR** | Türkçe asıl | Türkçe yüzeyler (`tr-0.2+`) |
-| **EN-çeviri** | genel amaçlı çeviri | mevcut İngilizce sözlük |
-| **EN-tıbbi** | tıbbi metinde eğitilmiş model çevirisi | mevcut İngilizce sözlük |
+| **EN-genel** | Google Cloud `general/nmt` | glossary yok · mevcut İngilizce sözlük |
+| **EN-tıbbi** | Google NMT → MedGemma 1.5 4B post-edit | mevcut İngilizce sözlük |
 
 Çeviriyi **iki yoldan** üretmek, çeviriyi de bir değişken yapar ve kaybın
 **çeviriden mi dilden mi** geldiğini ayrıştırır. Tek çeviriyle bu ayrım
 yapılamaz.
+
+Her girdi iki sistemle ayrı koşulur: dondurulmuş sözlük/kapsam sistemi
+**birincil**, `dev`de seçilip dondurulan tek model aynı kapalı JSON şemasıyla
+**ikincil** değerlendirmedir. Model Türkçe ve İngilizce metni aynı anda görmez.
 
 ---
 
@@ -72,7 +86,21 @@ EN-çıktı(belge)  = { (kavram, kesinlik), ... }
 ```
 
 Üçü de **çeviriden bağımsızdır** — karakter konumu yok, yalnızca kavram ve
-kesinlik. Böylece fazladan altın açıklama üretmeye gerek kalmaz.
+kesinlik.
+
+### Kanonik kavram altını neden ayrıca üretilecek?
+
+RadTr span ve `Obs_Present/Absent/Uncertain/Anatomy` etiketlerini verir, fakat
+span'ın `nodule`, `effusion` gibi kanonik `concept_id` değerini vermez. Bu
+nedenle sözlüğün kendi eşlemesi A1 altını yapılamaz; dairesel olur.
+
+Kapalı 144 kavramla iki bağımsız işaretleyici birbirinden ve sistem tahminlerinden kör
+bağımsız ön-işaretleme yapar. Radyolog birleşmiş listenin tamamını kontrol edip
+nihai altını onaylar. Ayrıntı ve sıra:
+[`20_task15_kavram_altin_normalizasyon_protokolu.md`](20_task15_kavram_altin_normalizasyon_protokolu.md).
+
+Bu iş kod ve `train/dev` geliştirmesinden sonra yapılabilir; fakat test
+tahminleri veya skorları görülmeden tamamlanıp hash ile kilitlenmelidir.
 
 **Bedeli açıkça yazılır:** span sınırı doğruluğu ölçülmez. Ablasyonun sorusu o
 olmadığı için kabul edilebilir; ama rapora "bu ölçüm span sınırı hakkında bir
@@ -114,9 +142,11 @@ kesinlik vermiyor). A2/A3 yalnızca eşlenen alt kümede ölçülür ve payda ya
 ## 5. Ek kontrol — geri çeviri
 
 Türkçe metin İngilizceye çevrilip **tekrar** Türkçeye çevrildiğinde çıkarımın ne
-kadar saptığı ölçülür. Bu, çeviri kaybının **üst sınırını** verir: iki çeviriden
-geçmiş metin, bir çeviriden geçmişten daha kötü olmalıdır. Olmuyorsa ölçüm
-düzeneğinde bir sorun var demektir.
+kadar saptığı ölçülür. Bu bir **stres ve normalizasyon kontrolüdür**; geçerlilik
+kapısı değildir. İki çeviriden geçen metin daha kötü olmak zorunda değildir:
+çeviri, betimleyici ifadeyi sözlüğün daha kolay yakaladığı standart terime
+dönüştürebilir. Daha iyi sonuç ölçümü iptal etmez; normalizasyon örnekleriyle
+raporlanır.
 
 ---
 
@@ -136,15 +166,27 @@ Türkçe varlık çıkarımında yayımlanmış bir taban skoru **bu bölünmede
 
 ---
 
-## 7. Modelin yorumu — nerede kullanılır
+## 7. Yapılandırılmış model değerlendirmesi ve serbest yorum
+
+İkincil model seçimi yalnız `train/dev`de, test sonucu görülmeden yapılır.
+Qwen3.5-4B ana aday, Aya Expanse 8B zorunlu karşılaştırmadır; Qwen3-8B yalnız
+Qwen3.5-4B çalışabilirlik veya kapalı çıktı kapısını geçemezse koşullu yedektir.
+Kesin seçim kapıları ve sırası `docs/19_task15_deney_tasarimi_dondurma.md` §2'de
+bağlayıcıdır.
+
+Seçilip dondurulan tek model üç girdide aynı kavram envanteri, İngilizce
+talimat, JSON şeması ve sabit decoding ile ayrı ayrı çalışır. Bu ikincil sayısal
+değerlendirmedir; birincil dil kararını tek başına belirlemez.
 
 Sonuç sayıları çıktıktan **sonra**, ayrışan belgeler bir modele hem Türkçe hem
-İngilizce hâliyle verilir ve *"burada ne kaybolmuş"* diye sorulur.
+İngilizce hâliyle verilip *"burada ne kaybolmuş"* diye sorulabilir. Bu ikinci
+kullanım serbest hata analizidir.
 
 | | |
 |---|---|
-| ✅ kullanılır | hata taksonomisi kurmak, hipotez üretmek |
-| ⛔ kullanılmaz | skor üretmek, sonuç iddia etmek |
+| ✅ yapılandırılmış seçili model | ikincil skor ve model bağımlılığı kontrolü |
+| ✅ serbest çift-dilli yorum | hata taksonomisi kurmak, hipotez üretmek |
+| ⛔ serbest çift-dilli yorum | skor üretmek, sonuç iddia etmek |
 
 ---
 
@@ -154,14 +196,19 @@ Ablasyonun çıktısı şu sorunun cevabıdır:
 
 > **Faz 3 altın standart etiketlemesi hangi dilde yapılacak?**
 
-Karar tablosu — ölçümden **önce** yazıldı:
+Karar tablosu — ölçümden **önce** donduruldu:
 
 | bulgu | karar |
 |---|---|
-| TR ≈ EN (fark küçük, eksenler tutarlı) | İngilizce devam; Türkçe veri **kritik değil**, gerekçesi kayıtlı |
-| TR belirgin **üstün** | Türkçe etiketlemeye geçilir; CT-RATE Türkçe aslı öncelikli hedef olur |
+| EN, A1 + `present` + `absent` eksenlerinde TR'den 5 F1 puanından fazla düşük değil; %95 GA destekliyor | İngilizce etiketleme savunulabilir |
+| TR, A1 veya `present`/`absent` ekseninde 5 puandan fazla ve güvenilir üstün | Türkçe etiketlemeye geçilir |
 | TR belirgin **düşük** ama sebep desen zayıflığı | Uzman onaylı sözlükle **tekrar** ölçülür; karar ertelenir |
-| Eksenler **çelişiyor** (biri lehte biri aleyhte) | Tek karar verilmez; eksen bazlı rapor edilir |
+| Genel/tıbbi EN, dondurulmuş sistem/seçilen model veya eksenler çelişiyor | Tek karar verilmez; bağımlılık raporlanır |
+| %95 güven aralığı 5 puanlık sınırı kesiyor | Kanıt yetersiz; tek dil kararı verilmez |
+
+Fark `EN − TR` olarak tanımlanır. Belgeler 10.000 kez eşleştirilmiş bootstrap
+ile örneklenir ve %95 güven aralığı hesaplanır. Pratik eşdeğerlik/kabul
+edilebilir kayıp marjı `0,05` F1'dir.
 
 ⚠ Üçüncü satır önemli: Türkçe tarafın düşük çıkması tek başına *"Türkçe veri
 gereksiz"* demek **değildir**. Desenler uzman onayından geçmediği sürece
@@ -174,7 +221,8 @@ düşüklüğün dilden mi araçtan mı geldiği ayrılamaz.
 1. `test` bölümüne desen geliştirirken bakmak
 2. Sonucu görüp desen/sözlük/kural değiştirmek → sürüm iptal, yeni bölünme
 3. Türkçe ve İngilizce kolların **farklı** altın veriye karşı puanlanması
-4. Model yorumunun sonuç hanesine yazılması
+4. Serbest çift-dilli model yorumunun sonuç hanesine yazılması
+5. Seçilen modelin dillerden birinde farklı istem, şema veya üretim ayarıyla koşulması
 
 ---
 

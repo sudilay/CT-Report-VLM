@@ -58,3 +58,42 @@ data/external/
 # Kurum ici kaynak belgeler - depoya girmez, atif yeterli
 *.docx
 ~$*.xlsx
+
+# ---------------------------------------------------------------
+# TASK-15 · yerel calisma dosyalari
+# Depo YAYIMLANABILIR bulguyu, kodu ve gerekcesini tasir.
+# Asagidakiler surec artefaktidir: oturumlar arasi devir notlari,
+# is emirleri, kisi atamali planlar ve operasyon talimatlari.
+# ---------------------------------------------------------------
+docs/18_task15_calisma_plani.md
+docs/23_task15_pilot_isaretleyici_a_devir.md
+docs/26_task15_sozluk_onarimi_devir.md
+docs/27_task15_tr_matcher_is_emri.md
+docs/uzak_paket/
+reports/task15_onarim_grup1_inceleme.md
+configs/istem_ikincil_model_v1.txt
+
+# Proje disi dosyalar
+I.txt
+sude_sprint_gorevleri.xlsx
+
+# ---------------------------------------------------------------
+# outputs/ politikasi
+# GIRER  : tekrar URETILEMEYEN deney artefaktlari
+#          - ceviri paketleri (Google NMT deterministik degil, D53)
+#          - determinizm kaniti, kol dusurme kaniti
+#          - ikincil model kosu ciktilari (outputs/task15/ikincil_model/)
+# GIRMEZ : yeniden kurulabilenler ve gecersiz kilinanlar
+# ---------------------------------------------------------------
+outputs/**/*.zip
+outputs/**/*.tar.gz
+outputs/task15/KARANTINA_INVALID_OFFSET_MINUS1/
+outputs/task15/UZAK_MAKINE_ikincil_model/
+outputs/task15/UZAK_MAKINE_medgemma/
+outputs/task15/TASK15_Model_Paketi/
+outputs/task15/MEDGEMMA_KOSU3_SON/
+outputs/task15/YAMA_*.py
+# Baskasinin deposunun yerel kopyasi (denetim icin klonlandi)
+outputs/audit_sources/
+# Sprint/plan yonetimi
+outputs/sprint_update/
