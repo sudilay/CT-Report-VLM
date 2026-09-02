@@ -444,6 +444,54 @@ GIRIS = """
 </div>
 
 
+
+<div class="intro">
+  <h2>Bu sayfadaki 46 belge nereden geliyor?</h2>
+  <p class="ipucu" style="margin-top:0">Veri kümesi <b>RadTr</b> — uzman radyologlar tarafından
+  Türkçe yazılmış toraks BT raporları. Üç bölüme ayrılmış ve <b>her bölüm farklı bir iş için</b>
+  kullanılıyor. Bu sayfa <code>dev</code> bölümünü gösteriyor.</p>
+
+  <div class="bolumler">
+    <div class="bl">
+      <span class="bad">train</span><b>223 belge</b>
+      <span class="ne">Sözlüğün <b>yapıldığı</b> yer</span>
+      <ul>
+        <li>Türkçe yüzey desenleri buradan okunarak yazıldı</li>
+        <li>Simetrik onarım burada yapıldı — <b>26 kavram</b></li>
+        <li>Onarım sonrası: yalnız TR <b>152</b>, yalnız EN <b>167</b>, örtüşme <b>0,940</b></li>
+        <li>Google çevirisi burada da üretildi (223 belge)</li>
+      </ul>
+    </div>
+    <div class="bl akt">
+      <span class="bad a">dev</span><b>46 belge</b>
+      <span class="ne">Ayarların <b>denendiği</b> yer — <b>bu sayfa</b></span>
+      <ul>
+        <li>Üç çeviri kolu burada üretildi ve kalite kontrolü yapıldı</li>
+        <li>Çevirinin deterministik olmadığı burada ölçüldü (%11 belge farklı çıktı)</li>
+        <li>Tıbbi post-edit kolu burada denendi ve <b>düşürüldü</b></li>
+        <li>Üç dil modeli burada sınandı, <b>üçü de elendi</b></li>
+        <li>Türkçe negasyon sistemi burada altına karşı ölçüldü (<code>absent</code> F1 %90,3)</li>
+      </ul>
+    </div>
+    <div class="bl kil">
+      <span class="bad k">test</span><b>56 belge</b>
+      <span class="ne">Asıl ölçüm — <b>henüz açılmadı</b></span>
+      <ul>
+        <li>Çevirisi <b>yapılmadı</b>, hiçbir skor hesaplanmadı</li>
+        <li>Açılması için: kanonik altın üretilecek, radyolog onaylayacak, altın hash'lenip kilitlenecek</li>
+        <li>Sonra <b>tek sefer</b> çevrilecek — ham çıktı değişmez artefakt (çeviri deterministik değil)</li>
+        <li>Ablasyonun cevabı buradan çıkacak</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="ipucu"><b>⚠ Neden bu sayfadaki sayılar "sonuç" değil.</b> Üç sebep:
+  (a) burada sözlük <b>kendini</b> karşılaştırıyor — altın etiketle değil;
+  (b) Türkçe sözlük <code>dev</code>'i <b>görerek</b> türetildi (<code>train</code>+<code>dev</code>,
+  269 belge), İngilizce sözlük görmedi — yani bu bölümdeki sayılar <b>Türkçe lehine hafif yanlı</b>;
+  (c) ölçüm <code>test</code>te yapılacak ve orayı <b>iki sözlük de görmedi</b>.
+  Buradaki tablolar <b>aletin ayarlandığını</b> gösterir, sorunun cevabını değil.</p>
+</div>
 <div class="intro">
   <h2>Sözlük sistemi nedir</h2>
   <p class="ipucu" style="margin-top:0">Bir <b>ölçü aletidir.</b> Ona bir rapor verirsin, sana o raporda

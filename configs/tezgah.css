@@ -324,3 +324,21 @@ details.doc .mgrid{padding-bottom:22px}
 @media(max-width:860px){
   .scnt{min-width:0} .sipuc{width:100%;flex:none} .ip.m{margin-left:0}
 }
+
+/* ---------- bolum kartlari ---------- */
+.bolumler{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0 4px}
+.bl{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.bl.akt{background:var(--accent-soft);border-color:var(--line-2);border-top:3px solid var(--accent)}
+.bl.kil{opacity:.9;border-style:dashed}
+.bad{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+padding:3px 10px;border-radius:20px;background:var(--surface);border:1px solid var(--line-2);
+color:var(--ink-2);margin-bottom:8px}
+.bad.a{background:var(--accent);color:#FDFBF5;border-color:var(--accent)}
+.bad.k{background:var(--bad-bg);color:var(--bad);border-color:var(--bad)}
+.bl>b{display:block;font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:3px}
+.bl .ne{display:block;font-size:14px;color:var(--ink-2);margin-bottom:10px}
+.bl ul{margin:0;padding-left:1.15em;font-size:13.5px;color:var(--ink-2);line-height:1.55}
+.bl li{margin-bottom:5px}
+.bl li::marker{color:var(--ink-3)}
+.bl code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--surface);
+padding:.05em .3em;border-radius:3px;border:1px solid var(--line)}
