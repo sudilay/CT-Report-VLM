@@ -151,6 +151,29 @@ onarılmadı** — ölçmek istenen şey bunlardır:
 
 Üçüncüsü beklenmedikti: çeviri yalnız kaybettirmiyor, **kavram da ekliyor.**
 
+### 4.7 Asıl fark dilde değil, çeviri kalitesinde
+
+`dev` bölümündeki 46 belgede üç kolun bulduğu kavram sayısı:
+
+| kol | belge-kavram | |
+|---|---:|---|
+| `tr` (Türkçe aslı) | 1.057 | referans |
+| `en-genel` (Google) | 1.061 | Türkçeyle **ayırt edilemiyor** |
+| `en-ucuz` (Opus-MT) | **881** | iyi çeviriye göre **%17 daha az** |
+
+`en-genel`de bulunup `en-ucuz`da kaybolan **244 belge-kavram** var — en çok
+`hemithorax` (32), `cardiomegaly` (21), `lung_parenchyma` (21),
+`pulmonary_conus` (16). Bu, Türkçe ile iyi İngilizce çevirisi arasındaki farkın
+(40 belge-kavram) **altı katıdır**.
+
+Ayrıca `tr` ile `en-genel` arasında **46 belgenin 24'ünde hiç ayrışma yok**,
+19'unda yalnız 1-2 kavram, 6 ve üzeri ayrışan hiç yok.
+
+⚠ Bu sayılar `dev` bölümüne aittir ve **ablasyon sonucu değildir**: sözlük
+burada kendini karşılaştırıyor (altın etiketle değil) ve Türkçe sözlük `dev`'i
+görerek türetildiği için sayılar Türkçe lehine hafif yanlıdır. Yine de gösterdiği
+yön açıktır: **nasıl çevirdiğin, hangi dilde çalıştığından çok daha önemli.**
+
 ### 4.4 Çeviri deterministik değil
 
 Aynı 46 belge dakikalar arayla iki kez çevrildi: **5 belge (%11) farklı çıktı.**
@@ -324,3 +347,9 @@ Bunlar gizlenmiyor; raporlarda ve kararlarda açıkça yazılı.
 | [reports/…_ceviri_dev_raporu](../reports/task15_ceviri_dev_raporu.md) | `dev` çeviri koşuları |
 | [reports/…_medgemma_kol_dusurme](../reports/task15_medgemma_kol_dusurme.md) | EN-tıbbi kolunun düşürülme kaydı |
 | [reports/…_ikincil_model_raporu](../reports/task15_ikincil_model_raporu.md) | **ikincil model doğrulaması** — üç modelin elenme kaydı ve gerekçesi |
+| [outputs/task15/inceleme_tezgahi.html](../outputs/task15/inceleme_tezgahi.html) | **görsel inceleme sayfası** — 46 belgenin Türkçe aslı, iki çevirisi, sözlük eşleşmeleri, var/yok kararları ve model çıktıları |
+
+> ⚠ **`inceleme_tezgahi.html` GitHub'da kaynak kod olarak görünür.** Görüntülemek
+> için dosyayı açıp **Raw** → sağ tık → *Farklı kaydet*, sonra tarayıcıda aç.
+> Tek dosyadır, dış bağımlılığı yoktur. Yeniden üretmek için:
+> `python scripts/38_task15_inceleme_tezgahi.py`

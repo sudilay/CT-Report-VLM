@@ -119,3 +119,29 @@ Ayrıntılı gerekçeler: [docs/01_veri_notlari.md](docs/01_veri_notlari.md) ve 
 - Hamamci et al., *Developing Generalist Foundation Models from a Multimodal Dataset for 3D Computed Tomography*, arXiv:2403.17834 — CT-RATE veri seti
 - Eyre et al., *Launching into clinical space with medspaCy*, AMIA 2021
 - Chapman et al., *A simple algorithm for identifying negated findings and diseases in discharge summaries*, J Biomed Inform 2001 — NegEx
+
+---
+
+## Güncel çalışma · TASK-15 — Dil ablasyonu
+
+**Soru:** Altın standart etiketleme Türkçe mi İngilizce mi yapılmalı? Aynı
+radyoloji raporu Türkçe aslından ve İngilizceye çevrilip okunuyor; bulunan
+kavramlar karşılaştırılıyor. Fark varsa, o fark çevirinin maliyetidir.
+
+**Durum:** Ölçüm altyapısı kuruldu ve doğrulandı. RadTr `test` bölümü (56 belge)
+**açılmadı** — çevirisi yapılmadı, hiçbir skor hesaplanmadı.
+
+| nereden başlamalı | ne anlatır |
+|---|---|
+| **[docs/28 — Genel Bakış](docs/28_task15_genel_bakis.md)** | **buradan başlayın** — soru, deneyin kurgusu, bulgular, durum, sınırlar |
+| [docs/19 — Deney Tasarımı](docs/19_task15_deney_tasarimi_dondurma.md) | dondurulmuş tasarım: kollar, seçim kapıları, ölçütler |
+| [docs/kararlar.md](docs/kararlar.md) | **karar defteri** — koddaki `D<n>` atıflarının karşılığı, her kararın ölçülmüş gerekçesi |
+| [reports/…_sozluk_onarimi](reports/task15_sozluk_onarimi_raporu.md) | iki dilli sözlüğün simetrik onarımı ve neden gerekliydi |
+| [reports/…_ikincil_model](reports/task15_ikincil_model_raporu.md) | üç açık modelin elenmesi ve ne öğrettiği |
+| [reports/…_medgemma_kol_dusurme](reports/task15_medgemma_kol_dusurme.md) | tıbbi post-edit kolunun düşürülme kaydı |
+| [outputs/task15/inceleme_tezgahi.html](outputs/task15/inceleme_tezgahi.html) | 46 belgenin görsel dökümü — *indirip tarayıcıda açın; GitHub HTML'i kaynak kod olarak gösterir* |
+
+**Deneyi koruyan kurallar** (hepsi sonuç görülmeden bağlandı): `test` kilitlidir
+ve altın etiketleme hash'lenip kilitlenmeden açılmaz; sözlük onarımı tek
+geçiştir; model çıktısı onarılmaz; durma eşikleri sonuç kötü çıkınca
+gevşetilmez. Ayrıntı: [docs/28 §6](docs/28_task15_genel_bakis.md).
