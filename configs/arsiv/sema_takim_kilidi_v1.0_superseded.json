@@ -1,0 +1,29 @@
+{
+  "surum": "takim-1.0",
+  "kilit_utc": "2026-09-03T13:15:29.811860+00:00",
+  "ornekleme_tohumu": 20260904,
+  "kural": "Kilitten sonra vaka EKLENEMEZ/CIKARILAMAZ. Kural takimi gecemezse KURAL degisir, takim degil (docs/29 §8.1/4).",
+  "artik_sinir": "Hedefleri atayan taraf ile kurallari yazacak taraf ayni. Hedefi A kuraline dayanan vakalar gercek dis denetimdir; C'ye dayananlar ic tutarlilik kontroludur. Ikisi ayri raporlanir.",
+  "sinir_takimi": {
+    "dosya": "data/processed/sema_sinir_vakalari.csv",
+    "vaka": 30,
+    "sha256": "a8a6e7a41990c0bba42d5783a402e9384f4cfa9b0c97df0eb5d91e28262bb308",
+    "hedef_dagilimi": {
+      "indeterminate": 7,
+      "known_malignancy": 6,
+      "intermediate": 5,
+      "low": 5,
+      "None": 3,
+      "high": 2,
+      "not_mentioned": 2
+    },
+    "A_dayanakli_hedef": 13,
+    "C_dayanakli_hedef": 17
+  },
+  "kontrol_takimi": {
+    "dosya": "data/processed/sema_negatif_kontrol.csv",
+    "vaka": 15,
+    "sha256": "afc78c1b1d248ace4fb0982ee67e22aed6dda67ae4877317f49463d8cd88b5b0",
+    "kapi": "Sema bu vakalarin HICBIRINDE malignite uretmeyecek. Tolerans YOK (%100)."
+  }
+}

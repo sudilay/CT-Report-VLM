@@ -24,8 +24,11 @@ KILIT_BOLUNME = KOK / "configs/splits_holdout.json"
 MARUZIYET = KOK / "reports/task16_maruziyet_kaydi.json"
 KORPUS = KOK / "data/processed/reports_study_level.parquet"
 
-MALIGN_URETIR = {"low", "indeterminate", "intermediate", "high", "known_malignancy"}
-GECERLI_SINIF = MALIGN_URETIR | {"None", "not_mentioned"}
+# v1.1 DUZELTME (2. denetim, bulgu 3.1): `indeterminate` YONLU bir malignite
+# supheti degil, epistemik/teknik belirsizliktir. Koruma kapisinin amaci
+# semanin YONLU suphe URETMEMESIDIR; indeterminate disarida birakildi.
+MALIGN_URETIR = {"low", "intermediate", "high", "known_malignancy"}
+GECERLI_SINIF = MALIGN_URETIR | {"indeterminate", "None", "not_mentioned"}
 
 # UYARI: olcegin "None" degeri pandas'in varsayilan NA listesindedir. Bu
 # dosyalar HER ZAMAN keep_default_na=False ile okunmalidir, yoksa "None" hedefi
@@ -47,6 +50,13 @@ def sinir(manifest) -> pd.DataFrame:
 @pytest.fixture(scope="module")
 def kontrol(manifest) -> pd.DataFrame:
     return pd.read_csv(KOK / manifest["kontrol_takimi"]["dosya"], keep_default_na=False)
+
+
+@pytest.fixture(scope="module")
+def rapor(manifest) -> pd.DataFrame:
+    if "rapor_vakalari" not in manifest:
+        pytest.skip("v1.0 manifesti - rapor vakalari yok (v1.1'de eklendi)")
+    return pd.read_csv(KOK / manifest["rapor_vakalari"]["dosya"], keep_default_na=False)
 
 
 # --- K19: takim kilitten sonra degismedi ------------------------------------
@@ -128,3 +138,42 @@ def test_k22_takimlar_kilit_disindan(sinir, kontrol):
         hastalar = {esleme.get(c) for c in d["study_id"]} - {None}
         sizan = hastalar & yasak
         assert not sizan, f"{ad}: kilitli/maruz hastadan vaka alinmis: {sorted(sizan)}"
+
+
+# --- K23: v1.1 - rapor vakalari (cok cumleli, toplama kurali testi) ---------
+
+def test_k23_rapor_vakalarinin_hedefi_var(rapor):
+    bos = rapor[rapor["hedef_sinif"].astype(str).str.strip() == ""]
+    assert bos.empty, f"hedefsiz rapor vakasi: {bos['vaka_id'].tolist()}"
+    assert rapor["hedef_sinif"].isin(GECERLI_SINIF).all()
+    assert rapor["vaka_id"].is_unique
+
+
+def test_k23_rapor_vakalari_kilit_disindan(rapor):
+    if not (KILIT_BOLUNME.exists() and MARUZIYET.exists() and KORPUS.exists()):
+        pytest.skip("bolunme kilidi / maruziyet kaydi / korpus yok")
+    kb = json.loads(KILIT_BOLUNME.read_text(encoding="utf-8"))["degerlendirme_kilidi"]
+    yasak = set(kb["a_ctrate_valid"]["hasta_listesi"]) | set(kb["b_train_kilit"]["hasta_listesi"])
+    mar = json.loads(MARUZIYET.read_text(encoding="utf-8"))
+    yasak |= {h for r in mar["kayitlar"] for h in r["kilitteki_hasta_listesi"]}
+    k = pd.read_parquet(KORPUS, columns=["study_id", "patient_id"])
+    esleme = dict(zip(k["study_id"], k["patient_id"]))
+    hastalar = {esleme.get(c) for c in rapor["study_id"]} - {None}
+    assert not (hastalar & yasak), "rapor vakasi kilitli/maruz hastadan alinmis"
+
+
+# --- K24: v1.1 - revizyon defterinin varligi --------------------------------
+
+def test_k24_v11_revizyon_defteri_var(manifest):
+    if manifest.get("surum") == "takim-1.0":
+        pytest.skip("henuz v1.0 - revizyon yapilmamis")
+    assert "revizyon_defteri" in manifest, "v1.1+ revizyon defteri tasimali"
+    assert len(manifest["revizyon_defteri"]) > 0
+    assert "revizyon_gerekcesi" in manifest
+
+
+def test_k24_v10_arsivi_korunuyor(manifest):
+    if manifest.get("surum") == "takim-1.0":
+        pytest.skip("henuz v1.0")
+    arsiv = KOK / "configs/arsiv/sema_takim_kilidi_v1.0_superseded.json"
+    assert arsiv.exists(), "v1.0 manifesti arsivde saklanmali, silinmemeli"

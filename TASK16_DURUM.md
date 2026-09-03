@@ -196,61 +196,67 @@ için (bkz. karar D71) bu kayıt şemanın tek savunması.
 
 ---
 
-## ✅ Adım 4 · Sınır vakası ve kontrol takımları
+## ✅ Adım 4 · Sınır vakası ve kontrol takımları — **v1.1 (2. denetim sonrası revize)**
 
 **Bu adım ne yapar:** Şemanın sınavını hazırlar — **kurallar yazılmadan önce.**
-Sıra kritik: vakaları da kuralları da aynı anda yazarsak kabul ölçütü
-kendiliğinden sağlanır ve hiçbir şey ölçmez.
 
-- [x] Vakalar **ilan edilmiş yordamla** örneklendi (sabit tohum `20260904`,
-      popülasyon başına kota) — *"zor görünen cümleyi elle seç"* yapılmadı
-- [x] **30 sınır vakası** + **15 negatif kontrol vakası** seçildi
-- [x] Her vakanın **hedef sınıfı** kurallardan önce atandı, dayanağı ve
-      gerekçesiyle
-- [x] Takımlar hash'lenip **kilitlendi**; üzerine yazma reddediliyor
-- [x] 10 otomatik test yazıldı
+- [x] Vakalar ilan edilmiş yordamla örneklendi (sabit tohum `20260904`)
+- [x] Her vakanın hedef sınıfı kurallardan önce atandı
+- [x] Takımlar kilitlendi (**v1.0**)
+- [x] ⭐ **İkinci bağımsız denetim istendi ve uygulandı** → [docs/33](docs/33_task16_denetim2_ve_duzeltme_plani.md)
+- [x] Kilit **v1.1** olarak yeniden kilitlendi; v1.0 arşivde saklanıyor (silinmedi)
 
-**Örnekleme havuzu:** 124.831 benzersiz özgün cümle — geliştirme havuzu, şablon
-cümleler hariç, maruz kalınan 17 hasta hariç.
+### İkinci denetim — ne bulundu, ne düzeltildi
 
-**Sınır takımı — hedef dağılımı:**
+Denetim **14 bulgu** çıkardı; 11'i tam, 2'si kısmen kabul edildi, 1'i kısmen
+reddedildi. En ağır ikisi: **kendi yazdığım A20 kuralını kendim ihlal
+etmişim** ve **`docs/31` #12'nin kaydıyla kilitlenen CSV çelişiyordu.**
 
-| hedef | vaka |
-|---|---:|
-| indeterminate | 7 |
-| known_malignancy | 6 |
-| intermediate | 5 |
-| low | 5 |
-| None | 3 |
-| high | 2 |
-| not_mentioned | 2 |
+**6 hedef düzeltildi:**
 
-Ölçeğin **yedi değerinin hepsi** temsil ediliyor — dejenere bir takım değil.
+| vaka | eski | yeni | sebep |
+|---|---|---|---|
+| `C16-enf-03` | `low` | **`not_mentioned`** | A20 ihlali — öneri status değildir |
+| `C6-benign-02` | `low` | **`None`** | A8 + #12: radyoloğun kesin benign hükmü kazanır |
+| `C4-yuksek-01` | `known_malignancy` | **`high`** | yazılı bilinen kanser yok — yeni eşik kararı |
+| `C13-ekstra-02` | `indeterminate` | **`intermediate`** | soru işareti yönlü hipotez, ayırt edilemezlik değil |
+| `C12-01`, `C12-02` | `low` | **`None`** | kendi kaydımla iç çelişki |
 
-**Kontrol takımı:** 15 vaka, hiçbiri malignite üretmemeli. **Toleranssız kapı**
-— şema birinde bile malignite üretirse dondurulmaz.
+**Bir kod hatası düzeltildi:** `indeterminate` koruma kapısında "malignite
+üretiyor" sayılmıştı — kendi #8 eşlememle çelişiyordu (`indeterminate` →
+"belirsiz", pozitif değil). Düzeltildi.
 
-**⚠ Kaydedilen artık sınır:** hedefleri atayan taraf ile kuralları yazacak taraf
-**aynı**. Tam bağımsız bir sınav değil. Üç azaltıcı önlem alındı ve sonuç ikiye
-ayrılarak raporlanacak:
+**Kontrol takımı 15 → 23 vakaya çıkarıldı** — şablon negatifler, post-op
+değişiklik, amfizem, koroner kalsifikasyon eklendi (klinikte en çok yanlış
+pozitif üreten gruplar hiç temsil edilmiyordu).
 
-| | vaka | ne ölçer |
-|---|---:|---|
-| Hedefi **A kuralına** dayanan | **13 / 30** | gerçek dışarıdan denetim |
-| Hedefi **C varsayılanına** dayanan | 17 / 30 | iç tutarlılık kontrolü |
+**⭐ Tamamen kaçırdığım bir şey bulundu:** 45 vakanın hepsi **tek cümleydi**,
+ama şemanın çıktısı **rapor düzeyi**. Toplama kuralının (#9) hiç testi yoktu.
+**5 çok cümleli rapor vakası eklendi** — biri şaşırtıcı bir sonuç verdi:
 
-**Ne bulundu — bir kod hatası:**
+> Bir rapor yüzeysel olarak *"hem malignite hem benign içeriyor"* görünüyordu
+> (arama deseninde `tumoral` geçiyordu). Cümle cümle çözülünce: tek malignite
+> kelimesi **negasyon kapsamı içindeydi** (*"no significant tumoral wall
+> thickening"*). Toplama kuralı doğru çalıştı — bileşik sonuç **`None`.**
 
-> Ölçeğin **`None`** değeri (belgenin ölçeğindeki *"şüphe yok"* düzeyi), pandas
-> tarafından **boş hücre** sanılıyor. `None` pandas'ın varsayılan "eksik veri"
-> listesinde. Testler bunu yakaladı: 4 kontrol vakasının hedefi boş görünüyordu.
->
-> Düzeltildi: bu dosyalar her zaman `keep_default_na=False` ile okunuyor ve
-> uyarı koda yazıldı. Şema kodunda tekrar etmesin diye.
+Bir de **yeni bir kural** ortaya çıktı: *"no suspicious mass was observed"* —
+şüphe kelimesi var ama **açıkça olumsuzlanmış**. Bu, *"cannot be excluded"*
+(şüphe ortadan kaldırılamıyor) kalıbından farklı; burada şüphe **dışlanıyor**
+→ `None`.
 
-**Çıktı:** `data/processed/sema_sinir_vakalari.csv` · `sema_negatif_kontrol.csv` ·
-`configs/sema_takim_kilidi.json` · `scripts/44` · `scripts/45` ·
-`tests/test_task16_takim.py`
+**3 yeni C kararı kayda girdi**, C toplamı 10 → 13 oldu. Kalan **1 kısmi red**:
+denetim beş düşen maddeyi (büyüme temelli) tek sepete koymuştu; ayrıştırdım —
+üçü gerçekten popülasyonu boştu, ikisi (#15/#17) yalnızca hacim yüzünden
+düşmüştü ve bu **kendi ilkemle çelişiyordu**. Temel büyüme kuralı geri geldi.
+
+**Çıktı:** `data/processed/sema_sinir_vakalari.csv` (30) ·
+`sema_negatif_kontrol.csv` (23) · `sema_rapor_vakalari.csv` (5) ·
+`configs/sema_takim_kilidi.json` (v1.1) ·
+`configs/arsiv/sema_takim_kilidi_v1.0_superseded.json` ·
+`scripts/44-46` · `tests/test_task16_takim.py` (23 test)
+
+⚠ **Bu kilit açma ikinci bir kilit açma için emsal değil.** Kurallar
+yazıldıktan sonra gelen her hedef değişikliği talebi reddedilecek.
 
 ---
 

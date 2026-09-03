@@ -1,29 +1,102 @@
 {
-  "surum": "takim-1.0",
-  "kilit_utc": "2026-09-03T13:15:29.811860+00:00",
-  "ornekleme_tohumu": 20260904,
-  "kural": "Kilitten sonra vaka EKLENEMEZ/CIKARILAMAZ. Kural takimi gecemezse KURAL degisir, takim degil (docs/29 §8.1/4).",
-  "artik_sinir": "Hedefleri atayan taraf ile kurallari yazacak taraf ayni. Hedefi A kuraline dayanan vakalar gercek dis denetimdir; C'ye dayananlar ic tutarlilik kontroludur. Ikisi ayri raporlanir.",
+  "surum": "takim-1.1",
+  "onceki_surum": "takim-1.0 (SUPERSEDED)",
+  "onceki_surum_arsiv": "configs/arsiv/sema_takim_kilidi_v1.0_superseded.json",
+  "onceki_surum_sha256": "1c52522bbb0aac3a0928590d740e24942e8f755a226f171ff7211911d93dc52e",
+  "kilit_utc": "2026-09-03T14:36:07.410764+00:00",
+  "revizyon_gerekcesi": "Ikinci bagimsiz denetim (docs/33): kilitli hedeflerde KURAL IHLALI (A20) ve IC CELISKI (docs/31 #12 vs CSV) bulundu - sonuc gorulerek degil. Bu, kilit acmayi mesru kilan TEK sebeptir: kurallar HENUZ yazilmamisti. Bu ikinci bir kilit acma icin EMSAL DEGILDIR.",
+  "revizyon_defteri": [
+    {
+      "vaka_id": "C16-malignite-enf-03",
+      "eski_hedef": "low",
+      "yeni_hedef": "not_mentioned",
+      "sebep": "A20 ihlali: oneri status degildir; enfeksiyon A27 ile olcek disi"
+    },
+    {
+      "vaka_id": "C6-malignite-benign-02",
+      "eski_hedef": "low",
+      "yeni_hedef": "None",
+      "sebep": "A8 + #12: radyologun kesin benign hukmu kazanir (karsi kanit A34 kayitli)"
+    },
+    {
+      "vaka_id": "C4-derece-yuksek-01",
+      "eski_hedef": "known_malignancy",
+      "yeni_hedef": "high",
+      "sebep": "Yeni C karari: known_malignancy esigi yazili bilinen kanser gerektirir"
+    },
+    {
+      "vaka_id": "C13-ekstratorasik-02",
+      "eski_hedef": "indeterminate",
+      "yeni_hedef": "intermediate",
+      "sebep": "'(metastasis?)' yonlu hipotez, ayirt edilemezlik degil"
+    },
+    {
+      "vaka_id": "C12-benign-belirsiz-01",
+      "eski_hedef": "low",
+      "yeni_hedef": "None",
+      "sebep": "docs/31 #12 ile ic celiski duzeltildi (A26 fat-containing benign patern)"
+    },
+    {
+      "vaka_id": "C12-benign-belirsiz-02",
+      "eski_hedef": "low (VAKA CIKARILDI)",
+      "yeni_hedef": "-",
+      "sebep": "C12-01 ile neredeyse ayni cumle (mukerrer); yerine A26-kalsifiegranulom-01 eklendi"
+    },
+    {
+      "vaka_id": "K-teknik-02",
+      "eski_hedef": "not_mentioned",
+      "yeni_hedef": "indeterminate",
+      "sebep": "Yeni C karari: tarif edilen lezyon (tiroid hipodansitesi) var, karakterize edilemiyor"
+    },
+    {
+      "vaka_id": "C16-malignite-enf-01",
+      "eski_hedef": "-",
+      "yeni_hedef": "- (dayanak etiketi duzeltildi)",
+      "sebep": "Klerikal: dayanak C#13 -> C#5+C#16"
+    },
+    {
+      "vaka_id": "MALIGN_URETIR (kod)",
+      "eski_hedef": "indeterminate DAHIL",
+      "yeni_hedef": "indeterminate HARIC",
+      "sebep": "indeterminate yonlu suphe degil epistemik belirsizliktir (docs/31 #8 ile uyum)"
+    }
+  ],
+  "artik_sinir": "Hedefleri atayan taraf ile kurallari yazacak taraf ayni. Hedefi A kuraline dayanan vakalar 'KILAVUZ ATIFLI YAZAR ATAMASI'dir, gercek dis denetim DEGILDIR (2. denetimin bulgu 3.4'u, C16-03 ornegiyle kanitlandi). Gercek bagimsiz denetim ancak adim 7'de (Codex kor yargilamasi) gelir.",
   "sinir_takimi": {
     "dosya": "data/processed/sema_sinir_vakalari.csv",
     "vaka": 30,
-    "sha256": "a8a6e7a41990c0bba42d5783a402e9384f4cfa9b0c97df0eb5d91e28262bb308",
+    "sha256": "7d4e0e440f5d57bddd242375935a0e90881cf2b0e24239c153ed5e2505177594",
     "hedef_dagilimi": {
-      "indeterminate": 7,
-      "known_malignancy": 6,
-      "intermediate": 5,
-      "low": 5,
-      "None": 3,
-      "high": 2,
-      "not_mentioned": 2
-    },
-    "A_dayanakli_hedef": 13,
-    "C_dayanakli_hedef": 17
+      "intermediate": 6,
+      "indeterminate": 6,
+      "None": 5,
+      "known_malignancy": 5,
+      "not_mentioned": 4,
+      "high": 3,
+      "low": 1
+    }
   },
   "kontrol_takimi": {
     "dosya": "data/processed/sema_negatif_kontrol.csv",
-    "vaka": 15,
-    "sha256": "afc78c1b1d248ace4fb0982ee67e22aed6dda67ae4877317f49463d8cd88b5b0",
-    "kapi": "Sema bu vakalarin HICBIRINDE malignite uretmeyecek. Tolerans YOK (%100)."
+    "vaka": 23,
+    "sha256": "e8bb2e1ed2ab956428083b4191f821c271ce3b34277a11c0233815cad60528a4",
+    "kategori": {
+      "K-olumsuz-kitle": 4,
+      "K-sekel-benign": 4,
+      "K-enfeksiyon": 3,
+      "K-stabil-benign": 2,
+      "K-teknik": 2,
+      "K-sablonnegatif": 2,
+      "K-postop": 2,
+      "K-amfizem": 2,
+      "K-koroner": 2
+    },
+    "kapi": "Sema bu vakalarin HICBIRINDE malignite uretmeyecek. MALIGN_URETIR = {low, intermediate, high, known_malignancy}; indeterminate HARIC (epistemik/teknik belirsizlik, yonlu suphe degil)."
+  },
+  "rapor_vakalari": {
+    "dosya": "data/processed/sema_rapor_vakalari.csv",
+    "vaka": 5,
+    "sha256": "b7a7def903017ccb3642c1810863d879a620d0d5865ac0fa16c3bde1e154d7af",
+    "amac": "Cumle duzeyi hedeflerden RAPOR duzeyi sinifa toplama kuralinin (#9, en yuksek supheli bulgu kazanir) tek testi."
   }
 }

@@ -58,7 +58,12 @@ sorusunu cevaplayan **karar şeması** yazılıyor (TASK-16).
   RECIST 1.1 (4), Lung-RADS v2022 (7), Fleischner 2017 (4). **Dört karar
   "bizim tahminimiz"den "kaynakta yazılı"ya taşındı**, biri düştü
 - ✅ **Adım 3 — kuralların korpustaki karşılığı ölçüldü.** İki kural daha düştü.
-  **Başlangıçtaki 19 madde 9'a indi**
+  **Başlangıçtaki 19 madde 10'a indi**
+- ✅ **Adım 4 — sınav takımı hazırlandı, kilitlendi, sonra ikinci bağımsız
+  denetimden geçirildi.** Denetim kendi yazdığım bir kuralı (A20) ihlal
+  ettiğimi ve kendi kaydımla çeliştiğimi buldu. 6 hedef düzeltildi, kontrol
+  takımı 23'e çıkarıldı, 5 çok cümleli rapor vakası eklendi. Kilit `v1.1`
+  olarak yeniden kilitlendi, eski sürüm arşivde saklandı → `TASK16_DURUM.md`
 
 ---
 
@@ -144,10 +149,6 @@ Bunlar planlanmamıştı; ölçerken çıktı ve işi değiştirdi.
 ## ⬜ Sırada olanlar
 
 ### Karar şeması (TASK-16) — devam
-- ⬜ Adım 2 — kaynakta **yazılı olan** kuralların aktarılması (kılavuzlardan)
-- ⬜ Adım 3 — korpus ölçümleri (hangi terim ne sıklıkta)
-- ⬜ Adım 4 — **sınır vakası ve kontrol takımı**: gerçek cümleler seçilip
-  kilitlenecek, kurallar yazılmadan **önce**
 - ⬜ Adım 5 — girdi kalite filtresi (hatalı çıkarımlar rapor sınıfını yükseltmesin)
 - ⬜ Adım 6 — **şemanın yazılması**
 - ⬜ Adım 7 — Codex'le bağımsız kontrol

@@ -185,8 +185,88 @@ sürümü açar (docs/29 §9-B.11).
 
 ---
 
+## 5-B · İkinci bağımsız denetim sonrası eklenenler — v1.1
+
+**Kaynak:** `docs/33_task16_denetim2_ve_duzeltme_plani.md` · Adım 4'te
+kilitlenen 45 vakanın hedefleri ikinci bir bağımsız denetimden geçirildi; 6
+hedef düzeltildi, kontrol takımı 15→23 vakaya çıkarıldı, 5 çok cümleli rapor
+vakası eklendi. Bu bölüm o denetimin **kayda giren üç yeni C kararını** ve
+büyüme kuralının kısmi geri dönüşünü içerir.
+
+### Yeni C kararı — `known_malignancy` eşiği
+
+Kaynak belge bu eşiği tanımlamıyor, biz de tanımlamamıştık. **Varsayılan:**
+raporda **yazılı** bilinen/belgelenmiş kanser gerekir (*"known primary"*,
+*"bladder ca in the follow-up"*, *"regressed primary malignancy"*). Yalnız
+radyolojik hüküm (*"metastatic masses"* gibi doğrudan ifadeler) en fazla
+`high` üretir. → `C4-derece-yuksek-01` bu kuralla `known_malignancy`'den
+`high`'a düzeltildi.
+
+### Yeni C kararı — radyoloğun kesin benign hükmü, belgelenmiş spikülasyonu ezer mi
+
+**Varsayılan: EVET, hüküm kazanır.** Gerekçe: A8 (*"in favor of X"* = X
+present) + #12 + projenin yanlış pozitif azaltma misyonu.
+
+⚠ **Karşı kanıt kayıtlı:** A34 (Fleischner) *"a spiculated border … increase[s]
+the possibility of malignancy"* diyor — yani bu karar **bir bilgi kaybı
+taşıyor** ve bilerek alınıyor. → `C6-malignite-benign-02` bu kuralla `low`'dan
+`None`'a düzeltildi.
+
+### Yeni C kararı — teknik çekincede lezyon var mı yok mu ayrımı
+
+| durum | sonuç |
+|---|---|
+| Lezyon **tarif edilmiş**, karakterize edilemiyor | `indeterminate` |
+| Hiçbir bulgu tarif edilmemiş, yalnız genel inceleme kısıtlılığı var | `not_mentioned` |
+
+Örnek: *"thyroid … hypodensity … cannot be clearly distinguished from
+artifact, which may also be compatible with the nodule"* → tanımlı bir bulgu
+var → `indeterminate`. *"Lung parenchyma … could not be optimally evaluated"*
+→ tarif edilen bulgu yok → `not_mentioned`.
+
+### Yeni C kararı — negatif belirsizlik: *"no suspicious X was observed"*
+
+Çok cümleli rapor vakası R5'te bulundu. A3/A18'in kapsadığı *"X cannot be
+excluded"* kalıbından **farklı**: orada şüphe **ortadan kaldırılamıyor**
+(→ `uncertain`/`indeterminate`); burada şüphe **açıkça dışlanıyor**
+(*"no suspicious mass … was observed"* → **`None`**). Ayrım, C#1'in negasyon
+kapsamı ilkesinin şüphe ifadelerine uygulanmış hâlidir.
+
+### Büyüme kuralının kısmi geri dönüşü
+
+İkinci denetim, #15/#17'nin **yalnızca hacim** gerekçesiyle düşürüldüğünü
+doğru buldu — bu, kendi *"hacim ≠ önem"* ilkemle çelişiyordu (§5). #3/#14/#18
+için düşürme gerekçesi farklıydı (tarif edilen vaka popülasyonda hiç yoktu) ve
+o üçü **düşük kalır**.
+
+**Geri gelen temel kural:** A28 yazılı bir kuraldır (*"yavaş büyüyen nodül is
+suspicious"*) ve korpusta 167 gerçek örneği var. Belgelenmiş lezyon büyümesi
+**şüpheyi bir kademe artırır, tavan `intermediate`**dir — hacmi az olsa da
+şemada bir dal olarak kalır. Ayrı bir C maddesi olarak numaralandırılmaz;
+A28'in aktarımına ek not olarak `docs/30`'da işlenecektir.
+
+### A/C ayrımının etiketi düzeltildi
+
+Manifest ve önceki raporlarda *"hedefi A kuralına dayanan vakalar = gerçek dış
+denetim"* ifadesi kullanılmıştı. **Bu yanlıştı** — hangi A kuralının
+uygulanacağına ve hedefe kural yazarı karar veriyor; `C16-malignite-enf-03`'ün
+kendi A20 kuralını ihlal etmesi bunun kanıtı. Düzeltilmiş etiket: hedefi A
+kuralına dayanan vakalar **"kılavuz atıflı yazar ataması"**dır — gerçek
+bağımsız denetim ancak adım 7'de (Codex kör yargılaması) gelir.
+
+### Sayım güncellemesi
+
+C kaydı üç yeni kararla **10 → 13** maddeye çıktı (üç yeni karar eklendi,
+mevcut 10 madde sayıca sabit kaldı — sadece hedefleri düzeltildi).
+
+---
+
 ## 6 · Sonraki bağ
 
 Kayıttaki her madde, adım 4'te üretilecek **sınır vakası takımında** en az bir
 gerçek cümleyle temsil edilecektir. Takım kurallar yazılmadan önce kilitlenir
 (docs/29 §8.1). §2'deki artefaktlar örneklemeye taşınmayacaktır.
+
+**v1.1 güncellemesi (2026-09-03):** takım ikinci bağımsız denetimden geçirildi,
+6 hedef düzeltildi, kontrol takımı 23 vakaya çıkarıldı, 5 çok cümleli rapor
+vakası eklendi. Ayrıntı: `docs/33_task16_denetim2_ve_duzeltme_plani.md`.

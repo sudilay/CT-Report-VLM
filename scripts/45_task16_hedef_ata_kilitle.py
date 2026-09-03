@@ -85,7 +85,12 @@ HEDEF_KONTROL = {
     "K-teknik-02": ("not_mentioned", "A16", "Artefakttan ayirt edilemeyen tiroid hipodansitesi; malignite ekseni disi"),
 }
 
-MALIGN_URETIR = {"low", "indeterminate", "intermediate", "high", "known_malignancy"}
+# v1.1 DUZELTME (2. denetim, bulgu 3.1): `indeterminate` YONLU bir malignite
+# supheti degil, epistemik/teknik belirsizliktir (docs/31 #8: 4 sinifli semada
+# "belirsiz"e gider, ama "belirsiz" ile "supheli" ayni sey degildir - burada
+# koruma kapisinin amaci semanin YONLU suphe URETMEMESIDIR). indeterminate
+# disarida birakildi.
+MALIGN_URETIR = {"low", "intermediate", "high", "known_malignancy"}
 
 
 def sha(y: Path) -> str:
