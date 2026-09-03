@@ -122,14 +122,28 @@ Ayrıntılı gerekçeler: [docs/01_veri_notlari.md](docs/01_veri_notlari.md) ve 
 
 ---
 
-## Güncel çalışma · TASK-15 — Dil ablasyonu
+## TASK-15 — Dil ablasyonu · **KAPANDI** (2026-09-03)
 
 **Soru:** Altın standart etiketleme Türkçe mi İngilizce mi yapılmalı? Aynı
 radyoloji raporu Türkçe aslından ve İngilizceye çevrilip okunuyor; bulunan
 kavramlar karşılaştırılıyor. Fark varsa, o fark çevirinin maliyetidir.
 
-**Durum:** Ölçüm altyapısı kuruldu ve doğrulandı. RadTr `test` bölümü (56 belge)
-**açılmadı** — çevirisi yapılmadı, hiçbir skor hesaplanmadı.
+**Cevap: Türkçe** — ama gerekçe doğruluk üstünlüğü değil. Türkçe ile iyi bir
+İngilizce çeviri arasındaki A1 farkı, **hangi altın standart kullanılırsa
+kullanılsın 4,06 puanı aşamaz** (gerçekçi bölgede ~2 puan); önceden bağlanmış
+kabul marjı 5 puandı. Yani **karar ölçütü altın etiket olmadan sağlandı.**
+Türkçeyi seçtiren üç şey: makine çevirisi **deterministik değil** (aynı 46 rapor
+iki kez çevrildi, 5'i farklı çıktı), ucuz çeviri kavramların **%17'sini**
+kaybettiriyor, ve hedef kohort Türkçe yazılacak.
+
+> **Hüküm:** hangi dilde çalıştığın değil, **nasıl çevirdiğin** belirleyici.
+
+**Durum:** Kanonik altın **üretilmedi** (radyolog erişimi yok), bu yüzden görev
+mevcut kanıt düzeyinde kapatıldı. RadTr `test` bölümü (56 belge) **mühürlü** —
+çevirisi yapılmadı, hiçbir skor hesaplanmadı. **Açma koşulu yazılı:**
+[`reports/task15_dondurma.md`](reports/task15_dondurma.md) §5.
+
+📄 **Kapanış raporu: [`reports/task15_dondurma.md`](reports/task15_dondurma.md)**
 
 ### 🔬 [Rapor İnceleme Tezgâhı → tarayıcıda aç](https://claude.ai/code/artifact/c51fba82-a87e-46f0-bf0f-7d333c800597)
 
@@ -149,7 +163,9 @@ indirmek isteyen **Raw → Farklı kaydet** yolunu kullanır.
 
 | nereden başlamalı | ne anlatır |
 |---|---|
-| **[docs/28 — Genel Bakış](docs/28_task15_genel_bakis.md)** | **buradan başlayın** — soru, deneyin kurgusu, bulgular, durum, sınırlar |
+| **[reports/…_dondurma](reports/task15_dondurma.md)** | **KAPANIŞ** — hüküm, altın-bağımsız üst sınır, dondurulan sürümler, `test` açma koşulu, bilinen sınırlar |
+| **[docs/28 — Genel Bakış](docs/28_task15_genel_bakis.md)** | deneyin anlatısı — soru, kurgu, bulgular, sınırlar |
+| [reports/…_masabasi_analiz](reports/task15_ikincil_model_masabasi_analiz.md) | ikincil model kolunu kapatan kanıt (D69) ve envanterin bedava dış denetimi |
 | [docs/19 — Deney Tasarımı](docs/19_task15_deney_tasarimi_dondurma.md) | dondurulmuş tasarım: kollar, seçim kapıları, ölçütler |
 | [docs/kararlar.md](docs/kararlar.md) | **karar defteri** — koddaki `D<n>` atıflarının karşılığı, her kararın ölçülmüş gerekçesi |
 | [reports/…_sozluk_onarimi](reports/task15_sozluk_onarimi_raporu.md) | iki dilli sözlüğün simetrik onarımı ve neden gerekliydi |

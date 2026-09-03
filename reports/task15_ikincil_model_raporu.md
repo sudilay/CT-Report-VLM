@@ -104,8 +104,16 @@ envanteri okumuyor, kendi kimliklerini metinden üretiyor.
 |---|---|---|
 | **Kesilme** — üretim token sınırında duruyordu | **biz** | Düzeltildi (1024 → 2048), koşu tekrarlandı. Yalnız **3 belge** kurtardı — kesilenlerin çoğu tekrar döngüsüymüş |
 | **Çıktı biçimi zorlanmıyordu** | **biz** | Düzeltme önerildi, **geri çekildi** (aşağıda) |
-| Tekrar döngüsü, bozuk JSON | model | Ayarla çözülmez |
-| Envanter dışı kimlik | model | Sınavın kendisi |
+| **Tekrar kontrolü yoktu** — koşucuda `repetition_penalty` hiç ayarlanmamıştı | **biz** | ⚠ 2026-09-03'te masabaşı analizle ölçüldü: eklenseydi tavan **%74,6**'da kalırdı, eşik %100'dü. **Belirleyici değildi** → [masabaşı analiz](task15_ikincil_model_masabasi_analiz.md) |
+| Bozuk JSON | model | Ayarla çözülmez |
+| Envanter dışı kimlik | model | Sınavın kendisi — **36 başarısızlığın 25'i** |
+
+⚠ **Düzeltme (2026-09-03).** Bu tablo önceden *"tekrar döngüsü, bozuk JSON —
+model, ayarla çözülmez"* diyordu. Koşucuda hiçbir tekrar kontrolü ayarlanmamış
+olduğu için o atıfın dayanağı eksikti. Kayıtlı ham yanıtlar yeniden okunarak
+ölçüldü: tekrar döngüsü **138 belgenin yalnız 4'ünde** görüldü ve bunların
+**yalnız 1'i** envanter ihlali içermediği için kurtulabilirdi. Elenme sebebi
+tekrar değil, **envanter dışı kimliktir**. Hüküm değişmedi, dayanağı güçlendi.
 
 ### Geri çekilen düzeltme
 

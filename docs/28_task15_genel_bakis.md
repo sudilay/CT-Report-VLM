@@ -1,7 +1,11 @@
 # TASK-15 · Dil Ablasyonu — Genel Bakış
 
-**Durum:** yürütmede · **Son güncelleme:** 2026-09-02
-**Kapsam:** RadTr toraks BT raporları · `test` bölümü açılmadı
+**Durum: ASKIYA ALINDI — kapanış raporu yazıldı** · **Son güncelleme:** 2026-09-03
+**Kapsam:** RadTr toraks BT raporları · `test` bölümü açılmadı, **mühürlü**
+
+> 📌 **Kapanış: [`reports/task15_dondurma.md`](../reports/task15_dondurma.md)** —
+> hüküm, altın-bağımsız fark üst sınırı, dondurulan sürümler ve **`test` açma
+> koşulu** orada. Bu belge deneyin anlatısıdır; kapanış hükmü oradadır.
 
 Bu belge TASK-15'in tamamını tek yerden anlatır: hangi soruya cevap arandığı,
 deneyin nasıl kurulduğu, şimdiye kadar ne ölçüldüğü ve neyin kaldığı.
@@ -206,11 +210,24 @@ edildi. Karar eksenleri `A1` (kavram çıkarımı) ve `present`tir (D51).
 ✅ Çeviri kolları: TR · EN-genel · EN-ucuz        ❌ EN-tıbbi düşürüldü
 ✅ Sözlük onarımı · simetrik geçiş · donduruldu
 ✅ Türkçe birleşik kavram çıkarıcı
-❌ İkincil model doğrulaması — üç aday da elendi, kol düşürüldü
-⬜ Kanonik altın + uzman incelemesi
-⬜ Sürüm dondurma raporu
-🔒 test — çeviri yapılmadı, skor hesaplanmadı
+❌ İkincil model doğrulaması — üç aday da elendi, kol düşürüldü (kanıt: D69)
+✅ Altın-bağımsız fark üst sınırı — azami 4,06 puan < 5 puanlık marj
+✅ Sürüm dondurma raporu → reports/task15_dondurma.md
+⬜ Kanonik altın + uzman incelemesi — radyolog erişimi yok
+🔒 test — çeviri yapılmadı, skor hesaplanmadı, AÇMA KOŞULU yazıldı
 ```
+
+### Kapanış hükmü (2026-09-03)
+
+> **Faz 3'te etiketleme Türkçe yapılır.** Gerekçe doğruluk üstünlüğü değil:
+> Türkçe ile iyi İngilizce çeviri arasındaki A1 farkı **hangi altın kullanılırsa
+> kullanılsın 4,06 puanı aşamaz** (gerçekçi bölgede ~2 puan), yani önceden
+> bağlanmış 5 puanlık marjın altındadır — **karar ölçütü altın olmadan
+> sağlanmıştır.** Türkçeyi seçtiren şey çevirinin **tekrarlanamaz** olması
+> (%11, D53), ucuz çevirinin %17 kaybı ve hedef kohortun Türkçe olmasıdır.
+
+Hesap: `scripts/39_task15_fark_ust_siniri.py` ·
+ayrıntı: [`reports/task15_dondurma.md`](../reports/task15_dondurma.md) §3.
 
 ### İkincil model seçimi — devam ediyor
 
