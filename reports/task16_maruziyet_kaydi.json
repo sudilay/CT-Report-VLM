@@ -1,0 +1,152 @@
+{
+  "uretim_utc": "2026-09-03T09:11:27.104392+00:00",
+  "amac": "docs/29 §6'daki ornek cumlelerin bolunme kilidinden ONCE gorulmus olmasinin olculmus kaydi (docs/32 bulgu #5).",
+  "kilit_surumu": "holdout-1.0",
+  "gorulen_cumle_yeri": 8,
+  "toplam_eslesen_hasta": 72,
+  "toplam_kilitteki_hasta": 18,
+  "benzersiz_kilitteki_hasta": 17,
+  "yorum": "Gorulen ornek cumlelerin gectigi 17 benzersiz hasta degerlendirme kilidinde. MARUZIYET SIFIR DEGILDIR ve gizlenmiyor. Ancak 1 ornek SABLON cumledir (korpusun %71'i sablondur, AGENTS.md): bu metinler onlarca calismada BIREBIR ayni gecer ve hastaya ozgu hicbir bilgi tasimaz; gorulmeleri o hastalarin verisini gormek degildir. Ozgun (sablon olmayan) orneklerden kilide dusen benzersiz hasta sayisi 3'dir. Her hâlukârda gorulen sey cumlelerin METNIDIR; hicbir etiket, sinif karari veya olcum bunlardan turetilmedi ve bu calismalar sinir/kontrol takimlarina ALINMAYACAKTIR (docs/29 §4.4 baglayici kurali).",
+  "kayitlar": [
+    {
+      "plan_konumu": "§6.1/1",
+      "arama_parcasi": "No active infiltration or mass lesion was observed in both lungs",
+      "eslesen_cumle": 61,
+      "sablon_cumle": 53,
+      "sablon_mu": true,
+      "eslesen_calisma": 58,
+      "eslesen_hasta": 58,
+      "kilitteki_hasta": 14,
+      "kilitteki_hasta_listesi": [
+        "train_10074",
+        "train_11750",
+        "train_16396",
+        "train_16525",
+        "train_16783",
+        "train_4596",
+        "train_6045",
+        "train_7761",
+        "train_9442",
+        "valid_1083",
+        "valid_1097",
+        "valid_119",
+        "valid_13",
+        "valid_703"
+      ],
+      "ornek_calisma": [
+        "train_10074_a",
+        "train_10465_a",
+        "train_10634_a"
+      ]
+    },
+    {
+      "plan_konumu": "§6.1/2",
+      "arama_parcasi": "sequela calcific pulmonary nodule in the posterobasal segment",
+      "eslesen_cumle": 1,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 1,
+      "eslesen_hasta": 1,
+      "kilitteki_hasta": 1,
+      "kilitteki_hasta_listesi": [
+        "train_3"
+      ],
+      "ornek_calisma": [
+        "train_3_a"
+      ]
+    },
+    {
+      "plan_konumu": "§6.1/3",
+      "arama_parcasi": "Destruction area compatible with metastasis was observed in the sternum",
+      "eslesen_cumle": 1,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 1,
+      "eslesen_hasta": 1,
+      "kilitteki_hasta": 0,
+      "kilitteki_hasta_listesi": [],
+      "ornek_calisma": [
+        "train_16_a"
+      ]
+    },
+    {
+      "plan_konumu": "§6.2/1",
+      "arama_parcasi": "Stable, calcific parenchymal metastases in both lungs",
+      "eslesen_cumle": 1,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 1,
+      "eslesen_hasta": 1,
+      "kilitteki_hasta": 0,
+      "kilitteki_hasta_listesi": [],
+      "ornek_calisma": [
+        "train_6_b"
+      ]
+    },
+    {
+      "plan_konumu": "§6.2/2",
+      "arama_parcasi": "no lytic-destructive lesion in favor of metastasis was dete",
+      "eslesen_cumle": 8,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 8,
+      "eslesen_hasta": 8,
+      "kilitteki_hasta": 2,
+      "kilitteki_hasta_listesi": [
+        "valid_538",
+        "valid_624"
+      ],
+      "ornek_calisma": [
+        "train_13099_e",
+        "train_16_a",
+        "train_18073_a"
+      ]
+    },
+    {
+      "plan_konumu": "§6.2/3",
+      "arama_parcasi": "Suspicious findings in terms of Covid-19 viral pneumonia",
+      "eslesen_cumle": 1,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 1,
+      "eslesen_hasta": 1,
+      "kilitteki_hasta": 0,
+      "kilitteki_hasta_listesi": [],
+      "ornek_calisma": [
+        "train_17_a"
+      ]
+    },
+    {
+      "plan_konumu": "§6.2/4",
+      "arama_parcasi": "liver segment 8 is stable",
+      "eslesen_cumle": 1,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 1,
+      "eslesen_hasta": 1,
+      "kilitteki_hasta": 0,
+      "kilitteki_hasta_listesi": [],
+      "ornek_calisma": [
+        "train_6_b"
+      ]
+    },
+    {
+      "plan_konumu": "§6.2/5",
+      "arama_parcasi": "in favor of minimal sequelae",
+      "eslesen_cumle": 1,
+      "sablon_cumle": 0,
+      "sablon_mu": false,
+      "eslesen_calisma": 1,
+      "eslesen_hasta": 1,
+      "kilitteki_hasta": 1,
+      "kilitteki_hasta_listesi": [
+        "train_3"
+      ],
+      "ornek_calisma": [
+        "train_3_a"
+      ]
+    }
+  ],
+  "sablon_olan_ornek": 1,
+  "ozgun_ornekten_kilitteki_hasta": 3
+}

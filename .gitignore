@@ -97,3 +97,6 @@ outputs/task15/YAMA_*.py
 outputs/audit_sources/
 # Sprint/plan yonetimi
 outputs/sprint_update/
+
+# API anahtarlari - ASLA commit edilmez
+.env.local
