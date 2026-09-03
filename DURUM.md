@@ -6,6 +6,8 @@ Bu dosya sade bir takip listesidir. Ayrıntılı gerekçeler `docs/` ve `reports
 altındadır; burada sadece **ne yapıldı, ne bulundu, ne bırakıldı, sırada ne var**
 yazar.
 
+📌 **Şu an çalışılan görevin adım adım durumu → [TASK16_DURUM.md](TASK16_DURUM.md)**
+
 ---
 
 ## Şu an neredeyiz

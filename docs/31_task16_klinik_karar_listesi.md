@@ -16,7 +16,7 @@ varsayılanlar değiştirildi; hangi maddenin neden değiştiği yazılıdır.
 
 ⚠ **Adım 2 bu kaydı küçülttü.** Kılavuzlar okunduktan sonra **dört madde A tipine
 taşındı** (kaynakta yazılı çıktı) ve **biri düşürüldü** (çatışma yokmuş).
-Ayrıntı: [`docs/30`](30_task16_sema_gerekce.md) §5.1–5.4. **Kalan C kaydı: 9 madde** (adım 3'te iki büyüme maddesi daha düştü).
+Ayrıntı: [`docs/30`](30_task16_sema_gerekce.md) §5.1–5.4. **Kalan C kaydı: 10 madde** (adım 3'te iki büyüme maddesi daha düştü).
 
 ---
 
@@ -113,7 +113,7 @@ kalan örnekler tarif edilen vakayı **hiç içermiyordu.**
 
 ## 4 · Kayıt
 
-**9 madde** (adım 2'de 4'ü A'ya taşındı; adım 2-3'te toplam 7'si düşürüldü). Sütunlar: **hacim** = geliştirme havuzundaki benzersiz cümle ·
+**10 madde** (adım 2'de 4'ü A'ya taşındı; adım 2-3'te toplam 7'si düşürüldü). Sütunlar: **hacim** = geliştirme havuzundaki benzersiz cümle ·
 **dayanak** = varsayılanın gerekçesi.
 
 ### C-1 · Çekirdek
