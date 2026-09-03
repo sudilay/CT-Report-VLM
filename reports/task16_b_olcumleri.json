@@ -1,0 +1,159 @@
+{
+  "uretim_utc": "2026-09-03T12:35:57.129861+00:00",
+  "kapsam": "yalniz gelistirme havuzu; degerlendirme kilidi okunmadi",
+  "kilit_surumu": "holdout-1.0",
+  "taranan_cumle": 383644,
+  "taranan_calisma": 20576,
+  "not": "B tipi olcum: yalniz kapsam belirler, klinik agirlik vermez (docs/29 §2.2/B). Sinif prevalansi OLCULMEDI - kurallar henuz yazilmadi.",
+  "olcumler": {
+    "A26 · Lung-RADS benign kalsifikasyon paternleri": {
+      "complete calcification": {
+        "cumle": 3,
+        "calisma": 3,
+        "calisma_orani_yuzde": 0.015
+      },
+      "central calcification": {
+        "cumle": 17,
+        "calisma": 13,
+        "calisma_orani_yuzde": 0.063
+      },
+      "popcorn calcification": {
+        "cumle": 0,
+        "calisma": 0,
+        "calisma_orani_yuzde": 0.0
+      },
+      "concentric/laminated": {
+        "cumle": 16,
+        "calisma": 13,
+        "calisma_orani_yuzde": 0.063
+      },
+      "fat-containing": {
+        "cumle": 1126,
+        "calisma": 867,
+        "calisma_orani_yuzde": 4.214
+      }
+    },
+    "A26 · karsilastirma: genel kalsifikasyon": {
+      "herhangi kalsifikasyon": {
+        "cumle": 13862,
+        "calisma": 7156,
+        "calisma_orani_yuzde": 34.778
+      }
+    },
+    "A34 · Fleischner perifissural / jukstaplevral": {
+      "perifissural": {
+        "cumle": 6,
+        "calisma": 5,
+        "calisma_orani_yuzde": 0.024
+      },
+      "juxtapleural/subpleural": {
+        "cumle": 5198,
+        "calisma": 3715,
+        "calisma_orani_yuzde": 18.055
+      },
+      "intrapulmonary lymph node": {
+        "cumle": 122,
+        "calisma": 69,
+        "calisma_orani_yuzde": 0.335
+      }
+    },
+    "A32 · kilavuzsuz bolge gostergeleri": {
+      "bilinen primer kanser": {
+        "cumle": 306,
+        "calisma": 220,
+        "calisma_orani_yuzde": 1.069
+      },
+      "bagisiklik baskilanmasi": {
+        "cumle": 6,
+        "calisma": 5,
+        "calisma_orani_yuzde": 0.024
+      }
+    },
+    "#4 · suphe derece kelimeleri": {
+      "high suspicion": {
+        "cumle": 392,
+        "calisma": 230,
+        "calisma_orani_yuzde": 1.118
+      },
+      "suspicious (yalin)": {
+        "cumle": 1835,
+        "calisma": 1451,
+        "calisma_orani_yuzde": 7.052
+      },
+      "may / probable / possible": {
+        "cumle": 2867,
+        "calisma": 2230,
+        "calisma_orani_yuzde": 10.838
+      },
+      "cannot be excluded": {
+        "cumle": 427,
+        "calisma": 306,
+        "calisma_orani_yuzde": 1.487
+      },
+      "compatible/consistent with": {
+        "cumle": 10403,
+        "calisma": 6247,
+        "calisma_orani_yuzde": 30.361
+      },
+      "in favor of (CIKARIM, A8)": {
+        "cumle": 6720,
+        "calisma": 4716,
+        "calisma_orani_yuzde": 22.92
+      }
+    },
+    "A22 · olcu konvansiyonu": {
+      "short axis": {
+        "cumle": 1340,
+        "calisma": 1202,
+        "calisma_orani_yuzde": 5.842
+      },
+      "long axis": {
+        "cumle": 125,
+        "calisma": 115,
+        "calisma_orani_yuzde": 0.559
+      }
+    },
+    "A28/A29 · buyume": {
+      "1 genis desen (ARTEFAKTLI)": {
+        "cumle": 34262,
+        "calisma": 16464,
+        "calisma_orani_yuzde": 80.016
+      },
+      "2   artefakt: dansite/kalinlik artisi": {
+        "cumle": 8995,
+        "calisma": 6535,
+        "calisma_orani_yuzde": 31.76
+      },
+      "3 dar desen": {
+        "cumle": 14378,
+        "calisma": 11207,
+        "calisma_orani_yuzde": 54.466
+      },
+      "4   artefakt: 'enlarged lymph node' (STATIK boyut)": {
+        "cumle": 12233,
+        "calisma": 10132,
+        "calisma_orani_yuzde": 49.242
+      },
+      "5 zamansal atif (onceki tetkik)": {
+        "cumle": 7534,
+        "calisma": 3901,
+        "calisma_orani_yuzde": 18.959
+      },
+      "6 GERCEK BUYUME = dar desen VE zamansal atif": {
+        "cumle": 167,
+        "calisma": 132,
+        "calisma_orani_yuzde": 0.642
+      },
+      "7 yeni gelisen": {
+        "cumle": 850,
+        "calisma": 580,
+        "calisma_orani_yuzde": 2.819
+      }
+    },
+    "A32 · yas": {
+      "yas_bilinen_calisma": 20571,
+      "yas_35_alti_calisma": 5046,
+      "medyan": 47.0
+    }
+  }
+}

@@ -202,8 +202,8 @@ atfı yok) **C**'dir.
 | # | kaynak | ne sağlar | erişim |
 |---|---|---|---|
 | 1 | **Alan Sözlüğü ve Veri Rehberi** — *"Akciğer BT Raporlarından BDM ile Yapılandırılmış Veri Çıkarımı (Sybil Modeli Veri Analizi İçin)"*, **Versiyon 12 · 2026-07-07** · BAYKAR · 13 sayfa, 16 bölüm | ~250 alan · 6+1 şüphe ölçeği · §3 Lung-RADS/Fleischner alanları · §12 Türkçe negasyon sözlüğü · §15 patoloji · 10 kılavuza atıf | ✅ depoda |
-| 2 | **ACR Lung-RADS v2022** | Nodül kategorileri, boyut eşikleri | ✅ [serbest PDF](https://www.acr.org/-/media/ACR/Files/RADS/Lung-RADS/Lung-RADS-2022.pdf) |
-| 3 | **Fleischner Society 2017** — MacMahon et al., *Radiology* 284(1) | İnsidental nodül; solid/subsolid/part-solid | ✅ [serbest](https://pubs.rsna.org/doi/10.1148/radiol.2017161659) |
+| 2 | **ACR Lung-RADS v2022** | Nodül kategorileri, boyut eşikleri | ⚠ ücretsiz ama **otomatik indirilemiyor** — [acr.org](https://www.acr.org/Clinical-Resources/Clinical-Tools-and-Reference/Reporting-and-Data-Systems/Lung-RADS) tarayıcıdan |
+| 3 | **Fleischner Society 2017** — MacMahon et al., *Radiology* 284(1):228 | İnsidental nodül; solid/subsolid/part-solid | ⚠ ücretsiz ama **otomatik indirilemiyor** (403) — [doi](https://pubs.rsna.org/doi/10.1148/radiol.2017161659) tarayıcıdan |
 | 4 | **RECIST 1.1** — Eisenhauer et al., *Eur J Cancer* 2009;45:228 | Ölçülebilir lezyon, **kısa aks** kuralı | ✅ [serbest PDF](https://project.eortc.org/recist/wp-content/uploads/sites/4/2015/03/RECISTGuidelines.pdf) |
 | 5 | **RSNA COVID-19 raporlama konsensusu** · **CO-RADS** | COVID BT raporlama dili, 1–5 şüphe sınıflaması | ✅ [RSNA](https://pubs.rsna.org/doi/10.1148/ryct.2020200152) · [CO-RADS](https://pubs.rsna.org/doi/10.1148/radiol.2020201473) — ⭐ **korpusun %21'i COVID** |
 | 6 | **IASLC 9. TNM** · **CAP Lung Cancer Protocol** | Evreleme, patoloji şablonu | ✅ serbest — Faz 7 |
@@ -256,7 +256,8 @@ maddesidir.)*
 | kaynak | hesap | bekleme |
 |---|---|---|
 | CT-RATE · RadLex/BioPortal | ✅ ikisi de alındı | — |
-| Lung-RADS · Fleischner · RECIST · CO-RADS · IASLC · CAP | ❌ gerekmiyor | yok |
+| RECIST · CO-RADS · IASLC · CAP | ❌ gerekmiyor | yok |
+| ⚠ **Lung-RADS · Fleischner** | ücretsiz ama **programla indirilemiyor** (302 / 403) — insan tarayıcısıyla indirilmeli | yok |
 | TCIA (görüntü + NLST açık alt küme) | ❌ kısıtsız | yok |
 | ~~UMLS~~ | 3–5 iş günü | **gerekmiyor** |
 

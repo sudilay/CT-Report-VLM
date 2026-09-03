@@ -51,7 +51,12 @@ sorusunu cevaplayan **karar şeması** yazılıyor (TASK-16).
   383.644 cümle taranarak sayıldı. Her madde için varsayılan karar ve gerekçesi
   yazıldı → `docs/31`
 - ✅ **19 varsayılanın hepsi gerçek cümlelerle sınandı:** 3 madde düşürüldü
-  (gerçek çelişki yokmuş), 4 varsayılan değişti, 6'sı doğrulandı → **16 madde kaldı**
+  (gerçek çelişki yokmuş), 4 varsayılan değişti, 6'sı doğrulandı
+- ✅ **Adım 2 — kılavuzlar okundu, 35 kural aktarıldı.** Alan sözlüğü §12.2 (20),
+  RECIST 1.1 (4), Lung-RADS v2022 (7), Fleischner 2017 (4). **Dört karar
+  "bizim tahminimiz"den "kaynakta yazılı"ya taşındı**, biri düştü
+- ✅ **Adım 3 — kuralların korpustaki karşılığı ölçüldü.** İki kural daha düştü.
+  **Başlangıçtaki 19 madde 9'a indi**
 
 ---
 
@@ -92,6 +97,22 @@ Bunlar planlanmamıştı; ölçerken çıktı ve işi değiştirdi.
   büyümesi sanılıyordu — 34.262 eşleşmenin **9.944'ü** böyle. Bu tek başına
   **üç karar maddesini düşürdü**: dar desenle bakınca *"büyüyen benign lezyon"*
   bu korpusta pratikte **yok** (1.780 sanılan sayı gerçekte 13).
+- 🔍 **Büyüme ekseni bu korpusta YOK.** En büyük sürpriz. `enlarged` kelimesi
+  burada *"büyümüş"* değil **"büyük"** demek — 14.378 eşleşmenin **12.233'ü**
+  *"enlarged lymph node"*, üstelik çoğu olumsuzlanmış. Gerçek büyüme ifadesi
+  383.644 cümlede **167 tane**. Beş karar maddesi bu yüzden düştü ve kılavuzun
+  büyüme kuralları şemaya girmiyor.
+- 🔍 **Korpusun dörtte birinde hiçbir kılavuz geçerli değil.** Fleischner
+  *"35 yaş altına uygulanmaz"* diyor; korpusun **%24,5'i** 35 yaş altı.
+  Lung-RADS ise tarama için. Bu bölgede şema yalnız kendi varsayılanlarıyla
+  çalışacak ve bu raporda yazılı.
+- 🔍 **Kılavuzun benign kalsifikasyon listesi korpusta yok.** *popcorn* 0,
+  *central* 17, *concentric* 16 — toplam ~36 cümle. Ama genel *"kalsifik"*
+  13.862 cümlede. Yani kalsifikasyon ifadelerinin **%99,7'si** kılavuzun benign
+  tanımını karşılamıyor.
+- 🔍 **İki kılavuz aslında çatışmıyor.** *"Hangisi öncelikli"* diye sormuştuk;
+  Fleischner kendi metninde *"tarama için Lung-RADS'a bakın"* diyor. Kapsamlar
+  ayrık, soru yanlış kurulmuştu.
 - 🔍 **Belirsizlik sözlüğüm yanlıştı.** *"in favor of"* (Türkçe *"lehine"*)
   belirsizlik sandım — 9.481 eşleşmenin **6.720'si (%71)** buydu. Oysa proje
   bunu daha önce *"çıkarım ifadesi"* diye kaydetmişti: *"sekel lehine

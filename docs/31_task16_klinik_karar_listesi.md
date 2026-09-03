@@ -14,6 +14,10 @@ savunulabilir olmaz. Şemaya giren her C kararı
 **Her varsayılan gerçek cümlelerle sınanmıştır** (§3). Sınavdan geçemeyen
 varsayılanlar değiştirildi; hangi maddenin neden değiştiği yazılıdır.
 
+⚠ **Adım 2 bu kaydı küçülttü.** Kılavuzlar okunduktan sonra **dört madde A tipine
+taşındı** (kaynakta yazılı çıktı) ve **biri düşürüldü** (çatışma yokmuş).
+Ayrıntı: [`docs/30`](30_task16_sema_gerekce.md) §5.1–5.4. **Kalan C kaydı: 9 madde** (adım 3'te iki büyüme maddesi daha düştü).
+
 ---
 
 ## 1 · Sayı nasıl belirlendi
@@ -37,7 +41,7 @@ sınıfları birlikte geçiyorsa, o cümle bir karar noktası üretir.
 **19 madde**.
 
 ⚠ **Örnek sınavından sonra bu sayı düştü:** üç madde gerçek çelişki içermediği
-için **düşürüldü** (§3.2). **Kalan: 16 madde.**
+için **düşürüldü** (§3.2) → 16. Adım 2'de 4 madde A'ya taşındı, 1'i daha düşürüldü → **kalan 11 madde.**
 
 ---
 
@@ -82,7 +86,7 @@ kalan örnekler tarif edilen vakayı **hiç içermiyordu.**
 
 | # | iddia edilen | geniş desen | dar desen | örneklerin gerçeği | karar |
 |---|---|---:|---:|---|---|
-| ~~3~~ | benign bulgu büyüyor | 1.780 | **13** | *"**enlargement of pulmonary venous structures** … calcific sequelae changes"* — büyüyen şey **damar**, sekel lezyon değil. *"**new infectious** process accompanied by sequelae"* — yeni olan **enfeksiyon** | **DÜŞÜRÜLDÜ** |
+| ~~3~~ | benign bulgu büyüyor *(gerekçesi de geri çekildi, docs/30 §4.1)* | 1.780 | **13** | *"**enlargement of pulmonary venous structures** … calcific sequelae changes"* — büyüyen şey **damar**, sekel lezyon değil. *"**new infectious** process accompanied by sequelae"* — yeni olan **enfeksiyon** | **DÜŞÜRÜLDÜ** |
 | ~~14~~ | kalsifiye lezyon büyüyor | 327 | **23** | *"**No enlarged** lymph nodes … 1-2 **calcific** lymph nodes"* — büyüme **olumsuzlanmış**. *"**spleen enlargement** and coarse calcifications"* — büyüyen **organ** | **DÜŞÜRÜLDÜ** |
 | ~~18~~ | aynı cümlede stabilite + büyüme | 210 | **25** | *"**Newly developed** pneumothorax … **stable** consolidation areas … **newly appeared** progressive nodular consolidation"* — **farklı bulgular, farklı durumlar.** Tek lezyon hakkında çelişki yok | **DÜŞÜRÜLDÜ** — bulgu düzeyi katman zaten çözüyor |
 
@@ -109,7 +113,7 @@ kalan örnekler tarif edilen vakayı **hiç içermiyordu.**
 
 ## 4 · Kayıt
 
-**16 madde.** Sütunlar: **hacim** = geliştirme havuzundaki benzersiz cümle ·
+**9 madde** (adım 2'de 4'ü A'ya taşındı; adım 2-3'te toplam 7'si düşürüldü). Sütunlar: **hacim** = geliştirme havuzundaki benzersiz cümle ·
 **dayanak** = varsayılanın gerekçesi.
 
 ### C-1 · Çekirdek
@@ -117,13 +121,10 @@ kalan örnekler tarif edilen vakayı **hiç içermiyordu.**
 | # | karar | hacim | varsayılan | dayanak |
 |---|---|---:|---|---|
 | **1** | Olumsuzlanmış malignite ifadesi | 7.405 | Negasyon **kapsamı içindeyse** → `None`; dışındaysa olumsuzlanmamış sayılır | Cümlede olumsuzluk bulunması yetmez, **neyi kapsadığı** belirleyicidir (§3.3). Kapsamı `ctx-1.1` varlık düzeyinde çözer |
-| **2** | Enfeksiyona yönelik belirsizlik malignite belirsizliği sayılır mı | 2.447 | **HAYIR** — malignite eksenine girmez | Korpusun %21'i COVID (docs/29 §3.4). Akut enfeksiyon filtresi en üst öncelikte |
 | **4** | Belirsizlikle nitelenmiş malignite | 477 | **Derece kelimesine göre:** *high suspicion*→`high` · *may/probable*→`intermediate` · *cannot be excluded*→`indeterminate` | Tek düzey atamak popülasyonu bozar (§3.4) |
 | **5** | Stabil malignite bulgusu | 213 | **`known_malignancy`** — stabilite tanıyı değiştirmez | *"Stable, calcific parenchymal metastases"* — kanıtlanmış metastaz. Stabilite yönetimi etkiler, tanıyı değil |
 | **6** | Malignite + benign aynı cümlede | 40 | **`indeterminate`** — kazanan aranmaz | İlan edilmiş belirsizlik / ayırıcı tanı (§3.3) |
-| **7** | Kalsifikasyon tek başına benign göstergesi midir | 23 | **HAYIR** | *"spiculated contoured calcific nodule … retraction in the pleura"* — kalsifikasyon burada benignlik göstermiyor. `popcorn` paterni bu korpusta 0 |
 | **8** | 6+1 ölçeğinin 4 sınıfa eşlemesi | yapısal | `None`→negatif · `low`,`indeterminate`,`intermediate`→belirsiz · `high`,`known_malignancy`→pozitif · benign niteleyici baskınsa→benign | Kayıplı indirgeme (docs/29 §5.1); yanlış pozitif/negatif oranını doğrudan belirler |
-| **9** | Bulgu → rapor toplama kuralı | yapısal | **En yüksek şüphe kazanır**, girdi kalite filtresinden geçenler arasında | Düşük güvenli çıkarımlar rapor sınıfını yükseltemez — K7 `prior` F1 %36,4 (docs/29 §7) |
 | **10** | `indeterminate` ↔ `intermediate` farkı | yapısal | `indeterminate` = karar verilemiyor (epistemik) · `intermediate` = orta düzey şüphe (derece) | Belge ikisini aynı ölçeğe koyar, farkı tanımlamaz. Ayrım yapılmazsa ölçek sıralı olmaktan çıkar |
 
 ### C-2 · Ağırlıklı
@@ -133,19 +134,34 @@ kalan örnekler tarif edilen vakayı **hiç içermiyordu.**
 | 11 | Olumsuzlanmış belirsizlik | 2.037 | Belge §12.2 Kritik kural 1: *"dışlanamaz"* → `uncertain` | büyük ölçüde **A** |
 | 12 | Benign + belirsizlik | 758 | **benign (`None`)** | Popülasyon `in favor of` artefaktı; *"evaluated as a priority in favor of"* kararlı benign hükmüdür (§3.3) |
 | 13 | Ekstratorasik malignite bulgusu kapsama girer mi | 472 | **EVET** | Karaciğer ve sürrenal en sık uzak metastaz bölgeleri; örnekler gerçek karaciğer metastazı (§3.1) |
-| 15 | Büyüme şüpheyi ne kadar yükseltir | 90 | **Bir kademe, tavan `intermediate`** | Büyüme şüphe artırır, kanıt üretmez. `high`'a çıkaran #4'ün derece kelimesidir |
 | 16 | Malignite + enfeksiyon | 106 | **`indeterminate`** | *"may be due to other viral infections **as well as** lymphangitis carcinomatosa"* — ayırıcı tanı (§3.3) |
-| 17 | Belirsizlik + büyüme | 140 | Bir kademe yukarı, tavan `intermediate` | #15 ile aynı; hacim §2/3'e göre şişkin |
 
-### C-3 · Sınır
+### A tipine taşınanlar — artık C değil
 
-| # | karar | varsayılan | dayanak |
+| # | karar | kaynak | not |
 |---|---|---|---|
-| 19 | Kılavuzlar çatışırsa öncelik | **Fleischner > Lung-RADS** | Gerekçe kılavuzun ağırlığı değil, **hasta grubunun eşleşmesi**: Lung-RADS *tarama* içindir (belirtisiz sigara içicileri, yıllık kontrol); Fleischner *insidental* nodül içindir. CT-RATE genel toraks BT'sidir — yaş medyanı 46, %21 COVID |
+| ~~2~~ | Enfeksiyon ayrı eksende mi | **A27** — Lung-RADS enfeksiyöz/inflamatuvar bulguyu **Kategori 0**'a, şüphe ölçeğinin dışına koyuyor | varsayılan doğrulandı |
+| ~~7~~ | Kalsifikasyon tek başına benign mi | **A26** — benign kalsifikasyon listesi **dar**: *complete, central, popcorn, concentric ring* · **A34** — benign görünen özellik tek başına benignlik göstermez | ⭐ korpus ölçümüyle güçlendi: bu listedeki paternler korpusta **pratikte yok** (`popcorn` 0), `calcific*` ise 17.193 |
+| ~~9~~ | Bulgu → rapor toplama kuralı | **A25** (*"the nodule with the highest degree of suspicion"*) · **A33** (*"Use most suspicious nodule as guide"*) | iki kılavuz da aynı kuralı yazıyor |
+| ~~15~~ | Büyüme şüpheyi yükseltir mi | **A28** — *"yavaş büyüyen nodül **is suspicious**"* | yükseltme A oldu; **tavan `intermediate` C olarak kalıyor** (kılavuz tavan yazmıyor) |
 
 ### Düşürülenler
-~~3~~ · ~~14~~ · ~~18~~ — §3.2. Kayıtta bırakıldı; ileride `buyume` deseni
-daraltılınca yeniden değerlendirilebilir.
+
+| # | sebep |
+|---|---|
+| ~~3~~ ~~14~~ ~~18~~ ~~15~~ ~~17~~ | ⭐ **Hepsi büyüme temelliydi ve BÜYÜME EKSENİ BU KORPUSTA YOK.** Adım 3'te ölçüldü: 383.644 cümlede **167 gerçek büyüme ifadesi** (%0,64 çalışma). `enlarged` bu korpusta *"büyümüş"* değil *"büyük"* demek — dar desenin 14.378 eşleşmesinin **12.233'ü** *"enlarged lymph node"*, statik boyut. A28/A29 şemaya girmiyor (docs/30 §6.4). Bu, K7 (`prior` F1 %36,4) ile tutarlı: korpus tek zamanlı |
+| ~~19~~ | ⭐ **Soru yanlış kurulmuştu — kılavuzlar çatışmıyor.** **A32**: Fleischner kendi kapsamını yazılı olarak sınırlıyor (*"do not apply to lung cancer screening, patients with immunosuppression, or patients with known primary cancer"*) ve tarama için **açıkça Lung-RADS'a yönlendiriyor**. Yerine bir **kapsam kuralı** geçti (aşağı) |
+
+### ⚠ Kılavuzsuz bölge — A32'den doğan yeni kayıt
+
+| durum | geçerli kılavuz |
+|---|---|
+| insidental nodül · 35+ yaş · bağışıklık normal · bilinen kanser yok | **Fleischner** |
+| akciğer kanseri taraması | **Lung-RADS** |
+| **bilinen primer kanser** · bağışıklık baskılı · < 35 yaş | ⚠ **hiçbiri** |
+
+Üçüncü satır bu korpusta **gerçektir** — karaciğer metastazlı vakalar görüldü
+(#13). Şema bu bölgede yalnız C varsayılanlarıyla çalışır ve bu **ilan edilir.**
 
 ---
 
