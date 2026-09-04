@@ -261,6 +261,40 @@ mevcut 10 madde sayıca sabit kaldı — sadece hedefleri düzeltildi).
 
 ---
 
+## 5-C · Adım 6'da eklenen — C#8-ek: rapor düzeyinde `not_mentioned` çözümü
+
+**Adım 6'da (şema kodu yazılırken) bulundu.** C#8 6+1 → 4 sınıf eşlemesini
+tanımlıyordu ama **`not_mentioned`'ın 4 sınıfa nasıl gideceğini tanımlamıyordu.**
+Bu, kaynak kayıtta bir boşluktu; kod yazılırken fark edildi ve burada kapatılıyor.
+
+**Soru:** Bir raporda malignite eksenindeki hiçbir varlık yoksa (veya hepsi
+düşük güvenliyse), 4 sınıfa nasıl gider?
+
+**Karar:**
+
+| durum | 6+1 ölçek | 4 sınıf |
+|---|---|---|
+| Malignite ekseni tamamen sessiz, **ama** benign niteleyici (`sequela`, `granuloma`) var | `not_mentioned` | **`benign_bulgu`** |
+| Malignite ekseni tamamen sessiz, benign niteleyici de yok | `not_mentioned` | `belirsiz_yetersiz_kanit` |
+
+**Gerekçe:** A10'un felsefesi zaten *"sessizlik ≠ negasyon"* — bulgu hiç
+geçmiyorsa `absent` değil `not_mentioned` denir. Bu ilkeyi rapor düzeyine
+taşıyoruz: **tamamen sessiz** bir rapor için *"malignite negatif"* demek,
+söylenmemiş bir şeyi iddia etmek olur. Ama raporda **benign bir bulgu
+tarif edilmişse** (örnek: R3 — *"sequela değişiklikler, hemanjiyom"*),
+elimizde gerçek bir kanıt var; bu durumda `belirsiz_yetersiz_kanit` demek
+elimizdeki bilgiyi görmezden gelmek olur.
+
+⚠ **Bilinen risk:** korpusun büyük kısmı normal/rutin BT'dir ve malignite
+dilinden tamamen sessizdir (malignite-ilgili terim yalnız cümlelerin
+%2,57'sinde geçiyor). Bu kural, o raporların **çoğunu** `belirsiz_yetersiz_kanit`
+kovasına düşürecektir — klinik sezgiyle *"normal BT = negatif"* denir, ama
+sistemin kendi kuralı (A10) bunu **iddia etmemeyi** seçiyor. Bu bir bilgi
+kaybı değil, **iddia etmeme** kararıdır ve bilerek alınmıştır. Adım 6'nın
+sınav raporunda bu oranın büyüklüğü ölçülüp yazılacaktır.
+
+---
+
 ## 6 · Sonraki bağ
 
 Kayıttaki her madde, adım 4'te üretilecek **sınır vakası takımında** en az bir
@@ -270,3 +304,29 @@ gerçek cümleyle temsil edilecektir. Takım kurallar yazılmadan önce kilitlen
 **v1.1 güncellemesi (2026-09-03):** takım ikinci bağımsız denetimden geçirildi,
 6 hedef düzeltildi, kontrol takımı 23 vakaya çıkarıldı, 5 çok cümleli rapor
 vakası eklendi. Ayrıntı: `docs/33_task16_denetim2_ve_duzeltme_plani.md`.
+
+---
+
+## §5-C'nin kapanışı — tahmin yanlış çıktı (2026-09-04)
+
+§5-C *"bu kural raporların **çoğunu** `belirsiz_yetersiz_kanit` kovasına
+düşürecektir"* diye yazmış ve ölçümü adım 6'ya bırakmıştı. Ölçüldü
+(`scripts/49`, geliştirme havuzunun tamamı, 20.576 çalışma):
+
+| 4 sınıf | çalışma | % |
+|---|---:|---:|
+| `malignite_negatif` | 17.832 | **%86,66** |
+| `belirsiz_yetersiz_kanit` | 1.789 | %8,70 |
+| `benign_bulgu` | 182 | %0,89 |
+| `malignite_pozitif` | 10 | %0,05 |
+
+**Tahmin tersine çıktı.** Sebep: korpusun şablon cümleleri malignite hakkında
+**sessiz değil, açıkça olumsuz** (*"No mass or nodule was detected"*). Bu
+cümleler `absent` malignite varlığı üretiyor → A1+C#1 → `None` →
+`malignite_negatif`. Yani A10'un *"iddia etmeme"* kararı beklendiği kadar
+geniş bir alana uygulanmıyor; korpus çoğu raporda **gerçekten** negatif hüküm
+veriyor.
+
+⚠ Yeni soru (TASK-17/18'e): `None` (aktif negatif hüküm) ile `not_mentioned`
+(ifade yok) ayrımı %86,66 ölçeğinde ne kadar anlamlı? Bu ayrımın kendisi
+sınanmadı.

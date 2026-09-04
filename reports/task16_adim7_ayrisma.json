@@ -1,0 +1,338 @@
+{
+  "uretim_utc": "2026-09-04T07:42:49+00:00",
+  "ne_olcer": "Kilitli HEDEFLERIN savunulabilirligi (D75'in acigi)",
+  "ne_olcmez": "Semanin korpus genelindeki dogrulugu. 30 vaka celisen gosterge taramasindan ZENGINLESTIRILEREK secildi, rastgele ornek DEGILDIR.",
+  "ozet": {
+    "codex_hedefle_uyum": 24,
+    "gemini_hedefle_uyum": 26,
+    "codex_gemini_uyum": 27,
+    "ucu_de_ayni": 24,
+    "toplam": 30
+  },
+  "hedef_supheli": [
+    {
+      "vaka_id": "C5-stabil-malignite-02",
+      "hedef": "high",
+      "codex": "intermediate",
+      "codex_gerekce": "'Evaluated in favor of metastasis in the first plan' metastaz yönünde radyolojik eğilim bildiriyor; stabilite bu eğilimi olumsuzlamıyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'...evaluated in favor of metastasis in the first plan, stable' ifadesi önceki tetkikle takipli stabil metastazı gösterir (primer adı yazılmadığı için intermediate ile known_malignancy arasında değerlendirilebilir).",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "A26-kalsifikasyon-01",
+      "hedef": "intermediate",
+      "codex": "low",
+      "codex_gerekce": "Spiküle kontur malignite için dolaylı şüpheli bir özelliktir; belirtilen kalsifikasyon paterni ve açık şüphe ifadesinin yokluğu daha yüksek düzeyi desteklemiyor.",
+      "gemini": "low",
+      "gemini_gerekce": "'...with spiculated contours containing calcifications' spikülasyon nedeniyle dolaylı malignite şüphesi taşır ve kalsifikasyon A26 gereği benign sayılmaz (low ile intermediate veya indeterminate arasında düşünülebilir).",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "A26-kalsifikasyon-02",
+      "hedef": "intermediate",
+      "codex": "low",
+      "codex_gerekce": "Spiküle kontur zayıf dolaylı malignite şüphesi yaratıyor; stabilite ve amorf kalsifikasyon bunu kesin benign hükme dönüştürmüyor.",
+      "gemini": "low",
+      "gemini_gerekce": "'...spicular contour observed ... was stable with a size of 11 mm' ifadesinde spiküler kontur şüphe taşırken lezyonun stabil olması şüpheyi zayıflatarak low düzeyine indirmiştir (low ile None arasında düşünülebilir).",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "A26-kalsifiegranulom-01",
+      "hedef": "not_mentioned",
+      "codex": "None",
+      "codex_gerekce": "'Calcific granuloma' radyoloğun kesin benign tanımlamasıdır.",
+      "gemini": "None",
+      "gemini_gerekce": "'Calcific granuloma with a diameter of 3 mm' ifadesi lezyon için kesin ve doğrudan benign bir tanıdır (None; malignite kelimesi anılmadığı için not_mentioned ile None arasında değerlendirilebilir).",
+      "motor": "not_mentioned"
+    }
+  ],
+  "tek_yargic_ayriliyor": [
+    {
+      "vaka_id": "C4-derece-yuksek-01",
+      "hedef": "high",
+      "codex": "known_malignancy",
+      "gemini": "high",
+      "motor": "high"
+    },
+    {
+      "vaka_id": "C12-benign-belirsiz-01",
+      "hedef": "None",
+      "codex": "low",
+      "gemini": "None",
+      "motor": "None"
+    }
+  ],
+  "tam_tablo": [
+    {
+      "vaka_id": "C1-negasyon-kapsami-01",
+      "hedef": "None",
+      "codex": "None",
+      "codex_gerekce": "'No metastases ... were observed' ifadesi metastazı doğrudan olumsuzluyor.",
+      "gemini": "None",
+      "gemini_gerekce": "'No metastases ... were observed' ifadesi kemik yapılarında metastazı açıkça olumsuzlamıştır (aktif negatif hüküm).",
+      "motor": "None"
+    },
+    {
+      "vaka_id": "C1-negasyon-kapsami-02",
+      "hedef": "intermediate",
+      "codex": "intermediate",
+      "codex_gerekce": "'Appearances might belong to metastasis' metastaz yönünde eğilim bildiriyor; teknik kısıt kesinliği düşürüyor.",
+      "gemini": "intermediate",
+      "gemini_gerekce": "'...might belong to metastasis' ifadesi metastaz yönünde eğilimli bir şüphe belirtmektedir (teknik kısıtlılık nedeniyle indeterminate ile intermediate arasında değerlendirilebilir).",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "C1-negasyon-kapsami-03",
+      "hedef": "None",
+      "codex": "None",
+      "codex_gerekce": "'No significant tumoral wall thickening was detected' tümöral duvar kalınlaşmasını doğrudan olumsuzluyor.",
+      "gemini": "None",
+      "gemini_gerekce": "'...no significant tumoral wall thickening was detected' ifadesi tümöral tutulumu aktif olarak olumsuzlamıştır.",
+      "motor": "None"
+    },
+    {
+      "vaka_id": "C4-derece-yuksek-01",
+      "hedef": "high",
+      "codex": "known_malignancy",
+      "codex_gerekce": "'Metastatic masses in the liver' yazılı metastaz varlığını bildiriyor; akciğerdeki yüksek şüpheden daha üst düzey belirleyici bu.",
+      "gemini": "high",
+      "gemini_gerekce": "'highly suspicious ... in favor of metastasis' ve 'metastatic masses' yüksek şüphe gösterir; yazılı bilinen primer öyküsü belirtilmediği için high atanmıştır (high ile known_malignancy arasında).",
+      "motor": "high"
+    },
+    {
+      "vaka_id": "C4-derece-yuksek-02",
+      "hedef": "high",
+      "codex": "high",
+      "codex_gerekce": "'Highly suspicious ... in favor of malignancy' yüksek şüpheyi açıkça bildiriyor fakat belgelenmiş kanser sunmuyor.",
+      "gemini": "high",
+      "gemini_gerekce": "'A highly suspicious mass lesion in favor of malignancy' ifadesi histopatolojik doğrulama önerisiyle birlikte yüksek dereceli şüphe bildirmektedir.",
+      "motor": "high"
+    },
+    {
+      "vaka_id": "C4-derece-orta-01",
+      "hedef": "intermediate",
+      "codex": "intermediate",
+      "codex_gerekce": "'May be compatible with capsular metastasis' metastaz yönünde belirgin fakat kesin olmayan bir eğilim kuruyor.",
+      "gemini": "intermediate",
+      "gemini_gerekce": "'...which may be compatible with capsular metastasis' ifadesi kapsüler metastaz lehine yönlü ve orta düzeyli bir şüphe belirtmektedir.",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "C4-derece-orta-02",
+      "hedef": "indeterminate",
+      "codex": "indeterminate",
+      "codex_gerekce": "'Fungal infection or metastasis' ayırıcı tanısında iki seçenek arasında kazanan belirtilmiyor.",
+      "gemini": "indeterminate",
+      "gemini_gerekce": "'...appearance may be of fungal infection or metastasis' ifadesi ayırıcı tanıda kazananı olmayan eşdeğer bir belirsizlik bildirmiştir.",
+      "motor": "indeterminate"
+    },
+    {
+      "vaka_id": "C4-derece-dislanamaz-01",
+      "hedef": "indeterminate",
+      "codex": "indeterminate",
+      "codex_gerekce": "'Metastasis cannot be excluded' şüphenin giderilemediğini fakat bir yön üstünlüğü kurulmadığını söylüyor.",
+      "gemini": "indeterminate",
+      "gemini_gerekce": "'However, metastasis cannot be excluded' ifadesi şüphenin ortadan kaldırılamadığını belirten açık bir dışlanamazlık bildirimidir.",
+      "motor": "indeterminate"
+    },
+    {
+      "vaka_id": "C4-derece-dislanamaz-02",
+      "hedef": "indeterminate",
+      "codex": "indeterminate",
+      "codex_gerekce": "'Malignancy cannot be excluded' maligniteyi dışlayamıyor fakat yönlü bir tercih bildirmiyor.",
+      "gemini": "indeterminate",
+      "gemini_gerekce": "'At this level, malignancy cannot be excluded' ifadesi malignitenin ekarte edilemediği belirsiz durumu yansıtmaktadır.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C5-stabil-malignite-01",
+      "hedef": "known_malignancy",
+      "codex": "known_malignancy",
+      "codex_gerekce": "'Regressed primary malignancy' yazılı bir primer maligniteyi bildiriyor; regresyon ve stabilite varlığı ortadan kaldırmıyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'...regressed primary malignancy' ifadesi yazılı bilinen/belgelenmiş primer kanser tanımını karşılamaktadır ve stabilite bu tanıyı değiştirmez.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C5-stabil-malignite-02",
+      "hedef": "high",
+      "codex": "intermediate",
+      "codex_gerekce": "'Evaluated in favor of metastasis in the first plan' metastaz yönünde radyolojik eğilim bildiriyor; stabilite bu eğilimi olumsuzlamıyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'...evaluated in favor of metastasis in the first plan, stable' ifadesi önceki tetkikle takipli stabil metastazı gösterir (primer adı yazılmadığı için intermediate ile known_malignancy arasında değerlendirilebilir).",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C5-stabil-malignite-03",
+      "hedef": "known_malignancy",
+      "codex": "known_malignancy",
+      "codex_gerekce": "'Metastatic masses' varlığı yazılıdır; 'no significant change' yalnız boyut değişimini olumsuzluyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'...metastatic masses observed in T1 and L1 vertebrae' ifadesi omurgada belgelenmiş metastazı bildirir, 'no significant change' ise metastazı değil boyut değişimini olumsuzlamıştır.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C6-malignite-benign-01",
+      "hedef": "intermediate",
+      "codex": "intermediate",
+      "codex_gerekce": "'May be compatible with metastasis' metastaz yönünde açık fakat kesin olmayan bir değerlendirmedir; sekel komşuluğu bunu silmiyor.",
+      "gemini": "intermediate",
+      "gemini_gerekce": "'...which may be compatible with metastasis' ifadesi nodüller için yönlü şüphe belirtmektedir (sekel alanları arasında tanımlanması nedeniyle indeterminate ile intermediate arasında düşünülebilir).",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "C6-malignite-benign-02",
+      "hedef": "None",
+      "codex": "None",
+      "codex_gerekce": "'Evaluated in favor of sequela fibrotic nodular formation' radyoloğun kesin benign hükmüdür; spiküle konturu bu hükmün üstüne çıkarmadım.",
+      "gemini": "None",
+      "gemini_gerekce": "'...evaluated in favor of sequela fibrotic nodular formation' ifadesi radyoloğun kesin benign hükmüdür; spiküle kontura rağmen hüküm önceliklidir (spikülasyon nedeniyle low ile None arasında düşünülebilir).",
+      "motor": "None"
+    },
+    {
+      "vaka_id": "C6-malignite-benign-03",
+      "hedef": "indeterminate",
+      "codex": "indeterminate",
+      "codex_gerekce": "'Underlying malignancy cannot be excluded' sekel bulgularına rağmen malignite şüphesinin giderilemediğini söylüyor.",
+      "gemini": "indeterminate",
+      "gemini_gerekce": "'...underlying malignancy cannot be excluded' ifadesi sekel değişiklikleri zemininde malignite şüphesinin ekarte edilemediğini açıkça bildirmektedir.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C11-olumsuz-belirsiz-01",
+      "hedef": "None",
+      "codex": "None",
+      "codex_gerekce": "'No suspicious nodular or mass-occupying lesion ... was detected' şüpheli malign lezyonu aktif olarak olumsuzluyor.",
+      "gemini": "None",
+      "gemini_gerekce": "'No suspicious nodular or mass-occupying lesion ... was detected' ifadesi şüpheli lezyon varlığını aktif olarak olumsuzlamıştır.",
+      "motor": "None"
+    },
+    {
+      "vaka_id": "C11-olumsuz-belirsiz-02",
+      "hedef": "indeterminate",
+      "codex": "indeterminate",
+      "codex_gerekce": "'Not possible to comment on the size and number of lesions' var olan karaciğer lezyonlarının teknik nedenle yeterince değerlendirilemediğini bildiriyor.",
+      "gemini": "indeterminate",
+      "gemini_gerekce": "'...it is not possible to comment on the size and number of lesions in the liver' ifadesi mevcut lezyonların teknik kısıtlılık nedeniyle karakterize edilemediğini bildirir.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C12-benign-belirsiz-01",
+      "hedef": "None",
+      "codex": "low",
+      "codex_gerekce": "'Possibly benign' ve seçilebilen hiler yağ benign yöne işaret ediyor fakat kesin benign hüküm kurmadığı için zayıf artık şüphe bırakıyor.",
+      "gemini": "None",
+      "gemini_gerekce": "'...hilar fat contents selected, possibly benign' ifadesi yağlı hilus içeren lenf nodu için radyoloğun benign hükmünü yansıtır ('possibly' nedeniyle low ile None arasında düşünülebilir).",
+      "motor": "None"
+    },
+    {
+      "vaka_id": "C12-benign-belirsiz-03",
+      "hedef": "low",
+      "codex": "low",
+      "codex_gerekce": "'Possible sequelae' nodül için benign bir açıklamayı öne çıkarıyor fakat olasılık dili kesin benign hüküm kurmuyor.",
+      "gemini": "low",
+      "gemini_gerekce": "'...nodule developed on the subpleural possible sequelae' ifadesinde yeni gelişen nodül tam olarak benign ilan edilmemiştir ve dolaylı zayıf şüphe taşır (low ile indeterminate arasında düşünülebilir).",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C13-ekstratorasik-01",
+      "hedef": "known_malignancy",
+      "codex": "known_malignancy",
+      "codex_gerekce": "'Newly emerged metastases in the liver and spleen' yazılı metastaz ve progresyon bildiriyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'...the disease is progressive due to newly emerged metastases in the liver and spleen' ifadesi bilinen onkolojik hastalığın progresyonunu ve yeni metastazlarını bildirmektedir.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "C13-ekstratorasik-02",
+      "hedef": "intermediate",
+      "codex": "intermediate",
+      "codex_gerekce": "Parantez içindeki 'metastasis?' yeni karaciğer lezyonları için yönlü fakat kesin olmayan metastaz şüphesi kuruyor.",
+      "gemini": "intermediate",
+      "gemini_gerekce": "'...(metastasis?)' ifadesi yeni saptanan lezyon için yönlü ve orta düzeyli metastaz hipotezini yansıtmaktadır.",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "C13-ekstratorasik-03",
+      "hedef": "known_malignancy",
+      "codex": "known_malignancy",
+      "codex_gerekce": "'Bladder ca in the follow-up' ile birlikte 'liver metastases' yazılı bilinen maligniteyi açıkça bildiriyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'Bladder ca in the follow-up' ifadesi raporda yazılı bilinen primer malignite takibini açıkça belirtmektedir.",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "C16-malignite-enf-01",
+      "hedef": "known_malignancy",
+      "codex": "known_malignancy",
+      "codex_gerekce": "'Patient's known primary and lung metastasis' bilinen primer ve metastatik hastalığı açıkça belgeliyor; enfeksiyon ayırıcı tanısı bunu silmiyor.",
+      "gemini": "known_malignancy",
+      "gemini_gerekce": "'...due to the patient's known primary and lung metastasis' ifadesi hastada yazılı bilinen primer ve akciğer metastazı öyküsünü açıkça belgelemektedir.",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "C16-malignite-enf-02",
+      "hedef": "indeterminate",
+      "codex": "indeterminate",
+      "codex_gerekce": "'May belong to infection' ile 'metastasis could not be excluded' arasında kazanan bulunmadığından malignite şüphesi yönsüz kalıyor.",
+      "gemini": "indeterminate",
+      "gemini_gerekce": "'...may belong to infection, metastasis could not be excluded' ifadesi enfeksiyon ve metastaz ayırıcı tanısında metastazın dışlanamadığı belirsizliği yansıtır.",
+      "motor": "indeterminate"
+    },
+    {
+      "vaka_id": "C16-malignite-enf-03",
+      "hedef": "not_mentioned",
+      "codex": "not_mentioned",
+      "codex_gerekce": "'Control for neoplasia is recommended' yalnız bir öneridir; yaygın enfeksiyon tarifine tek başına malignite şüphe düzeyi eklemez.",
+      "gemini": "not_mentioned",
+      "gemini_gerekce": "'...control for neoplasia is recommended' bir aksiyon önerisidir ve şüphe statüsü üretmez, enfeksiyon ise ölçek dışıdır; bu nedenle not_mentioned atanmıştır (not_mentioned ile low arasında düşünülebilir).",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "A8-cikarim-ifadesi-01",
+      "hedef": "not_mentioned",
+      "codex": "not_mentioned",
+      "codex_gerekce": "Cümle yalnız COPD ile uyumlu bulguları bildiriyor ve malignite ekseninde hüküm kurmuyor.",
+      "gemini": "not_mentioned",
+      "gemini_gerekce": "'...compatible with COPD with increased parenchymal aeration' cümlesinde malignite ekseninde hiçbir ifade bulunmamaktadır.",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "A8-cikarim-ifadesi-02",
+      "hedef": "not_mentioned",
+      "codex": "not_mentioned",
+      "codex_gerekce": "Sekel değişikliği ile enfeksiyon arasında değerlendirme var fakat maligniteye ilişkin bir ifade yok.",
+      "gemini": "not_mentioned",
+      "gemini_gerekce": "'Sequelae changes ... or a bud branch appearance compatible with the focal infective area' ifadesinde malignite ekseninde hiçbir anma yoktur (sekel nedeniyle None ile not_mentioned arasında değerlendirilebilir).",
+      "motor": "not_mentioned"
+    },
+    {
+      "vaka_id": "A26-kalsifikasyon-01",
+      "hedef": "intermediate",
+      "codex": "low",
+      "codex_gerekce": "Spiküle kontur malignite için dolaylı şüpheli bir özelliktir; belirtilen kalsifikasyon paterni ve açık şüphe ifadesinin yokluğu daha yüksek düzeyi desteklemiyor.",
+      "gemini": "low",
+      "gemini_gerekce": "'...with spiculated contours containing calcifications' spikülasyon nedeniyle dolaylı malignite şüphesi taşır ve kalsifikasyon A26 gereği benign sayılmaz (low ile intermediate veya indeterminate arasında düşünülebilir).",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "A26-kalsifikasyon-02",
+      "hedef": "intermediate",
+      "codex": "low",
+      "codex_gerekce": "Spiküle kontur zayıf dolaylı malignite şüphesi yaratıyor; stabilite ve amorf kalsifikasyon bunu kesin benign hükme dönüştürmüyor.",
+      "gemini": "low",
+      "gemini_gerekce": "'...spicular contour observed ... was stable with a size of 11 mm' ifadesinde spiküler kontur şüphe taşırken lezyonun stabil olması şüpheyi zayıflatarak low düzeyine indirmiştir (low ile None arasında düşünülebilir).",
+      "motor": "intermediate"
+    },
+    {
+      "vaka_id": "A26-kalsifiegranulom-01",
+      "hedef": "not_mentioned",
+      "codex": "None",
+      "codex_gerekce": "'Calcific granuloma' radyoloğun kesin benign tanımlamasıdır.",
+      "gemini": "None",
+      "gemini_gerekce": "'Calcific granuloma with a diameter of 3 mm' ifadesi lezyon için kesin ve doğrudan benign bir tanıdır (None; malignite kelimesi anılmadığı için not_mentioned ile None arasında değerlendirilebilir).",
+      "motor": "not_mentioned"
+    }
+  ]
+}

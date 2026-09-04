@@ -97,6 +97,14 @@ outputs/task15/YAMA_*.py
 outputs/audit_sources/
 # Sprint/plan yonetimi
 outputs/sprint_update/
+# Oturumlar arasi devir notu - surec artefakti, docs/23 ve docs/26 ile ayni sinif
+outputs/task16/DEVIR_PROMPT.md
+# AI'ya AI yonerge yazma metinleri - sonuc/veri degil, is emri metni
+outputs/task16/GEMINI_DENETIM_ISTEGI.md
+outputs/task16/adim7_codex/CODEX_ISTEM.md
 
 # API anahtarlari - ASLA commit edilmez
 .env.local
+
+# Kanban disa aktarim dosyalari - kisisel plan yonetimi
+Sude_Sprint_Kanban_Gorevleri_*.xlsx

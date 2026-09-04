@@ -1,0 +1,621 @@
+{
+  "sinir": {
+    "toplam": 30,
+    "uyum": 20,
+    "uyumsuz": 10,
+    "sebep_dagilimi": {
+      "sozluk_boslugu": 3,
+      "girdi_filtresi": 4,
+      "kavram_listesi_eksik": 1,
+      "known_malignancy": 2
+    },
+    "detay": [
+      {
+        "vaka_id": "C1-negasyon-kapsami-01",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": "f3cada1c1fcb8186",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "C1-negasyon-kapsami-02",
+        "hedef": "intermediate",
+        "motor_ciktisi": "intermediate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 2,
+        "belirleyici_entity": "b588f7162d569f18",
+        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C1-negasyon-kapsami-03",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": "2e0944badffd34b0",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "C4-derece-yuksek-01",
+        "hedef": "high",
+        "motor_ciktisi": "high",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 10,
+        "belirleyici_entity": "2745c41971c1a92f",
+        "belirleyici_kaynak": "C#4(derece)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C4-derece-yuksek-02",
+        "hedef": "high",
+        "motor_ciktisi": "high",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 8,
+        "belirleyici_entity": "4e76381a623226e9",
+        "belirleyici_kaynak": "C#4(derece)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C4-derece-orta-01",
+        "hedef": "intermediate",
+        "motor_ciktisi": "intermediate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 2,
+        "belirleyici_entity": "aeee501a6ed08fa4",
+        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C4-derece-orta-02",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "indeterminate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 7,
+        "belirleyici_entity": "7cbeb13729368c2c",
+        "belirleyici_kaynak": "C#16"
+      },
+      {
+        "vaka_id": "C4-derece-dislanamaz-01",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "indeterminate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 4,
+        "belirleyici_entity": "7d1e5743ee0ee476",
+        "belirleyici_kaynak": "A18"
+      },
+      {
+        "vaka_id": "C4-derece-dislanamaz-02",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "sozluk_boslugu",
+        "cikarilan_varlik": 0,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C5-stabil-malignite-01",
+        "hedef": "known_malignancy",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "sozluk_boslugu",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C5-stabil-malignite-02",
+        "hedef": "high",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "girdi_filtresi",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C5-stabil-malignite-03",
+        "hedef": "known_malignancy",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "girdi_filtresi",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C6-malignite-benign-01",
+        "hedef": "intermediate",
+        "motor_ciktisi": "intermediate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 11,
+        "belirleyici_entity": "b087a43bc5307865",
+        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C6-malignite-benign-02",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 11,
+        "belirleyici_entity": "e1f027ce73aac74a",
+        "belirleyici_kaynak": "A26+C#12+§4.2"
+      },
+      {
+        "vaka_id": "C6-malignite-benign-03",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "sozluk_boslugu",
+        "cikarilan_varlik": 7,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "C11-olumsuz-belirsiz-01",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 4,
+        "belirleyici_entity": "c1e03bac795673ab",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "C11-olumsuz-belirsiz-02",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "kavram_listesi_eksik",
+        "cikarilan_varlik": 2,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C12-benign-belirsiz-01",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 10,
+        "belirleyici_entity": "42ed6bb5a243426f",
+        "belirleyici_kaynak": "A26+C#12+§4.2"
+      },
+      {
+        "vaka_id": "C12-benign-belirsiz-03",
+        "hedef": "low",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "girdi_filtresi",
+        "cikarilan_varlik": 7,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C13-ekstratorasik-01",
+        "hedef": "known_malignancy",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "girdi_filtresi",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "C13-ekstratorasik-02",
+        "hedef": "intermediate",
+        "motor_ciktisi": "intermediate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 6,
+        "belirleyici_entity": "fb1b8d2ac7e61a0a",
+        "belirleyici_kaynak": "§3.4"
+      },
+      {
+        "vaka_id": "C13-ekstratorasik-03",
+        "hedef": "known_malignancy",
+        "motor_ciktisi": "intermediate",
+        "uyum": false,
+        "sebep": "known_malignancy",
+        "cikarilan_varlik": 10,
+        "belirleyici_entity": "01c549bf00bd71e1",
+        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C16-malignite-enf-01",
+        "hedef": "known_malignancy",
+        "motor_ciktisi": "intermediate",
+        "uyum": false,
+        "sebep": "known_malignancy",
+        "cikarilan_varlik": 12,
+        "belirleyici_entity": "5c9c233b7286ccaa",
+        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+      },
+      {
+        "vaka_id": "C16-malignite-enf-02",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "indeterminate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 6,
+        "belirleyici_entity": "6b4d87a132b30b5d",
+        "belirleyici_kaynak": "A18"
+      },
+      {
+        "vaka_id": "C16-malignite-enf-03",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "A8-cikarim-ifadesi-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 1,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "A8-cikarim-ifadesi-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "A26-kalsifikasyon-01",
+        "hedef": "intermediate",
+        "motor_ciktisi": "intermediate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": "d58feffb7541b538",
+        "belirleyici_kaynak": "C#4(varsayilan)"
+      },
+      {
+        "vaka_id": "A26-kalsifikasyon-02",
+        "hedef": "intermediate",
+        "motor_ciktisi": "intermediate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 7,
+        "belirleyici_entity": "bb3edb98a975cb7e",
+        "belirleyici_kaynak": "C#4(varsayilan)"
+      },
+      {
+        "vaka_id": "A26-kalsifiegranulom-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      }
+    ]
+  },
+  "kontrol": {
+    "toplam": 23,
+    "uyum": 22,
+    "uyumsuz": 1,
+    "sebep_dagilimi": {
+      "girdi_filtresi": 1
+    },
+    "detay": [
+      {
+        "vaka_id": "K-olumsuz-kitle-01",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 6,
+        "belirleyici_entity": "99ecd553fa2ee885",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "K-olumsuz-kitle-02",
+        "hedef": "None",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": false,
+        "sebep": "girdi_filtresi",
+        "cikarilan_varlik": 7,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-olumsuz-kitle-03",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": "b5b49461bb9f7fe8",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "K-olumsuz-kitle-04",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 4,
+        "belirleyici_entity": "3339a08375714d1b",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "K-sekel-benign-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 2,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-sekel-benign-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 8,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-sekel-benign-03",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 4,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-sekel-benign-04",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 7,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "K-enfeksiyon-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 18,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "K-enfeksiyon-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 1,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-enfeksiyon-03",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 11,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "K-stabil-benign-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 11,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "K-stabil-benign-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 10,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": "C#8-ek(benign)"
+      },
+      {
+        "vaka_id": "K-teknik-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 1,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-teknik-02",
+        "hedef": "indeterminate",
+        "motor_ciktisi": "indeterminate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 4,
+        "belirleyici_entity": "ba1d207df5bef2a8",
+        "belirleyici_kaynak": "§4.3"
+      },
+      {
+        "vaka_id": "K-sablonnegatif-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 2,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-sablonnegatif-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-postop-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 3,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-postop-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-amfizem-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-amfizem-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 9,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-koroner-01",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 4,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      },
+      {
+        "vaka_id": "K-koroner-02",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "not_mentioned",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 6,
+        "belirleyici_entity": null,
+        "belirleyici_kaynak": null
+      }
+    ]
+  },
+  "rapor": {
+    "toplam": 5,
+    "uyum": 3,
+    "uyumsuz": 2,
+    "sebep_dagilimi": {
+      "kural": 2
+    },
+    "detay": [
+      {
+        "vaka_id": "R1-karisik",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 86,
+        "belirleyici_entity": "a33e3a4872ea4d35",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "R2-net-pozitif-negatif",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 46,
+        "belirleyici_entity": "2345af15ab5013c1",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "R3-yalniz-benign",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "None",
+        "uyum": false,
+        "sebep": "kural",
+        "cikarilan_varlik": 53,
+        "belirleyici_entity": "1f5236b621442796",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "R4-tamamen-normal",
+        "hedef": "not_mentioned",
+        "motor_ciktisi": "None",
+        "uyum": false,
+        "sebep": "kural",
+        "cikarilan_varlik": 43,
+        "belirleyici_entity": "5bc3ea83a913f04d",
+        "belirleyici_kaynak": "A1+C#1"
+      },
+      {
+        "vaka_id": "R5-negatif-belirsizlik",
+        "hedef": "None",
+        "motor_ciktisi": "None",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 30,
+        "belirleyici_entity": "b22e56da7b33f971",
+        "belirleyici_kaynak": "A1+C#1"
+      }
+    ]
+  },
+  "koruma_kapisi": {
+    "toleranssiz_ihlal_sayisi": 0,
+    "gecti": true,
+    "ihlaller": []
+  },
+  "sema_surumu": "sema-0.9-taslak"
+}

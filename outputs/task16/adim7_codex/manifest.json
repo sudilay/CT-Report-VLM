@@ -1,0 +1,20 @@
+{
+  "uretim_utc": "2026-09-04T07:17:47+00:00",
+  "kaynak_kilit_surumu": "takim-1.1",
+  "vaka_sayisi": 30,
+  "izinli_kolonlar": [
+    "vaka_id",
+    "cumle"
+  ],
+  "paketten_CIKARILAN_kolonlar": [
+    "populasyon_kodu",
+    "dayanak",
+    "populasyon_buyuklugu",
+    "study_id",
+    "hedef_sinif",
+    "hedef_kaynagi",
+    "hedef_gerekcesi"
+  ],
+  "kor_paket_sha256": "a117567b229e4889322f51391fe232a6aad2c502f6ff8229becee41adc52453d",
+  "kural": "Yargilama tamamlanip kilitlenmeden `sema_sinir_vakalari.csv` ve `outputs/task16/INCELEME_v1.1.md` ACILMAZ."
+}

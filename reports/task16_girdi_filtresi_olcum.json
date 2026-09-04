@@ -1,0 +1,47 @@
+{
+  "uretim_utc": "2026-09-04T05:33:14.083165+00:00",
+  "kapsam": "yalniz gelistirme havuzu; degerlendirme kilidi okunmadi",
+  "kilit_surumu": "holdout-1.0",
+  "filtre": {
+    "filtre_surumu": "girdi-filtresi-1.0",
+    "toplam_varlik": 957503,
+    "dusuk_guven": 28504,
+    "dusuk_guven_orani_yuzde": 2.977,
+    "kural_basina": {
+      "F2_kanitsiz_present": 24017,
+      "F1_gecmis_bulgu": 4746
+    },
+    "suphe_yukseltebilir": 928999
+  },
+  "malignite_ekseni": {
+    "varlik": 70258,
+    "dusuk_guven": 24098,
+    "suphe_yukseltebilir": 46160
+  },
+  "calisma_duzeyi": {
+    "toplam": 20570,
+    "en_az_bir_dusuk_guvenli": 10429
+  },
+  "hata_butcesi": {
+    "zaman_ekseni_kapsami_yuzde": 0.5,
+    "prior_present_varlik": 4557,
+    "bunlarin_ipucusuz_orani_yuzde": 81.4,
+    "K7_prior_F1_yuzde": 36.4,
+    "temporality_varsayilan_orani_yuzde": 99.24,
+    "baglayici_karar": "Zaman ekseni semada KARAR AGIRLIGI TASIMAZ. Olculmus F1 %36,4 ile esigi gecememis, ustelik degerlerin %99,24'u varsayilandir - 'current' bir kanit degil kanit yoklugudur. Eksen yalniz dusuk-guven isaretlemesinde kullanilir.",
+    "kalan_olculemez_risk": "KACIRILAN prior'lar (gecmis bulgunun `current` sanilmasi). K7 esigi gecemedigi icin bu yonun buyuklugu OLCULEMEZ ve acikca ilan edilir."
+  },
+  "kurallar": [
+    {
+      "kod": "F1_gecmis_bulgu",
+      "aciklama": "temporality = 'prior' olan her varlik dusuk guvenlidir.",
+      "dayanak": "K7 (zaman ekseni) F1 %36,4 ile esigi GECEMEDI (D39). Ayrica temporality_rule'un %99,24'u 'varsayilan_current' - eksen pratikte bilgi tasimiyor. Gecmis bir bulgunun rapor sinifini yukseltmesi, olculmus bir hatanin sonuca tasinmasi olurdu."
+    },
+    {
+      "kod": "F2_kanitsiz_present",
+      "aciklama": "Malignite eksenindeki bir kavram `present` ama assertion_rule 'varsayilan_present' ise (yani hicbir ipucu bulunmamissa) dusuk guvenlidir.",
+      "dayanak": "`present`in %80,33'u varsayilanla atanmis. `uncertain` duyarliligi %71/%46 - yani gercekte belirsiz olan bulgularin onemli bir kismi `present` etiketlenmis (D29). Ipucu bulunmamis bir `present`, kanit degil kanit YOKLUGUDUR ve tek basina yuksek suphe uretemez."
+    }
+  ],
+  "not": "Duyarlilik analizi (docs/29 §7/3) SEMA YAZILDIKTAN SONRA kosulacak - cikarim katmaninin bilinen hata oranlari enjekte edilip rapor sinifi dagiliminin ne kadar kaydigi olculecek. Adim 6'nin ciktisina baglidir."
+}

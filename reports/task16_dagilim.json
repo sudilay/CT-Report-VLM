@@ -1,0 +1,219 @@
+{
+  "uretim_utc": "2026-09-04T07:00:01+00:00",
+  "sema_surumu": "sema-0.9-taslak",
+  "kapsam": {
+    "gelistirme_havuzu_calisma": 20576,
+    "ilgili_varlik": 98084
+  },
+  "dondurulmus_aralik": {
+    "malignite_pozitif": {
+      "alt_yuzde": 0.5,
+      "ust_yuzde": 3.0,
+      "tureyis": "Motor `known_malignancy` URETMEZ (docs/33 §4.1, ilan edilmis sinir), yani `malignite_pozitif` pratikte YALNIZ `high`tir. `high` iki sart ister: ipuclu present + cumlede derece kelimesi. Derece kelimesinin korpustaki hacmi adim 3'te SEMADAN BAGIMSIZ olculdu: 392 cumle / 230 calisma = %1,12 (reports/task16_b_olcumleri.json, '#4 · suphe derece kelimeleri' / 'high suspicion'). UST SINIR %3,0: derece cumlesi olan her calisma malignite-ekseninde bir kavram da tasimayabilir (dusurur), ama rapor duzeyi toplama cok cumleli raporlarda birden fazla yoldan `high` uretebilir (yukseltir). %1,12'nin ~2,7 kati tavan olarak birakildi. ALT SINIR %0,5: derece cumlelerinin yarisindan azi malignite kavramiyla eslesiyorsa motor derece kuralini pratikte kullanamiyor demektir - bu da bir basarisizliktir, sessizce gecmemeli."
+    }
+  },
+  "kapiya_bagli_olmayan": "malignite_negatif, belirsiz_yetersiz_kanit, benign_bulgu ve not_mentioned icin turetilebilir bir DIS capa yoktur; olculur ve raporlanir, kapi degildir.",
+  "taban": {
+    "olcek": {
+      "None": {
+        "calisma": 17832,
+        "yuzde": 86.664
+      },
+      "high": {
+        "calisma": 10,
+        "yuzde": 0.049
+      },
+      "indeterminate": {
+        "calisma": 205,
+        "yuzde": 0.996
+      },
+      "intermediate": {
+        "calisma": 828,
+        "yuzde": 4.024
+      },
+      "not_mentioned": {
+        "calisma": 1701,
+        "yuzde": 8.267
+      }
+    },
+    "dort_sinif": {
+      "belirsiz_yetersiz_kanit": {
+        "calisma": 1789,
+        "yuzde": 8.695
+      },
+      "benign_bulgu": {
+        "calisma": 182,
+        "yuzde": 0.885
+      },
+      "malignite_negatif": {
+        "calisma": 17832,
+        "yuzde": 86.664
+      },
+      "malignite_pozitif": {
+        "calisma": 10,
+        "yuzde": 0.049
+      }
+    },
+    "kapsanmayan_calisma": 763
+  },
+  "kapi": {
+    "malignite_pozitif": {
+      "gercek_yuzde": 0.049,
+      "alt": 0.5,
+      "ust": 3.0,
+      "gecti": false
+    }
+  },
+  "kapi_teshisi": {
+    "derece_cumlesi": {
+      "cumle": 392,
+      "calisma": 230
+    },
+    "kanser_terimi_iceren": 15,
+    "kanser_terimi_ICERMEYEN": 377,
+    "kanser_terimli_ve_malignite_varligi_cikan": 12,
+    "kanser_terimli_ama_varlik_cikmayan": 3,
+    "yorum": "Derece kelimesi bu korpusta AGIRLIKLA MALIGNITE HAKKINDA DEGILDIR: 'highly suspicious' cumlelerinin buyuk cogunlugu enfeksiyon/COVID suphesidir (korpusun %21'i COVID, docs/08). Kapi capasi bu yuzden yanlis turetilmisti - 'suphe derecesi dili' ile 'MALIGNITE suphe derecesi dili' esitlenmisti."
+  },
+  "duyarlilik": {
+    "S1_zaman_ekseni_guvenilmez": {
+      "aciklama": "K7 `prior` F1 %36,4 (D39). Zaman ekseni esigi gecemedi; TUM `prior` etiketleri `current` sayilirsa (F1 hic susturmazsa) dagilim ne kadar kayiyor?",
+      "yon": "F1 devre disi - ust sinir tahmini",
+      "dagilim": {
+        "olcek": {
+          "None": {
+            "calisma": 17817,
+            "yuzde": 86.591
+          },
+          "high": {
+            "calisma": 10,
+            "yuzde": 0.049
+          },
+          "indeterminate": {
+            "calisma": 201,
+            "yuzde": 0.977
+          },
+          "intermediate": {
+            "calisma": 854,
+            "yuzde": 4.15
+          },
+          "not_mentioned": {
+            "calisma": 1694,
+            "yuzde": 8.233
+          }
+        },
+        "dort_sinif": {
+          "belirsiz_yetersiz_kanit": {
+            "calisma": 1804,
+            "yuzde": 8.767
+          },
+          "benign_bulgu": {
+            "calisma": 182,
+            "yuzde": 0.885
+          },
+          "malignite_negatif": {
+            "calisma": 17817,
+            "yuzde": 86.591
+          },
+          "malignite_pozitif": {
+            "calisma": 10,
+            "yuzde": 0.049
+          }
+        },
+        "kapsanmayan_calisma": 763
+      },
+      "malignite_pozitif_yuzde": 0.049,
+      "tabandan_kayma_puan": 0.0
+    },
+    "S2_kanitsiz_present_gercek": {
+      "aciklama": "`present`in %80,33'u varsayilan (ipucusuz). Bunlarin hepsi GERCEK ipuclu bulgu olsaydi (F2 hic susturmazsa) dagilim ne kadar kayiyor?",
+      "yon": "F2 devre disi - ust sinir tahmini",
+      "dagilim": {
+        "olcek": {
+          "None": {
+            "calisma": 9714,
+            "yuzde": 47.21
+          },
+          "high": {
+            "calisma": 22,
+            "yuzde": 0.107
+          },
+          "indeterminate": {
+            "calisma": 48,
+            "yuzde": 0.233
+          },
+          "intermediate": {
+            "calisma": 9841,
+            "yuzde": 47.828
+          },
+          "not_mentioned": {
+            "calisma": 951,
+            "yuzde": 4.622
+          }
+        },
+        "dort_sinif": {
+          "belirsiz_yetersiz_kanit": {
+            "calisma": 9895,
+            "yuzde": 48.09
+          },
+          "benign_bulgu": {
+            "calisma": 182,
+            "yuzde": 0.885
+          },
+          "malignite_negatif": {
+            "calisma": 9714,
+            "yuzde": 47.21
+          },
+          "malignite_pozitif": {
+            "calisma": 22,
+            "yuzde": 0.107
+          }
+        },
+        "kapsanmayan_calisma": 763
+      },
+      "malignite_pozitif_yuzde": 0.107,
+      "tabandan_kayma_puan": 0.058
+    },
+    "S3_hedge_aslinda_uncertain": {
+      "aciklama": "`uncertain` duyarliligi %71/%46 (D29 belirsizlik ipuclarini `present` yapmisti). Ipuclu present'ler aslinda `uncertain` olsaydi dagilim ne kadar kayiyor?",
+      "yon": "suphe ASAGI - alt sinir tahmini",
+      "dagilim": {
+        "olcek": {
+          "None": {
+            "calisma": 17786,
+            "yuzde": 86.441
+          },
+          "indeterminate": {
+            "calisma": 841,
+            "yuzde": 4.087
+          },
+          "intermediate": {
+            "calisma": 251,
+            "yuzde": 1.22
+          },
+          "not_mentioned": {
+            "calisma": 1698,
+            "yuzde": 8.252
+          }
+        },
+        "dort_sinif": {
+          "belirsiz_yetersiz_kanit": {
+            "calisma": 1845,
+            "yuzde": 8.967
+          },
+          "benign_bulgu": {
+            "calisma": 182,
+            "yuzde": 0.885
+          },
+          "malignite_negatif": {
+            "calisma": 17786,
+            "yuzde": 86.441
+          }
+        },
+        "kapsanmayan_calisma": 763
+      },
+      "malignite_pozitif_yuzde": 0.0,
+      "tabandan_kayma_puan": -0.049
+    }
+  }
+}
