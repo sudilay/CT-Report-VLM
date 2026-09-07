@@ -116,11 +116,38 @@ def test_niteleyiciler_semanin_reddettiklerini_icermez(sozluk):
         assert not sizan, f"{grup}: reddedilen deger sozlukte -> {sizan}"
 
 
-def test_her_kavram_korpus_destegi_tasir(sozluk):
-    """Sifir destekli kavram sozlukte durmamali - olculmemis terim demektir."""
+def test_sifir_destekli_kavram_D74_KOSULUNU_tasir(sozluk):
+    """D16'nin "sifir destekli girdi olmaz" kurali D74'te KOSULLU gevsetildi.
+
+    Kural SILINMEDI, SARTA baglandi: sifir destekli bir girdi ancak
+    `kaynak` + `korpus_destegi` + `amac: transfer` alanlarini tasirsa
+    kabul edilir. Boylece kapsam iddiasi sismez - "N'si olculmus destekli,
+    M'si transfer amacli ve sifir destekli" denebilir.
+
+    Bu test o SARTI denetler: sifir destekli ama alanlari eksik bir girdi
+    hâlâ REDDEDILIR.
+    """
+    import yaml
+
     kavramlar, _ = sozluk
-    sifir = [k.ad for k in kavramlar if k.korpus == 0]
-    assert not sifir, f"korpus destegi sifir: {sifir}"
+    sifir = {k.ad for k in kavramlar if k.korpus == 0}
+    if not sifir:
+        return
+
+    ham = {}
+    for dosya in ("bulgu_sozlugu.yaml", "anatomi_sozlugu.yaml"):
+        y = yaml.safe_load((ROOT / "configs" / dosya).read_text(encoding="utf-8"))
+        ham.update(y["kavramlar"])
+
+    kusurlu = []
+    for ad in sorted(sifir):
+        k = ham.get(ad, {})
+        if not (k.get("kaynak") and "korpus_destegi" in k and k.get("amac") == "transfer"):
+            kusurlu.append(ad)
+    assert not kusurlu, (
+        "sifir destekli ama D74 kosulunu (kaynak + korpus_destegi + amac: "
+        f"transfer) tasimayan kavram: {kusurlu}"
+    )
 
 
 def test_taraf_sozlugu_both_iceriyor(sozluk):

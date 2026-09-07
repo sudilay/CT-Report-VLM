@@ -1,139 +1,136 @@
 {
-  "uretim_utc": "2026-09-03T11:05:52.310652+00:00",
+  "uretim_utc": "2026-09-07T05:45:40.883649+00:00",
+  "tarama_surumu": "tarama-1.1",
+  "desenler": {
+    "malignite": "malignan|carcinom|neoplas|metasta|tumor|spicul",
+    "benign": "sequela|granulom|benign|hamartom",
+    "kalsifikasyon": "calcific",
+    "stabilite": "\\bstable\\b|\\bunchanged\\b|no significant change|no interval change|no change\\b|no significant difference|similar to (?:the )?previous",
+    "negasyon": "\\bno\\b(?!\\s+(?:significant\\s+(?:change|difference)|interval\\s+change|change\\b))|\\bnot\\b|without|\\babsent\\b|absence of|negative for",
+    "belirsizlik": "can ?not be excluded|can ?not be ruled out|cannot be definitively excluded|differential diagnos[ei]s|\\bdifferential\\b|\\([^)]{1,60}\\?\\)",
+    "enfeksiyon": "pneumon|infect|covid|inflammat|tuberculo",
+    "buyume": "increase[d]? in size|increase in (?:the )?(?:size|dimension)|size (?:has |had )?increased|enlarg\\w* in size|\\bgrew\\b|\\bgrowth\\b|growing|newly (?:developed|appeared|emerged|detected)|\\bnewly\\b|not (?:present|observed) in the previous|progression|progressed",
+    "ekstratorasik": "\\bliver\\b|hepatic|adrenal|\\bkidney\\b|\\brenal\\b|\\bspleen\\b"
+  },
+  "dislama_desenleri": {
+    "buyume": "(?:heart|cardiac|spleen|liver|hepatic|thyroid|kidney|renal|adrenal|prostate|uter\\w+|aort\\w*)\\s+(?:size|dimension)|(?:size|dimension)s?\\s+of\\s+the\\s+(?:heart|spleen|liver|thyroid|kidney)"
+  },
   "kapsam": "yalniz gelistirme havuzu; degerlendirme kilidi okunmadi",
   "kilit_surumu": "holdout-1.0",
   "taranan_cumle": 383644,
   "taranan_calisma": 20576,
   "sinif_yogunlugu": {
-    "malignite": 9862,
+    "malignite": 9930,
     "benign": 9848,
     "kalsifikasyon": 9478,
-    "stabilite": 4527,
-    "negasyon": 134772,
-    "belirsizlik": 9481,
+    "stabilite": 4530,
+    "negasyon": 133867,
+    "belirsizlik": 6721,
     "enfeksiyon": 18146,
-    "buyume": 34262,
+    "buyume": 1915,
     "ekstratorasik": 31774
   },
   "karar_esigi_cumle": 100,
-  "esigi_gecen_celiski": 12,
+  "esigi_gecen_celiski": 9,
   "celiskiler": [
     {
       "cift": "malignite+negasyon",
       "sinif_a": "malignite",
       "sinif_b": "negasyon",
       "neden": "Negasyonun KAPSAMI malignite terimini iceriyor mu?",
-      "cumle": 7405,
-      "calisma": 7207,
-      "cumle_orani_yuzde": 1.9302
+      "cumle": 7362,
+      "calisma": 7192,
+      "cumle_orani_yuzde": 1.919
     },
     {
       "cift": "enfeksiyon+belirsizlik",
       "sinif_a": "enfeksiyon",
       "sinif_b": "belirsizlik",
       "neden": "Enfeksiyon suphesi malignite suphesi degildir; ayrim nasil kurulur?",
-      "cumle": 4150,
-      "calisma": 3069,
-      "cumle_orani_yuzde": 1.0817
-    },
-    {
-      "cift": "negasyon+belirsizlik",
-      "sinif_a": "negasyon",
-      "sinif_b": "belirsizlik",
-      "neden": "Olumsuzlanmis belirsizlik (ornegin 'dislanamaz degil') nasil cozulur?",
-      "cumle": 2037,
-      "calisma": 1905,
-      "cumle_orani_yuzde": 0.531
-    },
-    {
-      "cift": "benign+buyume",
-      "sinif_a": "benign",
-      "sinif_b": "buyume",
-      "neden": "Benign nitelenen bir bulgu buyuyorsa benign kalir mi?",
-      "cumle": 1780,
-      "calisma": 1444,
-      "cumle_orani_yuzde": 0.464
-    },
-    {
-      "cift": "benign+belirsizlik",
-      "sinif_a": "benign",
-      "sinif_b": "belirsizlik",
-      "neden": "Belirsizlikle nitelenen benign bulgu hangi duzeye duser?",
-      "cumle": 845,
-      "calisma": 671,
-      "cumle_orani_yuzde": 0.2203
-    },
-    {
-      "cift": "malignite+belirsizlik",
-      "sinif_a": "malignite",
-      "sinif_b": "belirsizlik",
-      "neden": "Belirsiz malignite hangi duzeye duser?",
-      "cumle": 578,
-      "calisma": 409,
-      "cumle_orani_yuzde": 0.1507
+      "cumle": 2049,
+      "calisma": 1451,
+      "cumle_orani_yuzde": 0.5341
     },
     {
       "cift": "malignite+ekstratorasik",
       "sinif_a": "malignite",
       "sinif_b": "ekstratorasik",
       "neden": "Ekstratorasik organdaki malignite bulgusu kapsama girer mi?",
-      "cumle": 481,
-      "calisma": 302,
-      "cumle_orani_yuzde": 0.1254
+      "cumle": 491,
+      "calisma": 309,
+      "cumle_orani_yuzde": 0.128
     },
     {
-      "cift": "kalsifikasyon+buyume",
-      "sinif_a": "kalsifikasyon",
-      "sinif_b": "buyume",
-      "neden": "Kalsifiye ve buyuyen lezyon nasil siniflanir?",
-      "cumle": 327,
-      "calisma": 296,
-      "cumle_orani_yuzde": 0.0852
+      "cift": "negasyon+belirsizlik",
+      "sinif_a": "negasyon",
+      "sinif_b": "belirsizlik",
+      "neden": "Olumsuzlanmis belirsizlik (ornegin 'dislanamaz degil') nasil cozulur?",
+      "cumle": 389,
+      "calisma": 322,
+      "cumle_orani_yuzde": 0.1014
     },
     {
-      "cift": "malignite+buyume",
+      "cift": "malignite+belirsizlik",
       "sinif_a": "malignite",
-      "sinif_b": "buyume",
-      "neden": "Buyume malignite suphesini yukseltir mi, ne kadar?",
-      "cumle": 305,
-      "calisma": 191,
-      "cumle_orani_yuzde": 0.0795
+      "sinif_b": "belirsizlik",
+      "neden": "Belirsiz malignite hangi duzeye duser?",
+      "cumle": 240,
+      "calisma": 175,
+      "cumle_orani_yuzde": 0.0626
     },
     {
       "cift": "malignite+stabilite",
       "sinif_a": "malignite",
       "sinif_b": "stabilite",
       "neden": "Stabil bir malignite bulgusu hangi supheye duser?",
-      "cumle": 214,
-      "calisma": 154,
-      "cumle_orani_yuzde": 0.0558
+      "cumle": 219,
+      "calisma": 157,
+      "cumle_orani_yuzde": 0.0571
     },
     {
-      "cift": "stabilite+buyume",
-      "sinif_a": "stabilite",
+      "cift": "benign+belirsizlik",
+      "sinif_a": "benign",
+      "sinif_b": "belirsizlik",
+      "neden": "Belirsizlikle nitelenen benign bulgu hangi duzeye duser?",
+      "cumle": 203,
+      "calisma": 172,
+      "cumle_orani_yuzde": 0.0529
+    },
+    {
+      "cift": "malignite+buyume",
+      "sinif_a": "malignite",
       "sinif_b": "buyume",
-      "neden": "Ayni cumlede hem stabilite hem buyume ifadesi - hangisi gecerli?",
-      "cumle": 210,
-      "calisma": 174,
-      "cumle_orani_yuzde": 0.0547
+      "neden": "Buyume malignite suphesini yukseltir mi, ne kadar?",
+      "cumle": 200,
+      "calisma": 128,
+      "cumle_orani_yuzde": 0.0521
     },
     {
       "cift": "malignite+enfeksiyon",
       "sinif_a": "malignite",
       "sinif_b": "enfeksiyon",
       "neden": "Enfeksiyoz sureclе birlikte gecen malignite terimi nasil tartilir?",
-      "cumle": 109,
-      "calisma": 91,
-      "cumle_orani_yuzde": 0.0284
+      "cumle": 111,
+      "calisma": 92,
+      "cumle_orani_yuzde": 0.0289
+    },
+    {
+      "cift": "stabilite+buyume",
+      "sinif_a": "stabilite",
+      "sinif_b": "buyume",
+      "neden": "Ayni cumlede hem stabilite hem buyume ifadesi - hangisi gecerli?",
+      "cumle": 52,
+      "calisma": 52,
+      "cumle_orani_yuzde": 0.0136
     },
     {
       "cift": "malignite+benign",
       "sinif_a": "malignite",
       "sinif_b": "benign",
       "neden": "Ayni cumlede hem malignite hem benign gosterge var; hangisi kazanir?",
-      "cumle": 40,
-      "calisma": 34,
-      "cumle_orani_yuzde": 0.0104
+      "cumle": 45,
+      "calisma": 37,
+      "cumle_orani_yuzde": 0.0117
     },
     {
       "cift": "malignite+kalsifikasyon",
@@ -143,6 +140,24 @@
       "cumle": 24,
       "calisma": 21,
       "cumle_orani_yuzde": 0.0063
+    },
+    {
+      "cift": "benign+buyume",
+      "sinif_a": "benign",
+      "sinif_b": "buyume",
+      "neden": "Benign nitelenen bir bulgu buyuyorsa benign kalir mi?",
+      "cumle": 22,
+      "calisma": 19,
+      "cumle_orani_yuzde": 0.0057
+    },
+    {
+      "cift": "kalsifikasyon+buyume",
+      "sinif_a": "kalsifikasyon",
+      "sinif_b": "buyume",
+      "neden": "Kalsifiye ve buyuyen lezyon nasil siniflanir?",
+      "cumle": 6,
+      "calisma": 6,
+      "cumle_orani_yuzde": 0.0016
     }
   ],
   "listede_olmayan_hacimli_ciftler": [
@@ -155,36 +170,20 @@
       "cumle": 662
     },
     {
-      "cift": "stabilite+negasyon",
-      "cumle": 1020
-    },
-    {
       "cift": "negasyon+enfeksiyon",
-      "cumle": 4515
+      "cumle": 4508
     },
     {
       "cift": "negasyon+buyume",
-      "cumle": 18472
+      "cumle": 513
     },
     {
       "cift": "negasyon+ekstratorasik",
-      "cumle": 15492
-    },
-    {
-      "cift": "belirsizlik+buyume",
-      "cumle": 1449
+      "cumle": 15461
     },
     {
       "cift": "belirsizlik+ekstratorasik",
-      "cumle": 818
-    },
-    {
-      "cift": "enfeksiyon+buyume",
-      "cumle": 1188
-    },
-    {
-      "cift": "buyume+ekstratorasik",
-      "cumle": 922
+      "cumle": 1536
     }
   ]
 }

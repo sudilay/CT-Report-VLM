@@ -44,14 +44,15 @@ from dataclasses import dataclass
 
 import pandas as pd
 
+from radyovlm.evaluation import envanter as env
+
 FILTRE_SURUMU = "girdi-filtresi-1.0"
 
-# Malignite eksenine giren kavramlar. TASK-17'de sozluk daraltilinca yeniden
-# turetilecek; simdilik 144'luk envanterin malignite-ilgili alt kumesi.
-MALIGNITE_KAVRAMLARI: frozenset[str] = frozenset({
-    "metastasis", "malignancy", "carcinoma", "tumor", "neoplasm", "mass",
-    "nodule", "lytic_destructive_lesion", "space_occupying_lesion", "spiculated",
-})
+# Malignite eksenine giren kavramlar.
+# ⚠ TANIM ARTIK BURADA DEGIL (TASK-17 madde 3, D79): tek kaynak
+# `radyovlm.evaluation.envanter`. Burada yalnizca YENIDEN DISA AKTARILIR ki
+# `gf.MALIGNITE_KAVRAMLARI` cagiran mevcut betikler (scripts/47) kirilmasin.
+MALIGNITE_KAVRAMLARI = env.MALIGNITE_KAVRAMLARI
 
 # Bir degerin IPUCUYLA mi VARSAYILANLA mi atandigini ayirt eden kurallar.
 VARSAYILAN_KURALLAR: frozenset[str] = frozenset({

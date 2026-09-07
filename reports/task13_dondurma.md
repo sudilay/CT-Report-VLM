@@ -89,3 +89,60 @@ kör listeleme + yargılama yapar. Çıkan sayı **raporlanacak sayıdır**.
 ⚠ Teste bakıp herhangi bir kural, sözlük veya desen değiştirilirse bu sürüm
 **iptal** edilir, `--surum test-v3` çekilir ve raporda eski skorun geçersiz
 olduğu yazılır.
+
+
+---
+
+## 8. ⚠ SONRADAN EKLENEN DUZELTME — 2026-09-07 (TASK-17, D88/D89/D90)
+
+**Bu bölüm dondurma kaydına EKLENMİŞTİR; yukarısı silinmemiş, değiştirilmemiştir.**
+
+### 8.1 Dondurulan tablo, dondurulan sözlükle uyuşmuyordu
+
+`data/processed/entities.parquet` **2026-08-28**'de üretildi.
+`configs/bulgu_sozlugu.yaml` **2026-09-02**'de onarıldı (D58: `nodule`
+desenine `nodular` eklendi) — **ama tablo bir daha üretilmedi**.
+
+| kanıt | değer |
+|---|---|
+| Bayat tabloda `nodular` ham metniyle varlık | **0** |
+| Yeniden üretimde | **7.294** |
+| Toplam fark | **+17.421 varlık / 12 kavram** |
+
+⚠ **Yukarıdaki §1'de listelenen `bulgu-1.1` hash'i, üretilen tabloyla
+bağlantılı değildi.** Dondurma kaydı sözlüğün hash'ini yazıyor ama üretilen
+tablo o hash'i taşımıyor; sözlük değişince hiçbir mekanizma bunu yakalamadı.
+
+### 8.2 §4'teki `test-v2` sayıları bu yüzden düşüktür
+
+`test-v2` üzerinde bağımsız yeniden ölçüm (`scripts/56`, protokol
+`docs/36`), K5 duyarlılığı için:
+
+| işaretleyici | bu raporda yazılı | bayat tabloyla yeniden üretim | **doğru değer** (temiz referans) |
+|---|---|---|---|
+| A (codex) | %88,1 | %87,9 | **%89,4** |
+| B (gemini) | %97,0 | %96,9 | %96,9 |
+
+Yeniden üretim, raporlanan sayıları **1 öge farkla** tutturdu — yani ölçüm
+aleti doğrudur. **A işaretleyicisi için gerçek K5 ~%89,4'tür**; raporlanan
+%88,1 uygulanmamış sözlük onarımları yüzünden ~1,5 puan düşüktür.
+
+⚠ **B işaretleyicisi değişmedi** (%96,9) — düzeltme her iki eksende de
+aynı yönde değil, yalnız A'nın kaçırdıklarını etkiliyor.
+
+### 8.3 TASK-17'nin sözlük genişletmesinin etkisi ayrı ölçüldü
+
+`ent-1.0r` (temiz referans) → `ent-1.1` (bulgu-1.2): `test-v2` üzerinde
+**tam olarak 1 varlık** (`malignancy` 0→1), K5 **+0,1 / +0,0 puan**.
+
+⚠ Bu **etkisizlik kanıtı değil, ölçüm gücü yokluğudur**: yeni kavramlar
+nadirdir (`carcinomatosis` 1,2 milyon varlıkta 185), 295 cümlelik bir
+kümede beklenen sayı zaten ~0–1'dir.
+
+### 8.4 Kalıcı koruma önerisi — henüz UYGULANMADI
+
+Üretilen tabloya (ya da yanına bir kayda) **üretim sırasında kullanılan
+sözlük hash'i yazılmalı**, ve bir test bunu dondurma kaydıyla
+karşılaştırmalı. Bugün `entity_version` kolonu var ama o **kodun**
+sürümüdür; **girdi sözlüğünün** sürümü hiçbir yerde taşınmıyor. Bu
+boşluk olmasaydı D88 üç ay değil, ilk koşumda yakalanırdı.

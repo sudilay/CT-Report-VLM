@@ -262,10 +262,16 @@ def test_iki_dilli_katalog_dondurulmus_envanterle_birebir():
     anatomy = load("anatomi_sozlugu.yaml")["kavramlar"]
     findings = load("bulgu_sozlugu.yaml")["kavramlar"]
 
+    # ⚠ TASK-17 madde 10 (D91): envanter `tr-1.0` -> `tr-1.1` yukseltildi ve
+    # 16 yeni yuzey eklendi. TASK-15'in katalogu `tr-1.0` donemine aittir ve
+    # DEGISTIRILMEDI - bu dogrudur, TASK-15 kapanmistir (D69).
+    # Degismez SILINMEDI, dogru haliyle yazildi: katalog artik envanterin
+    # ALT KUMESIDIR ve TASK-15'in 144 kavraminin HICBIRI kaybolmamistir.
     assert catalog["envanter_surum"] == "tr-1.0"
     assert catalog["uzman_onayi"] is False
     assert len(catalog["kavramlar"]) == 144
-    assert set(catalog["kavramlar"]) == set(inventory)
+    eksilen = set(catalog["kavramlar"]) - set(inventory)
+    assert not eksilen, f"TASK-15'in kavramlari envanterden DUSMUS: {sorted(eksilen)}"
     for concept_id, entry in catalog["kavramlar"].items():
         expected_type = (
             "anatomy" if concept_id in anatomy else findings[concept_id]["tip"]

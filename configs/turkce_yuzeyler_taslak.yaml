@@ -21,7 +21,7 @@
 #   Bu dosya TASLAKTIR ve temiz havuzda yeniden turetilecektir (tr-2.0).
 #   Ayrinti: docs/25_task15_bolunme_kirlenme_denetimi.md
 #
-surum: tr-1.0
+surum: tr-1.1   # 1.0 -> 1.1: TASK-17 madde 10, 16 yeni kavram yuzeyi (2026-09-07, D91)
 durum: taslak
 kaynak: RadTr toraks train+dev (373 belge) - test HARIC
 yuzeyler:
@@ -849,3 +849,154 @@ yuzeyler:
     radtr: 5
     ct_rate_ingilizce: 425
     uzman_onayi: false
+
+  # ═══════════════════════════════════════════════════════════════════
+  # TASK-17 madde 10 - YENI KAVRAMLARIN TURKCE YUZEYLERI (tr-1.1, D91)
+  # ═══════════════════════════════════════════════════════════════════
+  # `bulgu-1.2` ile eklenen 18 kavramin TR karsiliklari. Adaylar ve
+  # kunyeler: configs/turkce_yuzey_adaylari_task17.yaml (aday-0.2).
+  #
+  # BAGLAYICI KURAL (D87, denetim B7): kaynagi olmayan yuzey GIRMEZ.
+  # Iki mezuniyet yolu vardir ve her girdide hangisinden gectigi yazilidir:
+  #   (a) KUNYE  - Turk radyoloji literaturunde belgelenmis
+  #   (b) OLCUM  - RadTr train+dev'de gecti (test MUHURLU, D69)
+  #
+  # ⛔ GIRMEYEN: `complete_calcification`. Arastirma bu kavrami YANLIS
+  #    esleyerek ("diffuz kalsifikasyon") dogruladi; o esleme D83'te
+  #    olculup CURUTULDU (491 cumle, tamami damar ateromu). Dogru kavram
+  #    icin TR kunyesi YOK ve RadTr'de 0. Kural geregi hazirlik dosyasinda
+  #    BEKLIYOR - tahminle sozluge alinmadi.
+  #
+  # ⚠ ACIK CELISKI - `neoplasm`: bu dosyada `neoplaz` ZATEN `tumor`
+  #    deseninin icinde (`t[uü]m[oö]r|neoplaz|kitlesel`). EN tarafinda
+  #    `neoplasm` artik AYRI kavram. Ayirmak `tumor`un davranisini
+  #    degistirirdi (dondurulmus tr-1.0), o yuzden YAPILMADI; celiski
+  #    ILAN EDILDI ve `tr-2.0` yeniden turetmesine birakildi (plan §5).
+
+  # ---- malignite ekseni (kunye yolu) ----
+  carcinomatosis:
+    desen: karsinomatoz
+    radtr: 0
+    ct_rate_ingilizce: 118
+    kaynak: "Turk Radyoloji Seminerleri trs.2024.23125 (PLK) + Turkiye Klinikleri 1992;3(2):99-103"
+    mezuniyet: kunye
+    uzman_onayi: false
+  malignancy:
+    desen: malignit
+    radtr: 0
+    ct_rate_ingilizce: 109
+    kaynak: "TGKDC id=903 ('Malignite ihtimali nedeniyle...')"
+    mezuniyet: kunye
+    uzman_onayi: false
+  carcinoma:
+    desen: karsinom
+    radtr: 0
+    ct_rate_ingilizce: 22
+    kaynak: "Kosuyolu YIEAH Akciger Kanseri ('skuamoz hucreli karsinom')"
+    mezuniyet: kunye
+    uzman_onayi: false
+  sarcoma:
+    desen: sarkom
+    radtr: 0
+    ct_rate_ingilizce: 18
+    kaynak: "TGKDC id=774 (gogus duvari tumorleri)"
+    mezuniyet: kunye
+    uzman_onayi: false
+  mesothelioma:
+    desen: mezotelyoma
+    radtr: 0
+    ct_rate_ingilizce: 17
+    kaynak: "Turkiye Klinikleri - Diffuz Malign Plevral Mezotelyoma"
+    mezuniyet: kunye
+    uzman_onayi: false
+  thymoma:
+    desen: timoma
+    radtr: 0
+    ct_rate_ingilizce: 8
+    kaynak: "Solunum EP-019 (mediasten/timoma olgu kaydi)"
+    mezuniyet: kunye
+    uzman_onayi: false
+  small_cell_carcinoma:
+    desen: k[uü][cç][uü]k h[uü]creli
+    radtr: 0
+    ct_rate_ingilizce: 3
+    kaynak: "Turkiye Klinikleri - Kucuk Hucreli Akciger Kanserinde Radyoterapi"
+    mezuniyet: kunye
+    uzman_onayi: false
+    not: "Kisaltma KHAK - Ingilizce karsiligi YOK, ceviri artefakti sinifi"
+  cancer:
+    desen: kanser
+    radtr: 0
+    ct_rate_ingilizce: 21
+    kaynak: "Turkiye Klinikleri - 'Kucuk Hucreli Akciger KANSERinde Radyoterapi' (baslikta)"
+    mezuniyet: kunye
+    uzman_onayi: false
+    not: "⭐ EN tarafinda ornekleri neredeyse tamamen BILINEN KANSER vakasi
+      ('followed up for lung cancer') - madde 11'in dogrudan girdisi."
+  malignant_character:
+    desen: malign\b
+    radtr: 7
+    ct_rate_ingilizce: 141
+    kaynak: "OLCUM: RadTr train+dev'de 7 anma (test MUHURLU, alinmadi)"
+    mezuniyet: olcum
+    uzman_onayi: false
+    not: "⚠ Kelime siniri ZORUNLU: `malign\\b` olmadan `malignite` icinde de
+      eslesir ve `malignancy` kavramini yutar."
+
+  # ---- malignite ekseni · TIER B (korpusta sifir, transfer amacli) ----
+  adenocarcinoma:
+    desen: adenokarsinom
+    radtr: 0
+    ct_rate_ingilizce: 0
+    kaynak: "Turkiye Klinikleri - Akciger Adenokarsinomu: Radyolojik Tani"
+    mezuniyet: kunye
+    uzman_onayi: false
+  squamous_cell_carcinoma:
+    desen: skuamo[zs]|yass[iı] h[uü]cre|yass[iı] epitel|epidermoid
+    radtr: 0
+    ct_rate_ingilizce: 0
+    kaynak: "Kosuyolu YIEAH Akciger Kanseri (skuamoz/epidermoid terminolojisi)"
+    mezuniyet: kunye
+    uzman_onayi: false
+    not: "Dort ayri yuzey - Turkcede tek yerlesik terim yok."
+  large_cell_carcinoma:
+    desen: b[uü]y[uü]k h[uü]creli
+    radtr: 0
+    ct_rate_ingilizce: 0
+    kaynak: "Kosuyolu YIEAH Akciger Kanseri"
+    mezuniyet: kunye
+    uzman_onayi: false
+  carcinoid:
+    desen: karsinoid
+    radtr: 0
+    ct_rate_ingilizce: 0
+    kaynak: "Diagnostic and Interventional Radiology (Turk radyoloji kaynagi)"
+    mezuniyet: kunye
+    uzman_onayi: false
+
+  # ---- benign eksen · kalsifikasyon paternleri ----
+  central_calcification:
+    desen: merkezi kalsifik|santral kalsifik
+    radtr: 0
+    ct_rate_ingilizce: 4
+    kaynak: "TGKDC id=1194 pulmoner nodul derlemesi ('merkezi kalsifikasyon')"
+    mezuniyet: kunye
+    uzman_onayi: false
+  popcorn_calcification:
+    desen: patlam[iı][sş] m[iı]s[iı]r|popcorn|popkorn
+    radtr: 0
+    ct_rate_ingilizce: 0
+    kaynak: "TGKDC id=1194 ('...lamellar ve patlamis misir seklinde (popcorn) kalsifikasyonlar') + Akciger Bulteni 2022-3"
+    mezuniyet: kunye
+    uzman_onayi: false
+    not: "⭐ Kullanicinin actigi sorunun cevabi (docs/34 §4.4). Korpusta SIFIR
+      oldugu icin olcumle degil KUNYEYLE mezun oldu."
+  laminated_calcification:
+    desen: lamellar|lameller|laminer
+    radtr: 0
+    ct_rate_ingilizce: 0
+    kaynak: "TGKDC id=1194 (lamellar/lameller) + Akciger Bulteni 2022-3 (laminer)"
+    mezuniyet: kunye
+    uzman_onayi: false
+    not: "⛔ `konsantrik` ALINMADI - EN tarafinda `concentric` olculdu ve 16
+      eslesmenin tamami damar/duvar cikti (D83)."

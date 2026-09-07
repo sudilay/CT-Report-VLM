@@ -1,0 +1,288 @@
+{
+  "surum": "tier-1.2",
+  "olusturma_utc": "2026-09-07T07:21:40.348263+00:00",
+  "gorev": "TASK-17 madde 7 - Tier A/B sozluk genisletmesi",
+  "amac": "docs/34 v2 §4.1 adim 2: liste, `test-v2` etki olcumunden ONCE kilitlenir. Boylece sonraki adimlarin SONUCU listeyi degistiremez - 'teste bakip sozluk degistirme' yasagi (reports/task13_dondurma.md §7) yapisal olarak imkansiz hale gelir.",
+  "baglayici_kural": "Bu kilit yazildiktan SONRA `test-v2` okunabilir (madde 9) ve YALNIZ ETKI OLCUMU icin. Sonuc bu listeye GERI BESLENMEZ. Skor duserse bile sozluge, desene, hicbir seye dokunulmaz; dusus kusur olarak ilan edilir (D-kaydi docs/35 §2 · denetim B1).",
+  "onceki_surum": "bulgu-1.1",
+  "yeni_surum": "bulgu-1.2",
+  "sozluk_sha256": "0ad4ea0abdbd455cc092f97ab2d277bb9966a6156cca588b15b7caf573f40531",
+  "sema_kapisi_sha256": "9387b917832d480dc8aa26b43bd2565abcb24a7eeff34bfab970a21e8b8ef4e5",
+  "kavram_sayisi": {
+    "onceki": 88,
+    "yeni": 106,
+    "eklenen": 18
+  },
+  "tier_a_olculmus_destek": [
+    "cancer",
+    "carcinoma",
+    "carcinomatosis",
+    "central_calcification",
+    "complete_calcification",
+    "malignancy",
+    "malignant_character",
+    "mesothelioma",
+    "neoplasm",
+    "sarcoma",
+    "small_cell_carcinoma",
+    "thymoma"
+  ],
+  "tier_b_sifir_destek_transfer": [
+    "adenocarcinoma",
+    "carcinoid",
+    "laminated_calcification",
+    "large_cell_carcinoma",
+    "popcorn_calcification",
+    "squamous_cell_carcinoma"
+  ],
+  "girdiler": {
+    "carcinomatosis": {
+      "tip": "observation",
+      "desenler": [
+        "carcinomat\\w*"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) · D74'un ilk maddesi | belge: alan_sozlugu.docx",
+      "korpus_destegi": 118,
+      "amac": "olculmus"
+    },
+    "malignancy": {
+      "tip": "observation",
+      "desenler": [
+        "malignanc(?:y|ies)"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 | belge: alan_sozlugu.docx",
+      "korpus_destegi": 109,
+      "amac": "olculmus"
+    },
+    "neoplasm": {
+      "tip": "observation",
+      "desenler": [
+        "neoplas\\w*"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 29,
+      "amac": "olculmus"
+    },
+    "carcinoma": {
+      "tip": "observation",
+      "desenler": [
+        "carcinomas?\\b"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 22,
+      "amac": "olculmus"
+    },
+    "sarcoma": {
+      "tip": "observation",
+      "desenler": [
+        "sarcomas?\\b"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 18,
+      "amac": "olculmus"
+    },
+    "mesothelioma": {
+      "tip": "observation",
+      "desenler": [
+        "mesotheliomas?"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 17,
+      "amac": "olculmus"
+    },
+    "thymoma": {
+      "tip": "observation",
+      "desenler": [
+        "thymomas?"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 8,
+      "amac": "olculmus"
+    },
+    "small_cell_carcinoma": {
+      "tip": "observation",
+      "desenler": [
+        "small cell (?:lung )?(?:carcinomas?|cancers?)"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 3,
+      "amac": "olculmus"
+    },
+    "adenocarcinoma": {
+      "tip": "observation",
+      "desenler": [
+        "adenocarcinomas?"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 0,
+      "amac": "transfer"
+    },
+    "squamous_cell_carcinoma": {
+      "tip": "observation",
+      "desenler": [
+        "squamous cell (?:carcinomas?|cancers?)",
+        "epidermoid carcinomas?"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 0,
+      "amac": "transfer"
+    },
+    "large_cell_carcinoma": {
+      "tip": "observation",
+      "desenler": [
+        "large cell carcinomas?"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 0,
+      "amac": "transfer"
+    },
+    "carcinoid": {
+      "tip": "observation",
+      "desenler": [
+        "carcinoids?"
+      ],
+      "grup": null,
+      "kaynak": "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx",
+      "korpus_destegi": 0,
+      "amac": "transfer"
+    },
+    "central_calcification": {
+      "tip": "qualifier",
+      "desenler": [
+        "central calcifications?",
+        "centrally calcified"
+      ],
+      "grup": "calcification_pattern",
+      "kaynak": "ACR Lung-RADS v2022 | belge: lung_rads_v2022.pdf",
+      "korpus_destegi": 4,
+      "amac": "olculmus"
+    },
+    "complete_calcification": {
+      "tip": "qualifier",
+      "desenler": [
+        "complete(?:ly)? calcifi\\w*"
+      ],
+      "grup": "calcification_pattern",
+      "kaynak": "ACR Lung-RADS v2022 | belge: lung_rads_v2022.pdf",
+      "korpus_destegi": 3,
+      "amac": "olculmus"
+    },
+    "popcorn_calcification": {
+      "tip": "qualifier",
+      "desenler": [
+        "popcorn"
+      ],
+      "grup": "calcification_pattern",
+      "kaynak": "ACR Lung-RADS v2022 · Fleischner 2017 | belge: lung_rads_v2022.pdf",
+      "korpus_destegi": 0,
+      "amac": "transfer"
+    },
+    "laminated_calcification": {
+      "tip": "qualifier",
+      "desenler": [
+        "laminated"
+      ],
+      "grup": "calcification_pattern",
+      "kaynak": "ACR Lung-RADS v2022 | belge: lung_rads_v2022.pdf",
+      "korpus_destegi": 0,
+      "amac": "transfer"
+    },
+    "cancer": {
+      "tip": "observation",
+      "desenler": [
+        "cancers?"
+      ],
+      "grup": null,
+      "kaynak": "artik taramasi (D86) - korpus olcumu | belge: KORPUS",
+      "korpus_destegi": 21,
+      "amac": "olculmus"
+    },
+    "malignant_character": {
+      "tip": "qualifier",
+      "desenler": [
+        "malignant"
+      ],
+      "grup": "malignancy_character",
+      "kaynak": "artik taramasi (D86) - korpus olcumu | belge: KORPUS",
+      "korpus_destegi": 141,
+      "amac": "olculmus"
+    }
+  },
+  "olcum_dayanagi": "reports/task17_tier_siniflandirma.json (scripts/55)",
+  "cakisma_denetimi": {
+    "yontem": "gercek esleştirici (ent.matcher_kur) uzerinde 13 sentetik vaka",
+    "sonuc": "13/13 gecti",
+    "dogrulananlar": [
+      "carcinomatosis, `carcinoma` tarafindan yutulmuyor (kelime siniri)",
+      "squamous_cell_carcinoma ve adenocarcinoma, `carcinoma`yi yeniyor",
+      "central_calcification, `central` (distribution) yerine kazaniyor",
+      "complete_calcification, `calcific` yerine kazaniyor",
+      "'diffuse calcific atheroma' -> `calcific`, complete_calcification DEGIL"
+    ]
+  },
+  "reddedilen_desen_parcalari": {
+    "concentric": "16 cumle, tamami damar/duvar kalinlasmasi",
+    "diffuse calcifi": "491 cumle, tamami damar ateromu; Lung-RADS 'complete' ile ayni kavram degil",
+    "malignant": "142 cumle, SIFAT - D24 geregi gozlem kavrami yapilamaz, niteleyici karari gerekli",
+    "nodular_lesion": "2.793 cumle, kavram ZATEN var; envantere eklenmesi C#nodul-kalip korumasinin genisletilmesini gerektirir"
+  },
+  "acik_kalemler": [
+    "`malignant` (142) niteleyici olarak ele alinmali",
+    "`nodular_lesion` (2.793) envantere eklenmeli mi - once C#nodul-kalip genisletilmeli",
+    "`neoplasm`: tr-1.0 `neoplaz`i `tumor` desenine katmisti; madde 10'da cozulecek"
+  ],
+  "kilit_gecmisi": [
+    {
+      "surum": "tier-1.0",
+      "utc": "2026-09-07T07:21:40.348263+00:00",
+      "sozluk_sha256": "c04f8258cf1b57e03440a2704a96c7eae38f00927f9945d8a1bc9a2e0b44a54b",
+      "sema_kapisi_sha256": "d211d7547c281247f63331b74aba3abe6e1ca93cd540cd0ec0091c9fd83ab1a9"
+    },
+    {
+      "surum": "tier-1.1",
+      "utc": "2026-09-07T07:35:04.302662+00:00",
+      "sebep": "tier-1.0 yazildiktan SONRA tam test takimi kosuldu ve UC eski degismez testi kirildi (D16'nin 'sifir destekli girdi olmaz' kurali ve 'alinan en zayif > atilan en guclu' olcutu). Testler SILINMEDI, D74'un KOSULU kodlandi. Bu sirada `extraction_schema.json` da duzeltildi: `eccentric` (19 cumle) `olculup_alinmayan`dan CIKARILIP `farkli_sinif_olculup_alinmayan`a alindi - Lung-RADS'te eksantrik kalsifikasyon BENIGN degil SUPHELI paterndir, yani hic benign ADAYI olmadi ve benign adaylarla ayni listede durmasi destek karsilastirmasini yaniltiyordu. Ayrica `secim_dayanagi` alani eklendi: grup artik HETEROJEN (bir deger korpus olcumuyle, digerleri kilavuz kunyesiyle secildi).",
+      "mesruiyet": "⚠ Kilidin BAGLAYICI SARTI 'test-v2 okunmadan ONCE dondurulmus olmak'tir. `test-v2`ye bu noktaya kadar HIC DOKUNULMADI (madde 9 henuz kosulmadi), dolayisiyla yeniden kilitleme protokolu KIRMAZ. Sonucu gorup listeyi degistirmek DEGILDIR - kirilan sey testti, sonuc degil. tier-1.0'in hash'leri yukarida ARSIVLENDI, silinmedi.",
+      "kavram_listesi_degisti_mi": false,
+      "not": "Eklenen 16 kavramin LISTESI ve DESENLERI tier-1.0 ile AYNIDIR; degisen yalniz sema kapisinin kayit yapisidir."
+    },
+    {
+      "surum": "tier-1.2",
+      "utc": "2026-09-07T07:48:42.284377+00:00",
+      "sebep": "Madde 8 ONCESI ARTIK TARAMASI (D86). 'Sozluk boslugu gercekten kapandi mi' diye olculdu: malignite baglamli 10.081 cumlenin 106'si (%1,1) hala hicbir malignite kavrami uretmiyordu (TASK-16'da %18,8). Kalan bosluk UC gercek eksige isaret etti ve ucu de KAPATILDI: `cancer` (21 cumle, en yalin terim, sozlukte HIC yoktu), `malignant_character` (141 cumle, 49'u tek kanit; NITELEYICI olarak eklendi - D24), `metastasis` deseni fiil bicimini kapsayacak sekilde genisletildi (7 cumle). Sonuc: bosluk %1,1 -> %0,4 (39 cumle).",
+      "neden_madde_8_ONCESI": "Bu uc eksik madde 8'den SONRA bulunsaydi IKINCI bir `entities.parquet` yeniden uretimi gerekirdi. Kilit bu yuzden bir kez daha yenilendi.",
+      "mesruiyet": "`test-v2`ye HALA HIC DOKUNULMADI - kilidin baglayici sarti korunuyor.",
+      "sozluk_sha256_onceki": "c04f8258cf1b57e03440a2704a96c7eae38f00927f9945d8a1bc9a2e0b44a54b",
+      "sema_kapisi_sha256_onceki": "1388057b1ee3fbd2c99640a7ac20bd4e37d067e60d9ee815bc8b8c615eecfb78"
+    }
+  ],
+  "artik_taramasi": {
+    "yontem": "malignite baglamli cumlelerin kaci hala hicbir malignite kavrami uretmiyor",
+    "task16_baslangic": "%18,8 (421 cumlenin 79'u)",
+    "madde7_sonrasi": "%1,1 (10.081 cumlenin 106'si)",
+    "D86_sonrasi": "%0,4 (10.081 cumlenin 39'u)",
+    "kalan_39_un_dogasi": "uzun kuyruk; en sik `metasta` 23, `spicul` 6, `sarcom` 4",
+    "ilan_edilen_sinir": "Esleştirici desenleri `\b(?:...)\b` ile sarar - KASITLI ve DOGRU (yoksa `mass`, `massive` icinde eslesirdi). Bedeli: ONEKLI bilesikler kaciriliyor, ornegin `cholangiocarcinoma` (3 cumle). Duzeltilmedi - sinir bilerek kabul edildi ve ilan edildi."
+  },
+  "kunye_disiplini": {
+    "kural": "Her `kaynak` alani ELDE OLAN bir belgeyi adlandirmali (`| belge: <dosya>`) ya da `belge: KORPUS` demeli. `tests/test_task17_tier_kilidi.py` bunu denetler.",
+    "eldeki_belgeler": {
+      "lung_rads_v2022.pdf": "data/raw/kilavuzlar/lung_rads_v2022.pdf",
+      "fleischner_2017.pdf": "data/raw/kilavuzlar/fleischner_2017.pdf",
+      "alan_sozlugu.docx": "Akciğer_BT_Raporlarından_BDM_ile_Yapılandırılmış_Veri_Çıkarımı_v13.docx"
+    },
+    "duzeltme_sebebi": "Bagimsiz denetim (Codex, 2026-09-07): 'mevcut test kaynak alaninin sadece BOS OLMAMASINI denetliyor; kaynagin gercekten ilgili kavrami destekledigini dogrulamiyor.' HAKLI. 7 girdi elimizde OLMAYAN bir belgeye (WHO 2021) atif veriyordu. D74'un kendi metni zaten 'Kaynak hazir: alan sozlugu §15 (WHO 2021 histoloji)' diyordu - yani ELDEKI belge alan sozlugudur, WHO degil. Kunyeler buna gore duzeltildi.",
+    "kalan_sinir": "⚠ Belgenin ADLANDIRILMASI, o belgenin ilgili terimi GERCEKTEN destekledigini kanitlamaz - bunu ancak insan dogrulamasi yapabilir. Test yalnizca 'dogrulanabilir bir belge gosteriliyor mu' der. Bu sinir ilan edilmistir."
+  }
+}

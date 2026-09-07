@@ -55,14 +55,104 @@ from dataclasses import dataclass, field
 
 import pandas as pd
 
+from radyovlm.evaluation import envanter as env
 from radyovlm.evaluation import girdi_filtresi as gf
 
 SEMA_SURUMU = "sema-0.9-taslak"
 
 # --- Envanterler -------------------------------------------------------
 
-MALIGNITE_KAVRAMLARI = gf.MALIGNITE_KAVRAMLARI  # ayni envanter, tek kaynak
+# TASK-17 madde 3 (D79): tek kaynak `envanter.py`. `gf` de oradan okur.
+MALIGNITE_KAVRAMLARI = env.MALIGNITE_KAVRAMLARI
 BENIGN_KAVRAMLARI = frozenset({"sequela", "sequela_change", "granuloma", "granulomatous"})
+
+# ═══════════════════════════════════════════════════════════════════════
+# TASK-17 madde 4 - SABLON/`nonspecific` NODUL KURALI  (C#nodul-kalip)
+# Olcum: D80 · scripts/53 -> reports/task17_nodule_envanter_olcumu.json
+# Kapsam yetkisi: docs/34 v2 §0 "Istisna 2" (ILAN EDILMIS)
+#
+# NEDEN: `nodule` malignite envanterinde ve rapor sinifini yukseltebiliyor.
+# Ama present nodullerin %49,1'i sablon ya da "nonspecific" cumlesinde ve o
+# alt populasyon OLCULEBILIR BICIMDE farkli:
+#     KALIP icinde supheli niteleyici :     94 / 9.940  = %0,95
+#     KALIP disinda supheli niteleyici:  1.078 / 10.319 = %10,45   -> 11,0 KAT
+#
+# ⚠ SINIR - bu kural `nodule` kavrami hakkinda HUKUM VERMEZ. Yalniz bir alt
+# populasyonun gosterge ORNEGI sayilmadigini soyler; karar agaci ("gosterge
+# -> supheyi yukseltir") aynen kalir. Denetim B6'nin reddettigi "siklik
+# gosterge niteligini dusurur" akil yurutmesi DEGILDIR.
+#
+# ⚠ KALIP ICINDEKI 94 GERCEK SUPHELI VARLIK BASTIRILMAZ: kural
+# "KALIP **VE** supheli niteleyici YOK" ister, duz "KALIP" degil.
+#
+# ⚠ YALNIZ `present` uzerinde calisir. `absent` nodul ("no nodules observed")
+# bugunku gibi AKTIF NEGATIF (`None`) uretmeye devam eder - negasyon
+# semantigine dokunulmaz.
+# ⛔⛔ KURAL GERI ALINDI - D87 (2026-09-07). ETKISIZDIR.
+#
+# Bagimsiz denetim (Codex) D81'i *"yeterli gerekce olmadan yapilmis gercek bir
+# kural gevsetmesi"* buldu ve UC itirazi da KABUL EDILDI:
+#
+#  (b) "Karar agacina dokunmuyor" savunmasi ISLEVSEL OLARAK YANLISTI. Kural
+#      `None` dondurup malignite degerlendirmesine hic ulasmiyor; adina
+#      "gosterge ornegi tanimi" dense de cikti BASTIRMADIR.
+#  (c) `malignite_pozitif` 10->10 GUVENLIK KANITI DEGILDIR: 20.576 calismada
+#      10 kisilik bir sinifta degismezlik zayif kanittir; buna karsilik
+#      91 calisma GERCEKTEN sinif degistirdi.
+#  (d) "Klinik olarak daha dogru" hukmu D71'i IHLAL EDIYORDU - ground truth
+#      yokken klinik dogruluk iddiasi yasaktir.
+#  (a) 11 kat fark, bu grubun farkli bir RAPORLAMA populasyonu oldugunu
+#      gosterir; uyelerinin malignite gostergesi OLMADIGINI gostermez.
+#      Denetim B6 bu cikarimi zaten reddetmisti (docs/35 §7); D81 ayni
+#      cikarimi daha dar bir alt grupta TEKRARLADI.
+#
+# ⭐ DENETIMIN GORMEDIGI DORDUNCU ITIRAZ (kendi kaydimizda bulundu):
+#   D81 *"kural, F2'nin ORTUK yaptigini ACIK hale getirdi"* diyordu. Ama
+#   nodullerin %98,8'i ZATEN F2 kapsamindadir; kural gercekten yalniz F2'yi
+#   aciklastirsaydi ETKISI 0 OLURDU. 91 calisma degisti - yani kural F2'nin
+#   BASTIRMADIGI vakalari bastiriyor. Gerekce kendi olcumuyle CELISIYOR.
+#
+# NE YAPILDI: kod SILINMEDI - olcum altyapisi (D80) gecerli bir bulgudur ve
+# madde 13'te ALTERNATIF SENARYO olarak kosulabilsin diye duruyor. Ama
+# varsayilan olarak ETKISIZDIR: `KALIP_NODUL_KURALI_ETKIN = False`.
+# Kural ancak su kosulda geri acilabilir: altin/patoloji dogrulamasi ya da
+# en azindan kor uzman yargisi, sablon nodullerin gercekten gosterge
+# olmadigini DESTEKLERSE.
+KALIP_NODUL_KURALI_ETKIN = False
+
+NODUL_KALIP_DESENI = re.compile(r"non-?specific", re.I)
+
+# `modify` iliskisiyle nodule'e bagli oldugunda kalip muafiyetini BOZAN
+# niteleyiciler (morfoloji + dansite). Kaynak: bulgu_sozlugu.yaml
+# niteleyici gruplari `margin` ve `density`.
+NODUL_SUPHELI_NITELEYICI = frozenset({
+    "spiculated", "irregular", "lobulated", "indistinct", "halo",
+    "part_solid", "ground_glass", "solid", "necrotic",
+})
+
+
+def _kalip_nodul(satir) -> bool:
+    """C#nodul-kalip: bu varlik sablon/`nonspecific` nodul mu?
+
+    GIRDI SOZLESMESI (D73 emsali): cagiran taraf iki alani EKLER -
+      `sablon_cumle`        : bool, cumlenin `is_stock_phrasing` degeri
+      `supheli_niteleyici`  : bool, `modify` ile bagli supheli niteleyici var mi
+    Alanlar YOKSA kural SESSIZCE ATLANIR (False doner) - varsayilana
+    GERI DUSULMEZ. Cunku alan yoklugu "kalip degil" demek DEGILDIR;
+    "olculmedi" demektir ve olculmemis bir seye dayanarak bastirma yapilmaz.
+    """
+    if not KALIP_NODUL_KURALI_ETKIN:
+        return False        # D87: kural geri alindi, ETKISIZ
+    if satir.get("normalized_concept") != "nodule":
+        return False
+    if satir.get("assertion") != "present":
+        return False
+    if "sablon_cumle" not in satir or "supheli_niteleyici" not in satir:
+        return False        # sessiz atlama - girdi sozlesmesi karsilanmadi
+    if bool(satir.get("supheli_niteleyici")):
+        return False        # 94 gercek supheli varlik korunur
+    cumle = str(satir.get("cumle_metni", "") or "")
+    return bool(satir.get("sablon_cumle")) or bool(NODUL_KALIP_DESENI.search(cumle))
 
 # 6+1 olcek - sirali. Docs/29 §5.1: belgeden okunan 6 duzey + not_mentioned
 # (olcek DISI - veri yoklugu isareti, siraya girmez).
@@ -152,6 +242,84 @@ BENIGN_HUKUM_DESENI = re.compile(
 #      docs/33 bulgu 3.1 `indeterminate`i ayni gerekcyle kumeden cikarmisti.
 F2_MUAF_KAVRAMLAR = frozenset({"spiculated"})
 
+# ═══════════════════════════════════════════════════════════════════════
+# TASK-17 madde 11 - `known_malignancy` TETIKLEYICISI  (C#bilinen-kanser)
+# Kapsam yetkisi: docs/34 v2 §0 "Istisna 1" (denetim B5) - kural TASK-16'da
+# KARARA BAGLANMIS ama KODLANMAMISTI; bu bir kural EKLEMESI degil, semanin
+# kendi dondurma onkosullarinda yazili bir borcun kapatilmasidir.
+# Kaynak kural (docs/33 §4.1): "raporda YAZILI bilinen/belgelenmis kanser
+# gerekir ('known primary', 'bladder ca in the follow-up', 'regressed primary
+# malignancy'). YALNIZ RADYOLOJIK HUKUM EN FAZLA `high` URETIR."
+#
+# OLCULDU (gelistirme havuzu, scratchpad/km_olc*.py):
+#   `in the follow-up` + kanser  104 cumle (%71,2 isabet - en yuksek)
+#   `followed up for/due to`      64 · `known`  53 · `operated for/due to` 29
+#   `history of` 24 · `diagnosed with` 3
+#   -> ONERILEN TETIK: 262 cumle / 222 calisma = havuzun %1,08'i
+#
+# ⛔ `it was learned` TEK BASINA ALINMADI. Olculdu: baska cipasi olmayan 22
+#    cumlenin yarisi ONCEKI RAPORU OKUMA ("it was learned that these lesions
+#    were metastases") - bu RADYOLOJIK hukumdur, belgelenmis kanser degil ve
+#    docs/33 §4.1 onu acikca disarida birakiyor. Mesru olanlar zaten baska
+#    cipa tasiyor ("...lobectomy was performed due to pulmonary Ca").
+#
+# ⚠ `ca` KISALTMASI alindi ama YALNIZ cipayla birlikte. Olculdu: ciplak
+#    `ca` 588 cumlede geciyor ve gercek yanlis pozitifi var - "icy ca
+#    density increases" (ceviri artefakti, kanser DEGIL). Cipa sarti onu
+#    eliyor cunku o cumlede hicbir klinik oyku cipasi yok.
+KANSER_OYKUSU_CIPASI = re.compile(
+    r"\bknown\b"
+    r"|follow(?:ed|-)?[ -]?up (?:for|due to)"
+    r"|in the follow-?up"
+    r"|operated (?:for|due to)"
+    r"|histor(?:y|ies) of"
+    r"|diagnosed (?:with|as)"
+    # ⛔ D97 DUZELTMESI: `malignan\w*` BU DALDAN CIKARILDI.
+    # Kor yargida cikan DORT yanlis pozitifin DORDU de bu daldandi:
+    #   "due to malignant infiltration", "may be due to malignancies"
+    # Bunlar RADYOLOJIK NEDENSELLIK/OLASILIK bildiriyor, BELGELENMIS
+    # kanser oykusu DEGIL. `cancer`/`carcinom`/`ca` kalir cunku onlar
+    # klinik ENDIKASYON bildiriyor ("lobectomy performed due to lung Ca").
+    # Olculdu: bu daraltma 4 yanlis pozitifin 4'unu de eler, dogru
+    # pozitiflerin HEPSINI tutar (44 -> 40 cumle). Cerrahi-fiil sartli
+    # daha genis alternatif (57 cumle) REDDEDILDI - kusuru duzeltirken
+    # kapsam buyutmek ayri bir dogrulama gerektirirdi.
+    r"|(?:due to|because of)\s+(?:\w+\s+){0,2}(?:cancers?|carcinom\w*|ca\b)",
+    re.I,
+)
+
+# Cipanin YANINDA bulunmasi gereken kanser terimi.
+# ⚠ `ca` KELIME SINIRLI olmak ZORUNDA: sinirsiz birakilirsa `calcification`,
+#   `vascular`, `apical` gibi yuzlerce kelimenin ICINDE eslesir ve tetikleyici
+#   pratik olarak her cumlede ateslerdi. Bu, yazim sirasinda gercekten olustu
+#   (kacis karakteri kaybi) ve testle yakalandi.
+KANSER_TERIMI_METIN = re.compile(
+    r"malignan|carcinom|neoplas|metasta|tumor|lymphom|sarcom|mesotheliom"
+    r"|cancers?|\bca\b",
+    re.I,
+)
+
+
+def _bilinen_kanser(satir) -> bool:
+    """C#bilinen-kanser: cumle YAZILI/BELGELENMIS bir kanser oykusu tasiyor mu?
+
+    GIRDI SOZLESMESI (D73): yalniz `cumle_metni` okunur; metinden YENI VARLIK
+    URETILMEZ. Alan yoksa kural SESSIZCE ATLANIR - `raw_text`e geri dusulmez
+    (11 karakterlik span'de cumle deseni aramak alet hatasidir).
+
+    ⚠ `absent` varliklar DISARIDA: "no metastasis" bir bilinen kanser iddiasi
+    degildir. Ama ayni cumledeki `cancer`/`carcinoma` varligi PRESENT ise o
+    tetikler - dogru davranis kendiliginden cikar.
+    """
+    if satir.get("assertion") == "absent":
+        return False
+    cumle = str(satir.get("cumle_metni", "") or "")
+    if not cumle:
+        return False        # sessiz atlama - sozlesme karsilanmadi
+    return bool(KANSER_OYKUSU_CIPASI.search(cumle)
+                and KANSER_TERIMI_METIN.search(cumle))
+
+
 # docs/33 §4.2 "KESIN benign hukum" der. Hedge'li cikarim hukum degildir:
 # "possible sequelae" (cikarim:olasilik) radyologun karar verdigi anlamina
 # gelmez. Yalniz HUKUM grade kurallar sayilir.
@@ -190,6 +358,47 @@ class RaporSonucu:
     bulgular: list[BulguSonucu] = field(default_factory=list)
 
 
+def kalip_nodul_kolonlarini_ekle(varliklar: pd.DataFrame,
+                                 cumleler: pd.DataFrame,
+                                 iliskiler: pd.DataFrame) -> pd.DataFrame:
+    """C#nodul-kalip'in girdi sozlesmesini karsilar: iki kolon EKLER.
+
+    Cagiran taraflar (scripts/48, scripts/49) bunu AYNI yerden cagirir ki
+    tanim ikiye ayrilmasin - D79'un dersi.
+
+        `sablon_cumle`       <- cumleler.is_stock_phrasing
+        `supheli_niteleyici` <- `modify` ile bagli NODUL_SUPHELI_NITELEYICI
+
+    ⚠ `modify` YONU: head = NITELEYICI, tail = GOZLEM. Ilk olcumde ters
+    varsayilmis ve %100 "niteleyici yok" sonucu vermisti (D80, alet hatasi).
+    Kanit: head/tail entity_type dagiliminda yalniz qualifier->observation
+    ve qualifier->anatomy var.
+
+    Kolonlar zaten varsa DOKUNULMAZ (cagiran kendi hesaplamis olabilir).
+    """
+    v = varliklar.copy()
+
+    if "sablon_cumle" not in v.columns:
+        # ⚠ BOLUM ANAHTARI ZORUNLU (D96) - bkz. _benign_hukum_cumleler
+        anahtar = [k for k in ("study_id", "section", "sent_idx") if k in v.columns]
+        if set(anahtar).issubset(cumleler.columns) and                 "is_stock_phrasing" in cumleler.columns:
+            c = cumleler[anahtar + ["is_stock_phrasing"]].drop_duplicates(subset=anahtar)
+            v = v.merge(c, on=anahtar, how="left")
+            v["sablon_cumle"] = v.pop("is_stock_phrasing").fillna(False).astype(bool)
+        else:
+            v["sablon_cumle"] = False
+
+    if "supheli_niteleyici" not in v.columns:
+        r = iliskiler[iliskiler["relation_type"] == "modify"]
+        kavram = dict(zip(varliklar["entity_id"], varliklar["normalized_concept"]))
+        # head = NITELEYICI, tail = GOZLEM
+        supheli_head = r["head_id"].map(kavram).isin(NODUL_SUPHELI_NITELEYICI)
+        supheli_ids = set(r.loc[supheli_head, "tail_id"])
+        v["supheli_niteleyici"] = v["entity_id"].isin(supheli_ids)
+
+    return v
+
+
 def _bulgu_duzeyi(satir: pd.Series, benign_hukum: bool = False) -> BulguSonucu:
     """Tek bir malignite/benign-eksenindeki varligi bulgu duzeyine cevirir.
 
@@ -216,8 +425,23 @@ def _bulgu_duzeyi(satir: pd.Series, benign_hukum: bool = False) -> BulguSonucu:
         return BulguSonucu(eid, kavram, "None", "A26+C#12+§4.2", True,
                            "radyologun kesin benign hukmu")
 
+    # --- C#nodul-kalip (TASK-17 madde 4, D80/D81; docs/34 §0 Istisna 2) ---
+    # Sablon/"nonspecific" nodul, supheli niteleyicisi yoksa malignite
+    # GOSTERGE ORNEGI sayilmaz. Bkz. NODUL_KALIP_DESENI ustundeki gerekce.
+    if _kalip_nodul(satir):
+        return BulguSonucu(eid, kavram, None, "C#nodul-kalip", True,
+                           "sablon/nonspecific nodul - supheli niteleyici yok")
+
     if kavram not in MALIGNITE_KAVRAMLARI:
         return BulguSonucu(eid, kavram, None, "-", True)
+
+    # --- C#bilinen-kanser (TASK-17 madde 11, D92; docs/33 §4.1) ---
+    # Malignite kavrami + cumlede YAZILI kanser oykusu -> olcegin en ustu.
+    # docs/34 §0 "Istisna 1" ile ilan edilmis kapsam; kural TASK-16'da karara
+    # baglanmisti, burada yalnizca KODLANIYOR.
+    if _bilinen_kanser(satir):
+        return BulguSonucu(eid, kavram, "known_malignancy", "C#bilinen-kanser",
+                           True, "raporda yazili/belgelenmis kanser oykusu")
 
     assertion = satir["assertion"]
     cue = str(satir.get("assertion_cue", "") or "")
@@ -308,16 +532,28 @@ def _benign_hukum_cumleler(varliklar: pd.DataFrame) -> set:
     """
     if "sent_idx" not in varliklar.columns:
         return set()
+
+    def _anahtar(d):
+        """⚠ BOLUM ANAHTARI ZORUNLU (D96). `sent_idx` HER BOLUMDE SIFIRDAN
+        BASLAR; yalniz `sent_idx` kullanmak Findings ve Impression cumlelerini
+        birbirine karistirir. Olculdu: korpusta (study_id, sent_idx) ikilisi
+        BENZERSIZ DEGIL - 479.051 satirin 77.855'i cakisiyor.
+        Bu kusur TASK-16'dan mirastir ve bagimsiz denetim (Codex) buldu.
+        """
+        if "section" in d.columns:
+            return set(zip(d["section"], d["sent_idx"]))
+        return set(zip([None] * len(d), d["sent_idx"]))
+
     varlik_yolu = varliklar[
         varliklar["normalized_concept"].isin(BENIGN_KAVRAMLARI)
         & varliklar["assertion"].eq("present")
         & varliklar["assertion_rule"].isin(KESIN_HUKUM_KURALLARI)
-    ]["sent_idx"]
+    ]
     metin_yolu = varliklar[
         varliklar.get("cumle_metni", pd.Series(dtype=str))
         .fillna("").str.contains(BENIGN_HUKUM_DESENI, na=False)
-    ]["sent_idx"]
-    return set(varlik_yolu) | set(metin_yolu)
+    ]
+    return _anahtar(varlik_yolu) | _anahtar(metin_yolu)
 
 
 def bulgulari_hesapla(varliklar: pd.DataFrame) -> list[BulguSonucu]:
@@ -332,7 +568,8 @@ def bulgulari_hesapla(varliklar: pd.DataFrame) -> list[BulguSonucu]:
     # her varlik icin ayri DataFrame kurulur ve korpus olceginde kosulamaz.
     if "dusuk_guven" not in varliklar.columns:
         varliklar = gf.uygula(varliklar.reset_index(drop=True))
-    return [_bulgu_duzeyi(r, benign_hukum=r.get("sent_idx") in benign)
+    return [_bulgu_duzeyi(
+                r, benign_hukum=(r.get("section"), r.get("sent_idx")) in benign)
             for _, r in varliklar.iterrows()]
 
 

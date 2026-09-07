@@ -3,27 +3,37 @@
   "olusturma_tarihi": "2026-09-04",
   "gorev": "TASK-16",
   "aciklama": "Malignite degerlendirme semasi. Rapordan cikarilmis bulgular -> rapor duzeyi malignite suphe sinifi. Bu dosya semanin BILDIRIMSEL kaydidir; yurutulebilir hali src/radyovlm/evaluation/sema.py, ikisi tests/test_task16_sema.py ile baglanir.",
-
   "surum_notu": "'taslak' - klinik uzman onayi ALINMAYACAKTIR (D71). Sema kilitli sinir/kontrol/rapor takimina karsi sinandi (scripts/48) ve sonuc ZORLANMADI; hedef uyumu %100 DEGILDIR ve sapmalarin her birinin sebebi ayri raporlanir.",
-
   "otorite_modeli": {
     "aciklama": "Her kural bir kaynaga atiflidir (D27). Atifsiz kural yoktur.",
     "A": "docs/30_task16_sema_gerekce.md - kaynak kilavuzda CUMLE OLARAK yazili kural (alan sozlugu, Lung-RADS v2022, Fleischner 2017, RECIST 1.1)",
     "C": "docs/31_task16_klinik_karar_listesi.md - klinik yargi, gerekceli muhendislik varsayilani, uzman onayi YOK",
     "§": "docs/33_task16_denetim2_ve_duzeltme_plani.md - ikinci bagimsiz denetimin ortaya cikardigi, daha once yazili OLMAYAN kararlar"
   },
-
   "girdi_sozlesmesi": {
     "kaynak": "data/processed/entities.parquet (ent-1.0) + data/processed/sentences.parquet",
-    "zorunlu_alanlar": ["entity_id", "normalized_concept", "assertion", "assertion_rule", "assertion_cue", "temporality"],
+    "zorunlu_alanlar": [
+      "entity_id",
+      "normalized_concept",
+      "assertion",
+      "assertion_rule",
+      "assertion_cue",
+      "temporality"
+    ],
     "cumle_metni": "Cagiran taraf EKLER. Cumle duzeyi kurallar (ayirici tani, olumsuzlanmis suphe, derece, benign hukum) bunun uzerinde calisir.",
     "raw_text_uyarisi": "`raw_text` varligin KENDI span'idir - ortalama 11 karakter, azami 36. Cumle degildir. Cumle deseni burada aranirsa kural SESSIZCE OLU KALIR; bu hata bir kez yapildi ve D73 olarak kayda gecti.",
     "izlenebilirlik": "Metin yalniz ZATEN CIKARILMIS bir varligin niteligini okumak icin kullanilir. Metinden YENI VARLIK URETILMEZ - her karar bir `entity_id`ye baglidir."
   },
-
   "olcek": {
     "kaynak": "Alan sozlugu §1, alan `radiology_malignancy_suspicion_level`",
-    "sirali_duzeyler": ["None", "low", "indeterminate", "intermediate", "high", "known_malignancy"],
+    "sirali_duzeyler": [
+      "None",
+      "low",
+      "indeterminate",
+      "intermediate",
+      "high",
+      "known_malignancy"
+    ],
     "olcek_disi": {
       "not_mentioned": "Veri yoklugu isareti - malignite ekseninde hicbir ifade yok. Siraya girmez, 'suphe yok' DEMEK DEGILDIR."
     },
@@ -37,41 +47,286 @@
       "dayanak": "C#8 · docs/29 §5.1"
     }
   },
-
   "envanterler": {
     "malignite_kavramlari": {
-      "liste": ["metastasis", "malignancy", "carcinoma", "tumor", "neoplasm", "mass", "nodule", "lytic_destructive_lesion", "space_occupying_lesion", "spiculated"],
-      "uyari": "10 kavramin UCU (`malignancy`, `carcinoma`, `neoplasm`) cikarim sozlugunde (`configs/bulgu_sozlugu.yaml`, ent-1.0) YOKTUR - bu satirlar bugun OLU. Olculdu: gelistirme havuzunda `malignan|carcinom|neoplas` 421 cumle / 288 calisma, bunlarin 79'u (%18,8) hicbir varlik uretmiyor. TASK-17'ye devredildi (D74).",
-      "eksik_oldugu_bilinen": ["carcinomatosis (lenfanjitik/peritoneal - ayri kavram, es anlamli DEGIL)", "lesion (genel; eklenmedi - yanlis pozitif riski olculmedi)"]
+      "liste": [
+        "adenocarcinoma",
+        "cancer",
+        "carcinoid",
+        "carcinoma",
+        "carcinomatosis",
+        "large_cell_carcinoma",
+        "lymphoma",
+        "lytic_destructive_lesion",
+        "malignancy",
+        "malignant_character",
+        "mass",
+        "mesothelioma",
+        "metastasis",
+        "neoplasm",
+        "nodule",
+        "sarcoma",
+        "small_cell_carcinoma",
+        "space_occupying_lesion",
+        "spiculated",
+        "squamous_cell_carcinoma",
+        "thymoma",
+        "tumor"
+      ],
+      "uyari": "TASK-17 madde 7-8 oncesi genisletildi: 10 -> 22 kavram. `malignancy`, `carcinoma`, `neoplasm` artik OLU DEGIL - bulgu-1.2 ile cikarim sozlugunde karsiliklari var. Sayilar madde 8/9 yeniden uretiminden SONRA gecerlilik kazanir.",
+      "eksik_oldugu_bilinen": [
+        "carcinomatosis (lenfanjitik/peritoneal - ayri kavram, es anlamli DEGIL)",
+        "lesion (genel; eklenmedi - yanlis pozitif riski olculmedi)"
+      ],
+      "d84_eklenen": {
+        "lymphoma": "Cikarim sozlugunde ZATEN vardi (korpus 112) ama envanterde yoktu - varlik uretilip sema tarafindan GORMEZDEN GELINIYORDU. Ekleme sozluge dokunmaz, ent-1.0 kirilmaz."
+      },
+      "d85_d86_eklenenler": {
+        "D85 Tier A/B (bulgu-1.2)": [
+          "carcinomatosis",
+          "sarcoma",
+          "mesothelioma",
+          "thymoma",
+          "small_cell_carcinoma",
+          "adenocarcinoma",
+          "squamous_cell_carcinoma",
+          "large_cell_carcinoma",
+          "carcinoid"
+        ],
+        "D86 artik taramasi": {
+          "cancer": "21 cumle - en yalin terim, sozlukte hic yoktu",
+          "malignant_character": "141 cumle (49u tek kanit) - NITELEYICI (D24), emsal spiculated"
+        }
+      }
     },
-    "benign_kavramlari": ["sequela", "sequela_change", "granuloma", "granulomatous"],
+    "benign_kavramlari": {
+      "liste": [
+        "granuloma",
+        "granulomatous",
+        "sequela",
+        "sequela_change"
+      ],
+      "status": "belgelenmis muhendislik varsayilani (C karari, D71) - korpustan TURETILMIS DEGIL",
+      "turetme_denendi_mi": true,
+      "turetme_sonucu": "BASARISIZ - vekil gecersiz (D82)",
+      "vekil_neden_gecersiz": [
+        "Acik benign hukum deseni 383.644 cumlenin yalniz 133'unde (%0,035) atesliyor ve neredeyse tamami TEK senaryo (yagli hilumlu lenf nodu).",
+        "`sequela` 9.641 cumlede geciyor, desenle kesisimi TAM OLARAK 0 - sekel adjudike edilmez, olgu olarak yazilir.",
+        "Dusuk oran 'benign degil' ile 'tartisilmayacak kadar acik benign' arasinda ayrim yapamaz.",
+        "Eksen ANATOMI kavramlarini siraliyor (hilum 20,9x, lymph_node 16,7x) - benign hukmun HAKKINDA OLDUGU seyleri, gostergesini degil.",
+        "D76'nin capa hatasinin tekrari: 'benign hukum dili' ile 'benign gosterge' esitlendi."
+      ],
+      "negatif_eleme": {
+        "olcut": "Malignite diliyle taban orandan SIK gecen kavram benign gosterge OLAMAZ (diskalifiye olcutu, nitelendirme DEGIL).",
+        "ayirici_tani_haric": true,
+        "ayirici_tani_gerekcesi": "Ayirici tani cumlesi benign ve malign secenegi ayni cumleye koyar; differansiyelin BENIGN KOLU olan kavram yanlis elenir. Olculdu: granuloma 4,9x -> 0,0x.",
+        "sonuc": {
+          "sequela": "0,2x GECTI",
+          "sequela_change": "0,1x GECTI",
+          "granuloma": "0,0x GECTI (destek dusuk, 20 varlik)",
+          "granulomatous": "0,0x GECTI (destek dusuk, 73 varlik)"
+        },
+        "ihlal": 0
+      },
+      "dayanak": "docs/29 §2.2/B 'sequela maligniteyi dislar mi?' sorusunu ZATEN C karari diye siniflamisti; D82 o siniflamayi dogruluyor."
+    },
     "f2_muaf_kavramlar": {
-      "liste": ["spiculated"],
+      "liste": [
+        "spiculated"
+      ],
       "gerekce": "A34 · gozlenen MORFOLOJI, cikarilmis tani degil. F2'nin gerekcesi (present'in %80,33'u varsayilan, D29) cikarim tipi kavramlar icindi; radyolog 'spikule kontur' yazdiysa ipucu beklemek aleti yanlis kullanmaktir."
     },
     "kesin_hukum_kurallari": {
-      "liste": ["cikarim:lehine", "cikarim:uyumlu", "cikarim:degerlendirildi_kalip"],
+      "liste": [
+        "cikarim:lehine",
+        "cikarim:uyumlu",
+        "cikarim:degerlendirildi_kalip"
+      ],
       "gerekce": "docs/33 §4.2 'KESIN benign hukum' der. Hedge'li cikarim ('possible sequelae', cikarim:olasilik) hukum degildir - ilk surumde sayilmis ve iki vakayi bozmustu, daraltildi."
+    },
+    "malignite_metin_deseni": {
+      "desen": "malignan|carcinom|neoplas|metasta|tumor|spicul",
+      "kapsam": "HAM CUMLE METNI (varlik degil)",
+      "gerekce": "TASK-17 madde 3 (D79). Bu, `malignite_kavramlari`nin metin karsiligi DEGILDIR ve olmasi beklenmez: o cikarim katmaninin urettigi kavramlar uzerinde, bu ham metin uzerinde calisir. `mass`/`nodule` bilerek YOKTUR - sablon 'nonspecific nodules' cumleleri taramayi bogardi.",
+      "onarilan_drift": "4 kopya / 2 farkli icerik bulundu. scripts/42+44 `tumoral` (DAR, 9.862 cumle), scripts/48+49 `tumor` (GENIS, 9.930). Olculdu: genis desen darin UST KUMESI, fark 68 cumle / 56 calisma, ters yonde fark 0. Kacirilanlar 'lung tumor', 'primary tumor', 'Operated right renal tumor on follow-up' gibi known_malignancy adaylariydi. GENIS secildi.",
+      "kilit_uyarisi": "configs/sema_takim_kilidi.json (takim-1.1) DAR desenle orneklendi; o 56 calisma orneklemeye hic gorunmedi. Kilit ACILMAZ (docs/33 §7), fark ILAN EDILIR (D75 emsali). scripts/44 tarihsel desenini korur."
+    },
+    "koruma_kapisi_kumeleri": {
+      "uyari": "IKI AYRI KURAL. TASK-17 madde 3'e kadar ikisi de `MALIGN_URETIR` adini ve ayni degeri tasiyordu; korlemesine tek kaynaga baglamak kilidin kendi degismezini SESSIZCE zayiflatirdi.",
+      "hedef_malignite_siniflari": {
+        "liste": [
+          "high",
+          "intermediate",
+          "known_malignancy",
+          "low"
+        ],
+        "kural": "Kontrol takimindaki hicbir vakanin HEDEFI bu siniflardan olamaz.",
+        "kapsam": "scripts/45, scripts/46, tests/test_task16_takim.py",
+        "durum": "DEGISMEDI - bir kontrol vakasina `low` HEDEFI yazmak hedef hatasidir."
+      },
+      "kapi_malignite_siniflari": {
+        "liste": [
+          "high",
+          "intermediate",
+          "known_malignancy"
+        ],
+        "kural": "Sema kontrol takiminda bu siniflardan hicbirini URETMEYECEK (K-A, toleranssiz).",
+        "kapsam": "scripts/48",
+        "durum": "docs/34 v2 §4.2 (Karar 2, kullanici onayli) `low` CIKARILDI.",
+        "K_C": {
+          "kural": "Kontrol takiminda `low` ureten vaka sayisi raporlanir.",
+          "tolerans": 1,
+          "turetme": "Secilmedi, TURETILDI. Muafiyet genisletilmiyor (Karar 3) ve kavram envanteri daraltiliyor -> bu tasarimin ONGORUSU 0. 1 bir birim pay; 2 ve ustu ongorunun YANLISLANDIGI anlamina gelir ve kapi KALIR."
+        }
+      }
+    },
+    "nodul_kalip_kurali": {
+      "kod": "C#nodul-kalip",
+      "kural": "Sablon VEYA `nonspecific` cumlesindeki PRESENT `nodule`, supheli niteleyicisi YOKSA malignite gosterge ORNEGI sayilmaz.",
+      "kalip_deseni": "non-?specific",
+      "supheli_niteleyici": [
+        "ground_glass",
+        "halo",
+        "indistinct",
+        "irregular",
+        "lobulated",
+        "necrotic",
+        "part_solid",
+        "solid",
+        "spiculated"
+      ],
+      "kapsam_yetkisi": "docs/34 v2 §0 'Istisna 2' - ILAN EDILMIS (2026-09-07, kullanici karari)",
+      "olcum_dayanagi": {
+        "kaynak": "D80 · reports/task17_nodule_envanter_olcumu.json",
+        "kalip_icinde_supheli_yuzde": 0.95,
+        "kalip_disinda_supheli_yuzde": 10.45,
+        "ayirt_edicilik_kat": 11.0
+      },
+      "sinirlar": [
+        "Kavram hakkinda HUKUM VERMEZ - yalniz bir alt populasyonun gosterge ornegi sayilmadigini soyler; karar agaci degismez.",
+        "YALNIZ `present` uzerinde calisir; `absent` nodul aktif negatif (`None`) uretmeye devam eder.",
+        "Kalip icindeki 94 gercek supheli varlik korunur: kural 'KALIP VE supheli niteleyici YOK' ister.",
+        "Girdi sozlesmesi karsilanmazsa SESSIZCE ATLANIR (D73 emsali) - varsayilana geri dusulmez."
+      ],
+      "olculen_etki": {
+        "kapsam": "gelistirme havuzu 20.576 calisma",
+        "sinif_degistiren_calisma": 91,
+        "malignite_pozitif": "10 -> 10 (DEGISMEDI - hicbir yuksek suphe vakasi bastirilmadi)",
+        "intermediate": "828 -> 785 (-43)",
+        "indeterminate": "205 -> 199 (-6)",
+        "benign_bulgu": "182 -> 228 (+46)",
+        "malignite_negatif": "17.832 -> 17.877 (+45)",
+        "not": "Ust sinir tahmini 3.829 calismaydi (D80); gercek etki 91. Fark, F2 girdi filtresinin zaten cogunu bastiriyor olmasindandir - kural F2'nin ORTUK olarak yaptigini ACIK hale getiriyor."
+      }
     }
   },
-
   "kurallar_sirali": [
-    {"sira": 1, "kod": "benign-eksen", "kosul": "kavram BENIGN_KAVRAMLARI icinde", "sonuc": "malignite duzeyine katilmaz", "dayanak": "C#8"},
-    {"sira": 2, "kod": "A26+C#12+§4.2", "kosul": "cumlede radyologun KESIN benign hukmu var (varlik yolu: benign kavram + kesin hukum kurali · metin yolu: 'possibly benign', yagli hilus)", "sonuc": "None", "dayanak": "A26 · C#12 · docs/33 §4.2", "bilgi_kaybi": "A34 spikule kenarin malignite olasiligini ARTIRDIGINI yaziyor; kesin benign hukum onu ezer. Karsi kanit ILAN EDILDI."},
-    {"sira": 3, "kod": "kapsam-disi", "kosul": "kavram MALIGNITE_KAVRAMLARI'nda degil", "sonuc": "eksene katkida bulunmaz"},
-    {"sira": 4, "kod": "A1+C#1", "kosul": "assertion == absent", "sonuc": "None", "dayanak": "A1 · C#1", "not": "Negasyon KAPSAMI ctx-1.1 tarafindan varlik duzeyinde cozulmustur."},
-    {"sira": 5, "kod": "A1+C#negbelirsiz", "kosul": "cumlede 'no suspicious ...'", "sonuc": "None", "dayanak": "docs/31 §5-B", "not": "Suphe DISLANIYOR - 'cannot be excluded' (suphe ortadan KALDIRILAMIYOR) kalibindan farkli."},
-    {"sira": 6, "kod": "C#16", "kosul": "cumlede ayirici tani ('X or metastasis', 'differential diagnosis')", "sonuc": "indeterminate", "dayanak": "C#16", "not": "'may be' bu desende DEGILDIR - docs/33 §3.4 yonlu hipotezi ayirici tanidan ters yonde ayirir."},
-    {"sira": 7, "kod": "A18", "kosul": "cumlede 'cannot/could not be excluded'", "sonuc": "indeterminate", "dayanak": "A18 · Kritik kural 1", "not": "Assertion'dan BAGIMSIZ uygulanir: cikarim katmani ayni cumlede varligi `present` isaretleyebiliyor."},
-    {"sira": 8, "kod": "§4.3", "kosul": "cumlede 'cannot be (clearly) distinguished' / 'not possible to comment'", "sonuc": "indeterminate", "dayanak": "docs/33 §4.3", "ayrim": "LEZYON VAR ama karakterize edilemiyor -> indeterminate. Hicbir bulgu yok, yalniz inceleme kisitli ('could not be optimally evaluated') -> not_mentioned."},
-    {"sira": 9, "kod": "§3.4", "kosul": "assertion == uncertain VE assertion_rule == belirsizlik:parantez_soru", "sonuc": "intermediate", "dayanak": "docs/33 §3.4", "not": "'(metastasis?)' YONLU hipotezdir, ayirt edilemezlik degil."},
-    {"sira": 10, "kod": "A18+C#10", "kosul": "assertion == uncertain (diger)", "sonuc": "indeterminate", "dayanak": "A18 · C#10"},
-    {"sira": 11, "kod": "girdi-filtresi:dusuk-guven", "kosul": "assertion == present VE (F1 gecmis bulgu VEYA F2 kanitsiz present)", "sonuc": "low, suphe YUKSELTEMEZ", "dayanak": "docs/29 §7 · D39 · D29"},
-    {"sira": 12, "kod": "C#4(derece)+A5/A7/A8", "kosul": "assertion == present VE ipuclu (hedge) VE cumlede yuksek derece ('highly/strongly suspicious', 'highly suggestive')", "sonuc": "high", "dayanak": "C#4 · A5/A7/A8", "olcum": "392 cumle / 230 calisma (%1,12) - reports/task16_b_olcumleri.json"},
-    {"sira": 13, "kod": "C#4(kismi)+A5/A7/A8", "kosul": "assertion == present VE ipuclu (hedge), derece kelimesi yok", "sonuc": "intermediate", "dayanak": "C#4"},
-    {"sira": 14, "kod": "C#4(varsayilan)", "kosul": "assertion == present, taninmayan kural", "sonuc": "intermediate", "not": "Guvenli tarafta kalinir."}
+    {
+      "sira": 1,
+      "kod": "benign-eksen",
+      "kosul": "kavram BENIGN_KAVRAMLARI icinde",
+      "sonuc": "malignite duzeyine katilmaz",
+      "dayanak": "C#8"
+    },
+    {
+      "sira": 2,
+      "kod": "A26+C#12+§4.2",
+      "kosul": "cumlede radyologun KESIN benign hukmu var (varlik yolu: benign kavram + kesin hukum kurali · metin yolu: 'possibly benign', yagli hilus)",
+      "sonuc": "None",
+      "dayanak": "A26 · C#12 · docs/33 §4.2",
+      "bilgi_kaybi": "A34 spikule kenarin malignite olasiligini ARTIRDIGINI yaziyor; kesin benign hukum onu ezer. Karsi kanit ILAN EDILDI."
+    },
+    {
+      "sira": 3,
+      "kod": "kapsam-disi",
+      "kosul": "kavram MALIGNITE_KAVRAMLARI'nda degil",
+      "sonuc": "eksene katkida bulunmaz"
+    },
+    {
+      "sira": 4,
+      "kod": "A1+C#1",
+      "kosul": "assertion == absent",
+      "sonuc": "None",
+      "dayanak": "A1 · C#1",
+      "not": "Negasyon KAPSAMI ctx-1.1 tarafindan varlik duzeyinde cozulmustur."
+    },
+    {
+      "sira": 5,
+      "kod": "A1+C#negbelirsiz",
+      "kosul": "cumlede 'no suspicious ...'",
+      "sonuc": "None",
+      "dayanak": "docs/31 §5-B",
+      "not": "Suphe DISLANIYOR - 'cannot be excluded' (suphe ortadan KALDIRILAMIYOR) kalibindan farkli."
+    },
+    {
+      "sira": 6,
+      "kod": "C#16",
+      "kosul": "cumlede ayirici tani ('X or metastasis', 'differential diagnosis')",
+      "sonuc": "indeterminate",
+      "dayanak": "C#16",
+      "not": "'may be' bu desende DEGILDIR - docs/33 §3.4 yonlu hipotezi ayirici tanidan ters yonde ayirir."
+    },
+    {
+      "sira": 7,
+      "kod": "A18",
+      "kosul": "cumlede 'cannot/could not be excluded'",
+      "sonuc": "indeterminate",
+      "dayanak": "A18 · Kritik kural 1",
+      "not": "Assertion'dan BAGIMSIZ uygulanir: cikarim katmani ayni cumlede varligi `present` isaretleyebiliyor."
+    },
+    {
+      "sira": 8,
+      "kod": "§4.3",
+      "kosul": "cumlede 'cannot be (clearly) distinguished' / 'not possible to comment'",
+      "sonuc": "indeterminate",
+      "dayanak": "docs/33 §4.3",
+      "ayrim": "LEZYON VAR ama karakterize edilemiyor -> indeterminate. Hicbir bulgu yok, yalniz inceleme kisitli ('could not be optimally evaluated') -> not_mentioned."
+    },
+    {
+      "sira": 9,
+      "kod": "§3.4",
+      "kosul": "assertion == uncertain VE assertion_rule == belirsizlik:parantez_soru",
+      "sonuc": "intermediate",
+      "dayanak": "docs/33 §3.4",
+      "not": "'(metastasis?)' YONLU hipotezdir, ayirt edilemezlik degil."
+    },
+    {
+      "sira": 10,
+      "kod": "A18+C#10",
+      "kosul": "assertion == uncertain (diger)",
+      "sonuc": "indeterminate",
+      "dayanak": "A18 · C#10"
+    },
+    {
+      "sira": 11,
+      "kod": "girdi-filtresi:dusuk-guven",
+      "kosul": "assertion == present VE (F1 gecmis bulgu VEYA F2 kanitsiz present)",
+      "sonuc": "low, suphe YUKSELTEMEZ",
+      "dayanak": "docs/29 §7 · D39 · D29"
+    },
+    {
+      "sira": 12,
+      "kod": "C#4(derece)+A5/A7/A8",
+      "kosul": "assertion == present VE ipuclu (hedge) VE cumlede yuksek derece ('highly/strongly suspicious', 'highly suggestive')",
+      "sonuc": "high",
+      "dayanak": "C#4 · A5/A7/A8",
+      "olcum": "392 cumle / 230 calisma (%1,12) - reports/task16_b_olcumleri.json"
+    },
+    {
+      "sira": 13,
+      "kod": "C#4(kismi)+A5/A7/A8",
+      "kosul": "assertion == present VE ipuclu (hedge), derece kelimesi yok",
+      "sonuc": "intermediate",
+      "dayanak": "C#4"
+    },
+    {
+      "sira": 14,
+      "kod": "C#4(varsayilan)",
+      "kosul": "assertion == present, taninmayan kural",
+      "sonuc": "intermediate",
+      "not": "Guvenli tarafta kalinir."
+    }
   ],
-
   "toplama_kurali": {
     "kod": "C#9 / A25 / A33",
     "kural": "Suphe yukseltebilen bulgular arasinda EN YUKSEK duzey kazanir.",
@@ -79,20 +334,52 @@
     "hicbir_aday_yoksa_ama_benign_bulgu_varsa": "not_mentioned + dort_sinif=benign_bulgu (C#8-ek)",
     "tek_testi": "5 cok cumleli rapor vakasi - adim 4 v1.1'de eklendi, oncesinde toplama kuralinin HIC testi yoktu"
   },
-
   "ilan_edilen_sinirlar": [
-    {"sinir": "known_malignancy OTOMATIK URETILMEZ", "sebep": "docs/33 §4.1 raporda YAZILI bilinen/belgelenmis kanser sarti koyuyor; tespiti ayri tetikleyici gerektirir", "devir": "TASK-17"},
-    {"sinir": "low duzeyi PRATIKTE URETILEMIYOR", "sebep": "Dusuk guvenli aday not_mentioned'a dusuyor. `low` uretmek denendi ve GERI ALINDI: `low` malignite ureten siniflardandir, koruma kapisini kiriyor ve sablon negatifler `low`a kayiyordu.", "sonuc": "Olcek alti basamakli, motor besini kullaniyor"},
-    {"sinir": "Derece kapsami CUMLE duzeyi", "sebep": "Ayni cumlede hem dereceli hem deregesiz suphe varsa ikisi de yukselir", "durum": "Olculmedi, ilan edildi"},
-    {"sinir": "Sozluk boslugu", "sebep": "malignancy/carcinoma/neoplasm/carcinomatosis kavram uretmiyor", "olcum": "288 calismanin 78'inde malignite sinyali gorunmez", "devir": "TASK-17 (D74)"},
-    {"sinir": "Stabil takipteki bilinen kanser gorunmuyor", "sebep": "Cumlede 'previous examination' gectiginde varliga `prior` ataniyor, F1 dogru sekilde susturuyor. Filtre calisiyor, GIRDISI yanlis (K7 F1 %36,4)", "kanit": "C5-stabil-malignite ailesinin ucu de kayboluyor"},
-    {"sinir": "Hedef atama yordami motorun kavram listesiyle ayni degil", "sebep": "Hedefler M-desenine (regex), motor MALIGNITE_KAVRAMLARI'na bakiyor", "sonuc": "R3/R4 KALICI uyumsuz; kilit acilmadi (D75)"}
+    {
+      "sinir": "known_malignancy OTOMATIK URETILMEZ",
+      "sebep": "docs/33 §4.1 raporda YAZILI bilinen/belgelenmis kanser sarti koyuyor; tespiti ayri tetikleyici gerektirir",
+      "devir": "TASK-17"
+    },
+    {
+      "sinir": "low duzeyi PRATIKTE URETILEMIYOR",
+      "sebep": "Dusuk guvenli aday not_mentioned'a dusuyor. `low` uretmek denendi ve GERI ALINDI: `low` malignite ureten siniflardandir, koruma kapisini kiriyor ve sablon negatifler `low`a kayiyordu.",
+      "sonuc": "Olcek alti basamakli, motor besini kullaniyor"
+    },
+    {
+      "sinir": "Derece kapsami CUMLE duzeyi",
+      "sebep": "Ayni cumlede hem dereceli hem deregesiz suphe varsa ikisi de yukselir",
+      "durum": "Olculmedi, ilan edildi"
+    },
+    {
+      "sinir": "Sozluk boslugu",
+      "sebep": "malignancy/carcinoma/neoplasm/carcinomatosis kavram uretmiyor",
+      "olcum": "288 calismanin 78'inde malignite sinyali gorunmez",
+      "devir": "TASK-17 (D74)"
+    },
+    {
+      "sinir": "Stabil takipteki bilinen kanser gorunmuyor",
+      "sebep": "Cumlede 'previous examination' gectiginde varliga `prior` ataniyor, F1 dogru sekilde susturuyor. Filtre calisiyor, GIRDISI yanlis (K7 F1 %36,4)",
+      "kanit": "C5-stabil-malignite ailesinin ucu de kayboluyor"
+    },
+    {
+      "sinir": "Hedef atama yordami motorun kavram listesiyle ayni degil",
+      "sebep": "Hedefler M-desenine (regex), motor MALIGNITE_KAVRAMLARI'na bakiyor",
+      "sonuc": "R3/R4 KALICI uyumsuz; kilit acilmadi (D75)"
+    }
   ],
-
   "kabul_olcutleri": {
     "kaynak": "docs/29 §8.1, §8.3, §8.4 - sonuc GORULMEDEN once yazildi",
-    "hedef_uyumu": {"esik": "%100", "sonuc": "sinir 20/30 · kontrol 22/23 · rapor 3/5", "gecti": false, "not": "Sapmalarin sebepleri ayri siniflandi; hicbiri sessizce gecistirilmedi."},
-    "koruma_kapisi": {"esik": "toleranssiz - kontrol takiminda 0 malignite", "sonuc": "0 ihlal", "gecti": true},
+    "hedef_uyumu": {
+      "esik": "%100",
+      "sonuc": "sinir 20/30 · kontrol 22/23 · rapor 3/5",
+      "gecti": false,
+      "not": "Sapmalarin sebepleri ayri siniflandi; hicbiri sessizce gecistirilmedi."
+    },
+    "koruma_kapisi": {
+      "esik": "toleranssiz - kontrol takiminda 0 malignite",
+      "sonuc": "0 ihlal",
+      "gecti": true
+    },
     "dagilim_araligi": {
       "kaynak": "docs/29 §8.4",
       "dondurulmus_aralik": "malignite_pozitif %0,5 - %3,0 (kosumdan ONCE, scripts/49)",
@@ -102,7 +389,6 @@
       "kanit": "reports/task16_dagilim.json"
     }
   },
-
   "dondurma_durumu": {
     "dondu_mu": false,
     "sebep": "Uc kapidan ikisi gecmedi: hedef uyumu %100 degil (sinir 20/30) ve dagilim kapisi kaldi (D76). Sema `sema-1.0` olarak DONDURULMAMISTIR; `sema-0.9-taslak` olarak kullanilir.",
@@ -112,5 +398,6 @@
       "Dagilim kapisinin capasi 'derece ∩ kanser terimi' uzerinden YENIDEN turetilsin (D76)",
       "Duyarlilik analizi sozluk genisledikten sonra YENIDEN kosulsun"
     ]
-  }
+  },
+  "envanter_surumu": "envanter-1.0"
 }

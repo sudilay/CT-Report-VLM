@@ -76,9 +76,56 @@ def test_ham_parantez_deseni_solda_sinirlanmaz():
     assert T.kavramlari_bul("olası (nodül?)", *matcher) == {"ham"}
 
 
-def test_144_kavramin_hepsi_derlenir(matcher):
+# TASK-15'in dondurdugu 144 kavram (tr-1.0). TASK-17 madde 10 (D91) 16 yeni
+# yuzey EKLEDI ama BU 144'UN HICBIRINI DEGISTIRMEDI. Asil degismez budur:
+# eski kavramlar duruyor mu, ve her yuzey derleniyor mu.
+TASK15_KAVRAM_SAYISI = 144
+
+
+def test_tr15_kavramlari_KORUNDU_ve_hepsi_derlenir(matcher):
+    """tr-1.0'in 144 kavraminin hicbiri kaybolmadi; tum yuzeyler derleniyor.
+
+    ⚠ Eski hali `== 144` diyordu ve TASK-17'nin genisletmesiyle kirildi.
+    Test SILINMEDI: korudugu GERCEK degismez "eski kavramlar duruyor mu"dur,
+    "sayi tam 144 mu" degil. Sayi sabiti bir dondurma kaydidir, bir kural
+    degil - ve dondurma kaydi surum yukseltilerek guncellenir (D88'in dersi).
+    """
+    sozluk = T.turkce_sozlugu_yukle()
     _, indeks = matcher
-    assert len(T.turkce_sozlugu_yukle()) == len(indeks) == 144
+    # her yuzey derlendi mi
+    assert len(sozluk) == len(indeks)
+    # TASK-15'in dondurdugu kavram sayisindan AZ olamaz
+    assert len(sozluk) >= TASK15_KAVRAM_SAYISI, (
+        f"tr-1.0'in {TASK15_KAVRAM_SAYISI} kavramindan geriye gidilmis: {len(sozluk)}")
+
+
+def test_tr11_eklemeleri_kunye_tasiyor():
+    """D87/B7 kurali: kaynagi olmayan Turkce yuzey sozluge GIRMEZ.
+
+    tr-1.1 ile eklenen her girdi `kaynak` ve `mezuniyet` alani tasimalidir
+    (`kunye` = literaturde belgelenmis, `olcum` = RadTr'de gecti).
+    """
+    sozluk = T.turkce_sozlugu_yukle()
+    import yaml
+    ham = yaml.safe_load(
+        (ROOT / "configs/turkce_yuzeyler_taslak.yaml").read_text(encoding="utf-8"))
+    yeni = [a for a, k in ham["yuzeyler"].items() if "mezuniyet" in k]
+    assert yeni, "tr-1.1 eklemeleri bulunamadi"
+    for a in yeni:
+        k = ham["yuzeyler"][a]
+        assert k.get("kaynak"), f"{a}: `kaynak` yok"
+        assert k["mezuniyet"] in ("kunye", "olcum"), f"{a}: gecersiz mezuniyet"
+
+
+def test_complete_calcification_kunyesiz_oldugu_icin_GIRMEDI():
+    """⛔ Kuralin gercekten isledigini kanitlar.
+
+    Terminoloji arastirmasi bu kavrami YANLIS esleyerek dogrulamisti
+    ("diffuz kalsifikasyon"); esleme D83'te olculup curutuldu (491 cumle,
+    tamami damar ateromu). Dogru kavram icin TR kunyesi YOK, RadTr'de 0.
+    Tahminle eklenmedi - bu test o disiplini korur.
+    """
+    assert "complete_calcification" not in T.turkce_sozlugu_yukle()
 
 
 def test_bos_metin_bos_kume(matcher):

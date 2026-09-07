@@ -1,13 +1,12 @@
 {
   "sinir": {
     "toplam": 30,
-    "uyum": 20,
-    "uyumsuz": 10,
+    "uyum": 24,
+    "uyumsuz": 6,
     "sebep_dagilimi": {
-      "sozluk_boslugu": 3,
+      "known_malignancy": 1,
       "girdi_filtresi": 4,
-      "kavram_listesi_eksik": 1,
-      "known_malignancy": 2
+      "kavram_listesi_eksik": 1
     },
     "detay": [
       {
@@ -46,8 +45,8 @@
         "motor_ciktisi": "high",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 10,
-        "belirleyici_entity": "2745c41971c1a92f",
+        "cikarilan_varlik": 11,
+        "belirleyici_entity": "97cab81aa60e865a",
         "belirleyici_kaynak": "C#4(derece)+A5/A7/A8"
       },
       {
@@ -76,8 +75,8 @@
         "motor_ciktisi": "indeterminate",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 7,
-        "belirleyici_entity": "7cbeb13729368c2c",
+        "cikarilan_varlik": 8,
+        "belirleyici_entity": "7e7a8083af164b7d",
         "belirleyici_kaynak": "C#16"
       },
       {
@@ -86,29 +85,29 @@
         "motor_ciktisi": "indeterminate",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 4,
+        "cikarilan_varlik": 1,
         "belirleyici_entity": "7d1e5743ee0ee476",
         "belirleyici_kaynak": "A18"
       },
       {
         "vaka_id": "C4-derece-dislanamaz-02",
         "hedef": "indeterminate",
-        "motor_ciktisi": "not_mentioned",
-        "uyum": false,
-        "sebep": "sozluk_boslugu",
-        "cikarilan_varlik": 0,
-        "belirleyici_entity": null,
-        "belirleyici_kaynak": null
+        "motor_ciktisi": "indeterminate",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 1,
+        "belirleyici_entity": "8278fa86a2567148",
+        "belirleyici_kaynak": "A18"
       },
       {
         "vaka_id": "C5-stabil-malignite-01",
         "hedef": "known_malignancy",
-        "motor_ciktisi": "not_mentioned",
+        "motor_ciktisi": "intermediate",
         "uyum": false,
-        "sebep": "sozluk_boslugu",
+        "sebep": "known_malignancy",
         "cikarilan_varlik": 3,
-        "belirleyici_entity": null,
-        "belirleyici_kaynak": null
+        "belirleyici_entity": "31cf1f1f1831d3ca",
+        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
       },
       {
         "vaka_id": "C5-stabil-malignite-02",
@@ -146,19 +145,19 @@
         "motor_ciktisi": "None",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 11,
-        "belirleyici_entity": "e1f027ce73aac74a",
+        "cikarilan_varlik": 8,
+        "belirleyici_entity": "494412f80a327d10",
         "belirleyici_kaynak": "A26+C#12+§4.2"
       },
       {
         "vaka_id": "C6-malignite-benign-03",
         "hedef": "indeterminate",
-        "motor_ciktisi": "not_mentioned",
-        "uyum": false,
-        "sebep": "sozluk_boslugu",
+        "motor_ciktisi": "indeterminate",
+        "uyum": true,
+        "sebep": "-",
         "cikarilan_varlik": 7,
-        "belirleyici_entity": null,
-        "belirleyici_kaynak": "C#8-ek(benign)"
+        "belirleyici_entity": "66539990748243ef",
+        "belirleyici_kaynak": "A18"
       },
       {
         "vaka_id": "C11-olumsuz-belirsiz-01",
@@ -166,8 +165,8 @@
         "motor_ciktisi": "None",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 4,
-        "belirleyici_entity": "c1e03bac795673ab",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": "32ad961cd1ff50a5",
         "belirleyici_kaynak": "A1+C#1"
       },
       {
@@ -186,8 +185,8 @@
         "motor_ciktisi": "None",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 10,
-        "belirleyici_entity": "42ed6bb5a243426f",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": "f5a319f4805f7d7f",
         "belirleyici_kaynak": "A26+C#12+§4.2"
       },
       {
@@ -223,22 +222,22 @@
       {
         "vaka_id": "C13-ekstratorasik-03",
         "hedef": "known_malignancy",
-        "motor_ciktisi": "intermediate",
-        "uyum": false,
-        "sebep": "known_malignancy",
-        "cikarilan_varlik": 10,
-        "belirleyici_entity": "01c549bf00bd71e1",
-        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+        "motor_ciktisi": "known_malignancy",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 9,
+        "belirleyici_entity": "cdefc1da50cc680a",
+        "belirleyici_kaynak": "C#bilinen-kanser"
       },
       {
         "vaka_id": "C16-malignite-enf-01",
         "hedef": "known_malignancy",
-        "motor_ciktisi": "intermediate",
-        "uyum": false,
-        "sebep": "known_malignancy",
-        "cikarilan_varlik": 12,
+        "motor_ciktisi": "known_malignancy",
+        "uyum": true,
+        "sebep": "-",
+        "cikarilan_varlik": 11,
         "belirleyici_entity": "5c9c233b7286ccaa",
-        "belirleyici_kaynak": "C#4(kismi)+A5/A7/A8"
+        "belirleyici_kaynak": "C#bilinen-kanser"
       },
       {
         "vaka_id": "C16-malignite-enf-02",
@@ -246,8 +245,8 @@
         "motor_ciktisi": "indeterminate",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 6,
-        "belirleyici_entity": "6b4d87a132b30b5d",
+        "cikarilan_varlik": 5,
+        "belirleyici_entity": "f4b7492547db9bdd",
         "belirleyici_kaynak": "A18"
       },
       {
@@ -376,7 +375,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 8,
+        "cikarilan_varlik": 5,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -386,7 +385,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 4,
+        "cikarilan_varlik": 3,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -396,7 +395,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 7,
+        "cikarilan_varlik": 5,
         "belirleyici_entity": null,
         "belirleyici_kaynak": "C#8-ek(benign)"
       },
@@ -406,7 +405,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 18,
+        "cikarilan_varlik": 15,
         "belirleyici_entity": null,
         "belirleyici_kaynak": "C#8-ek(benign)"
       },
@@ -426,7 +425,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 11,
+        "cikarilan_varlik": 9,
         "belirleyici_entity": null,
         "belirleyici_kaynak": "C#8-ek(benign)"
       },
@@ -436,7 +435,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 11,
+        "cikarilan_varlik": 10,
         "belirleyici_entity": null,
         "belirleyici_kaynak": "C#8-ek(benign)"
       },
@@ -446,7 +445,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 10,
+        "cikarilan_varlik": 6,
         "belirleyici_entity": null,
         "belirleyici_kaynak": "C#8-ek(benign)"
       },
@@ -466,7 +465,7 @@
         "motor_ciktisi": "indeterminate",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 4,
+        "cikarilan_varlik": 3,
         "belirleyici_entity": "ba1d207df5bef2a8",
         "belirleyici_kaynak": "§4.3"
       },
@@ -496,7 +495,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 3,
+        "cikarilan_varlik": 1,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -506,7 +505,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 5,
+        "cikarilan_varlik": 1,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -516,7 +515,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 5,
+        "cikarilan_varlik": 2,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -526,7 +525,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 9,
+        "cikarilan_varlik": 7,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -536,7 +535,7 @@
         "motor_ciktisi": "not_mentioned",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 4,
+        "cikarilan_varlik": 2,
         "belirleyici_entity": null,
         "belirleyici_kaynak": null
       },
@@ -566,7 +565,7 @@
         "motor_ciktisi": "None",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 86,
+        "cikarilan_varlik": 57,
         "belirleyici_entity": "a33e3a4872ea4d35",
         "belirleyici_kaynak": "A1+C#1"
       },
@@ -576,7 +575,7 @@
         "motor_ciktisi": "None",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 46,
+        "cikarilan_varlik": 36,
         "belirleyici_entity": "2345af15ab5013c1",
         "belirleyici_kaynak": "A1+C#1"
       },
@@ -586,7 +585,7 @@
         "motor_ciktisi": "None",
         "uyum": false,
         "sebep": "kural",
-        "cikarilan_varlik": 53,
+        "cikarilan_varlik": 39,
         "belirleyici_entity": "1f5236b621442796",
         "belirleyici_kaynak": "A1+C#1"
       },
@@ -596,7 +595,7 @@
         "motor_ciktisi": "None",
         "uyum": false,
         "sebep": "kural",
-        "cikarilan_varlik": 43,
+        "cikarilan_varlik": 33,
         "belirleyici_entity": "5bc3ea83a913f04d",
         "belirleyici_kaynak": "A1+C#1"
       },
@@ -606,16 +605,25 @@
         "motor_ciktisi": "None",
         "uyum": true,
         "sebep": "-",
-        "cikarilan_varlik": 30,
+        "cikarilan_varlik": 24,
         "belirleyici_entity": "b22e56da7b33f971",
         "belirleyici_kaynak": "A1+C#1"
       }
     ]
   },
   "koruma_kapisi": {
-    "toleranssiz_ihlal_sayisi": 0,
-    "gecti": true,
-    "ihlaller": []
+    "K_A_toleranssiz_ihlal_sayisi": 0,
+    "K_A_gecti": true,
+    "K_A_kume": [
+      "high",
+      "intermediate",
+      "known_malignancy"
+    ],
+    "ihlaller": [],
+    "K_C_low_sayisi": 0,
+    "K_C_toleransi": 1,
+    "K_C_gecti": true,
+    "K_C_vakalar": []
   },
   "sema_surumu": "sema-0.9-taslak"
 }

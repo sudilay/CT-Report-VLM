@@ -13,9 +13,13 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+from radyovlm.evaluation import envanter as env  # noqa: E402
 import pytest
 
 KOK = Path(__file__).resolve().parent.parent
@@ -27,7 +31,10 @@ KORPUS = KOK / "data/processed/reports_study_level.parquet"
 # v1.1 DUZELTME (2. denetim, bulgu 3.1): `indeterminate` YONLU bir malignite
 # supheti degil, epistemik/teknik belirsizliktir. Koruma kapisinin amaci
 # semanin YONLU suphe URETMEMESIDIR; indeterminate disarida birakildi.
-MALIGN_URETIR = {"low", "intermediate", "high", "known_malignancy"}
+# TASK-17 madde 3 (D79): kilitli takimin KENDI gecerliligi. Motorun
+# CIKTISINI sinayan kapi AYRI kumedir (env.KAPI_MALIGNITE_SINIFLARI);
+# Karar 2 yalniz ona uygulandi. Bu kume DEGISMEDI.
+MALIGN_URETIR = env.HEDEF_MALIGNITE_SINIFLARI
 GECERLI_SINIF = MALIGN_URETIR | {"indeterminate", "None", "not_mentioned"}
 
 # UYARI: olcegin "None" degeri pandas'in varsayilan NA listesindedir. Bu

@@ -32,6 +32,9 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+from radyovlm.evaluation import envanter as env  # noqa: E402
+
 KOK = Path(__file__).resolve().parent.parent
 CUMLELER = KOK / "data/processed/sentences.parquet"
 KORPUS = KOK / "data/processed/reports_study_level.parquet"
@@ -42,7 +45,15 @@ CIKTI_KONTROL = KOK / "data/processed/sema_negatif_kontrol.csv"
 
 TOHUM = 20260904   # adim 4 icin ilan edilir; adim 0'in tohumundan farkli
 
-M = r"malignan|metasta|carcinom|tumoral|neoplas|spicul"
+# ⚠⚠ TASK-17 madde 3 (D79) - BU DESEN BILEREK GUNCELLENMEDI.
+# Bu betik `configs/sema_takim_kilidi.json` (takim-1.1) ornegini uretti ve
+# o kilit DONDURULMUSTUR. Desen genisletilirse betik kilidi YENIDEN
+# URETEMEZ hale gelir - dondurulmus bir artefaktin izlenebilirligi kirilir.
+# Olculdu (2026-09-07): dogru/genis desen (`tumor`) bunun UST KUMESI ve
+# fark 68 cumle / 56 calisma. Yani o 56 calisma ORNEKLEMEYE HIC GORUNMEDI.
+# Kilit kurali geregi (docs/33 §7) kilit ACILMAZ; fark ILAN EDILIR (D75
+# emsali). Duzeltilmis desen: env.MALIGNITE_METIN_DESENI.
+M = env.MALIGNITE_METIN_DESENI_KILIT_ONCESI
 BENIGN = r"sequela|granulom|benign|hamartom"
 NEG = r"\bno\b|\bnot\b|without|absent|negative for"
 BELIRSIZ = r"cannot be excluded|can not be excluded|suspicio|probabl|possibl|may represent"

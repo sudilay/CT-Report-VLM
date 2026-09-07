@@ -1,0 +1,627 @@
+# TURKCE YUZEY ADAYLARI - TASK-17  ·  surum: aday-0.3  ·  HAZIRLIK DOSYASI
+#
+# ⛔ BU DOSYA SOZLUK DEGILDIR. Buradaki hicbir yuzey `bulgu_sozlugu.yaml`e
+#    ya da `turkce_yuzeyler_taslak.yaml`a HENUZ alinmamistir. Alinmasi
+#    docs/34 v2 madde 10'un isidir ve Tier A/B calismasindan SONRA gelir.
+#
+# BAGLAYICI KURAL (docs/34 v2 §4.4, denetim B7 · docs/35 §8):
+#   "Kaynagi olmayan hicbir Turkce yuzey bulgu_sozlugu.yaml'a girmez."
+#
+# ═══ SURUM 0.1 -> 0.2 (2026-09-04) ═══
+#   0.1'de 36 adayin 35'i `kaynak: yok` idi - arastirma kunye vermemisti.
+#   0.2'de KUNYELER GELDI: her yuzey icin yayin adi, link ve dogrudan alinti.
+#   ✅ B7 BLOKAJI KALKTI. Adaylar madde 10 icin uygun hale geldi.
+#
+#   ⚠ Kalan tek istisna: `space_occupying_lesion` - arastirma pozisyonunu
+#     korudu ("rutin toraks BT rapor yuzeyi degil"). Bizim kendi olcumumuz
+#     aksini soyluyor; ikisi de kayitli, ayrintisi girdide.
+#
+# ═══ KUNYENIN SINIRI - ne kanitliyor, ne kanitlamiyor ═══
+#   Bu kunyeler bir yuzeyin TURK RADYOLOJI LITERATURUNDE kullanildigini
+#   kanitlar. HEDEF KOHORTTA (Bakanlik verisi) hangi siklikta gectigini
+#   kanitlamaz - o olculmemistir ve olculemez (veri elde yok).
+#   Bu yuzden `korpus_destegi` alanlari ayri tutuldu.
+
+surum: aday-0.2
+durum: kismen_mezun   # 16 aday tr-1.1'e ALINDI (D91); complete_calcification BEKLIYOR (kunye yok)
+tarih: 2026-09-04
+uzman_onayi: false          # hicbir yuzey klinik uzman onayindan gecmedi (D71)
+
+# ═══════════════════ KAYNAK KUNYELERI ═══════════════════
+# Girdiler bu anahtarlarla atif verir.
+
+kaynaklar:
+
+  TGKDC-1194:
+    ad: "Turkish Journal of Thoracic and Cardiovascular Surgery - pulmoner nodul derlemesi"
+    link: "https://tgkdc.dergisi.org/text.php?id=1194&lang=en"
+    not: >-
+      ⭐ BU CALISMANIN EN DEGERLI KAYNAGI. Tek basina kalsifikasyon paterni
+      ekseninin TAMAMINI veriyor: popcorn, lamellar, merkezi, diffuz,
+      noktasal - artik nodul, spikule, hamartom ve yag icerigi. Yani
+      Fleischner/Lung-RADS'in kalsifikasyon ekseninin TURKCE KARSILIGI
+      tek bir hakemli derlemede.
+      ⚠ Link `lang=en` uzantili ama alintilar Turkce; dergi iki dilli
+      yayin yapiyor. Kunyeye hangi dil surumunden alindigi yazilmali.
+
+  BEZMIALEM-TORAKSBT:
+    ad: "Bezmialem Vakif Universitesi - Toraks BT raporlari uzerinden metastaz calismasi"
+    link: "https://openaccess.bezmialem.edu.tr/bitstreams/34ecebb6-9042-42f9-9eee-7710bb4a5bbf/download"
+    not: >-
+      ⭐⭐ YONTEMSEL OLARAK EN GUCLU KAYNAK. Sebebi: bu bir terminoloji
+      ders kitabi degil, GERCEK RADYOLOJI RAPORLARINI belirli ifadelerle
+      TARAYAN bir calisma. Kullandigi arama terimleri dogrudan rapor
+      yuzeyi kanitidir: "metastaz", "metastatik nodul", "metastatik kitle
+      lezyonu", "kitlesel lezyon".
+      Aradigimiz sey tam olarak buydu: "dogru terim" degil, "radyologun
+      GERCEKTEN YAZDIGI" ifade.
+
+  TRS-23125:
+    ad: "Turk Radyoloji Seminerleri - Diger Interstisyel Tutulum Yapan Hastaliklar (2024)"
+    link: "https://turkradyolojiseminerleri.org/tr/makaleler/diger-interstisyel-tutulum-yapan-hastaliklar/trs.2024.23125"
+
+  TRS-25220:
+    ad: "Turk Radyoloji Seminerleri - Akciger, Plevra ve Mediastinal Tuberkulozda Radyolojik Goruntuleme (2026)"
+    link: "https://www.turkradyolojiseminerleri.org/tr/makaleler/akciger-plevra-ve-mediastinal-tuberkulozda-radyolojik-goruntuleme/doi/trs.2026.25220"
+
+  AKCIGER-BULTEN-2022:
+    ad: "Akciger Bulteni 2022-3 (ASYOD)"
+    link: "https://www.asyod.org/files/akciger-bulten/bulten-2022-3.pdf"
+
+  TK-PERITONEAL:
+    ad: "Cakir B, Capak M, Argon N. Peritoneal Karsinomatoz: Bilgisayarli Tomografinin Tani Degeri. Turkiye Klinikleri J Gastroenterohepatol. 1992;3(2):99-103"
+    link: "https://www.turkiyeklinikleri.com/article/tr-peritoneal-karsinomatoz-bilgisayarli-tomografinin-tani-degeri-67382.html"
+
+  OMU-PETBT:
+    ad: "Ondokuz Mayis Universitesi Acik Erisim - Toraks BT/PET-BT calismasi"
+    link: "https://acikerisim.omu.edu.tr/entities/publication/79cc4f81-a46e-452a-8669-4c7f7e853df7/full"
+    not: >-
+      ⭐ E grubunun (suphe derecesi dili) omurgasi. Dort ayri derece
+      ifadesini tek kaynakta veriyor - ayni calismanin dilinden geldikleri
+      icin birbirleriyle KARSILASTIRILABILIR.
+
+  KOSUYOLU-AKCIGER:
+    ad: "Kosuyolu Yuksek Ihtisas EAH - Akciger Kanseri"
+    link: "https://kosuyolueah.saglik.gov.tr/TR-521665/akciger-kanseri.html"
+
+  TGKDC-903:  { ad: "TGKDC - toraks olgu/calisma", link: "https://tgkdc.dergisi.org/text.php?id=903&lang=tr" }
+  TGKDC-932:  { ad: "TGKDC - toraks/gogus duvari olgusu", link: "https://tgkdc.dergisi.org/text.php?id=932&lang=tr" }
+  TGKDC-744:  { ad: "TGKDC", link: "https://tgkdc.dergisi.org/text.php?id=744&lang=tr" }
+  TGKDC-774:  { ad: "TGKDC - gogus duvari tumorleri", link: "https://tgkdc.dergisi.org/text.php?id=774&lang=tr" }
+  TGKDC-1120: { ad: "TGKDC", link: "https://tgkdc.dergisi.org/text.php?id=1120&lang=tr" }
+  TGKDC-1240: { ad: "TGKDC - pulmoner hamartom", link: "https://tgkdc.dergisi.org/text.php?id=1240&lang=tr" }
+  SOLUNUM-EP020: { ad: "Solunum - toraks/onkoloji olgu sunumu EP-020", link: "https://www.solunum.org.tr/solunum2010/poster/html/EP-020.htm" }
+  SOLUNUM-EP019: { ad: "Solunum - mediasten/timoma olgu kaydi EP-019", link: "https://www.solunum.org.tr/solunum2010/poster/html/EP-019.htm" }
+  IU-ACIKERISIM: { ad: "Istanbul Universitesi acik erisim - toraks BT olgu kaydi", link: "https://acikerisim.istanbul.edu.tr/handle/20.500.12627/189730" }
+  DEU-ACIKERISIM: { ad: "Dokuz Eylul Universitesi Acik Erisim", link: "https://acikerisim.deu.edu.tr/xmlui/bitstream/handle/20.500.12397/13445/272783.pdf" }
+  TK-ADENOKARSINOM: { ad: "Turkiye Klinikleri - Akciger Adenokarsinomu: Radyolojik Tani ve Yaklasimda Guncel Kavramlar", link: "https://www.turkiyeklinikleri.com/article/tr-akciger-adenokarsinomu-radyolojik-tani-ve-yaklasimda-guncel-kavramlar-49537.html" }
+  TK-KHAK: { ad: "Turkiye Klinikleri - Kucuk Hucreli Akciger Kanserinde Radyoterapi", link: "https://www.turkiyeklinikleri.com/article/tr-kucuk-hucreli-akciger-kanserinde-radyoterapi-35258.html" }
+  TK-MEZOTELYOMA: { ad: "Turkiye Klinikleri - Diffuz Malign Plevral Mezotelyomanin Klinik Ozellikleri ve Tanisal Yaklasim", link: "https://www.turkiyeklinikleri.com/article/tr-diffuz-malign-plevral-mezotelyomanin-klinik-ozellikleri-ve-tanisal-yaklasim-60374.html" }
+  TK-OMURGA: { ad: "Turkiye Klinikleri - Omurga Metastazlari: Patoloji", link: "https://www.turkiyeklinikleri.com/article/tr-omurga-metastazlari-patoloji-95482.html" }
+  TK-OVER: { ad: "Turkiye Klinikleri - endometrioid over karsinomu olgusu", link: "https://www.turkiyeklinikleri.com/article/tr-endobronsiyal-adrenal-ve-multipl-ntrakranial-metastazla-seyreden-endometrioid-over-karsinomu-olgusu-60818.html" }
+  ERBAKAN-LENFOMA: { ad: "Necmettin Erbakan Universitesi Acik Erisim - mediasten/toraks lenfoma", link: "https://acikerisim.erbakan.edu.tr/items/aad3d357-be82-48ad-bba0-a1f1366914df" }
+  DIR-KARSINOID: { ad: "Diagnostic and Interventional Radiology", link: "https://dirjournal.org/pdf/beb8919b-f013-4ea1-b1c8-40332e840fe1/articles/55687/Diagn%20Interv%20Radiol-7-359-En.pdf" }
+  TGCD-KONGRE-2018: { ad: "Turk Gogus Cerrahisi / VIII. Akciger Kanseri Kongresi kitabi 2018", link: "https://www.tgcd.org.tr/wp-content/uploads/dosyalar/VIII-AkcigerKanseri-Kongresi-2018.pdf" }
+  NUKLEER-SEM-2024: { ad: "Nukleer Tip Seminerleri - toraks tumorlerinde PET/MR (2024)", link: "https://nukleertipseminerleri.org/pdf/dd8262ff-66e6-418e-b233-a064eb1ea82f/issues/2024-010-003.pdf" }
+  TUBERK-TORAKS-2021: { ad: "Tuberkuloz ve Toraks 2021;69(2):247-252", link: "https://www.tuberktoraks.org/managete/fu_folder/2021-02/html/2021-69-2-247-252.htm" }
+  ASYOD-2021: { ad: "ASYOD 2021 Tam Metin Kitabi", link: "https://www.asyod.org/files/tam-metin-ve-bildiri-kitaplari/2021/2021-Tam-Metin-Kitabi.pdf" }
+  ONKOLOJI-673: { ad: "Turk Onkoloji Dergisi", link: "https://www.onkoloji.dergisi.org/text.php?id=673" }
+  ONKOLOJI-787: { ad: "Turk Onkoloji Dergisi", link: "https://www.onkoloji.dergisi.org/text.php?id=787" }
+  KANSER-KONGRE-232: { ad: "Turk Kanser Arastirma ve Savas Kurumu kongre bildirisi", link: "https://kongrebildiri.kanser.org/abstract.php?id=232" }
+  IUC-AVESIS-NUKS: { ad: "Istanbul Universitesi-Cerrahpasa AVESIS - Antibiyoterapi Sonrasi Kaybolan Nuks Supheli Lezyon Olgusu", link: "https://avesis.iuc.edu.tr/yayin/f274ec9b-b0ab-444d-9f50-49b90ad9ace5/antibiyoterapi-sonrasi-kaybolan-nuks-supheli-lezyon-olgusu" }
+  TUSAD-2021: { ad: "TUSAD / Solunum 2021 Bildiri Ozetleri Kitabi", link: "https://www.solunum.org.tr/TusadData/userfiles/file/SOLUNUM2021-Bildiri-Ozetleri-Kitabi.pdf" }
+
+  YARGITAY-BT:
+    ad: "Yargitay 12. Ceza Dairesi 2015/11312 E., 2016/8671 K. - ilamda aktarilan toraks BT raporu"
+    link: "https://www.ictihatlar.com.tr/ictihatdetay-34678-12cezadairesi-Yargitay-12-Ceza-Dairesi-2015-11312-Esas-2016-8671-Karar-Sayili-Ilami.html"
+    kunye_gucu: zayif
+    not: >-
+      ⚠ ADLI KARAR METNI - klinik otorite DEGILDIR. Degeri su: ilamda
+      GERCEK bir toraks BT raporu birebir aktarilmis, yani rapor dilinin
+      dogrudan taniklıgi. Bu amac icin gecerli ama TEK basina yeterli
+      sayilmamali; `ekarte edil` yaygin bir kalip oldugundan hakemli bir
+      kaynak bulunmali. Kayitli acik kalem.
+
+# ═══════════════════ ADAYLAR ═══════════════════
+
+adaylar:
+
+  # ============ A · MALIGNITE EKSENI - CEKIRDEK ============
+
+  carcinomatosis:
+    yuzeyler: ["pulmoner lenfanjitik karsinomatozis", "karsinomatozis", "peritoneal karsinomatoz"]
+    govde: ["karsinomatoz"]         # `karsinomatozis`i de kapsar
+    kisaltma: ["PLK"]
+    tr10: yok
+    kaynak:
+      - { anahtar: TRS-23125, kanit: "'Pulmoner Lenfanjitik Karsinomatozis' baslik olarak ve PLK kisaltmasi dogrudan kullaniliyor" }
+      - { anahtar: TK-PERITONEAL, kanit: "'Peritoneal karsinomatoz' makale basliginda ve metinde" }
+    korpus_destegi: olculmedi       # RadTr'de olculecek
+    amac: transfer
+    not: >-
+      ⭐ TASK-17 Tier A'nin ILK maddesi (D74). Iki kunye iki farkli soneki
+      belgeliyor: TORAKS -> `karsinomatozis`, ABDOMINAL -> `karsinomatoz`.
+      `karsinomatoz` govdesi ikisini birden kapsar.
+      `PLK` kisaltmasinin Ingilizce karsiligi YOKTUR - `CTO`/`KTO`
+      sinifinda bir yuzey; hazir sozluk asla yakalayamaz.
+
+  malignancy:
+    yuzeyler: ["malignite", "malignite ihtimali", "primer malignite"]
+    govde: ["malignit"]
+    tr10: yok
+    kaynak:
+      - { anahtar: TGKDC-903, kanit: "'Malignite ihtimali nedeniyle...' dogrudan" }
+      - { anahtar: BEZMIALEM-TORAKSBT, kanit: "'primer malignite tanisi' kullanimi" }
+    korpus_destegi: olculmedi
+    amac: transfer
+    not: "Tier A. Semada kavram olarak YAZILI ama sozlukte yok - bugun olu satir."
+
+  carcinoma:
+    yuzeyler: ["karsinom"]
+    govde: ["karsinom"]
+    tr10: yok
+    kaynak:
+      - { anahtar: KOSUYOLU-AKCIGER, kanit: "'skuamoz hucreli karsinom', 'buyuk hucreli karsinom'" }
+      - { anahtar: TK-PERITONEAL, kanit: "karsinom/karsinomatoz terminolojisi" }
+    korpus_destegi: olculmedi
+    amac: transfer
+    not: >-
+      ⚠⚠ CAKISMA - COZULMESI ZORUNLU: `karsinom` govdesi `karsinomatoz`u
+      da yakalar. EN UZUN ESLESME KAZANIR kurali uygulanmazsa
+      `carcinomatosis` HIC uretilmez ve Tier A'nin ilk maddesi olu dogar.
+      Bu, `nodule`/`nodular_lesion` icin daha once cozulmus bir problemin
+      aynisi (bulgu_sozlugu.yaml satir 30-40).
+
+  metastasis:
+    yuzeyler: ["metastaz", "metastatik", "metastatik nodul", "metastatik kitle lezyonu", "metastatik lezyon"]
+    govde: ["metastaz", "metastat"]
+    tr10: "VAR - desen: metastaz (radtr=7)"
+    kaynak:
+      - { anahtar: BEZMIALEM-TORAKSBT, kanit: "Gercek radyoloji raporlari su terimlerle TARANMIS: 'metastaz', 'metastatik nodul', 'metastatik kitle lezyonu', 'kitlesel lezyon'" }
+    korpus_destegi: "tr-1.0'da olculdu (RadTr 7)"
+    amac: olculmus
+    not: >-
+      ⭐ Kunye rapor yuzeyi kaniti olarak en gucludur (bkz. kaynak notu).
+      tr-1.0'da yalniz `metastaz` var; `metastat` govdesi `metastatik`
+      sifatini kaciriyor olabilir - OLCULECEK.
+
+  tumor:
+    yuzeyler: ["tumor"]
+    govde: ["tumor"]
+    tr10: "VAR - desen: t[uü]m[oö]r|neoplaz|kitlesel (radtr=4)"
+    kaynak:
+      - { anahtar: TRS-23125, kanit: "'tumor hucreleri' dogrudan" }
+    korpus_destegi: "tr-1.0'da olculdu (RadTr 4)"
+    amac: olculmus
+
+  neoplasm:
+    yuzeyler: ["neoplazi", "neoplazm"]
+    govde: ["neoplaz"]
+    tr10: "AYRI DEGIL - `tumor` desenine katilmis"
+    kaynak: yok
+    korpus_destegi: olculmedi
+    amac: transfer
+    not: >-
+      ⚠ ACIK TASARIM SORUSU (madde 10'da cozulecek): tr-1.0 `neoplaz`i
+      ayri kavram yapmayip `tumor` desenine katmis. Tier A `neoplasm`i
+      AYRI kavram yapiyor. Iki dosya celisecek - biri secilmeli.
+      Kunye de gelmedi; arastirma bu maddeyi ayrica ele almamis.
+
+  mass:
+    yuzeyler: ["kitle", "kitle lezyonu", "kitlesel lezyon"]
+    govde: ["kitle", "kitlesel"]
+    tr10: "VAR ama BOLUNMUS - `kitle` -> mass (radtr=22) · `kitlesel` -> TUMOR"
+    kaynak:
+      - { anahtar: TGKDC-932, kanit: "'kitle' ve 'kitle lezyonu' dogrudan" }
+      - { anahtar: BEZMIALEM-TORAKSBT, kanit: "'kitlesel lezyon' rapor arama terimi olarak kullanilmis" }
+    korpus_destegi: "tr-1.0'da olculdu (RadTr 22)"
+    amac: olculmus
+    not: >-
+      ⚠⚠ CELISKI - KUNYE ILE GUCLENDI (madde 10'da cozulecek).
+      tr-1.0 `kitlesel`i `mass`a degil `TUMOR` desenine koymus. Ama
+      BEZMIALEM calismasi "kitlesel lezyon"u GERCEK RAPOR arama terimi
+      olarak kullaniyor ve bu birebir "mass lesion" demektir.
+      Olasi bir tr-1.0 yanlis atamasi; artik kunyeli kanit var.
+
+  nodule:
+    yuzeyler: ["nodul", "noduler"]
+    govde: ["nodul"]
+    tr10: "VAR - desen: nod[uü]l (radtr=190, en yuksek)"
+    kaynak:
+      - { anahtar: TGKDC-1194, kanit: "Pulmoner nodul terminolojisi ve nodul karakterizasyonu" }
+      - { anahtar: SOLUNUM-EP019 }
+    korpus_destegi: "tr-1.0'da olculdu (RadTr 190)"
+    amac: olculmus
+    not: "tr-1.0 deseni sapkali/sapkasiz ve `noduler`i zaten kapsiyor (D58 onarimi). Yeni girdi gerekmiyor."
+
+  spiculated:
+    yuzeyler: ["spikule", "spikuler"]
+    govde: ["spikul"]
+    tr10: "VAR - desen: spik[uü]l (radtr=2)"
+    kaynak:
+      - { anahtar: TGKDC-1194, kanit: "'spikuler kenar' dogrudan" }
+      - { anahtar: IU-ACIKERISIM, kanit: "'spikule uzantili ... kitlesel lezyon'" }
+    korpus_destegi: "tr-1.0'da olculdu (RadTr 2)"
+    amac: olculmus
+
+  lytic_destructive_lesion:
+    yuzeyler: ["litik lezyon", "osteolitik lezyon", "destrukte eden kitle", "destrukte eden lezyon"]
+    govde: ["litik", "osteolitik", "destruk"]
+    tr10: "VAR - desen: litik|destr[uü]ktif (radtr=3)"
+    kaynak:
+      - { anahtar: TGKDC-932, kanit: "'kotu destrukte eden kitle' dogrudan" }
+      - { anahtar: KANSER-KONGRE-232, kanit: "'litik karakterli' metastatik kemik lezyonu baglaminda" }
+    korpus_destegi: "tr-1.0'da olculdu (RadTr 3)"
+    amac: olculmus
+    not: >-
+      Kunye `destrukte` (FIIL bicimi) ve `osteolitik` ekliyor; tr-1.0'da
+      yalniz `destr[uü]ktif` (SIFAT) var. `destruk` govdesi ikisini kapsar.
+
+  space_occupying_lesion:
+    yuzeyler: ["yer kaplayan lezyon", "yer kaplayici lezyon"]
+    govde: ["yer kaplay"]
+    tr10: "VAR - desen: yer kaplayan lezyon (radtr=1)"
+    kaynak:
+      - { anahtar: "IC-KAYIT", kanit: "bulgu_sozlugu.yaml satir 9: ceviri artefakti kaydi - 'space-occupying lesion <- yer kaplayici lezyon' (CT-RATE'te 18.315 cumle)" }
+      - { anahtar: "IC-OLCUM", kanit: "RadTr train+dev olcumu 2026-09-04: 'yer kaplayan' 1 · 'yer kaplayici' 0" }
+    korpus_destegi: "CT-RATE 18.315 (Ingilizce) · RadTr 1"
+    amac: olculmus
+    not: >-
+      ⚠ ARASTIRMA ILE AYRISMA - IKISI DE KAYITLI.
+      Arastirmanin pozisyonu (iki kez, degistirmedi): "'yer kaplayici/
+      kaplayan lezyon' Turkce tip literaturunde mevcut ama RUTIN TORAKS BT
+      RAPOR YUZEYI olarak high-confidence listeye eklenmemeli."
+      Bizim pozisyonumuz: bu korpus icin soru "rutin mi" degil, "BU VERIDE
+      var mi". Iki ic kanit var - `bulgu_sozlugu.yaml` bu kavrami CEVIRI
+      ARTEFAKTI olarak kaydediyor (yani CT-RATE'in Turkce ORIJINALI bu
+      ifadeyi tasiyor, 18.315 cumle) ve tr-1.0 RadTr'de olcmus.
+      Ikisi CELISMIYOR: arastirma genel literaturden, biz bu korpustan
+      konusuyoruz. ⚠ IKI BICIM FARKLI KORPUSTA: RadTr `kaplayan`,
+      CT-RATE kaydi `kaplayici`. Bakanlik UCUNCU korpus -> desen IKISINI
+      DE kapsamali (`yer kaplay`).
+
+  # ============ B · HISTOLOJIK ALT TIPLER (hepsi Tier B, olcum-notr) ============
+
+  adenocarcinoma:
+    yuzeyler: ["adenokarsinom"]
+    govde: ["adenokarsinom"]
+    tr10: yok
+    kaynak: [{ anahtar: TK-ADENOKARSINOM }]
+    korpus_destegi: 0
+    amac: transfer
+
+  squamous_cell_carcinoma:
+    yuzeyler: ["skuamoz hucreli karsinom", "yassi hucreli karsinom", "yassi epitel hucreli karsinom", "epidermoid karsinom"]
+    govde: ["skuamoz", "yassi hucre", "yassi epitel", "epidermoid"]
+    tr10: yok
+    kaynak: [{ anahtar: KOSUYOLU-AKCIGER, kanit: "skuamoz/epidermoid terminolojisi dogrudan" }]
+    korpus_destegi: 0
+    amac: transfer
+    not: "Dort ayri yuzey - Turkcede tek yerlesik terim yok."
+
+  small_cell_carcinoma:
+    yuzeyler: ["kucuk hucreli akciger kanseri", "kucuk hucreli karsinom"]
+    govde: ["kucuk hucreli"]
+    kisaltma: ["KHAK"]
+    tr10: yok
+    kaynak: [{ anahtar: TK-KHAK }]
+    korpus_destegi: 0
+    amac: transfer
+    not: "`KHAK` kisaltmasi Ingilizce karsiliksiz - PLK sinifinda."
+
+  large_cell_carcinoma:
+    yuzeyler: ["buyuk hucreli karsinom"]
+    govde: ["buyuk hucreli"]
+    tr10: yok
+    kaynak: [{ anahtar: KOSUYOLU-AKCIGER }]
+    korpus_destegi: 0
+    amac: transfer
+
+  lymphoma:
+    yuzeyler: ["lenfoma"]
+    govde: ["lenfoma"]
+    tr10: yok
+    kaynak: [{ anahtar: ERBAKAN-LENFOMA }]
+    korpus_destegi: 0
+    amac: transfer
+
+  sarcoma:
+    yuzeyler: ["sarkom"]
+    govde: ["sarkom"]
+    tr10: yok
+    kaynak: [{ anahtar: TGKDC-774 }]
+    korpus_destegi: 0
+    amac: transfer
+
+  mesothelioma:
+    yuzeyler: ["mezotelyoma", "malign plevral mezotelyoma"]
+    govde: ["mezotelyoma"]
+    tr10: yok
+    kaynak: [{ anahtar: TK-MEZOTELYOMA }]
+    korpus_destegi: 0
+    amac: transfer
+
+  thymoma:
+    yuzeyler: ["timoma"]
+    govde: ["timoma"]
+    tr10: yok
+    kaynak: [{ anahtar: SOLUNUM-EP019 }]
+    korpus_destegi: 0
+    amac: transfer
+
+  carcinoid:
+    yuzeyler: ["karsinoid", "karsinoid tumor", "bronsiyal karsinoid tumor"]
+    govde: ["karsinoid"]
+    tr10: yok
+    kaynak: [{ anahtar: DIR-KARSINOID }]
+    korpus_destegi: 0
+    amac: transfer
+
+  # ============ C · BENIGN EKSENI - KALSIFIKASYON PATERNLERI ============
+  # docs/34 v2 §4.4 (Karar 4 - kullanici acti ve onayladi).
+  # ⚠ Bunlar `calcification_pattern` grubunda NITELEYICI olarak eklenir;
+  #   BENIGN_KAVRAMLARI'ya ya da BENIGN_HUKUM_DESENI'ne GIRMEZLER.
+  #   Varsayilan karar gucleri SIFIRDIR (docs/35 §4.2'de kanitlandi).
+
+  popcorn_calcification:
+    yuzeyler: ["patlamis misir seklinde kalsifikasyon", "popcorn kalsifikasyon", "popkorn kalsifikasyon"]
+    govde: ["patlamis misir", "popcorn", "popkorn"]
+    tr10: yok
+    kaynak:
+      - { anahtar: TGKDC-1194, kanit: "'diffuz, merkezi, lamellar ve patlamis misir seklinde (popcorn) kalsifikasyonlar' - artik sekil aciklamasinda 'Patlamis misir seklinde kalsifikasyon'" }
+      - { anahtar: AKCIGER-BULTEN-2022, kanit: "'popcorn kalsifikasyon paterni'" }
+    korpus_destegi: 0          # CT-RATE Ingilizce: 0 cumle (docs/30 §6.1)
+    amac: transfer
+    not: >-
+      ⭐ Kullanicinin actigi sorunun (docs/34 §4.4) cikis noktasi ve
+      cevabi. Sifir destekli oldugu icin OLCUMLE mezun OLAMAZ - kunye
+      yolu zorunluydu ve KUNYE GELDI. Hakemli Turk radyoloji derlemesi
+      terimi dogrudan kullaniyor.
+      ⛔ `misir patlagi kalsifikasyon` DOGRULANMADI - alinmadi.
+
+  laminated_calcification:
+    yuzeyler: ["lamellar kalsifikasyon", "lameller kalsifikasyon", "laminer kalsifikasyon"]
+    govde: ["lamellar", "lameller", "laminer"]
+    tr10: yok
+    kaynak:
+      - { anahtar: TGKDC-1194, kanit: "'lamellar' ve 'lameller' bicimleri ayni kaynakta" }
+      - { anahtar: AKCIGER-BULTEN-2022, kanit: "'laminer kalsifikasyon'" }
+    korpus_destegi: 16         # CT-RATE: concentric/laminated 16 cumle
+    amac: transfer
+    not: "⛔ `konsantrik kalsifikasyon` high-confidence DEGIL - alinmadi."
+
+  central_calcification:
+    yuzeyler: ["merkezi kalsifikasyon", "santral kalsifikasyon"]
+    govde: ["merkezi kalsifik", "santral kalsifik"]
+    tr10: yok
+    kaynak:
+      - { anahtar: TGKDC-1194, kanit: "'merkezi kalsifikasyon' dogrudan" }
+      - { anahtar: DEU-ACIKERISIM, kanit: "'santral' radyolojik terminoloji kullanimi" }
+    korpus_destegi: 17
+    amac: transfer
+
+  complete_calcification:
+    yuzeyler: ["tamamen kalsifiye", "tumuyle kalsifiye"]
+    govde: ["tamamen kalsifi", "tumuyle kalsifi"]
+    tr10: yok
+    kaynak: yok               # ⚠ TR kunyesi YOK - EN tarafi olculdu, TR degil
+    korpus_destegi: 3          # CT-RATE EN: "complete(?:ly)? calcifi" 3 cumle
+    amac: olculmus
+    durum: TR_KUNYESI_BEKLIYOR
+    not: >-
+      ⭐ ACIK SORU OLCUMLE CEVAPLANDI (D83, scripts/55). docs/34 §4.4 sormustu:
+      "`diffuz kalsifikasyon` ile Lung-RADS'in `complete calcification`i AYNI
+      KAVRAM MI?" -> **HAYIR.**
+      Olculdu (gelistirme havuzu): `diffuse calcifi` **491 cumle** ve TAMAMI
+      DAMAR ATEROMU ("Diffuse calcific atheroma plaques in the aorta and
+      coronary arteries"). `complete(?:ly)? calcifi` ise **3 cumle** ve ucu de
+      dogru ("completely calcific nodule measuring approximately 15 mm",
+      "completely calcified lymph nodes").
+      ⛔ Bu, Turkce terminoloji arastirmasinin "complete/diffuse calcification
+      -> diffuz kalsifikasyon" onerisini CURUTUR. Eski girdi (`diffuse_
+      calcification`) SILINDI; yerine dogru kavram (`complete_calcification`)
+      kondu. Turkce yuzeyi TAHMINDIR ve kunye bekliyor - arastirma bu kavrami
+      YANLIS esleyerek dogruladigi icin yeniden sorulmalidir.
+
+  punctate_calcification:
+    yuzeyler: ["noktasal kalsifikasyon"]
+    govde: ["noktasal kalsifik"]
+    tr10: "VAR - `punctate` deseni: punktat|noktasal (radtr=0)"
+    kaynak: [{ anahtar: TGKDC-1194, kanit: "'noktasal kalsifikasyon' dogrudan" }]
+    korpus_destegi: 50
+    amac: olculmus
+    not: "tr-1.0'da ZATEN VAR ve `noktasal`i kapsiyor. Yeni girdi GEREKMIYOR - kunye onu dogruluyor."
+
+  granuloma:
+    yuzeyler: ["granulom", "kalsifiye granulom"]
+    govde: ["granulom"]
+    tr10: "VAR - desen: gran[uü]lom (radtr=0)"
+    kaynak: [{ anahtar: TRS-25220, kanit: "'kalsifiye granulom' dogrudan" }]
+    korpus_destegi: "CT-RATE 117 · RadTr 0"
+    amac: olculmus
+    not: >-
+      Arastirma: "`granulomatoz` ayni kavramin birebir esanlamlisi olarak
+      KULLANILMAMALI." tr-1.0 ikisini zaten AYRI kavram tutuyor
+      (`granuloma` / `granulomatous`) - uyumlu.
+
+  hamartoma:
+    yuzeyler: ["hamartom", "pulmoner hamartom"]
+    govde: ["hamartom"]
+    tr10: yok
+    kaynak:
+      - { anahtar: TGKDC-1240 }
+      - { anahtar: AKCIGER-BULTEN-2022 }
+    korpus_destegi: olculmedi
+    amac: transfer
+
+  fat_containing_nodule:
+    yuzeyler: ["nodul icinde yag", "nodul icinde gorulen yag", "lezyon icinde yag", "yag icerigi"]
+    govde: ["nodul icinde yag", "lezyon icinde yag", "yag iceri"]
+    tr10: yok
+    kaynak:
+      - { anahtar: AKCIGER-BULTEN-2022, kanit: "'Lezyon icinde yag' ve 'bir nodul icinde gorulen yag' dogrudan" }
+      - { anahtar: TGKDC-1194 }
+    korpus_destegi: olculmedi
+    amac: transfer
+    durum: ONERILMIYOR
+    not: >-
+      ⚠ KUNYE GELDI ama TEKNIK ITIRAZ SURUYOR - girdi ONERILMIYOR.
+      Kunye yuzeyin GERCEK oldugunu kanitliyor; DESEN OLARAK CALISIR
+      oldugunu kanitlamiyor. Iki ayri gerekce:
+      (a) Cok kelimeli sentaktik kaliplar kirilgandir - araya sifat girer
+          ("nodul icinde MINIMAL yag"), desen kacirir. Arastirma da
+          "Turkcede sabit tek terim yok" diyor.
+      (b) CT-RATE olcumu Ingilizce `fat-containing` deseninin SISKIN
+          oldugunu gosterdi: 1.126 eslesmenin cogu "fatty liver"
+          (docs/30 §6.1). Turkce karsiliginda ayni risk var
+          ("karaciger icinde yag").
+      ONERI: alinmasin; alinacaksa ONCE olculsun.
+
+  sequela:
+    yuzeyler: ["sekel", "sekel degisiklik", "fibrotik sekel degisiklik"]
+    govde: ["sekel"]
+    tr10: "VAR - sequela: sekel (radtr=38) · sequela_change: sekel de[gğ]i[şs] (radtr=38)"
+    kaynak:
+      - { anahtar: TRS-25220 }
+      - { anahtar: TUSAD-2021 }
+    korpus_destegi: "CT-RATE 12.177 · RadTr 38"
+    amac: olculmus
+    not: "Korpusun BASKIN benign niteleyicisi. tr-1.0'da zaten tam."
+
+  # ============ D · BILINEN KANSER IFADELERI ============
+  # Hedef: `known_malignancy` tetikleyicisi (docs/33 §4.1, docs/34 madde 11).
+  # ⚠ docs/33 §4.1'in kurali: raporda YAZILI/BELGELENMIS kanser gerekir.
+  #   Yalniz radyolojik hukum en fazla `high` uretir.
+
+  known_primary_malignancy:
+    yuzeyler: ["bilinen primer malignite", "bilinen primer malignitesi", "primeri bilinen malignite"]
+    govde: ["bilinen primer malignit", "primeri bilinen malignit"]
+    kaynak:
+      - { anahtar: TGCD-KONGRE-2018, kanit: "'Bilinen primer malignite saptanan hastalar' · 'daha once bilinen primer malignitesi olan'" }
+      - { anahtar: TK-OMURGA, kanit: "'primeri bilinen bir malignitenin metastazi...'" }
+    amac: transfer
+    not: "⭐ docs/33 §4.1'in 'known primary' ornegiyle BIREBIR ortusuyor - en guclu D girdisi."
+
+  cancer_history:
+    yuzeyler: ["kanser oykusu", "karsinom oykusu"]
+    govde: ["kanser oyku", "karsinom oyku"]
+    kaynak: [{ anahtar: SOLUNUM-EP020 }]
+    amac: transfer
+    not: "Hastalik adiyla birlikte kullanildiginda guclu."
+
+  postoperative_cancer:
+    yuzeyler: ["... nedeniyle opere", "opere olmus", "opere olan"]
+    govde: ["opere"]
+    kaynak:
+      - { anahtar: SOLUNUM-EP020, kanit: "'nazal etmoid karsinom nedeniyle opere olmus'" }
+      - { anahtar: TK-OVER, kanit: "'karsinomu tanisi ile opere olan ve 6 siklus kemoterapi uygulanan'" }
+    amac: transfer
+    not: >-
+      ⚠ RISKLI - `opere` TEK BASINA kanser bildirmez (her turlu cerrahi).
+      ⭐ Ama IKI KUNYE DE ayni yapiyi gosteriyor: hastalik adi + "nedeniyle
+      opere" / "tanisi ile opere". Yani kural "opere" degil,
+      "<kanser terimi> ... opere" ORUNTUSU olmali. docs/33 §4.1'in
+      "yazili/belgelenmis" sartini bu oruntu karsilar.
+
+  post_chemotherapy:
+    yuzeyler: ["kemoterapi sonrasi", "kemoterapi uygulanan", "kemoterapi alan", "kemoterapi almis"]
+    govde: ["kemoterapi sonrasi", "kemoterapi uygulan", "kemoterapi al"]
+    kaynak: [{ anahtar: TK-OVER }]
+    amac: transfer
+
+  post_radiotherapy:
+    yuzeyler: ["radyoterapi sonrasi", "radyoterapi uygulanan", "radyoterapi alan"]
+    govde: ["radyoterapi sonrasi", "radyoterapi uygulan", "radyoterapi al"]
+    kaynak: [{ anahtar: SOLUNUM-EP020 }]
+    amac: transfer
+
+  recurrence:
+    yuzeyler: ["nuks", "nuks supheli"]
+    govde: ["nuks"]
+    kaynak: [{ anahtar: IUC-AVESIS-NUKS, kanit: "'nuks supheli lezyon' baslikta ve olgu baglaminda" }]
+    amac: transfer
+
+  residual_disease:
+    yuzeyler: ["rezidu"]
+    govde: ["rezidu"]
+    kaynak: [{ anahtar: NUKLEER-SEM-2024, kanit: "'rezidu/nuks hastalik' terminolojisi" }]
+    amac: transfer
+    not: "⚠ `rezidu` tek basina kanser bildirmez (rezidu plevral sivi vb.) - baglamla aranmali."
+
+  # ⛔ D grubunda ARASTIRMA TARAFINDAN REDDEDILENLER - tek basina
+  #    "bilinen kanser" isareti SAYILMAYACAK:
+  #      takipli · izlemde · oykusu mevcut · remisyon
+  #    Gerekce: hicbiri kanser OZGUL degildir. Kayda geciyor ki ileride
+  #    "neden alinmadi" sorusu cevapsiz kalmasin.
+
+  # ============ E · SUPHE DERECESI DILI ============
+  # Hedef: dagilim capasinin "derece ifadesi" ekseni (D76, docs/34 §6) ve
+  # sema.py DERECE_DESENI'nin Turkce karsiligi.
+  # ⚠ SINIFLANDIRILMADI. Hangi ifadenin hangi duzeye dustugu SEMA'nin
+  #   isidir ve TASK-16'da karara baglanmistir; burada yalniz YUZEY var.
+
+  derece_dili:
+    malign_gorunumlu:
+      govde: ["malign gorun"]
+      kaynak: [{ anahtar: OMU-PETBT, kanit: "'malign gorunumlu primer akciger lezyonu'" }]
+    ayrim_yapilamayan:
+      govde: ["ayrimi yapilam"]
+      kaynak: [{ anahtar: OMU-PETBT, kanit: "'malign/benign hastalik ayrimi yapilamayan primer akciger lezyonu'" }]
+      not: >-
+        ⭐ D72 #6 ile BIREBIR ortusuyor: "no differentiation between malignant
+        and benign could be made" -> `indeterminate`. Turkce karsiligi bulundu,
+        yani iki dil ayni karari verebilir.
+    metastaz_kuskusu:
+      govde: ["metastaz kusku"]
+      kaynak: [{ anahtar: OMU-PETBT, kanit: "'plevral metastaz kuskusu'" }]
+    metastaz_suphesi:
+      govde: ["metastaz suphe"]
+      kaynak: [{ anahtar: TGKDC-744, kanit: "'metastaz suphesi'" }]
+    malignite_ihtimali:
+      govde: ["malignite ihtimal"]
+      kaynak: [{ anahtar: TGKDC-903, kanit: "'Malignite ihtimali nedeniyle...'" }]
+    malignite_ile_uyumlu:
+      govde: ["malignite ile uyumlu"]
+      kaynak:
+        - { anahtar: TUBERK-TORAKS-2021, kanit: "'Malignite ile uyumlu nitelikte...'" }
+        - { anahtar: ASYOD-2021, kanit: "'primer akciger malignitesi ile uyumlu kitlesel lezyon'" }
+    malignensi_ile_uyumlu:
+      govde: ["malignensi ile uyumlu"]
+      kaynak: [{ anahtar: OMU-PETBT, kanit: "'malignensi ile uyumlu primer akciger lezyonu'" }]
+      not: >-
+        ⭐ LOANWORD/YAZIM ARTEFAKTI - standart olmayan ama BELGELENMIS.
+        `CTO`/`KTO`, `PLK`, `KHAK` ile ayni sinif: hazir bir sozluk bunu
+        ASLA yakalayamaz. Bu tur yuzeyler bu projenin varlik sebebidir.
+    metastaz_ile_uyumlu:
+      govde: ["metastaz ile uyumlu"]
+      kaynak: [{ anahtar: ONKOLOJI-673 }]
+    lehine:
+      govde: ["lehine", "lehine degerlendir"]
+      kaynak:
+        - { anahtar: ONKOLOJI-787, kanit: "'metastatik lezyonlar lehine'" }
+        - { anahtar: KANSER-KONGRE-232, kanit: "'ikinci primer tumor lehine degerlendirilen' · 'metastaz lehine degerlendirilen'" }
+      not: >-
+        ⚠⚠ EN KRITIK ESLESME. Bu, korpustaki `in favor of`un TURKCE
+        ORIJINALIDIR (7.910 anma, ipucu_sozlugu.yaml satir 180-183; oradaki
+        not zaten "Turkce '...lehine degerlendirilmistir'" diyor).
+        D29 bunu BELIRSIZLIK DEGIL cikarim ifadesi (`present`) saymisti.
+        Turkce hat AYNI karari uygulamali - yoksa iki dil ayni cumleyi
+        farkli sinifa koyar ve dil ablasyonu anlamsizlasir.
+    ekarte_edilemez:
+      govde: ["ekarte edil"]
+      kaynak: [{ anahtar: YARGITAY-BT, kanit: "toraks BT raporu aktariminda 'metastatik tutulumun ekarte edilemedigi'" }]
+      not: "⚠ Kunye ZAYIF (adli karar metni). Hakemli kaynak aranmali - acik kalem."
+    dislanamaz:
+      govde: ["dislan"]
+      kaynak: [{ anahtar: SOLUNUM-EP020, kanit: "'primer akciger karsinomu dislanamadi'" }]
+    ayirici_tani:
+      govde: ["ayirici tani"]
+      kaynak: [{ anahtar: TGKDC-1120, kanit: "'Ayirici tanida malignite...'" }]
+      not: "Tek basina malignite kaniti DEGIL - yalniz diferansiyel tani baglami. D72 #16 ile uyumlu (-> indeterminate)."
+
+  # ⛔ E grubunda ARASTIRMA TARAFINDAN DOGRULANAMAYANLAR - alinmadi:
+  #      malignite acisindan supheli · malign karakterde · malign morfolojide
+  #      malignite dusundurmektedir · olasi · muhtemel
+  #    ⚠ `olasi`/`muhtemel` Turkcede yaygin oldugu icin dogrulanamamasi
+  #      arastirmanin SINIRINI gosteriyor olabilir, terimin yoklugunu degil.
+  #      RadTr'de OLCULECEK - orada geciyorsa olcum yoluyla mezun olurlar.

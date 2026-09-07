@@ -25,6 +25,9 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+from radyovlm.evaluation import envanter as env  # noqa: E402
+
 KOK = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(KOK / "src"))
 
@@ -32,6 +35,7 @@ from radyovlm.evaluation import sema  # noqa: E402
 
 VARLIKLAR = KOK / "data/processed/entities.parquet"
 CUMLELER = KOK / "data/processed/sentences.parquet"
+ILISKILER = KOK / "data/processed/relations.parquet"
 SINIR = KOK / "data/processed/sema_sinir_vakalari.csv"
 KONTROL = KOK / "data/processed/sema_negatif_kontrol.csv"
 RAPOR = KOK / "data/processed/sema_rapor_vakalari.csv"
@@ -44,7 +48,8 @@ MOTOR_SINIRLAMASI_DUZEYLER = {"known_malignancy"}
 # Hedef atama yordaminin (scripts/45) kullandigi malignite terim deseni.
 # Burada SEBEP siniflamasi icin kullaniliyor: cumlede terim var ama varlik
 # yoksa sorun sozlukte, semada degil.
-M_DESENI = re.compile(r"malignan|carcinom|neoplas|metasta|tumor|spicul", re.I)
+# TASK-17 madde 3 (D79): tek kaynak `envanter.py`.
+M_DESENI = re.compile(env.MALIGNITE_METIN_DESENI, re.I)
 
 
 def _cumle_varliklari(varliklar: pd.DataFrame, cumleler: pd.DataFrame,
@@ -57,9 +62,13 @@ def _cumle_varliklari(varliklar: pd.DataFrame, cumleler: pd.DataFrame,
     aday = cumleler[(cumleler["study_id"] == study_id) & (cumleler["text"] == cumle_metni)]
     if aday.empty:
         return varliklar.iloc[0:0]
+    # ⚠ BOLUM ANAHTARI ZORUNLU (D96): `sent_idx` her bolumde sifirdan baslar
     sent_idx = aday.iloc[0]["sent_idx"]
-    v = varliklar[(varliklar["study_id"] == study_id)
-                  & (varliklar["sent_idx"] == sent_idx)].copy()
+    section = aday.iloc[0]["section"] if "section" in aday.columns else None
+    m = (varliklar["study_id"] == study_id) & (varliklar["sent_idx"] == sent_idx)
+    if section is not None and "section" in varliklar.columns:
+        m &= varliklar["section"] == section
+    v = varliklar[m].copy()
     v["cumle_metni"] = cumle_metni
     return v
 
@@ -70,8 +79,10 @@ def _rapor_varliklari(varliklar: pd.DataFrame, cumleler: pd.DataFrame,
     v = varliklar[varliklar["study_id"] == study_id].copy()
     if v.empty:
         return v
-    c = cumleler[cumleler["study_id"] == study_id][["sent_idx", "text"]]
-    v = v.merge(c, on="sent_idx", how="left").rename(columns={"text": "cumle_metni"})
+    # ⚠ BOLUM ANAHTARI ZORUNLU (D96)
+    ah = [k for k in ("section", "sent_idx") if k in v.columns and k in cumleler.columns]
+    c = cumleler[cumleler["study_id"] == study_id][ah + ["text"]].drop_duplicates(subset=ah)
+    v = v.merge(c, on=ah, how="left").rename(columns={"text": "cumle_metni"})
     return v
 
 
@@ -128,10 +139,17 @@ def main() -> int:
 
     varliklar = pd.read_parquet(
         VARLIKLAR,
-        columns=["entity_id", "study_id", "sent_idx", "raw_text", "normalized_concept",
+        columns=["entity_id", "study_id", "section", "sent_idx", "raw_text", "normalized_concept",
                  "assertion", "assertion_rule", "assertion_cue", "temporality"],
     )
-    cumleler = pd.read_parquet(CUMLELER, columns=["study_id", "sent_idx", "text"])
+    cumleler = pd.read_parquet(
+        CUMLELER, columns=["study_id", "section", "sent_idx", "text", "is_stock_phrasing"])
+    iliskiler = pd.read_parquet(
+        ILISKILER, columns=["head_id", "tail_id", "relation_type"])
+    # C#nodul-kalip girdi sozlesmesi (TASK-17 madde 4, D81): iki kolon
+    # EKLENIR. TUM varlik cercevesi uzerinde cagrilir - niteleyici kavram
+    # haritasi eksik kalmasin diye (filtreleme SONRA yapilir).
+    varliklar = sema.kalip_nodul_kolonlarini_ekle(varliklar, cumleler, iliskiler)
 
     sonuclar: dict[str, list[dict]] = {"sinir": [], "kontrol": [], "rapor": []}
 
@@ -179,8 +197,12 @@ def main() -> int:
     # --- KORUMA KAPISI: kontrol takiminda GERCEK ihlal var mi -----------
     # Asil koruma kapisi denetimi: motor kontrol takiminda YONLU SUPHE
     # uretti mi? Hedefle uyumsuzluk degil, MALIGNITE URETIMI olculur.
-    MALIGN_URETIR = {"low", "intermediate", "high", "known_malignancy"}
-    kapi_ciktisi_ihlali = [x for x in sonuclar["kontrol"] if x["motor_ciktisi"] in MALIGN_URETIR]
+    # TASK-17 madde 3 (D79) + docs/34 v2 §4.2 (Karar 2): kapi kumesinden
+    # `low` CIKARILDI. K-A = toleranssiz; `low` ayri olarak K-C ile
+    # raporlanir (esik <= 1, turetilmis - bkz. envanter.py).
+    kapi_ciktisi_ihlali = [x for x in sonuclar["kontrol"]
+                           if x["motor_ciktisi"] in env.KAPI_MALIGNITE_SINIFLARI]
+    kapi_low = [x for x in sonuclar["kontrol"] if x["motor_ciktisi"] == "low"]
 
     print(f"\n{'='*70}")
     print("KORUMA KAPISI DENETIMI (docs/29 §8.3, toleranssiz)")
@@ -189,10 +211,20 @@ def main() -> int:
     for x in kapi_ciktisi_ihlali:
         print(f"    [KAPI IHLALI] {x['vaka_id']:28} motor={x['motor_ciktisi']}")
 
+    print(f"  K-C · kontrol takiminda `low` ureten vaka: {len(kapi_low)} "
+          f"(tolerans <= {env.KAPI_LOW_TOLERANSI})")
+    for x in kapi_low:
+        print(f"    [K-C] {x['vaka_id']:28} motor=low")
+
     ozet["koruma_kapisi"] = {
-        "toleranssiz_ihlal_sayisi": len(kapi_ciktisi_ihlali),
-        "gecti": len(kapi_ciktisi_ihlali) == 0,
+        "K_A_toleranssiz_ihlal_sayisi": len(kapi_ciktisi_ihlali),
+        "K_A_gecti": len(kapi_ciktisi_ihlali) == 0,
+        "K_A_kume": sorted(env.KAPI_MALIGNITE_SINIFLARI),
         "ihlaller": kapi_ciktisi_ihlali,
+        "K_C_low_sayisi": len(kapi_low),
+        "K_C_toleransi": env.KAPI_LOW_TOLERANSI,
+        "K_C_gecti": len(kapi_low) <= env.KAPI_LOW_TOLERANSI,
+        "K_C_vakalar": kapi_low,
     }
     ozet["sema_surumu"] = sema.SEMA_SURUMU
 

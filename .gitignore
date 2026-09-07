@@ -110,3 +110,22 @@ outputs/task16/adim7_codex/CODEX_ISTEM.md
 Sude_Sprint_Kanban_Gorevleri_*.xlsx
 # TASK-17 devir notu - surec artefakti
 outputs/task17/DEVIR_PROMPT.md
+outputs/task17/DENETIM_IS_EMRI.md
+outputs/task17/TR_TERMINOLOJI_ARASTIRMA.md
+outputs/task17/DENETIM_ISTEGI_2_dagilim_kapisi.md
+outputs/task17/DENETIM_IS_EMRI.md
+outputs/task17/km_kor/
+
+# TASK-17 surec artefaktlari - kor paketler ve anahtarlar depoya girmez
+outputs/task17/km_kor/
+outputs/task17/km_kor_v2/
+configs/task17_km_kor_anahtar.json
+configs/task17_km_kor_anahtar_v2.json
+outputs/task17/TR_TERMINOLOJI_ARASTIRMA.md
+
+# TASK-17 ara ciktilari - depoda yalniz kapanis raporu durur
+reports/task17_*.json
+docs/34_task17_calisma_plani.md
+docs/35_task17_denetim_ve_karar.md
+docs/36_task17_testv2_olcum_protokolu.md
+docs/37_task17_known_malignancy_kor_dogrulama.md

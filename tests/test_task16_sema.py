@@ -47,6 +47,259 @@ def rapor_duzeyi(cerceve: pd.DataFrame) -> str:
     return sema.rapora_topla("s1", sema.bulgulari_hesapla(cerceve)).olcek_duzeyi
 
 
+# --- C#nodul-kalip (TASK-17 madde 4, D81) -----------------------------
+# docs/34 v2 §0 "Istisna 2" ile ilan edilmis kapsam. Olcum: D80.
+
+def _kalip(**kw):
+    """Sozlesme alanlari DOLU bir kalip-nodul satiri."""
+    temel = {"cumle_metni": "Millimetric nonspecific nodules in both lungs.",
+             "sablon_cumle": True, "supheli_niteleyici": False}
+    temel.update(kw)
+    return varlik(**temel)
+
+
+def test_D87_kalip_kurali_VARSAYILAN_OLARAK_ETKISIZ():
+    """⛔ D87: D81 kurali GERI ALINDI - bagimsiz denetim (Codex) haklıydi.
+
+    Bu test kuralin YENIDEN SESSIZCE ACILMASINI engeller. Acilmasi ancak
+    altin/patoloji dogrulamasi ya da kor uzman yargisi geldiginde, ayri bir
+    kararla olabilir.
+    """
+    assert sema.KALIP_NODUL_KURALI_ETKIN is False
+    b = sema.bulgulari_hesapla(_kalip())[0]
+    assert b.kaynak != "C#nodul-kalip", "kural etkisiz olmali"
+
+
+def test_D87_kural_acilirsa_eski_davranis_geri_gelir(monkeypatch):
+    """Altyapi KORUNDU (D80 olcumu gecerli bir bulgudur) - madde 13'te
+    alternatif senaryo olarak kosulabilsin diye. Bayrak acilirsa calisir."""
+    monkeypatch.setattr(sema, "KALIP_NODUL_KURALI_ETKIN", True)
+    b = sema.bulgulari_hesapla(_kalip())[0]
+    assert b.duzey is None
+    assert b.kaynak == "C#nodul-kalip"
+
+
+def test_nodul_kalip_supheli_niteleyici_varsa_BASTIRILMAZ(monkeypatch, ):
+    """Olculdu (D80): kalip icinde 94 varlik gercek supheli niteleyici tasiyor.
+
+    Duz "kalip" kurali onlari susturur - bu yuzden kural
+    "KALIP **VE** supheli niteleyici YOK" ister.
+    """
+    monkeypatch.setattr(sema, "KALIP_NODUL_KURALI_ETKIN", True)
+    b = sema.bulgulari_hesapla(_kalip(supheli_niteleyici=True))[0]
+    assert b.kaynak != "C#nodul-kalip"
+
+
+def test_nodul_kalip_yalniz_present_uzerinde_calisir(monkeypatch, ):
+    """`absent` nodul AKTIF NEGATIF (`None`) uretmeye devam eder.
+
+    Kural negasyon semantigine dokunmaz: "no nonspecific nodules observed"
+    bir bulgu YOKLUGU degil, aktif bir olumsuz hukumdur.
+    """
+    monkeypatch.setattr(sema, "KALIP_NODUL_KURALI_ETKIN", True)
+    b = sema.bulgulari_hesapla(_kalip(assertion="absent"))[0]
+    assert b.kaynak != "C#nodul-kalip"
+    assert b.duzey == "None"
+
+
+def test_nodul_kalip_sozlesme_yoksa_SESSIZCE_ATLANIR():
+    """D73 emsali: alan yoksa kural atlanir, varsayilana GERI DUSULMEZ.
+
+    Alan yoklugu "kalip degil" DEMEK DEGILDIR, "olculmedi" demektir;
+    olculmemis bir seye dayanarak bastirma yapilmaz.
+    """
+    v = varlik(cumle_metni="Millimetric nonspecific nodules in both lungs.")
+    assert "sablon_cumle" not in v.columns
+    assert sema.bulgulari_hesapla(v)[0].kaynak != "C#nodul-kalip"
+
+
+def test_nodul_kalip_baska_kavrama_bulasmaz(monkeypatch, ):
+    """Ayni cumlede gecen `mass` etkilenmez - kural kavrama ozgudur."""
+    monkeypatch.setattr(sema, "KALIP_NODUL_KURALI_ETKIN", True)
+    b = sema.bulgulari_hesapla(_kalip(normalized_concept="mass"))[0]
+    assert b.kaynak != "C#nodul-kalip"
+
+
+def test_nodul_kalip_sablon_olmayan_nonspecific_de_yakalanir(monkeypatch, ):
+    """KALIP = sablon VEYA `nonspecific` - ikisi de tek basina yeter."""
+    monkeypatch.setattr(sema, "KALIP_NODUL_KURALI_ETKIN", True)
+    b = sema.bulgulari_hesapla(_kalip(sablon_cumle=False))[0]
+    assert b.kaynak == "C#nodul-kalip"
+
+
+def test_nodul_kalip_duz_nodul_cumlesini_yakalamaz(monkeypatch, ):
+    """Niteleyicisiz ama KALIP da olmayan nodul gosterge olmaya devam eder."""
+    monkeypatch.setattr(sema, "KALIP_NODUL_KURALI_ETKIN", True)
+    b = sema.bulgulari_hesapla(_kalip(
+        cumle_metni="A 12 mm nodule in the right upper lobe.",
+        sablon_cumle=False))[0]
+    assert b.kaynak != "C#nodul-kalip"
+
+
+# --- C#bilinen-kanser (TASK-17 madde 11, D92) -------------------------
+# docs/34 v2 §0 "Istisna 1": kural TASK-16'da (docs/33 §4.1) KARARA
+# BAGLANMIS ama KODLANMAMISTI. Bu testler onu ve SINIRLARINI korur.
+
+def _km(cumle, **kw):
+    t = {"cumle_metni": cumle}
+    t.update(kw)
+    return varlik(**t)
+
+
+def test_bilinen_kanser_olcegin_en_ustunu_uretir():
+    b = sema.bulgulari_hesapla(_km(
+        "In the follow-up, breast Ca, bone lesion compatible with metastasis.",
+        normalized_concept="metastasis"))[0]
+    assert b.duzey == "known_malignancy"
+    assert b.kaynak == "C#bilinen-kanser"
+
+
+@pytest.mark.parametrize("cumle", [
+    "In the case with known primary, evaluated in favor of metastasis.",
+    "It was learned that the patient had been operated for lung Ca.",
+    "It was learned that bilateral lobectomy was performed due to pulmonary Ca.",
+    "In the patient with a history of rectal ca, new nodular lesions.",
+])
+def test_bilinen_kanser_olculmus_cipalar(cumle):
+    """Cipalar korpusta OLCULDU (D92): in the follow-up 104, followed up 64,
+    known 53, operated 29, history of 24, diagnosed 3."""
+    assert sema._bilinen_kanser(
+        _km(cumle, normalized_concept="metastasis").iloc[0])
+
+
+def test_bilinen_kanser_ONCEKI_RAPOR_OKUMASINI_tetiklemez():
+    """⛔ docs/33 §4.1: 'YALNIZ RADYOLOJIK HUKUM en fazla `high` uretir.'
+
+    'it was learned that these lesions were metastases' onceki raporu
+    okumaktir - belgelenmis kanser oykusu DEGIL. Olculdu (D92): baska
+    cipasi olmayan 22 cumlenin yarisi bu turdendi; `it was learned` bu
+    yuzden TEK BASINA cipa sayilmadi.
+    """
+    assert not sema._bilinen_kanser(
+        _km("It was learned that these lesions were metastases.",
+            normalized_concept="metastasis").iloc[0])
+
+
+def test_bilinen_kanser_absent_varligi_tetiklemez():
+    """'no metastasis' bir bilinen kanser IDDIASI degildir."""
+    assert not sema._bilinen_kanser(
+        _km("In the follow-up, breast Ca, no metastasis was observed.",
+            normalized_concept="metastasis", assertion="absent").iloc[0])
+
+
+def test_bilinen_kanser_sozlesme_yoksa_SESSIZCE_ATLANIR():
+    """D73 emsali: `cumle_metni` yoksa kural atlanir, `raw_text`e DUSULMEZ."""
+    v = varlik(normalized_concept="metastasis")
+    assert v.iloc[0]["cumle_metni"] == ""
+    assert sema.bulgulari_hesapla(v)[0].kaynak != "C#bilinen-kanser"
+
+
+@pytest.mark.parametrize("cumle", [
+    "In the upper lobes, icy ca density increases were observed.",
+    "Calcific atheroma plaques in the vascular structures.",
+    "Apical pleural thickening in both lungs.",
+])
+def test_ca_KELIME_SINIRLI_olmak_zorunda(cumle):
+    """⚠ GERCEK BIR TEHLIKE - yazim sirasinda OLUSTU ve test yakaladi.
+
+    `ca` kelime siniri olmadan yazilirsa `calcification`, `vascular`,
+    `apical` gibi YUZLERCE kelimenin icinde eslesir ve tetikleyici pratik
+    olarak HER cumlede atesler. Bu test o kaymanin geri gelmesini engeller.
+    Ayrica 'icy ca density' korpusta gercek bir ceviri artefaktidir ve
+    kanser DEGILDIR.
+    """
+    assert not sema._bilinen_kanser(
+        _km(cumle, normalized_concept="metastasis").iloc[0])
+
+
+def test_bilinen_kanser_kanser_terimi_OLMADAN_tetiklemez():
+    """Cipa TEK BASINA yetmez - cumlede kanser terimi de olmali."""
+    assert not sema._bilinen_kanser(
+        _km("In the follow-up, no significant change was observed.",
+            normalized_concept="metastasis").iloc[0])
+
+
+@pytest.mark.parametrize("cumle", [
+    "Consolidation due to malignant infiltration in the right lung.",
+    "The appearance may be due to malignancies.",
+    "Pleural thickening due to malignant process.",
+    "Findings may be due to malignancy or infection.",
+])
+def test_D97_radyolojik_nedensellik_kanser_oykusu_SAYILMAZ(cumle):
+    """⛔ Kor yargida cikan DORT yanlis pozitifin DORDU de bu daldandi.
+
+    `(?:due to|because of) + malignan*` RADYOLOJIK NEDENSELLIK bildiriyordu,
+    BELGELENMIS kanser oykusu degil. Dal daraltildi (`malignan\w*` cikarildi);
+    `cancer`/`carcinom`/`ca` kaldi cunku onlar klinik ENDIKASYON bildiriyor.
+    Bu test daralmanin geri alinmasini engeller.
+    """
+    v = _km(cumle, normalized_concept="metastasis")
+    assert not sema._bilinen_kanser(v.iloc[0])
+
+
+@pytest.mark.parametrize("cumle", [
+    "It was learned that bilateral lobectomy was performed due to pulmonary Ca.",
+    "It was learned that the patient underwent lobectomy due to lung ca.",
+])
+def test_D97_klinik_endikasyon_KORUNDU(cumle):
+    """Daraltma DOGRU pozitifleri kaybetmemeli - olculdu: hicbiri kaybolmadi."""
+    v = _km(cumle, normalized_concept="metastasis")
+    assert sema._bilinen_kanser(v.iloc[0])
+
+
+# --- BOLUM ANAHTARI (D96) ---------------------------------------------
+# ⚠ Bagimsiz denetim (Codex) buldu: `sent_idx` HER BOLUMDE SIFIRDAN BASLAR.
+# Yalniz `sent_idx` ile birlestirmek Findings ve Impression cumlelerini
+# birbirine karistirir. Kusur TASK-16'dan mirastir.
+
+def test_D96_sent_idx_TEK_BASINA_benzersiz_DEGIL():
+    """Hatanin KOKUNU belgeler: anahtarin benzersiz olmadigini olcer.
+
+    Bu test veri yoksa atlanir; varsa (study_id, sent_idx) ikilisinin
+    korpusta benzersiz OLMADIGINI ve (study_id, section, sent_idx)
+    uclusunun benzersiz OLDUGUNU dogrular.
+    """
+    import pandas as pd
+    yol = KOK / "data/processed/sentences.parquet"
+    if not yol.exists():
+        pytest.skip("korpus yok")
+    c = pd.read_parquet(yol, columns=["study_id", "section", "sent_idx"])
+    uclu = len(c.drop_duplicates(["study_id", "section", "sent_idx"]))
+    ikili = len(c.drop_duplicates(["study_id", "sent_idx"]))
+    assert uclu == len(c), "(study_id, section, sent_idx) benzersiz OLMALI"
+    assert ikili < len(c), (
+        "(study_id, sent_idx) benzersiz CIKTI - bu testin varsayimi degisti, "
+        "gozden gecir")
+
+
+def test_D96_benign_hukum_BOLUMLER_ARASI_TASMIYOR():
+    """Findings'teki benign hukum, Impression'daki ayni sent_idx'i ETKILEMEMELI.
+
+    Hatali surumde `_benign_hukum_cumleler` ciplak `sent_idx` kumesi
+    donduruyordu; Findings cumle 0'daki "possibly benign" ifadesi
+    Impression cumle 0'daki malignite bulgusunu da EZIYORDU.
+    """
+    import pandas as pd
+    cerceve = pd.DataFrame([
+        # Findings/0: benign hukum tasiyan cumle
+        {"entity_id": "e1", "study_id": "s1", "section": "findings", "sent_idx": 0,
+         "normalized_concept": "nodule", "assertion": "present",
+         "assertion_rule": "cikarim:lehine", "assertion_cue": "in favor of",
+         "temporality": "current", "raw_text": "nodule",
+         "cumle_metni": "The nodule is possibly benign."},
+        # Impression/0: AYNI sent_idx, ama benign hukum YOK
+        {"entity_id": "e2", "study_id": "s1", "section": "impression", "sent_idx": 0,
+         "normalized_concept": "metastasis", "assertion": "present",
+         "assertion_rule": "cikarim:lehine", "assertion_cue": "in favor of",
+         "temporality": "current", "raw_text": "metastasis",
+         "cumle_metni": "Findings are in favor of metastasis."},
+    ])
+    sonuc = {b.entity_id: b for b in sema.bulgulari_hesapla(cerceve)}
+    assert sonuc["e1"].kaynak.startswith("A26"), "findings/0 benign hukum almali"
+    assert not sonuc["e2"].kaynak.startswith("A26"), (
+        "⚠ BOLUM TASMASI: impression/0, findings/0'in benign hukmunu aldi")
+
+
 # --- Olcek ve esleme ---------------------------------------------------
 
 def test_olcek_sirali_ve_not_mentioned_olcek_disi():
@@ -232,9 +485,66 @@ def test_json_kaydi_kodla_ayni_envanterleri_tanimlar():
     j = json.loads(SEMA_JSON.read_text(encoding="utf-8"))
     env = j["envanterler"]
     assert set(env["malignite_kavramlari"]["liste"]) == set(sema.MALIGNITE_KAVRAMLARI)
-    assert set(env["benign_kavramlari"]) == set(sema.BENIGN_KAVRAMLARI)
+    # D82: benign envanter duz listeden STATUS tasiyan sozluge cevrildi
+    # (korpustan turetilmis DEGIL, C karari oldugu kayda gecti).
+    assert set(env["benign_kavramlari"]["liste"]) == set(sema.BENIGN_KAVRAMLARI)
+    assert env["benign_kavramlari"]["turetme_sonucu"].startswith("BASARISIZ")
     assert set(env["f2_muaf_kavramlar"]["liste"]) == set(sema.F2_MUAF_KAVRAMLAR)
     assert set(env["kesin_hukum_kurallari"]["liste"]) == set(sema.KESIN_HUKUM_KURALLARI)
+
+
+def test_d79_tek_kaynak_envanteri_belgeyle_ayni():
+    """TASK-17 madde 3 (D79): tek kaynak `envanter.py` <-> bildirimsel kayit.
+
+    Belge kodun gerisinde kalirsa bu test kirilir. Drift'in kendisi bu
+    gorevin bulgusuydu; ayni drift'in geri gelmesini test engeller.
+    """
+    from radyovlm.evaluation import envanter as inv
+
+    j = json.loads(SEMA_JSON.read_text(encoding="utf-8"))
+    e = j["envanterler"]
+
+    assert e["malignite_metin_deseni"]["desen"] == inv.MALIGNITE_METIN_DESENI
+    kk = e["koruma_kapisi_kumeleri"]
+    assert set(kk["hedef_malignite_siniflari"]["liste"]) == set(inv.HEDEF_MALIGNITE_SINIFLARI)
+    assert set(kk["kapi_malignite_siniflari"]["liste"]) == set(inv.KAPI_MALIGNITE_SINIFLARI)
+    assert kk["kapi_malignite_siniflari"]["K_C"]["tolerans"] == inv.KAPI_LOW_TOLERANSI
+
+
+def test_d79_iki_kapi_kumesi_ayri_kalir():
+    """Karar 2 YALNIZ motor kapisina uygulandi, kilit gecerliligine DEGIL.
+
+    Ikisi ayni degere donerse biri sessizce degistirilmis demektir:
+      - HEDEF kumesi `low` ICERMELI (kontrol vakasina low HEDEFI yazilamaz)
+      - KAPI kumesi `low` ICERMEMELI (docs/34 v2 §4.2, Karar 2)
+    """
+    from radyovlm.evaluation import envanter as inv
+
+    assert "low" in inv.HEDEF_MALIGNITE_SINIFLARI
+    assert "low" not in inv.KAPI_MALIGNITE_SINIFLARI
+    assert inv.KAPI_MALIGNITE_SINIFLARI < inv.HEDEF_MALIGNITE_SINIFLARI
+
+
+def test_d79_kilit_oncesi_desen_gercek_desenin_alt_kumesi():
+    """Kilit DAR desenle orneklendi; genis desen onun UST kumesi olmali.
+
+    Ust kume degilse "kilit yalniz bilgi KACIRDI" ifadesi yanlis olur -
+    kilit ayrica YANLIS cumle de almis olurdu ve bu daha agir bir bulgudur.
+    """
+    import re
+
+    from radyovlm.evaluation import envanter as inv
+
+    ornekler = [
+        "lung tumor followed up", "tumoral lesion", "malignancy suspected",
+        "carcinoma of the lung", "metastasis in the liver", "spiculated nodule",
+        "neoplasm", "no pathology",
+    ]
+    genis = re.compile(inv.MALIGNITE_METIN_DESENI, re.I)
+    dar = re.compile(inv.MALIGNITE_METIN_DESENI_KILIT_ONCESI, re.I)
+    for c in ornekler:
+        if dar.search(c):
+            assert genis.search(c), f"dar desen yakaladi ama genis kacirdi: {c!r}"
 
 
 def test_json_kaydinda_her_kural_dayanak_tasir():

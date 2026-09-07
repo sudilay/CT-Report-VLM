@@ -1,0 +1,72 @@
+{
+  "surum": "capa-1.2",
+  "olusturma_utc": "2026-09-07T11:18:33.542237+00:00",
+  "gorev": "TASK-17 madde 12 - dagilim capasinin yeniden turetilmesi",
+  "yetki": "docs/34 v2 §6 (kullanici onayli: 'sert kapi kalsin, Poisson + guc ilan edilsin')",
+  "eski_capa": {
+    "aralik": [
+      0.5,
+      3.0
+    ],
+    "durum": "GECERSIZ (D76)",
+    "sebep": "'suphe derecesi dili' ile 'MALIGNITE suphe derecesi dili' esitlenmisti; 392 derece cumlesinin yalniz 15'i kanser terimi iceriyordu, 377'si enfeksiyon/COVID."
+  },
+  "yeni_capa": {
+    "tanim": "derece ifadesi ∩ kanser terimi (D76'nin kendi yazdigi duzeltme)",
+    "derece_deseni": "high(?:ly)? suspic|strongly suspic|highly suggestive",
+    "kanser_deseni": "malignan|carcinom|neoplas|metasta|tumor|spicul",
+    "ikisi_de_onceden_dondurulmus": true,
+    "derece_cumle": 392,
+    "derece_calisma": 230,
+    "kesisim_cumle": 15,
+    "kesisim_calisma": 13,
+    "capa_orani_yuzde": 0.0632
+  },
+  "kabul_araligi": {
+    "yontem": "tam (exact) Poisson %95 guven araligi",
+    "gozlenen_calisma": 13,
+    "ga_sayim": [
+      6.92,
+      22.23
+    ],
+    "alt_yuzde": 0.0336,
+    "ust_yuzde": 0.108,
+    "payda_calisma": 20576
+  },
+  "guc_ilani": "Dagilim kapisi bu korpusta DUSUK GUCLUDUR. Capa tabani 13 calismadir; Poisson orneklem hatasi ±3.6 (%28 bagil). Kapi yalniz KABA DEJENERASYONU (semanin populasyonun cok buyuk ya da cok kucuk bir bolumunu malignite-pozitif ilan etmesi) yakalayabilir; ince kalibrasyon hatasini yakalayamaz. KAPININ GECILMESI, SEMANIN DAGILIMININ DOGRU OLDUGUNUN KANITI DEGILDIR.",
+  "sira_sorunu_ilani": "⚠ Bu capa hesaplanirken sema ZATEN bir kez kosulmustu (madde 11) ve sonucu biliniyordu (%0,870). Normalde bu 'sonucu gorup olcut secmek' olurdu. Itiraza cevap: HICBIR SERBESTLIK DERECESI KALMAMISTIR - capanin iki deseni de onceden dondurulmustur (DERECE_DESENI TASK-16, MALIGNITE_METIN_DESENI tier-1.2 kilidi) ve aralik formulu plan v2 §6'da madde 8-11 kosulmadan ONCE yazilip onaylanmistir. Secilen hicbir sey yoktur; onceden yazilmis bir formul onceden dondurulmus desenlere uygulanmistir. Yine de sonucun bilindigi ILAN EDILIYOR.",
+  "baglayici": "Bu dosya yazildiktan SONRA aralik DEGISTIRILMEZ. Madde 13'un resmi kosumu buna karsi degerlendirilir.",
+  "denetim_hukmu": {
+    "denetleyen": "Codex (bagimsiz)",
+    "tarih": "2026-09-07",
+    "hukum": "UCUNCU YOL - iki secenegim de kismen yanlisti",
+    "1_mevcut_sonuc_KORUNUR": "Onceden tanimli BIRLESIK dagilim kapisi KALDI: %0,870 vs [%0,034-%0,108]. Bu kayit bicimi DEGISTIRILMEZ; mevcut kosum sonradan 'gecti' diye YENIDEN ADLANDIRILMAZ.",
+    "2_kapi_KARAR_VEREMEZ": "⚠ Ama bundan 'sema yanlistir, kurali dagilima uyduralim' sonucu CIKMAZ. Kapi ESTIMAND/YAPI UYUMSUZLUGU nedeniyle GECERSIZDIR ve sema hakkinda kabul-ret karari VEREMEZ durumdadir.",
+    "kapinin_onculu_kodda_YAZILIYDI": "scripts/49 satir 59-61, kapinin kendi tureyis metni: 'Motor `known_malignancy` URETMEZ (docs/33 §4.1, ilan edilmis sinir), yani `malignite_pozitif` pratikte YALNIZ `high`tir.' D92 tam olarak bu varsayimi kirdi (0 -> 166 calisma). Yani gecersiz olan ARALIK degil, kapinin ONCULUDUR.",
+    "3_high_yalniz_POST_HOC": "`high` %0,063 sonucu YALNIZ post-hoc tutarlilik olcumu olarak yazilir. 'Kapi gecti' DENMEZ.",
+    "4_13_13_esitligi_BAGIMSIZ_DOGRULAMA_DEGIL": "⚠ DENETIMIN YAKALADIGI HATA: capa (DERECE_DESENI ∩ MALIGNITE_METIN_DESENI) ile `high` AYNI derece desenini ve iliskili kanser sozlugunu kullaniyor; 13↔13 esitligi KISMEN TANIMSAL/DONGUSELDIR. Ben bunu 'carpici kanit' diye sunmustum - ASIRI IDDIAYDI, geri alindi.",
+    "5_known_malignancy": "CAPASIZ ve DOGRULANMAMIS ilan edilir. Ayri, ONCEDEN YAZILMIS kor metin dogrulamasiyla sinanir. ⚠ O dogrulama KLINIK KANSER GERCEGINI degil, RAPORDAKI ACIK KANSER OYKUSUNU dogru yakalamayi olcebilir - fazlasini iddia edemez (D71: ground truth yok).",
+    "6_dondurma": "sema-1.0 dondurmasi BU KAPIYA DAYANARAK YAPILMAZ. Hedef uyumu da zaten kendi esigini gecmemis durumda (24/30, esik %100).",
+    "ilke": "On kayit, GECERSIZ bir olcutu uygulamaya devam etmeyi degil; sonradan yapilan duzeltmeyi acikca 'PROTOKOL DEGISIKLIGI' olarak kaydedip MEVCUT SONUCU YENIDEN ADLANDIRMAMAYI gerektirir."
+  },
+  "kapi_durumu": {
+    "birlesik_kapi": "KALDI (%0,870 vs [%0,034-%0,108])",
+    "gecerlilik": "GECERSIZ - estimand/yapi uyumsuzlugu; karar veremez",
+    "high_post_hoc": "%0,063 (post-hoc tutarlilik olcumu; 'gecti' DEGIL)",
+    "known_malignancy": "CAPASIZ, DOGRULANMAMIS - kor metin dogrulamasi bekliyor"
+  },
+  "gelecek_protokol": {
+    "not": "Bu AYRIM GELECEK icin dogrudur, mevcut kosumu yeniden adlandirmaz.",
+    "high": "radyolojik yuksek suphe - derece dili capasi UYGULANABILIR",
+    "known_malignancy": "raporda yazili kanser oykusu/bilgisi - AYRI dogrulama ister",
+    "statu": "PROTOKOL DEGISIKLIGI olarak kayitli (madde 15 raporunda ilan edilecek)"
+  },
+  "guncelleme_utc": "2026-09-07T11:30:55.528255+00:00",
+  "D96_duzeltmesi": {
+    "sebep": "Bolum anahtari kusuru (D96) - sent_idx her bolumde sifirdan basliyor, bes yerde yalniz basina kullanilmisti.",
+    "known_malignancy": "166 -> 160 calisma (denetimin ongordugu sayi)",
+    "malignite_pozitif": "179 -> 173 calisma = %0,870 -> %0,841",
+    "high": "13 calisma = %0,063 (DEGISMEDI)",
+    "not": "Kapinin HUKMU degismedi: birlesik kapi hala KALIYOR (%0,841 vs [%0,034-%0,108]) ve hala ESTIMAND UYUMSUZLUGU nedeniyle KARAR VEREMEZ."
+  }
+}

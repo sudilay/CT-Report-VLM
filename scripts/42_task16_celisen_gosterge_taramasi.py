@@ -28,24 +28,99 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+from radyovlm.evaluation import envanter as env  # noqa: E402
+
 KOK = Path(__file__).resolve().parent.parent
 CUMLELER = KOK / "data/processed/sentences.parquet"
 KORPUS = KOK / "data/processed/reports_study_level.parquet"
 KILIT = KOK / "configs/splits_holdout.json"
 CIKTI = KOK / "reports/task16_celisen_gosterge_taramasi.json"
 
+# ═══════════════════════════════════════════════════════════════════════
+# ⚠ SURUM tarama-1.1 (2026-09-04, TASK-17 madde 1) - UC DESEN ONARILDI
+# ═══════════════════════════════════════════════════════════════════════
+# Plan: docs/34_task17_calisma_plani.md v2 §3.1 · Olcum:
+# scripts/52_task17_desen_onarim_olcumu.py -> reports/task17_desen_onarim_olcumu.json
+#
+# D72 uc "olcum artefakti" kaydetmis ama DUZELTMEMISTI ("sozluk duzeltmesi
+# TASK-17'nin isidir"). docs/34 §3.1 olctu ki kusur URETIM SOZLUGUNDE degil,
+# TAM OLARAK BURADA: `configs/ipucu_sozlugu.yaml` dogrudur, bu tarayici ondan
+# sapmistir. Onarim uretim sozlugune HIZALAMA ile yapildi (D60: olcum once
+# alete uygulanir). Hicbir dondurulmus surum kirilmadi.
+#
+# 1) `belirsizlik` - ESKI 9.481 cumlenin %97,2'si (9.212) HATALIYDI.
+#    ⚠ D72 yalniz `in favor of`u (6.720) isaretlemisti; olcum gosterdi ki
+#      `suspicious` (1.745), `possibl` (430), `probabl` (407) DA hatali -
+#      dordu de uretimde `cikarim_ifadesi` altindadir ve `present` uretir.
+#      Gercek belirsizlik yalniz 305 cumleydi.
+#    YENI = uretimin gercek belirsizlik siniflari:
+#      belirsizlik_oncelikli.cannot_be_excluded + belirsizlik.{ayirici_tani,
+#      parantez_soru}
+#
+# 2) `buyume` - ESKI 34.262 cumlenin 9.881'i "density/thickness increase"
+#    (bulgu betimlemesi), 12.208'i "enlarged lymph node" (STATIK boyut).
+#    YENI = lezyon buyumesi: acik boyut artisi + yeni ortaya cikma +
+#    progresyon. ⚠ HARIC["buyume"] ile ORGAN boyutu ayiklanir - "Heart size
+#    increased." korpusta 709, "Heart dimensions..." 825 kez gecen SABLON
+#    cumlelerdir, lezyon buyumesi degil. Ayiklamanin maliyeti olculdu:
+#    3.543 organ cumlesinin yalniz 1'inde baska buyume tetikleyicisi var.
+#
+# 3) `stabilite` ∩ `negasyon` - ESKI kesisim 1.020, bunun 934'u (%91,6)
+#    SAHTEYDI: "no significant difference" iki desene birden uyuyordu.
+#    Uretim sozlugu bunlari ZATEN `sahte_negasyon.degisim_yok` diye
+#    isaretlemis; tarayici bunu bilmiyordu. YENI negasyon deseni bu kaliplari
+#    olumsuz ileri-bakisla disliyor. Kesisim 1.020 -> 106.
+# ═══════════════════════════════════════════════════════════════════════
+
+TARAMA_SURUMU = "tarama-1.1"
+
+# `sahte_negasyon.degisim_yok` (configs/ipucu_sozlugu.yaml): bir bulguyu
+# OLUMSUZLAMAZ, STABILITE bildirir. `\bno\b` bunlari yakalamamali.
+_SAHTE_NEGASYON = r"(?!\s+(?:significant\s+(?:change|difference)|interval\s+change|change\b))"
+
 # Gosterge siniflari. Desenler AGENTS.md'deki olculmus korpus terimlerinden
-# turetildi (ornegin bu korpusun benign sozlugu `sequela`, `popcorn` degil).
+# ve `configs/ipucu_sozlugu.yaml`den turetildi (ornegin bu korpusun benign
+# sozlugu `sequela`, `popcorn` degil).
 SINIFLAR: dict[str, str] = {
-    "malignite":     r"malignan|metasta|carcinom|tumoral|neoplas|spicul",
+    # TASK-17 madde 3 (D79): tek kaynak. Eski DAR desen (`tumoral`)
+    # 68 cumle / 56 calisma kaciriyordu - olculdu, bkz. envanter.py.
+    "malignite":     env.MALIGNITE_METIN_DESENI,
     "benign":        r"sequela|granulom|benign|hamartom",
     "kalsifikasyon": r"calcific",
-    "stabilite":     r"\bstable\b|unchanged|no change|no significant (?:difference|change)",
-    "negasyon":      r"\bno\b|\bnot\b|without|absent|negative for",
-    "belirsizlik":   r"cannot be excluded|can not be excluded|suspicious|probabl|possibl|may represent|in favor of",
+    # ONARILDI (3) - uretimdeki `degisim.stabil` ile hizalandi
+    "stabilite":     r"\bstable\b|\bunchanged\b|no significant change|no interval change"
+                     r"|no change\b|no significant difference|similar to (?:the )?previous",
+    # ONARILDI (3) - sahte negasyon disland
+    "negasyon":      rf"\bno\b{_SAHTE_NEGASYON}"
+                     r"|\bnot\b|without|\babsent\b|absence of|negative for",
+    # ONARILDI (1) - uretimin GERCEK belirsizlik siniflari
+    "belirsizlik":   r"can ?not be excluded|can ?not be ruled out"
+                     r"|cannot be definitively excluded"
+                     r"|differential diagnos[ei]s|\bdifferential\b"
+                     r"|\([^)]{1,60}\?\)",
     "enfeksiyon":    r"pneumon|infect|covid|inflammat|tuberculo",
-    "buyume":        r"increas|enlarg|growth|\bgrew\b|\bnew\b|progress",
+    # ONARILDI (2) - LEZYON buyumesi; bulgu betimlemesi degil
+    "buyume":        r"increase[d]? in size|increase in (?:the )?(?:size|dimension)"
+                     r"|size (?:has |had )?increased|enlarg\w* in size"
+                     r"|\bgrew\b|\bgrowth\b|growing"
+                     r"|newly (?:developed|appeared|emerged|detected)|\bnewly\b"
+                     r"|not (?:present|observed) in the previous"
+                     r"|progression|progressed",
     "ekstratorasik": r"\bliver\b|hepatic|adrenal|\bkidney\b|\brenal\b|\bspleen\b",
+}
+
+# Sinifi daraltan DISLAMA desenleri. Bir cumle sinifin desenine uysa bile
+# buradaki desene uyuyorsa sinifa ALINMAZ. Yalniz gerekcesi OLCULMUS
+# dislamalar buraya girer.
+HARIC: dict[str, str] = {
+    # ORGAN boyutu artisi lezyon buyumesi DEGILDIR (kardiyomegali,
+    # splenomegali). Sablon cumleler: "Heart size increased." 709 kez.
+    # Maliyet olculdu: 3.543 organ cumlesinin 1'i baska buyume tetikleyicisi
+    # de tasiyor - yani dislamanin bedeli 1 cumle.
+    "buyume": r"(?:heart|cardiac|spleen|liver|hepatic|thyroid|kidney|renal"
+              r"|adrenal|prostate|uter\w+|aort\w*)\s+(?:size|dimension)"
+              r"|(?:size|dimension)s?\s+of\s+the\s+(?:heart|spleen|liver|thyroid|kidney)",
 }
 
 # Semanin karar vermek ZORUNDA oldugu celiskiler.
@@ -94,6 +169,14 @@ def main() -> int:
          for ad, dsn in SINIFLAR.items()}
     )
 
+    # Dislama desenleri (tarama-1.1) - gerekcesi olculmus daraltmalar
+    for ad, haric_dsn in HARIC.items():
+        haric = metin.str.contains(haric_dsn, case=False, regex=True, na=False)
+        n_once = int(bayrak[ad].sum())
+        bayrak[ad] = bayrak[ad] & ~haric
+        print(f"  [HARIC] {ad}: {n_once:,} -> {int(bayrak[ad].sum()):,} cumle "
+              f"({n_once - int(bayrak[ad].sum()):,} dislandi)")
+
     print("GOSTERGE SINIFI YOGUNLUGU")
     for ad in SINIFLAR:
         n = int(bayrak[ad].sum())
@@ -139,6 +222,9 @@ def main() -> int:
 
     ozet = {
         "uretim_utc": datetime.now(timezone.utc).isoformat(),
+        "tarama_surumu": TARAMA_SURUMU,
+        "desenler": dict(SINIFLAR),
+        "dislama_desenleri": dict(HARIC),
         "kapsam": "yalniz gelistirme havuzu; degerlendirme kilidi okunmadi",
         "kilit_surumu": kilit["surum"],
         "taranan_cumle": int(len(s)),

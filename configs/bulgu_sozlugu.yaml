@@ -1,4 +1,4 @@
-# Bulgu, niteleyici ve cihaz sozlugu  ·  TASK-11  ·  surum: bulgu-1.1
+# Bulgu, niteleyici ve cihaz sozlugu  ·  TASK-11 + TASK-17  ·  surum: bulgu-1.2
 #
 # KAYNAK: korpus frekans madeni (YALNIZCA train - 449.868 cumle, 20.000 hasta).
 # Her 'korpus' degeri OLCULDU; elle yazilmadi.
@@ -13,7 +13,7 @@
 #   "sequela changes"          <- sekel degisiklikler
 # Standart Ingilizce radyoloji sozlugu bu yuzeylerin HICBIRINI icermez.
 
-surum: bulgu-1.1
+surum: bulgu-1.2   # 1.1 -> 1.2: TASK-17 madde 7 Tier A/B genisletmesi (2026-09-07)
 tarih: 2026-08-26
 
 kavramlar:
@@ -50,7 +50,10 @@ kavramlar:
     korpus: 8305
   metastasis:
     tip: observation
-    desenler: ["metasta(?:sis|ses|tic)"]
+    # ARTIK TARAMASI (D86): fiil bicimi kaciriliyordu - "(it was learned that
+    # they metastasized)". Olculdu: `metastasi[sz]ed|metastasi[sz]ing` 7 cumle,
+    # hicbiri baska malignite kavrami uretmiyordu.
+    desenler: ["metasta(?:sis|ses|tic|si[sz]ed|si[sz]ing)"]
     korpus: 2622
   effusion:
     tip: observation
@@ -499,6 +502,213 @@ kavramlar:
 # Kor listelemede isaretleyicilerin yazdigi ama sozluge ALINMAYAN terimler.
 # Alinmama gerekcesi sayiyla birlikte yazilir; ileride yeniden tartisilabilir.
 #
+
+  # ═════════════════════════════════════════════════════════════════════
+  # TASK-17 madde 7 - TIER A ve TIER B GENISLETMESI  (D74 · D83 · D85)
+  # ═════════════════════════════════════════════════════════════════════
+  # D74 "sifir destekli girdi olmaz" kuralini KOSULLU gevsetti. Her yeni
+  # girdi UC alan tasir: `kaynak`, `korpus_destegi` (0 olabilir), `amac`.
+  # Boylece kapsam iddiasi sismez: "N'si olculmus destekli, M'si transfer".
+  #
+  # ⚠ `korpus_destegi` degerleri OLCULDU (scripts/55 -> reports/
+  # task17_tier_siniflandirma.json, gelistirme havuzu 383.644 cumle).
+  # D74'un "lymphoma/sarcoma/mesothelioma sifir gecer" VARSAYIMI YANLIS
+  # cikti (D83); asagidaki sayilar olcumdur, tahmin degil.
+  #
+  # ⛔ OLCULUP REDDEDILEN DESEN PARCALARI - neden alinmadigi sorulmasin:
+  #   `concentric`      16 cumle, TAMAMI damar/duvar ("concentric wall
+  #                     thickness"), kalsifikasyon paterni DEGIL
+  #   `diffuse calcifi` 491 cumle, TAMAMI damar ateromu ("diffuse calcific
+  #                     atheroma plaques in the aorta") - Lung-RADS'in
+  #                     "complete calcification"i ile AYNI KAVRAM DEGIL
+  #   `malignant`       142 cumle - SIFAT. Gozlem kavrami olarak eklenirse
+  #                     D24 ihlal edilir ("kavram adi metnin soylemedigini
+  #                     iddia edemez"); niteleyici olarak ele alinmali,
+  #                     ACIK KALEM (D85)
+  #   `nodular_lesion`  2.793 cumle - kavram ZATEN VAR ama malignite
+  #                     envanterinde yok. Eklenmesi `C#nodul-kalip` (D81)
+  #                     korumasinin ona da genisletilmesini gerektirir;
+  #                     korumasiz eklenirse ~1.935 calisma haksiz yere
+  #                     maligniteye kayar. ACIK KALEM (D85)
+
+  # ---- TIER A · malignite ekseni (olculmus destek) ----
+  carcinomatosis:
+    tip: observation
+    desenler: ["carcinomat\\w*"]
+    korpus: 118
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) · D74'un ilk maddesi | belge: alan_sozlugu.docx"
+    korpus_destegi: 118
+    amac: olculmus
+    not: "Lenfanjitik/peritoneal karsinomatoz. ES ANLAMLI DEGIL, AYRI kavram.
+      Cakisma denetlendi: `carcinomas?\\b` kelime siniri yuzunden bunun
+      icinde ESLESMEZ (carcinoma'dan sonra 't' geliyor)."
+  malignancy:
+    tip: observation
+    desenler: ["malignanc(?:y|ies)"]
+    korpus: 109
+    kaynak: "alan sozlugu §15 | belge: alan_sozlugu.docx"
+    korpus_destegi: 109
+    amac: olculmus
+    not: "YALNIZ isim bicimi. Sifat `malignant` (142 cumle) BILEREK DISARIDA -
+      niteleyici olarak ele alinmali, D24 geregi gozlem kavrami yapilamaz."
+  neoplasm:
+    tip: observation
+    desenler: ["neoplas\\w*"]
+    korpus: 29
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 29
+    amac: olculmus
+    not: "⚠ tr-1.0 `neoplaz`i `tumor` desenine katmisti; iki dosya arasindaki
+      bu fark madde 10'da karara baglanacak."
+  carcinoma:
+    tip: observation
+    desenler: ["carcinomas?\\b"]
+    korpus: 22
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 22
+    amac: olculmus
+  sarcoma:
+    tip: observation
+    desenler: ["sarcomas?\\b"]
+    korpus: 18
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 18
+    amac: olculmus
+  mesothelioma:
+    tip: observation
+    desenler: ["mesotheliomas?"]
+    korpus: 17
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 17
+    amac: olculmus
+  thymoma:
+    tip: observation
+    desenler: ["thymomas?"]
+    korpus: 8
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 8
+    amac: olculmus
+  small_cell_carcinoma:
+    tip: observation
+    desenler: ["small cell (?:lung )?(?:carcinomas?|cancers?)"]
+    korpus: 3
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 3
+    amac: olculmus
+
+  # ---- ARTIK TARAMASI SONRASI EKLENENLER (madde 8 ONCESI, D86) ----
+  # Madde 7 bittikten sonra "sozluk boslugu gercekten kapandi mi?" diye
+  # tarandi: malignite baglamli 10.081 cumlenin 106'si (%1,1) hala hicbir
+  # malignite kavrami uretmiyordu (TASK-16'da bu oran %18,8 idi).
+  # Kalan bosluk UC gercek eksige isaret etti; ucu de burada kapatildi ki
+  # madde 8'in yeniden uretimi IKI KEZ kosulmasin.
+  cancer:
+    tip: observation
+    desenler: ["cancers?"]
+    korpus: 21
+    kaynak: "artik taramasi (D86) - korpus olcumu | belge: KORPUS"
+    korpus_destegi: 21
+    amac: olculmus
+    not: "⭐ Ornekleri neredeyse tamamen BILINEN KANSER vakasi: 'followed up for
+      lung cancer', 'operated for lung cancer and right middle lobectomy'.
+      Yani madde 11'in (`known_malignancy` tetikleyicisi) dogrudan girdisi."
+
+  # ---- TIER B · malignite ekseni (SIFIR destek, transfer amacli) ----
+  # Olcum-notr: hic eslesmeyen desen hicbir sayiyi degistiremez.
+  # Amac: hedef kohortta (Bakanlik, Turkce orijinal) kacirmamak.
+  adenocarcinoma:
+    tip: observation
+    desenler: ["adenocarcinomas?"]
+    korpus: 0
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 0
+    amac: transfer
+  squamous_cell_carcinoma:
+    tip: observation
+    desenler: ["squamous cell (?:carcinomas?|cancers?)", "epidermoid carcinomas?"]
+    korpus: 0
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 0
+    amac: transfer
+  large_cell_carcinoma:
+    tip: observation
+    desenler: ["large cell carcinomas?"]
+    korpus: 0
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 0
+    amac: transfer
+  carcinoid:
+    tip: observation
+    desenler: ["carcinoids?"]
+    korpus: 0
+    kaynak: "alan sozlugu §15 (WHO 2021'e ATIFLA) | belge: alan_sozlugu.docx"
+    korpus_destegi: 0
+    amac: transfer
+
+  # ---- MALIGNITE KARAKTERI · niteleyici (D86) ----
+  malignant_character:
+    tip: qualifier
+    grup: malignancy_character
+    desenler: ["malignant"]
+    korpus: 141
+    kaynak: "artik taramasi (D86) - korpus olcumu | belge: KORPUS"
+    korpus_destegi: 141
+    amac: olculmus
+    not: "⚠ NITELEYICI olarak eklendi, gozlem DEGIL - D24 geregi: `malignancy`
+      kavraminin desenine konsaydi, kavram adi metnin soylemedigini iddia
+      ederdi ('malignant effusion' bir malignite DEGIL, malign karakterli bir
+      efuzyondur). Emsal: `spiculated` de niteleyicidir ve malignite
+      envanterindedir. Olculdu: 141 cumlenin 49'u baska HICBIR malignite
+      kavrami uretmiyordu - kaybedilen bilgi buydu. Ornekler: 'Malignant
+      compression fracture', 'malignant effusion?', 'Malignant mucosal
+      thickening ... possible trachea-prevertebral fascia invasion'."
+
+  # ---- BENIGN eksen · kalsifikasyon paternleri (docs/34 §4.4) ----
+  # ⚠ Bunlar NITELEYICIDIR ve `BENIGN_KAVRAMLARI`ya GIRMEZLER; varsayilan
+  # karar gucleri SIFIRDIR (docs/35 §4.2). Kilavuzun benign olcutunu
+  # GORUNUR kilarlar, tek baslarina hukum vermezler (#7 karari).
+  central_calcification:
+    tip: qualifier
+    grup: calcification_pattern
+    desenler: ["central calcifications?", "centrally calcified"]
+    korpus: 4
+    kaynak: "ACR Lung-RADS v2022 | belge: lung_rads_v2022.pdf"
+    korpus_destegi: 4
+    amac: olculmus
+    not: "Ornekler dogru: 'hamartomatous lesion ... central calcification',
+      'Primarily benign nodule containing central calcification'."
+  complete_calcification:
+    tip: qualifier
+    grup: calcification_pattern
+    desenler: ["complete(?:ly)? calcifi\\w*"]
+    korpus: 3
+    kaynak: "ACR Lung-RADS v2022 | belge: lung_rads_v2022.pdf"
+    korpus_destegi: 3
+    amac: olculmus
+    not: "⛔ `diffuse calcifi` BILEREK DISARIDA - 491 cumle, TAMAMI damar
+      ateromu. docs/34 §4.4'un acik sorusu ('diffuz = complete mi?') boylece
+      HAYIR diye cevaplandi (D83)."
+  popcorn_calcification:
+    tip: qualifier
+    grup: calcification_pattern
+    desenler: ["popcorn"]
+    korpus: 0
+    kaynak: "ACR Lung-RADS v2022 · Fleischner 2017 | belge: lung_rads_v2022.pdf"
+    korpus_destegi: 0
+    amac: transfer
+    not: "Kullanicinin actigi soru (docs/34 §4.4). Bu korpusta SIFIR - o yuzden
+      olcumle degil KUNYEYLE mezun oldu."
+  laminated_calcification:
+    tip: qualifier
+    grup: calcification_pattern
+    desenler: ["laminated"]
+    korpus: 0
+    kaynak: "ACR Lung-RADS v2022 | belge: lung_rads_v2022.pdf"
+    korpus_destegi: 0
+    amac: transfer
+    not: "⛔ `concentric` BILEREK DISARIDA - 16 cumle, tamami damar/duvar
+      ('concentric wall thickness'). `laminated` tek basina olculdu: 0."
+
 #   wall                 27.251  REDDEDILDI - tek basina bulgu/anatomi degil,
 #                                daima niteleyen: "chest wall", "bronchial wall",
 #                                "wall thickening". chest_wall zaten var;

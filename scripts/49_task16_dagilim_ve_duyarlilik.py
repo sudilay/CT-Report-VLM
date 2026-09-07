@@ -34,6 +34,9 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+from radyovlm.evaluation import envanter as env  # noqa: E402
+
 KOK = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(KOK / "src"))
 
@@ -41,6 +44,7 @@ from radyovlm.evaluation import sema  # noqa: E402
 
 VARLIKLAR = KOK / "data/processed/entities.parquet"
 CUMLELER = KOK / "data/processed/sentences.parquet"
+ILISKILER = KOK / "data/processed/relations.parquet"
 KORPUS = KOK / "data/processed/reports_study_level.parquet"
 KILIT = KOK / "configs/splits_holdout.json"
 CIKTI = KOK / "reports/task16_dagilim.json"
@@ -69,7 +73,8 @@ DONDURULMUS_ARALIK = {
         ),
     },
 }
-M_DESENI = re.compile(r"malignan|carcinom|neoplas|metasta|tumor|spicul", re.I)
+# TASK-17 madde 3 (D79): tek kaynak `envanter.py`.
+M_DESENI = re.compile(env.MALIGNITE_METIN_DESENI, re.I)
 
 KAPIYA_BAGLI_OLMAYAN = (
     "malignite_negatif, belirsiz_yetersiz_kanit, benign_bulgu ve not_mentioned "
@@ -115,7 +120,10 @@ def _kapi_teshisi(v: pd.DataFrame, cumleler: pd.DataFrame) -> dict:
     mal = (v[v["normalized_concept"].isin(sema.MALIGNITE_KAVRAMLARI)]
            [["study_id", "sent_idx"]].drop_duplicates())
     mal["mal_varlik"] = True
-    d = d.merge(mal, on=["study_id", "sent_idx"], how="left")
+    # ⚠ BOLUM ANAHTARI ZORUNLU (D96)
+    _ah = [k for k in ("study_id", "section", "sent_idx")
+           if k in d.columns and k in mal.columns]
+    d = d.merge(mal, on=_ah, how="left")
     d["mal_varlik"] = d["mal_varlik"].fillna(False).astype(bool)
     kanser = d[d["kanser_terimi"]]
     return {
@@ -190,12 +198,23 @@ def main() -> int:
     print(f"kapsam: gelistirme havuzu · {len(gel):,} calisma\n")
 
     v = pd.read_parquet(VARLIKLAR, columns=[
-        "entity_id", "study_id", "sent_idx", "raw_text", "normalized_concept",
+        "entity_id", "study_id", "section", "sent_idx", "raw_text", "normalized_concept",
         "assertion", "assertion_rule", "assertion_cue", "temporality"])
     v = v[v["study_id"].isin(gel)]
-    c = pd.read_parquet(CUMLELER, columns=["study_id", "sent_idx", "text"])
-    v = v.merge(c, on=["study_id", "sent_idx"], how="left").rename(
-        columns={"text": "cumle_metni"})
+    iliskiler = pd.read_parquet(
+        ILISKILER, columns=["head_id", "tail_id", "relation_type"])
+    c = pd.read_parquet(
+        CUMLELER, columns=["study_id", "section", "sent_idx", "text", "is_stock_phrasing"])
+    # C#nodul-kalip girdi sozlesmesi (TASK-17 madde 4, D81): iki kolon EKLENIR.
+    # ⚠ SIRA ONEMLI - `_ilgili_varliklar` filtresinden ONCE cagrilir; sonra
+    # cagrilsaydi niteleyici kavram haritasi eksik kalir ve `supheli_niteleyici`
+    # yanlislikla False cikardi (D80 alet hatasinin ayni ailesi).
+    v = sema.kalip_nodul_kolonlarini_ekle(v, c, iliskiler)
+    # ⚠ BOLUM ANAHTARI ZORUNLU (D96)
+    _ah = [k for k in ("study_id", "section", "sent_idx")
+           if k in v.columns and k in c.columns]
+    v = v.merge(c[_ah + ["text"]].drop_duplicates(subset=_ah),
+                on=_ah, how="left").rename(columns={"text": "cumle_metni"})
     v = _ilgili_varliklar(v)
     print(f"ilgili varlik: {len(v):,}\n")
 

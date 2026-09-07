@@ -151,3 +151,51 @@ Hazır olanlar:
 Sıradaki iş: `test`in 56 belgesini iki yolla İngilizceye çevir, üç kolu
 (TR · EN-çeviri · EN-tıbbi) **aynı** altın veriye karşı puanla, **dil kararını**
 ver.
+
+
+---
+
+## ⚠ SONRADAN EKLENEN — 2026-09-07 · `tr-1.0` → `tr-1.1` (TASK-17 madde 10, D91)
+
+**Bu bölüm EKLENMİŞTİR; yukarısı silinmemiş, değiştirilmemiştir.**
+
+`bulgu-1.2` ile eklenen kavramların Türkçe karşılıkları yazıldı.
+**144 → 160 yüzey.** Yeni hash: `5d230e1e4d74c5cc` *(eski `b5e2058a04b9a087`)*.
+
+### Neden dondurma kırıldı ve nasıl ele alındı
+
+D88'in dersi uygulandı: sürüm **yükseltildi**, dondurma kaydı **üstüne
+yazılmadı**, ek olarak bu bölüm eklendi. Eski hash yukarıda duruyor.
+
+⚠ **Mevcut 144 yüzeyin HİÇBİRİ değiştirilmedi** — yalnız 16 yeni girdi
+eklendi. TASK-15'in ölçümleri mevcut yüzeylere dayanıyordu ve onlar
+olduğu gibi duruyor.
+
+### Mezuniyet yolu — her girdide yazılı
+
+| yol | ne demek | kaç girdi |
+|---|---|---|
+| **künye** | Türk radyoloji literatüründe belgelenmiş | 15 |
+| **ölçüm** | RadTr train+dev'de geçti (test MÜHÜRLÜ) | 1 (`malignant_character`, 7 anma) |
+
+### ⛔ Girmeyen: `complete_calcification`
+
+Terminoloji araştırması bu kavramı **yanlış eşleyerek** doğrulamıştı
+(*"diffüz kalsifikasyon"*); o eşleme D83'te ölçülüp **çürütüldü** (491
+cümle, tamamı damar ateromu). Doğru kavram için Türkçe künye **yok** ve
+RadTr'de **0**. Kural gereği hazırlık dosyasında bekliyor — **tahminle
+sözlüğe alınmadı.**
+
+### ⚠ İlan edilen çelişki: `neoplasm`
+
+`neoplaz` bu dosyada **zaten** `tumor` deseninin içinde
+(`t[uü]m[oö]r|neoplaz|kitlesel`). İngilizce tarafta `neoplasm` artık
+**ayrı** kavram. Ayırmak `tumor`un davranışını değiştirirdi, o yüzden
+**yapılmadı**; çelişki ilan edildi ve `tr-2.0` yeniden türetmesine
+bırakıldı (plan §5 zaten kapsam dışı bırakmıştı).
+
+### Doğrulama
+
+`tr_matcher_kur` 160 yüzeyle sorunsuz kuruldu; 8 sentetik cümlede **8/8**.
+Kritik ayrım doğrulandı: *"Malignite"* → `malignancy`, *"Malign
+görünümlü"* → `malignant_character` (kelime sınırı `malign` sayesinde).

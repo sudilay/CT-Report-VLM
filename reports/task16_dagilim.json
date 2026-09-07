@@ -1,9 +1,9 @@
 {
-  "uretim_utc": "2026-09-04T07:00:01+00:00",
+  "uretim_utc": "2026-09-07T12:30:10+00:00",
   "sema_surumu": "sema-0.9-taslak",
   "kapsam": {
     "gelistirme_havuzu_calisma": 20576,
-    "ilgili_varlik": 98084
+    "ilgili_varlik": 87001
   },
   "dondurulmus_aralik": {
     "malignite_pozitif": {
@@ -16,64 +16,57 @@
   "taban": {
     "olcek": {
       "None": {
-        "calisma": 17832,
-        "yuzde": 86.664
+        "calisma": 17723,
+        "yuzde": 86.134
       },
       "high": {
-        "calisma": 10,
-        "yuzde": 0.049
+        "calisma": 13,
+        "yuzde": 0.063
       },
       "indeterminate": {
-        "calisma": 205,
-        "yuzde": 0.996
+        "calisma": 233,
+        "yuzde": 1.132
       },
       "intermediate": {
-        "calisma": 828,
-        "yuzde": 4.024
+        "calisma": 845,
+        "yuzde": 4.107
+      },
+      "known_malignancy": {
+        "calisma": 156,
+        "yuzde": 0.758
       },
       "not_mentioned": {
-        "calisma": 1701,
-        "yuzde": 8.267
+        "calisma": 1606,
+        "yuzde": 7.805
       }
     },
     "dort_sinif": {
       "belirsiz_yetersiz_kanit": {
-        "calisma": 1789,
-        "yuzde": 8.695
+        "calisma": 1909,
+        "yuzde": 9.278
       },
       "benign_bulgu": {
-        "calisma": 182,
-        "yuzde": 0.885
+        "calisma": 151,
+        "yuzde": 0.734
       },
       "malignite_negatif": {
-        "calisma": 17832,
-        "yuzde": 86.664
+        "calisma": 17723,
+        "yuzde": 86.134
       },
       "malignite_pozitif": {
-        "calisma": 10,
-        "yuzde": 0.049
+        "calisma": 169,
+        "yuzde": 0.821
       }
     },
-    "kapsanmayan_calisma": 763
+    "kapsanmayan_calisma": 624
   },
   "kapi": {
     "malignite_pozitif": {
-      "gercek_yuzde": 0.049,
+      "gercek_yuzde": 0.821,
       "alt": 0.5,
       "ust": 3.0,
-      "gecti": false
+      "gecti": true
     }
-  },
-  "kapi_teshisi": {
-    "derece_cumlesi": {
-      "cumle": 392,
-      "calisma": 230
-    },
-    "kanser_terimi_iceren": 15,
-    "kanser_terimi_ICERMEYEN": 377,
-    "kanser_terimli_ve_malignite_varligi_cikan": 12,
-    "kanser_terimli_ama_varlik_cikmayan": 3,
-    "yorum": "Derece kelimesi bu korpusta AGIRLIKLA MALIGNITE HAKKINDA DEGILDIR: 'highly suspicious' cumlelerinin buyuk cogunlugu enfeksiyon/COVID suphesidir (korpusun %21'i COVID, docs/08). Kapi capasi bu yuzden yanlis turetilmisti - 'suphe derecesi dili' ile 'MALIGNITE suphe derecesi dili' esitlenmisti."
   },
   "duyarlilik": {
     "S1_zaman_ekseni_guvenilmez": {
@@ -82,47 +75,51 @@
       "dagilim": {
         "olcek": {
           "None": {
-            "calisma": 17817,
-            "yuzde": 86.591
+            "calisma": 17709,
+            "yuzde": 86.066
           },
           "high": {
-            "calisma": 10,
-            "yuzde": 0.049
+            "calisma": 13,
+            "yuzde": 0.063
           },
           "indeterminate": {
-            "calisma": 201,
-            "yuzde": 0.977
+            "calisma": 230,
+            "yuzde": 1.118
           },
           "intermediate": {
-            "calisma": 854,
-            "yuzde": 4.15
+            "calisma": 868,
+            "yuzde": 4.219
+          },
+          "known_malignancy": {
+            "calisma": 156,
+            "yuzde": 0.758
           },
           "not_mentioned": {
-            "calisma": 1694,
-            "yuzde": 8.233
+            "calisma": 1600,
+            "yuzde": 7.776
           }
         },
         "dort_sinif": {
           "belirsiz_yetersiz_kanit": {
-            "calisma": 1804,
-            "yuzde": 8.767
+            "calisma": 1923,
+            "yuzde": 9.346
           },
           "benign_bulgu": {
-            "calisma": 182,
-            "yuzde": 0.885
+            "calisma": 151,
+            "yuzde": 0.734
           },
           "malignite_negatif": {
-            "calisma": 17817,
-            "yuzde": 86.591
+            "calisma": 17709,
+            "yuzde": 86.066
           },
           "malignite_pozitif": {
-            "calisma": 10,
-            "yuzde": 0.049
+            "calisma": 169,
+            "yuzde": 0.821
           }
         },
-        "kapsanmayan_calisma": 763
+        "kapsanmayan_calisma": 624
       },
-      "malignite_pozitif_yuzde": 0.049,
+      "malignite_pozitif_yuzde": 0.821,
       "tabandan_kayma_puan": 0.0
     },
     "S2_kanitsiz_present_gercek": {
@@ -131,48 +128,52 @@
       "dagilim": {
         "olcek": {
           "None": {
-            "calisma": 9714,
-            "yuzde": 47.21
+            "calisma": 8738,
+            "yuzde": 42.467
           },
           "high": {
-            "calisma": 22,
-            "yuzde": 0.107
+            "calisma": 100,
+            "yuzde": 0.486
           },
           "indeterminate": {
-            "calisma": 48,
-            "yuzde": 0.233
+            "calisma": 65,
+            "yuzde": 0.316
           },
           "intermediate": {
-            "calisma": 9841,
-            "yuzde": 47.828
+            "calisma": 10735,
+            "yuzde": 52.172
+          },
+          "known_malignancy": {
+            "calisma": 154,
+            "yuzde": 0.748
           },
           "not_mentioned": {
-            "calisma": 951,
-            "yuzde": 4.622
+            "calisma": 784,
+            "yuzde": 3.81
           }
         },
         "dort_sinif": {
           "belirsiz_yetersiz_kanit": {
-            "calisma": 9895,
-            "yuzde": 48.09
+            "calisma": 10809,
+            "yuzde": 52.532
           },
           "benign_bulgu": {
-            "calisma": 182,
-            "yuzde": 0.885
+            "calisma": 151,
+            "yuzde": 0.734
           },
           "malignite_negatif": {
-            "calisma": 9714,
-            "yuzde": 47.21
+            "calisma": 8738,
+            "yuzde": 42.467
           },
           "malignite_pozitif": {
-            "calisma": 22,
-            "yuzde": 0.107
+            "calisma": 254,
+            "yuzde": 1.234
           }
         },
-        "kapsanmayan_calisma": 763
+        "kapsanmayan_calisma": 624
       },
-      "malignite_pozitif_yuzde": 0.107,
-      "tabandan_kayma_puan": 0.058
+      "malignite_pozitif_yuzde": 1.234,
+      "tabandan_kayma_puan": 0.413
     },
     "S3_hedge_aslinda_uncertain": {
       "aciklama": "`uncertain` duyarliligi %71/%46 (D29 belirsizlik ipuclarini `present` yapmisti). Ipuclu present'ler aslinda `uncertain` olsaydi dagilim ne kadar kayiyor?",
@@ -180,40 +181,48 @@
       "dagilim": {
         "olcek": {
           "None": {
-            "calisma": 17786,
-            "yuzde": 86.441
+            "calisma": 17669,
+            "yuzde": 85.872
           },
           "indeterminate": {
-            "calisma": 841,
-            "yuzde": 4.087
+            "calisma": 897,
+            "yuzde": 4.359
           },
           "intermediate": {
-            "calisma": 251,
-            "yuzde": 1.22
+            "calisma": 247,
+            "yuzde": 1.2
+          },
+          "known_malignancy": {
+            "calisma": 156,
+            "yuzde": 0.758
           },
           "not_mentioned": {
-            "calisma": 1698,
-            "yuzde": 8.252
+            "calisma": 1607,
+            "yuzde": 7.81
           }
         },
         "dort_sinif": {
           "belirsiz_yetersiz_kanit": {
-            "calisma": 1845,
-            "yuzde": 8.967
+            "calisma": 1976,
+            "yuzde": 9.603
           },
           "benign_bulgu": {
-            "calisma": 182,
-            "yuzde": 0.885
+            "calisma": 151,
+            "yuzde": 0.734
           },
           "malignite_negatif": {
-            "calisma": 17786,
-            "yuzde": 86.441
+            "calisma": 17669,
+            "yuzde": 85.872
+          },
+          "malignite_pozitif": {
+            "calisma": 156,
+            "yuzde": 0.758
           }
         },
-        "kapsanmayan_calisma": 763
+        "kapsanmayan_calisma": 624
       },
-      "malignite_pozitif_yuzde": 0.0,
-      "tabandan_kayma_puan": -0.049
+      "malignite_pozitif_yuzde": 0.758,
+      "tabandan_kayma_puan": -0.063
     }
   }
 }

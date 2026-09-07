@@ -222,15 +222,37 @@
     "calcification_pattern": {
       "aciklama": "Kalsifikasyon paterni",
       "degerler": {
-        "punctate": 50
+        "punctate": 50,
+        "central_calcification": 4,
+        "complete_calcification": 3,
+        "popcorn_calcification": 0,
+        "laminated_calcification": 0
       },
-      "olculup_alinmayan": {
-        "popcorn": 0,
-        "central_calcification": 26,
-        "laminated_concentric": 26,
-        "eccentric": 19
+      "uyari": "OLCULDU (2026-08-26): bu eksen bu korpusta PRATIK OLARAK YOK; 'popcorn' sifir cumlede geciyor. O TESPIT GECERLIDIR ve degismedi. GUNCELLEME (TASK-17 madde 7, D83/D85): paternler yine de sozluge ALINDI - ama bu korpus icin DEGIL, hedef kohort (Bakanlik, Turkce orijinal) icin. D74'un kosullu gevsettigi kural geregi her girdi kaynak/korpus_destegi/amac tasir; sifir destekliler `amac: transfer` isaretlidir ve kapsam iddiasini sisirmezler. Faz 3'un benign gosterge sozlugu HALA kalsifikasyon paternine DAYANAMAZ - bu ekleme kavrami GORUNUR kilar, hukum vermez. ⛔ `diffuse calcifi` OLCULUP REDDEDILDI: 491 cumle, tamami damar ateromu; Lung-RADS'in 'complete calcification'i ile ayni kavram DEGIL. ⛔ `concentric` OLCULUP REDDEDILDI: 16 cumle, tamami damar/duvar kalinlasmasi.",
+      "farkli_sinif_olculup_alinmayan": {
+        "eccentric": {
+          "korpus": 19,
+          "sebep": "Lung-RADS v2022'de eksantrik kalsifikasyon BENIGN degil SUPHELI paterndir. Bu grubun geri kalani benign gostergelerdir; eccentric hic benign ADAYI olmadi. Destek karsilastirmasina sokulmasi olcutu yaniltiyordu (TASK-17 madde 7, D85)."
+        }
       },
-      "uyari": "OLCULDU: bu eksen korpusta PRATIK OLARAK YOK. 'popcorn kalsifikasyon' sifir cumlede geciyor. Faz 3'un benign gosterge sozlugu kalsifikasyon paternine dayanamaz; yalnizca 'kalsifiye mi' (density.calcific, 17.193) sorusu cevaplanabilir."
+      "secim_dayanagi": {
+        "punctate": "korpus (50 cumle) - olculerek secildi",
+        "central_calcification": "kilavuz (Lung-RADS v2022); korpus destegi 4",
+        "complete_calcification": "kilavuz (Lung-RADS v2022); korpus destegi 3",
+        "popcorn_calcification": "kilavuz (Lung-RADS/Fleischner); korpus destegi 0, amac transfer",
+        "laminated_calcification": "kilavuz (Lung-RADS v2022); korpus destegi 0, amac transfer",
+        "_not": "Bu grup ARTIK HETEROJENDIR: bir degeri korpus olcumuyle, digerleri KILAVUZ KUNYESIYLE secilmistir. 'Alinan en zayif > atilan en guclu' degismezi yalniz KORPUS SECIMLI degerler icin anlamlidir."
+      }
+    },
+    "malignancy_character": {
+      "aciklama": "Bulgunun malign karakterde nitelendigi ifadeler",
+      "degerler": {
+        "malignant_character": 141
+      },
+      "secim_dayanagi": {
+        "malignant_character": "korpus (141 cumle) - artik taramasiyla bulundu (D86)"
+      },
+      "uyari": "⚠ Bu grup NITELEYICIDIR, gozlem degil. 'malignant effusion' bir malignite DEGIL, malign karakterli bir efuzyondur (D24). Emsal: `margin.spiculated` de niteleyicidir ve malignite envanterindedir."
     }
   },
   "iliski_tipleri": {

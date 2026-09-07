@@ -45,7 +45,11 @@ import yaml
 ROOT = Path(__file__).resolve().parents[3]
 CONF = ROOT / "configs"
 
-ENTITY_VERSION = "ent-1.0"
+# TASK-17 madde 8 (D88): sozluk `bulgu-1.1` -> `bulgu-1.2` genisledi
+# (88 -> 106 kavram), bu yuzden varlik tablosu YENIDEN URETILDI.
+# `ent-1.0` dondurmasi (reports/task13_dondurma.md) KIRILDI - kod
+# degismedi, GIRDI SOZLUGU degisti; sayilar yeniden ifade edilmelidir.
+ENTITY_VERSION = "ent-1.1"
 RELATION_VERSION = "rel-1.0"
 MEASUREMENT_VERSION_YENI = "meas-1.1"
 

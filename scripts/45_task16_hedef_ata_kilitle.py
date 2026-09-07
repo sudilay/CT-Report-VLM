@@ -28,6 +28,9 @@ from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
+from radyovlm.evaluation import envanter as env  # noqa: E402
+
 KOK = Path(__file__).resolve().parent.parent
 SINIR = KOK / "data/processed/sema_sinir_vakalari.csv"
 KONTROL = KOK / "data/processed/sema_negatif_kontrol.csv"
@@ -90,7 +93,11 @@ HEDEF_KONTROL = {
 # "belirsiz"e gider, ama "belirsiz" ile "supheli" ayni sey degildir - burada
 # koruma kapisinin amaci semanin YONLU suphe URETMEMESIDIR). indeterminate
 # disarida birakildi.
-MALIGN_URETIR = {"low", "intermediate", "high", "known_malignancy"}
+# TASK-17 madde 3 (D79): kilitli takimin KENDI gecerliligi - kontrol
+# vakasina malignite HEDEFI yazilamaz. Motorun CIKTISINI sinayan kapi
+# AYRI bir kumedir (env.KAPI_MALIGNITE_SINIFLARI) ve Karar 2 yalniz
+# ONA uygulandi. Bu kume DEGISMEDI.
+MALIGN_URETIR = env.HEDEF_MALIGNITE_SINIFLARI
 
 
 def sha(y: Path) -> str:

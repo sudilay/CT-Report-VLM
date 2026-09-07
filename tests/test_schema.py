@@ -67,11 +67,32 @@ def test_niteleyici_gruplari_bos_degil(sema):
 
 def test_alinan_degerler_atilanlardan_daha_iyi_desteklenir(sema):
     """Bir grupta kabul edilen EN ZAYIF deger, reddedilen EN GUCLU degerden
-    daha cok korpus destegi tasimali. Aksi hâlde secim tutarsizdir."""
+    daha cok korpus destegi tasimali. Aksi hâlde secim tutarsizdir.
+
+    ⚠ TASK-17 (D74/D85) ISTISNASI: `amac: transfer` girdileri bu
+    karsilastirmanin DISINDADIR. Onlar korpus destegine gore SECILMEDILER -
+    kilavuz kunyesine ve hedef kohort gerekcesine gore alindilar; destegi
+    sifir olmasi zaten TANIMLARIDIR. Karsilastirma yalniz OLCUME dayanarak
+    secilmis degerler icin anlamlidir, yoksa kural kendi istisnasini ihlal
+    sayardi.
+
+    Transfer girdileri ayrica `test_task17_tier_kilidi.py` tarafindan
+    denetlenir (uc alan sarti + tier tutarliligi).
+    """
     for grup, t in sema["niteleyici_gruplari"].items():
         if grup.startswith("_") or not t.get("olculup_alinmayan"):
             continue
-        en_zayif_alinan = min(t["degerler"].values())
+        # Yalniz KORPUS SECIMLI degerler karsilastirilir. Kilavuz kunyesiyle
+        # secilenler bu karsilastirmanin disindadir - onlar korpus destegine
+        # GORE SECILMEDILER; destekleri sonucudur, gerekceleri degil.
+        dayanak = t.get("secim_dayanagi", {})
+        korpus_secimli = {
+            a: n for a, n in t["degerler"].items()
+            if not dayanak or dayanak.get(a, "korpus").startswith("korpus")
+        }
+        if not korpus_secimli:
+            continue
+        en_zayif_alinan = min(korpus_secimli.values())
         en_guclu_atilan = max(t["olculup_alinmayan"].values())
         assert en_zayif_alinan > en_guclu_atilan, (
             f"{grup}: alinan en zayif {en_zayif_alinan}, atilan en guclu {en_guclu_atilan}")
@@ -95,11 +116,26 @@ def test_korpus_destegi_sayilari_gecerli(sema):
 
 
 def test_kalsifikasyon_paterni_bos_oldugu_belgelenmis(sema):
-    """OLCULDU: popcorn 0 cumlede. Faz 3'un benign sozlugu buna dayanamaz.
-    Sema bu uyariyi tasimali ki sonraki faz varsaymasin."""
+    """OLCULDU: popcorn 0 cumlede. Faz 3'un benign sozlugu buna DAYANAMAZ.
+
+    ⚠ TASK-17 (D85): `popcorn` artik `olculup_alinmayan`da DEGIL, `degerler`de -
+    cunku sozluge ALINDI. Ama ALINMA GEREKCESI korpus destegi DEGIL, hedef
+    kohort icin transfer amaci (`korpus_destegi: 0`, `amac: transfer`).
+    ESKI TESPIT AYNEN GECERLIDIR ve bu test onu KORUR: sifir olma olgusu
+    kayitta kalmali ve uyari durmalidir ki sonraki faz "eksen dolu" varsaymasin.
+    """
+    import yaml
+
     g = sema["niteleyici_gruplari"]["calcification_pattern"]
-    assert g["olculup_alinmayan"]["popcorn"] == 0
     assert "uyari" in g
+    # popcorn'un SIFIR oldugu olgusu KAYBOLMAMALI - artik sozlukte kayitli
+    sozluk = yaml.safe_load(
+        (ROOT / "configs/bulgu_sozlugu.yaml").read_text(encoding="utf-8"))["kavramlar"]
+    pop = sozluk["popcorn_calcification"]
+    assert pop["korpus_destegi"] == 0, "popcorn'un sifir oldugu olgusu kayboldu"
+    assert pop["amac"] == "transfer", "popcorn korpus destegiyle alinmis gibi gorunuyor"
+    # uyari hâlâ "dayanamaz" demeli - ekleme bu hukmu DEGISTIRMEZ
+    assert "DAYANAMAZ" in g["uyari"].upper()
 
 
 def test_radgraph_eslemesi_tum_kombinasyonlari_kapsar(sema):
