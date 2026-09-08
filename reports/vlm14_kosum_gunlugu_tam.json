@@ -1,0 +1,67 @@
+{
+ "gorev": "SUDE-VLM-14 · Adim 5-6",
+ "kosum_utc": "2026-09-08T11:54:44.830777+00:00",
+ "kapsam": "tam",
+ "acilan_splitler": [
+  "train",
+  "dev",
+  "held_out",
+  "kohort_disi"
+ ],
+ "surumler": {
+  "sozlesme": "astra-sozlesme-1.1",
+  "adaptor": "astra-adaptor-1.2",
+  "sema": "sema-1.0",
+  "bolunme": "astra-split-1.0",
+  "segmentasyon": "astra-seg-1.0",
+  "sablon_esigi_K": 10
+ },
+ "okunan_kaynak_kolonlar": [
+  "PID",
+  "Seri_Anahtari",
+  "Radyoloji_Raporu"
+ ],
+ "etiket_kolonu_okundu_mu": false,
+ "held_out_beyani": "Held-out serileri icin ozellikler dondurulmus motorla KOR bicimde uretilmistir; etiketle birlestirilmemis, hicbir metrik hesaplanmamis ve sonuclara gore hicbir kural degistirilmemistir. Etiketli degerlendirme SUDE-VLM-23'e birakilmistir.",
+ "evren": {
+  "aciklama": "Uretim TUM serileri isler; dislanan seriler `included_in_evaluation=false` ile isaretlenir. Kilitteki `train_dogrulamasi` sayilari YALNIZ degerlendirmeye dahil evreni kullanir.",
+  "islenen_seri": 2965,
+  "degerlendirmeye_dahil_seri": 2940
+ },
+ "sayilar": {
+  "seri": 2965,
+  "cumle": 69055,
+  "varlik": 122758,
+  "iliski": 48842,
+  "kanit_satiri": 122758,
+  "degerlendirmeye_dahil_seri": 2940,
+  "dislanan_seri": 25
+ },
+ "dagilimlar": {
+  "malignite_sinifi": {
+   "None": 2420,
+   "not_mentioned": 308,
+   "intermediate": 122,
+   "indeterminate": 114,
+   "known_malignancy": 1
+  },
+  "nodul_var_mi": {
+   "false": 2016,
+   "true": 741,
+   "not_assessable": 208
+  },
+  "split": {
+   "dev": 457,
+   "held_out": 441,
+   "kohort_disi": 5,
+   "train": 2062
+  }
+ },
+ "kalite_bayraklari": {
+  "measurement_available": 94,
+  "nodule_type_available": 399,
+  "qf_placeholder": 1702,
+  "qf_bolum_eksik": 84,
+  "qf_ekstratorasik_malignite_elendi": 127
+ }
+}

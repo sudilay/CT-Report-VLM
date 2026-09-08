@@ -1,4 +1,4 @@
-"""TASK-16 Adim 6 - MALIGNITE DEGERLENDIRME SEMASI (sema-0.9-taslak).
+"""TASK-16 Adim 6 - MALIGNITE DEGERLENDIRME SEMASI (sema-1.0, DONDURULDU).
 
 Plan: docs/29 §8.5 adim 6 · Kararlar: docs/31 · Aktarim: docs/30
 
@@ -58,7 +58,11 @@ import pandas as pd
 from radyovlm.evaluation import envanter as env
 from radyovlm.evaluation import girdi_filtresi as gf
 
-SEMA_SURUMU = "sema-0.9-taslak"
+# Faz A (2026-09-08) ile donduruldu. Hedef uyumu %100 esigi ULASILAMAZ
+# bulundu ve PROTOKOL DEGISIKLIGI ile yapisal olcute cevrildi; sonuc 24/30'dur
+# ve "gecti" diye YENIDEN ADLANDIRILMAMISTIR.
+# Gerekce ve dort ilan edilmis sinir: docs/40_sema_dondurma_protokol_degisikligi.md
+SEMA_SURUMU = "sema-1.0"
 
 # --- Envanterler -------------------------------------------------------
 

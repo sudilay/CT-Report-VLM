@@ -1,0 +1,58 @@
+{
+ "gorev": "SUDE-VLM-14 · Adim 2",
+ "kapsam": "yalniz train; dev ve held_out okunmadi",
+ "kapi": "YOK - betimleyici olcum (docs/39 revizyonu)",
+ "metrik_tanimi": "malignite metin deseni eslesen cumlelerin, yapilandirilmis malignite kavrami uretmeyen orani (TASK-17 ile ayni tanim)",
+ "metin_deseni": "malignan|carcinom|neoplas|metasta|tumor|spicul",
+ "train_seri": 2050,
+ "train_cumle": 47873,
+ "uretilen_varlik": 84763,
+ "varlik_ureten_cumle": 32306,
+ "malignite_baglamli_cumle": 406,
+ "kavram_uretmeyen_cumle": 0,
+ "sozluk_boslugu_yuzde": 0.0,
+ "task17_ct_rate_boslugu_yuzde": 0.4,
+ "kapsanmayan_yuzeyler": {},
+ "kova_bazinda_varlik": {
+  "dis_organ": 30333,
+  "toraks": 29394,
+  "ozet": 12099,
+  "mediasten": 9950,
+  "meta": 1702,
+  "bilinmeyen": 1285
+ },
+ "en_sik_kavram": {
+  "mass": 8474,
+  "effusion": 5006,
+  "pleura": 4984,
+  "lung": 4815,
+  "thickening": 3816,
+  "trachea": 3766,
+  "mediastinum": 3533,
+  "breast": 2851,
+  "thyroid": 2836,
+  "abdomen": 2804,
+  "esophagus": 2756,
+  "nodule": 2566,
+  "bronchus": 2444,
+  "cardiomegaly": 2028,
+  "heart": 1951,
+  "consolidation": 1910,
+  "pericardium": 1820,
+  "fracture": 1716,
+  "density": 1623,
+  "enlarged_lymph_node": 1607
+ },
+ "assertion_dagilimi": {
+  "present": 55175,
+  "absent": 29586,
+  "uncertain": 2
+ },
+ "iliski_satiri": 33676,
+ "iliski_tipleri": {
+  "located_at": 31278,
+  "modify": 2305,
+  "measured_by": 93
+ },
+ "measured_by_L1": 93
+}

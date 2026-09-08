@@ -1,0 +1,124 @@
+{
+ "surum": "astra-adaptor-1.2",
+ "dondurma_utc": "2026-09-08",
+ "gorev": "SUDE-VLM-14 · Adim 4",
+ "sozlesme": {
+  "astra_adaptoru": "astra-sozlesme-1.1",
+  "sema": "sema-1.0",
+  "bolunme": "astra-split-1.0",
+  "segmentasyon": "astra-seg-1.0",
+  "sablon_esigi_K": 10,
+  "iliski_katmani": "astra_relations_train.parquet · located_at/modify/measured_by"
+ },
+ "kaynak_dosyalar": {
+  "adaptor": "src/radyovlm/extraction/astra.py",
+  "toplama": "src/radyovlm/evaluation/vlm14.py",
+  "metin_katmani": "scripts/60_vlm14_astra_metin_katmani.py",
+  "sozlesme_belgesi": "docs/39_astra_veri_sozlesmesi.md"
+ },
+ "A_tablosu_kolonlari": [
+  "adaptor_surumu",
+  "belirleyici_kaynak",
+  "benign_evidence_present",
+  "evidence_count",
+  "included_in_evaluation",
+  "loblar",
+  "measurement_available",
+  "nodul_var_mi",
+  "nodule_type_available",
+  "pid",
+  "qf_bilinmeyen_bolum_malignite",
+  "qf_bolum_eksik",
+  "qf_ekstratorasik_malignite_elendi",
+  "qf_mediastinum_kaynakli",
+  "qf_placeholder",
+  "report_derived_malignancy_label",
+  "sema_surumu",
+  "seri_anahtari",
+  "sozlesme_surumu",
+  "split"
+ ],
+ "B_tablosu_kolonlari": [
+  "assertion",
+  "assertion_rule",
+  "bolum_eslenmis",
+  "boyut_bag_duzeyi",
+  "boyut_mm",
+  "cumle_idx",
+  "kanit_id",
+  "kanit_metni",
+  "kapsam_ici",
+  "kaynak_bolum",
+  "lob",
+  "normalized_concept",
+  "seri_anahtari",
+  "temporality",
+  "varlik_id"
+ ],
+ "baglayici_kisitlar": [
+  "Surekli olasilik URETILMEZ - o VLM-20 lojistik regresyonudur (hedef sizintisi).",
+  "boyut_mm YALNIZ L1 (ayni cumlede measured_by) kaynagindan alinir.",
+  "boyut_mm teknik parametre satirindan ASLA alinmaz (mAs/mass kusuru, docs/39 §7.1).",
+  "Akciger disi organ bolumleri kapsam DISI; elenen malignite kaniti qf_ekstratorasik_malignite_elendi ile SAYILIR.",
+  "Semanin KURALI degistirilmez; Astraya ozgu her sey bu adaptorde yasar.",
+  "Sablon istatistigi YALNIZ traindan hesaplanir (AGENTS §4).",
+  "supheli_niteleyici ve boyut_mm ILISKI katmanindan uretilir; False sabitlemek kural dalini SESSIZCE OLDURUR.",
+  "Eksik zenginlestirme alani sessizce False sayilmaz; ValueError verilir (K1).",
+  "Teknik olcu tanimi TEK kaynaktan gelir: astra.olcu_teknik_mi (K5.1)."
+ ],
+ "train_dogrulamasi": {
+  "seri": 2050,
+  "kanit_satiri": 84763,
+  "sablon_cumle_orani_yuzde": 38.0,
+  "malignite_sinifi_dagilimi": {
+   "None": 1669,
+   "not_mentioned": 209,
+   "intermediate": 89,
+   "indeterminate": 82,
+   "known_malignancy": 1
+  },
+  "nodul_var_mi": {
+   "false": 1394,
+   "true": 519,
+   "not_assessable": 137
+  },
+  "ekstratorasik_elenen_seri": 85,
+  "kapsam_ici_bolumu_olmayan_seri": 53,
+  "iliski_satiri": 33676,
+  "supheli_niteleyici_varlik": 574,
+  "L1_boyutlu_kanit": 77,
+  "L1_boyutlu_seri": 64,
+  "measurement_available_seri": 64,
+  "bilinmeyen_bolum_malignite_seri": 46,
+  "mediastinum_kaynakli_seri": 1921,
+  "anatomi_ile_elenen_varlik": 5777,
+  "sablon_cumle_orani_yuzde_ham": 38.256
+ },
+ "ilan": "Kilit train kanitiyla uretilmistir. Dogrulama kumesi 2026-09-08'de BIR KEZ acilmis ve sonucuna gore HICBIR KURAL DEGISTIRILMEMISTIR; kume dogrulama niteligini korumaktadir. Tam kohort kosumu yapilmis, degerlendirme kumesi ozellikleri KOR uretilmistir.",
+ "onceki_surum": "astra-adaptor-1.1 (SUPERSEDED)",
+ "revizyon_gerekcesi": "Yeniden denetim (reports/vlm14_sozlesme_uyum_denetimi_v11.md) R1, R3 ve R5te (b) tipi kusur buldu; kapi KALDI ve uc duzeltme uygulandi.",
+ "revizyon_defteri": [
+  "K1 - eksik zenginlestirme alaninda sessiz False yerine ValueError",
+  "K5.1 - teknik olcu tanimi tekillestirildi (astra.olcu_teknik_mi); iki tanim sentetik vakada ayrisiyordu",
+  "K5.2 - ozet bolumlerinde ekstratorasik kanit located_at ile ANATOMI duzeyinde eleniyor; karisik cumlede toraks kaniti korunuyor",
+  "K5.2 - qf_bilinmeyen_bolum_malignite ayri bayrak olarak ayristirildi",
+  "K5.3 - qf_mediastinum_kaynakli uretiliyor (sozlesmede vaat edilmisti)",
+  "K5.5 - seri_ozeti boyutlu_seriler ve iliskiler parametrelerini ZORUNLU kildi",
+  "K5.1 duzeltmesi scripts/62ye de uygulandi; sozlesme surumu 1.0 -> 1.1 (teknik olcu tanimi sozlesmenin parcasidir, docs/39 §7)",
+  "R1 - iliskiler=None sessizce bos sayilmiyor; ValueError (uc giris)",
+  "R3 - anatomi filtresi DARALTILDI: varligin span oncesi penceresinde toraks isareti varsa elenmez; cumlede hem torasik hem ekstratorasik anatomi varsa bag GUVENILMEZ sayilir ve eleme yapilmaz",
+  "R5.1 - kilit ve uretim ayni evreni ilan eder (evren alani)",
+  "R5.4 - split filtresi OKUMA aninda uygulanir; kapsam disi satirlar bellege alinmaz",
+  "scripts/63 char_start/char_end kolonlarini uretiyor - anatomi filtresi bunlara ihtiyac duyar"
+ ],
+ "evren": {
+  "train_dogrulamasi_evreni": "yalniz included_in_evaluation=true (2.050 seri)",
+  "uretim_evreni": "TUM seriler; dislananlar included_in_evaluation=false ile isaretli (2.062 seri)"
+ },
+ "denetim_kapanisi": {
+  "tur_1": "sozlesme uyum denetimi - KALDI, bes duzeltme uygulandi (1.0 -> 1.1)",
+  "tur_2": "yeniden denetim - KALDI, uc duzeltme uygulandi (1.1 -> 1.2)",
+  "durum": "Her iki turun butun bulgulari kapatildi ve gerileme testine baglandi. 1.2 icin ayrica iki ic bulgu duzeltildi: scripts/62 eski teknik tanimini kullaniyordu, scripts/63 anatomi filtresinin ihtiyac duydugu ofset kolonlarini uretmiyordu.",
+  "dogrulama": "508 gerileme testi geciyor; sinif dagilimi degismedi"
+ }
+}

@@ -1,0 +1,84 @@
+{
+ "gorev": "SUDE-VLM-14 · Adim 3",
+ "kapsam": "yalniz train (838 PID / 2.050 seri)",
+ "train_seri": 2050,
+ "olcu_lezyon_bagi": {
+  "L1_ayni_cumle_seri": 50,
+  "L3_ayni_bolum_seri": 61,
+  "L4_ayni_rapor_seri": 66,
+  "nodul_gecen_seri": 1956,
+  "olcu_gecen_seri": 66,
+  "teknik_olcu_sayisi": 119,
+  "teknik_olcu_nodullu_cumlede": 0,
+  "teknik_olcu_baglandi": 0
+ },
+ "kilavuz_ekseni_envanteri": {
+  "nodul_ifadesi": {
+   "seri": 1607,
+   "oran_yuzde": 78.39
+  },
+  "tip_solid": {
+   "seri": 7,
+   "oran_yuzde": 0.34
+  },
+  "tip_part_solid": {
+   "seri": 0,
+   "oran_yuzde": 0.0
+  },
+  "tip_ground_glass": {
+   "seri": 266,
+   "oran_yuzde": 12.98
+  },
+  "buyume": {
+   "seri": 623,
+   "oran_yuzde": 30.39
+  },
+  "lob": {
+   "seri": 579,
+   "oran_yuzde": 28.24
+  },
+  "spikulasyon": {
+   "seri": 7,
+   "oran_yuzde": 0.34
+  },
+  "benign_kalsifikasyon": {
+   "seri": 0,
+   "oran_yuzde": 0.0
+  },
+  "kalsifikasyon": {
+   "seri": 941,
+   "oran_yuzde": 45.9
+  }
+ },
+ "negatif_beyan_analizi": {
+  "birincil_estimand": "PID duzeyi",
+  "taban_pid": 838,
+  "taban_pozitif_pid": 50,
+  "taban_oran_yuzde": 5.97,
+  "taban_ci95": [
+   4.42,
+   7.64
+  ],
+  "negatif_beyanli_pid": 365,
+  "negatif_beyanli_pozitif_pid": 24,
+  "negatif_beyanli_oran_yuzde": 6.58,
+  "negatif_beyanli_ci95": [
+   4.11,
+   9.32
+  ],
+  "seri_duzeyi_ikincil": {
+   "negatif_beyanli_seri": 460,
+   "bunlarin_pozitifi": 28
+  },
+  "beyansiz_pid": 473,
+  "beyansiz_oran_yuzde": 5.5,
+  "FARK_yuzde_puan": 1.08,
+  "FARK_ci95": [
+   -2.08,
+   4.41
+  ],
+  "fark_yorumu": "Iki ayri guven araliginin ortusmesi esitlik testi DEGILDIR; farkin kendi araligi hesaplandi. Aralik sifiri iceriyorsa fark gosterilememis demektir.",
+  "yorum": "NPV degil: dogru ifade 'negatif beyan, kanser riskini taban orana gore azaltmiyor'. Guven araliklari hasta-kumeli bootstrap ile uretildi (tohum 20260908, 2000 yineleme)."
+ },
+ "ilan_edilen_sinir": "Uretim boyutu YALNIZ L1'den alinir. L3/L4 ortak-bulunma istatistigidir, olcu-lezyon bagi DEGILDIR ve boyut_mm'e girmez."
+}

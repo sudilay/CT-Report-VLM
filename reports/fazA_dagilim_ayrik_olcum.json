@@ -1,0 +1,40 @@
+{
+ "gorev": "Faz A · A5",
+ "kapsam": "yalniz gelistirme havuzu; degerlendirme kilidi okunmadi",
+ "kilit_surumu": "holdout-1.0",
+ "capa_surumu": "capa-1.2",
+ "olculen_calisma": 20570,
+ "sinif_dagilimi": {
+  "None": 17797,
+  "not_mentioned": 1526,
+  "intermediate": 845,
+  "indeterminate": 233,
+  "known_malignancy": 156,
+  "high": 13
+ },
+ "AYRIK_OLCUM": {
+  "high": {
+   "calisma": 13,
+   "yuzde": 0.0632
+  },
+  "known_malignancy": {
+   "calisma": 156,
+   "yuzde": 0.7584
+  }
+ },
+ "birlesik_ESKI_ESTIMAND": {
+  "calisma": 169,
+  "yuzde": 0.8216
+ },
+ "onceden_dondurulmus_aralik_yuzde": [
+  0.0336,
+  0.108
+ ],
+ "high_aralik_icinde_mi": true,
+ "gerekce": "Kapinin KENDI tureyis metni `high`-only varsayiyordu: 'Motor known_malignancy URETMEZ, yani malignite_pozitif pratikte YALNIZ high'tir' (scripts/49 satir 59-61). D92 bu varsayimi kirdi. `high`-only degerlendirme, kapiyi ORIJINAL TASARIMINA dondurur; sonuca bakip yeni olcut secmek DEGILDIR.",
+ "ilan_edilen_sinirlar": [
+  "Dagilim kapisi bu korpusta DUSUK GUCLUDUR. Capa tabani 13 calismadir; Poisson orneklem hatasi ±3.6 (%28 bagil). Kapi yalniz KABA DEJENERASYONU (semanin populasyonun cok buyuk ya da cok kucuk bir bolumunu malignite-pozitif ilan etmesi) yakalayabilir; ince kalibrasyon hatasini yakalayamaz. KAPININ GECILMESI, SEMANIN DAGILIMININ DOGRU OLDUGUNUN KANITI DEGILDIR.",
+  "POST-HOC: bu olcum, birlesik kapi kosulduktan SONRA yapilmistir. Aralik ve capa desenleri onceden dondurulmustur, ama olcumun zamanlamasi ilan edilir.",
+  "Kapinin gecilmesi kalibrasyonun dogrulugunu KANITLAMAZ; yalniz kaba dejenerasyonu diskalar."
+ ]
+}

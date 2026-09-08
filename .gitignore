@@ -129,3 +129,13 @@ docs/34_task17_calisma_plani.md
 docs/35_task17_denetim_ve_karar.md
 docs/36_task17_testv2_olcum_protokolu.md
 docs/37_task17_known_malignancy_kor_dogrulama.md
+# SUDE-VLM-12 devir notu - surec artefakti
+outputs/vlm12/DEVIR_PROMPT.md
+
+# VLM-14 ara kosum ciktilari: dondurulmus kodla tek komutla yeniden uretilir
+# (scripts/63_vlm14_tam_kosum.py --kapsam train|dev). Nihai tam kohort
+# tablolari GIRER, ara kapsam ciktilari girmez.
+outputs/vlm14/*_train.parquet
+outputs/vlm14/*_dev.parquet
+reports/vlm14_kosum_gunlugu_train.json
+reports/vlm14_kosum_gunlugu_dev.json

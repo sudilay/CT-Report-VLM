@@ -1,0 +1,118 @@
+{
+ "gorev": "Faz A · A1",
+ "soru": "`lesion` MALIGNITE_KAVRAMLARI'na eklenirse dagilim ne kadar kayar?",
+ "kapsam": "yalniz gelistirme havuzu; degerlendirme kilidi okunmadi",
+ "kilit_surumu": "holdout-1.0",
+ "sema_surumu": "sema-0.9-taslak",
+ "havuz_calisma": 20576,
+ "olculen_calisma": 20570,
+ "lesion_varlik_satiri": 10224,
+ "lesion_gectigi_calisma": 5949,
+ "sinifi_degisen_calisma": 2413,
+ "sinifi_degisen_oran_yuzde": 11.731,
+ "gecisler": {
+  "None -> intermediate": 2042,
+  "not_mentioned -> intermediate": 252,
+  "indeterminate -> intermediate": 71,
+  "not_mentioned -> None": 27,
+  "None -> indeterminate": 12,
+  "not_mentioned -> indeterminate": 3,
+  "None -> known_malignancy": 3,
+  "indeterminate -> known_malignancy": 1,
+  "intermediate -> known_malignancy": 1,
+  "intermediate -> high": 1
+ },
+ "dagilim_once": {
+  "None": 17797,
+  "not_mentioned": 1526,
+  "intermediate": 845,
+  "indeterminate": 233,
+  "known_malignancy": 156,
+  "high": 13
+ },
+ "dagilim_sonra": {
+  "None": 15767,
+  "intermediate": 3208,
+  "not_mentioned": 1244,
+  "indeterminate": 176,
+  "known_malignancy": 161,
+  "high": 14
+ },
+ "ornek_degisen": [
+  {
+   "study_id": "train_6_b",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_10_a",
+   "once": "not_mentioned",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_21_a",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_22_a",
+   "once": "indeterminate",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_23_a",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_26_a",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_32_a",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_36_b",
+   "once": "not_mentioned",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_48_b",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_51_c",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_60_b",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_61_c",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_61_d",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_63_a",
+   "once": "None",
+   "sonra": "intermediate"
+  },
+  {
+   "study_id": "train_65_a",
+   "once": "not_mentioned",
+   "sonra": "intermediate"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "gorev": "SUDE-VLM-14 · Adim 1",
+ "kaynak_seri": 2965,
+ "islenen_seri": 2965,
+ "cumle": 69055,
+ "okunan_kolonlar": [
+  "PID",
+  "Seri_Anahtari",
+  "Radyoloji_Raporu"
+ ],
+ "bolunme_kilidi": "astra-split-1.0",
+ "sozlesme_surumu": "astra-sozlesme-1.0",
+ "bolum_kova_dagilimi": {
+  "meta": 6427,
+  "dis_organ": 17371,
+  "toraks": 9132,
+  "mediasten": 2836,
+  "ozet": 3534,
+  "bilinmeyen": 1288
+ },
+ "kapsam_ici_cumle": 30347,
+ "kapsam_disi_cumle": 38708,
+ "bilinmeyen_baslikli_cumle": 3124,
+ "teknik_satir_cumle": 197,
+ "yer_tutuculu_cumle": 4257,
+ "split_dagilimi": {
+  "dev": 457,
+  "held_out": 441,
+  "kohort_disi": 5,
+  "train": 2062
+ },
+ "dislanan_seri": 25
+}
