@@ -139,3 +139,23 @@ outputs/vlm14/*_train.parquet
 outputs/vlm14/*_dev.parquet
 reports/vlm14_kosum_gunlugu_train.json
 reports/vlm14_kosum_gunlugu_dev.json
+
+# CT-RATE valid MUHUR - BTB3D degerlendirmesi (kullanici karari 2026-09-10)
+# Bu dizin muhurlu a_ctrate_valid havuzunun rapor icerigini tasir.
+# Depoya GIRMEZ: depoyu okuyan diger agent'lar (Codex) ve projenin diger
+# fazlari bu icerigi gormemelidir. Yalniz BTB3D degerlendirmesinde kullanilir.
+outputs/btb3d_ctrate_muhurlu/
+
+# NLST kor degerlendirme anahtari - depoya GIRMEZ
+# Depoyu okuyan bir degerlendirici anahtari bulursa korluk bozulur.
+outputs/btb3d_nlst/.KOR_anahtar_nlst.csv
+outputs/btb3d_nlst/KOR_paket_nlst_*.csv
+
+# NLST turetilmis veri - depoya GIRMEZ
+# Bu dosyalar NLST hasta tanimlayicilari (PID + seri UID) ve/veya sistemlerin
+# tam rapor metinlerini tasir. Betiklerden yeniden uretilebilirler.
+outputs/btb3d_nlst/*.parquet
+outputs/btb3d_nlst/btb3d_nlst_karsilastirma.xlsx
+outputs/btb3d_nlst/KOR_paket_nlst.csv
+outputs/btb3d_nlst/KOR_TALIMAT_nlst.md
+outputs/btb3d_nlst/*.json
