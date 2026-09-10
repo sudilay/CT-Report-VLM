@@ -1,0 +1,38 @@
+Bolunme kilidi: astra-split-1.0
+train: 2050 seri / 838 PID (kilitte 2050 / 838)
+dev ve held_out ACILMADI.
+
+Kanser etiketi: 99 / 2050 seri (%4.8)
+Astra 'odak lezyon var': 350 seri (%17.1)
+
+=== PILLAR skoru, gercek kanser etiketine karsi ===
+  seri duzeyi AUC = 0.791  %95 GA [0.718, 0.861]
+  medyan skor: kanserli 0.2088 | kanserssiz 0.0390
+  yil bazinda AUC:
+    Yil 1  poz= 28  AUC=0.981
+    Yil 2  poz= 44  AUC=0.904
+    Yil 3  poz= 59  AUC=0.848
+    Yil 4  poz= 73  AUC=0.816
+    Yil 5  poz= 89  AUC=0.791
+    Yil 6  poz= 99  AUC=0.791
+
+=== ASTRA metin bulgusu, gercek kanser etiketine karsi ===
+  lezyon var / kanser var : 23
+  lezyon var / kanser yok : 327
+  lezyon yok / kanser var : 76
+  lezyon yok / kanser yok : 1624
+  yakalama 23.2%  |  temiz vakada sessiz kalma 83.2%
+  AUC (ikili) = 0.532
+
+=== Ayni alarm sayisinda karsilastirma ===
+  Astra 350 seriye alarm veriyor; Pillar'in ayni sayida alarm verdigi esik 0.1444
+  Astra yakalama : 23/99
+  Pillar yakalama: 60/99
+
+=== Astra, Pillar'a ek katki saglıyor mu ===
+  Pillar esik 0.2: kacirdigi 49 kanser serisi
+    bunlardan Astra'nin isaretledigi: 5 (%10.2)
+    Pillar'in dogru sessiz kaldigi 1751 seride Astra alarm: 273 (%15.6)
+  Pillar esik 0.5: kacirdigi 68 kanser serisi
+    bunlardan Astra'nin isaretledigi: 9 (%13.2)
+    Pillar'in dogru sessiz kaldigi 1910 seride Astra alarm: 319 (%16.7)
