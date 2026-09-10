@@ -159,3 +159,6 @@ outputs/btb3d_nlst/btb3d_nlst_karsilastirma.xlsx
 outputs/btb3d_nlst/KOR_paket_nlst.csv
 outputs/btb3d_nlst/KOR_TALIMAT_nlst.md
 outputs/btb3d_nlst/*.json
+
+# Kurulum dosyalari
+Claude Setup.exe
