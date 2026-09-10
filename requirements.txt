@@ -12,7 +12,9 @@ datasets>=2.20
 regex>=2024.5
 spacy>=3.7
 medspacy>=1.1          # NegEx / ConText implementasyonu
-scispacy>=0.5.4        # biyomedikal NER (opsiyonel, kurulum agir olabilir)
+# scispacy>=0.5.4      # KULLANILMIYOR. Kodda hicbir yerde import edilmiyor ve
+#                      # dondurma ortaminda kurulu degil. Kurulumu agir oldugu ve
+#                      # temiz kurulumu bozabildigi icin devre disi birakildi.
 
 # --- Degerlendirme (T-13) ---
 scikit-learn>=1.5

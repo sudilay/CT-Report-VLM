@@ -12,6 +12,7 @@
 | **3** | Üç sistemin birbiriyle ve raporla uyumu | Tamamlandı |
 | **4** | Astra'nın Sybil ve Pillar kaçırmaları üzerindeki etkisi | Tamamlandı |
 | **5** | İngilizce çeviride bulgu kaybı | Tamamlandı |
+| **6** | Etiketleme güvenilirliği: iki değerlendirici | Tamamlandı |
 
 Kohortta patoloji, biyopsi veya takip verisi yok. İspanyolca rapor bir kanser
 referans standardı değildir. Buradaki sayılar klinik duyarlılık, özgüllük veya
@@ -64,7 +65,8 @@ katmanlarda tutuldu, tek hedefte birleştirilmedi.
 
 Otomatik sınıflama tek başına kullanılmadı. Onkoloji sözcüğü geçip kanser kanıtı
 bulunmadığı değerlendirilen raporların tamamı elle okundu ve
-`bimcv_317_adjudikasyon.csv` dosyasına kaydedildi.
+`bimcv_317_adjudikasyon.csv` dosyasına kaydedildi. Sınıflamanın güvenilirliği
+ayrıca ikinci bir değerlendiriciyle sınandı (Deney 6).
 
 ---
 
@@ -464,125 +466,240 @@ işaret sayısından fazla.
 Excel'deki İngilizce sütun, İspanyolca raporun makine çevirisidir. İki sütun
 aynı içeriği taşıdığı için aradaki fark doğrudan çeviri kaybını verir.
 
-## 5.1 Terimlerin ne kadarı doğru çevrilmiş
+Aynı bulgu ontolojisi üç farklı İngilizce sözlükle uygulandı:
 
-Yirmi radyoloji terimi seçildi. Terimin geçtiği her rapor için İngilizce
-karşılığın durumu dört kategoriye ayrıldı:
+1. **Standart terim:** yerleşik İngilizce radyoloji terimleri (`ground-glass`,
+   `pleural effusion`, `adenopathy`).
+2. **Çeviriye uyarlı:** çevirinin fiilen ürettiği terimler eklenmiş hali
+   (`tangled glass`, `pleural spill`, `adenopathies`).
+3. **En geniş kabul:** kavramı işaret eden herhangi bir sözcük (`glass`,
+   `spill`, `node`).
 
-- **Doğru çevrilmiş:** yerleşik İngilizce terim metinde var (`ground-glass`,
-  `pleural effusion`, `adenopathy`).
-- **İspanyolca kalmış:** sözcük hiç çevrilmemiş, olduğu gibi bırakılmış
-  (`nodulo`, `hiliar`, `parenquima`).
-- **Bozuk terime çevrilmiş:** bir karşılık üretilmiş ama doğru terim değil
-  (`tangled glass`, `pleural spill`, `hiliary`, `goalstasis`).
-- **Karşılığı yok:** kavram İngilizce metinde hiçbir biçimde geçmiyor.
+## 5.1 Kayıp oranları
 
-Raporda doğru terim bir kez bile geçiyorsa o rapor "doğru" sayıldı.
+İspanyolca raporlarda çıkarılan toplam bulgu: **619**
 
-**Toplam 1.380 terim geçişi:**
+Bu sayım raporun tamamını kapsar, toraksla sınırlı değildir. Deney 2'nin
+sayıları toraksla sınırlı olduğu için daha düşüktür (örneğin nodül orada 56,
+burada 77).
 
-| Durum | Geçiş | Oran |
+| Sözlük | Kaybolan bulgu | Oran |
 | :-- | --: | --: |
-| Doğru çevrilmiş | 856 | **%62,0** |
-| Bozuk terime çevrilmiş | 357 | **%25,9** |
-| Karşılığı yok | 119 | %8,6 |
-| İspanyolca kalmış | 48 | %3,5 |
+| Standart İngilizce radyoloji terimi | 293 | %47,3 |
+| Çeviriye uyarlı | 116 | %18,7 |
+| En geniş kabul | 61 | %9,9 |
 
-Yani terimlerin yaklaşık üçte biri (%25,9 + %8,6 + %3,5 = %38,0) İngilizce
-metinde doğru biçimde bulunamıyor. Bunun büyük kısmı bilginin kaybolması değil,
-**yanlış sözcükle yazılması**.
+Bulgu bazında:
 
-## 5.2 Terim bazında döküm
+| Bulgu | İsp. | Standart | Uyarlı | En geniş |
+| :-- | --: | --: | --: | --: |
+| Buzlu cam | 105 | 105 | 59 | 14 |
+| Adenopati | 82 | 60 | 13 | 5 |
+| Nodül | 77 | 35 | 16 | 16 |
+| Atelektazi | 72 | 11 | 1 | 1 |
+| Konsolidasyon | 68 | 20 | 3 | 3 |
+| Plevral efüzyon | 47 | 34 | 6 | 4 |
+| Amfizem | 42 | 7 | 7 | 7 |
+| Bronşektazi | 38 | 7 | 1 | 1 |
+| Fibrozis | 30 | 6 | 3 | 3 |
+| Kardiyomegali | 26 | 0 | 0 | 0 |
+| Kitle | 25 | 5 | 5 | 5 |
+| Plevral kalınlaşma | 6 | 2 | 2 | 2 |
+| Pnömotoraks | 1 | 1 | 0 | 0 |
 
-| Terim | İspanyolca | Rapor | Doğru | Bozuk | İsp. kalmış | Yok | Doğru oranı |
-| :-- | :-- | --: | --: | --: | --: | --: | --: |
-| Buzlu cam | vidrio deslustrado | 110 | 0 | 99 | 0 | 11 | **%0** |
-| Perikardiyal efüzyon | derrame pericárdico | 38 | 1 | 37 | 0 | 0 | **%3** |
-| Hiler bölge | hiliar / hilio | 112 | 8 | 57 | 21 | 26 | **%7** |
-| Plevral efüzyon | derrame pleural | 185 | 49 | 133 | 0 | 3 | **%26** |
-| Metastaz | metástasis | 26 | 8 | 18 | 0 | 0 | **%31** |
-| Apeks | vértice | 9 | 3 | 0 | 5 | 1 | %33 |
-| Nodül | nódulo | 124 | 64 | 13 | 19 | 28 | %52 |
-| Fissür | cisura | 23 | 16 | 0 | 2 | 5 | %70 |
-| Amfizem | enfisema | 45 | 37 | 0 | 0 | 8 | %82 |
-| Granülom | granuloma | 19 | 16 | 0 | 0 | 3 | %84 |
-| Parankim | parénquima | 136 | 119 | 0 | 1 | 16 | %88 |
-| Kalınlaşma | engrosamiento | 84 | 77 | 0 | 0 | 7 | %92 |
-| Bronşektazi | bronquiectasias | 48 | 45 | 0 | 0 | 3 | %94 |
-| Konsolidasyon | consolidación | 69 | 67 | 0 | 0 | 2 | %97 |
-| Konsolidasyon | condensación | 38 | 37 | 0 | 0 | 1 | %97 |
-| Kitle | masa | 41 | 40 | 0 | 0 | 1 | %98 |
-| Adenopati | adenopatías | 172 | 169 | 0 | 0 | 3 | %98 |
-| Atelektazi | atelectasia | 74 | 73 | 0 | 0 | 1 | %99 |
-| Neoplazi | neoplasia | 22 | 22 | 0 | 0 | 0 | %100 |
-| Spiküle | espiculado | 5 | 5 | 0 | 0 | 0 | %100 |
+## 5.2 Terimlerin nasıl bozulduğu
 
-Bozulma seçici: 12 terim raporların %80'inden fazlasında doğru çevrilmiş, beş
-terim yarısından azında. Kötü çevrilenlerin dördü bu kohortun en sık bulguları.
+Bozulma her terimde aynı değil. Aşağıdaki tablo, İspanyolca terimin geçtiği
+raporlarda doğru İngilizce karşılığın bulunup bulunmadığını gösterir.
 
-## 5.3 Bozuk çeviriler nasıl görünüyor
+| İspanyolca terim | Doğru karşılık | Rapor | Karşılık var | Oran |
+| :-- | :-- | --: | --: | --: |
+| vidrio deslustrado | ground-glass | 110 | 0 | **%0** |
+| derrame pericárdico | pericardial effusion | 38 | 1 | **%3** |
+| hiliar / hilio | hilar / hilum | 112 | 8 | **%7** |
+| derrame pleural | pleural effusion | 185 | 49 | **%26** |
+| metástasis | metastasis | 39 | 12 | **%31** |
+| vértice | apex | 9 | 4 | %44 |
+| nódulo | nodule | 124 | 65 | %52 |
+| cisura | fissure | 23 | 16 | %70 |
+| enfisema | emphysema | 45 | 37 | %82 |
+| granuloma | granuloma | 19 | 16 | %84 |
+| parénquima | parenchyma | 136 | 119 | %88 |
+| engrosamiento | thickening | 84 | 77 | %92 |
+| bronquiectasias | bronchiectasis | 48 | 45 | %94 |
+| condensación | consolidation | 38 | 37 | %97 |
+| consolidación | consolidation | 69 | 67 | %97 |
+| adenopatías | adenopathy | 172 | 169 | %98 |
+| masa | mass | 41 | 40 | %98 |
+| atelectasia | atelectasis | 74 | 73 | %99 |
+| neoplasia | neoplasm | 22 | 22 | %100 |
+| espiculado | spiculated | 5 | 5 | %100 |
 
-**Buzlu cam (110 rapor, doğru çeviri 0).** Çeviri tek terim için 29 farklı biçim
-üretmiş: tangled glass 41, ranting glass 14, tired glass 6, rant glass 4,
-frosted glass 4, rantless glass 2, grazed glass 2, peripheral glass 2, glass
-areas 2; tenstled, shed, nodulous, tensforted, grated, sliced, tuning, mild gibi
-19 biçim birer kez. 11 raporda "glass" sözcüğü hiç geçmiyor. En sık kullanılan
-karşılık bile (tangled glass) doğru terim değil.
+Sekiz terim raporların yarısından fazlasında doğru karşılığını bulamıyor.
+Bunların dördü bu kohortun en sık bulgularına ait.
 
-**Plevral efüzyon (185 rapor, doğru çeviri 49).** "derrame" ağırlıklı olarak
-**"spill"** (dökülme) diye çevrilmiş: 153 raporda "spill", 49 raporda
-"effusion". En sık kalıp "pleural spill" (74 rapor).
+### Karşılığın hiç bulunmadığı terimler
 
-**Hiler bölge (112 rapor, doğru çeviri 8).** Baskın karşılık uydurma bir sözcük:
-"hiliary" 54 rapor. 26 raporda karşılık hiç yok, 21 raporda İspanyolca kök
-çevrilmeden kalmış ("hiliomediastinicas", "hilio").
+**`vidrio deslustrado` (buzlu cam), 110 rapor, doğru karşılık 0.** Çeviri tek
+terim için 29 farklı biçim üretmiş: tangled glass 41, ranting glass 14, tired
+glass 6, rant glass 4, frosted glass 4, rantless glass 2, grazed glass 2,
+peripheral glass 2, glass areas 2; tenstled, shed, nodulous, tensforted, grated,
+sliced, tuning, mild gibi 19 biçim birer kez. 12 raporda "glass" sözcüğü hiç
+geçmiyor.
 
-**Perikardiyal efüzyon (38 rapor, doğru çeviri 1).** Sıfat bozulmuş:
-"pericardial" yerine "pericardic".
+**`hiliar` (hiler), 112 rapor, doğru karşılık 8.** Baskın biçim uydurma bir
+sözcük: "hiliary" 54 rapor. 26 raporda karşılık hiç yok. Kalanlarda İspanyolca
+kök çevrilmeden kalmış: "hiliomediastinic" 9, "hiliomediastinicas" 6, "hilio" 3.
 
-**Metastaz (26 rapor, doğru çeviri 8).** Terim yedi ayrı uydurma biçime
+**`derrame pleural` (plevral efüzyon), 185 rapor, doğru karşılık 49.** "derrame"
+sözcüğü ağırlıklı olarak **"spill"** (dökülme) diye çevrilmiş: 153 raporda
+"spill" geçiyor, 49 raporda "effusion". En sık kalıp "pleural spill" (74 rapor).
+
+**`derrame pericárdico`, 38 rapor, doğru karşılık 1.** Sıfat da bozulmuş:
+"pericardial" yerine "pericardic". "pericardium there", "no pericardic",
+"pericardic spill", "pericardic drainage" gibi biçimler çıkmış.
+
+**`metástasis`, 39 rapor, doğru karşılık 12.** Terim yedi ayrı uydurma biçime
 dönüşmüş: goalstasis 11, goalstastosis, goalstasic, goalstatic, goalstase,
-goalstastis, tastasis.
+goalstastis, tastasis. 10 raporda karşılık hiç yok.
 
-**Nodül (124 rapor, doğru çeviri 64).** 19 raporda sözcük İspanyolca kalmış,
-13 raporda uydurma veya yanlış terim kullanılmış ("nodulous", "nodulum" ve dört
-raporda "nodes", yani lenf düğümü), 28 raporda karşılık yok.
+**`nódulo`, 124 rapor, doğru karşılık 65.** Karşılık bulunmayan 59 raporun
+20'sinde sözcük İspanyolca kalmış ("nodulo" 8, "nodulos" 11, "nodulillos" 1),
+8'inde uydurma biçim var ("nodulous" 7, "nodulum" 1), 4'ünde yanlış terim
+kullanılmış ("nodes", yani lenf düğümü), 27'sinde karşılık hiç yok.
 
-317 raporun **148'inde** (%46,7) en az bir İspanyolca sözcük çevrilmeden kalmış;
-en sık `lobulo` (100 rapor), `toracico` (23), `nodulo` (21).
+### Çevrilmeden kalan İspanyolca sözcükler
 
-## 5.4 Bunun çıkarıma etkisi
+| Sözcük | Doğru karşılık | Rapor |
+| :-- | :-- | --: |
+| lobulo | lobe | 100 |
+| toracico | thoracic | 23 |
+| nodulo | nodule | 21 |
+| nodulos | nodules | 15 |
+| parenquima | parenchyma | 6 |
+| atelectasia | atelectasis | 5 |
+| hilio | hilum | 4 |
+| mediastino | mediastinum | 4 |
 
-Terim bozulmasının pratik sonucu, İngilizce metin üzerinden bulgu çıkarmaya
-çalışıldığında görülüyor. Aynı bulgu ontolojisi üç ayrı sözlükle uygulandı:
+317 raporun **148'inde** (%46,7) en az bir İspanyolca sözcük çevrilmeden kalmış.
 
-① standart İngilizce radyoloji terimleri · ② çevirinin ürettiği bozuk terimler
-de eklenmiş hali · ③ kavramı işaret eden herhangi bir sözcük
+## 5.3 Hüküm
 
-| Sözlük | Bulunamayan bulgu | Oran |
-| :-- | --: | --: |
-| ① Standart terim | 293 / 619 | %47,3 |
-| ② Bozuk terimler eklenince | 116 / 619 | %18,7 |
-| ③ En geniş arama | 61 / 619 | %9,9 |
+Çeviri, bulguların yaklaşık **onda birini** tamamen düşürüyor: kavram İngilizce
+metinde hiçbir biçimde geçmiyor (%9,9).
 
-Okunuşu: standart terimlerle çalışan bir çıkarım bulguların **%47,3'ünü**
-göremez. Çevirinin ürettiği bozuk sözcükler sözlüğe elle eklenirse kayıp
-%18,7'ye iner. Kavramın metinde hiçbir biçimde bulunmadığı, yani bilginin
-gerçekten yok olduğu oran **%9,9**.
+Asıl sorun terminoloji bozulması. Standart İngilizce radyoloji terimleriyle
+çalışan bir çıkarım bu sütunda bulguların **%47,3'ünü** göremez. Kavram metinde
+bir biçimde vardır ama tanınamayacak sözcüklerle yazılmıştır.
 
-## 5.5 Hüküm
+Bozulma seçici. Sınanan 20 terimden 12'si raporların %80'inden fazlasında doğru
+karşılığını buluyor; sekizi bulamıyor ve bunların dördü kohortun en sık
+bulgularına ait (buzlu cam, plevral efüzyon, hiler bölge, nodül). En ağır kayıp
+baskın bulguda: buzlu cam 110 raporda tarif edilmiş, standart terimle hiçbiri
+bulunamıyor.
 
-Terimlerin %62'si doğru çevrilmiş, %26'sı yanlış sözcükle yazılmış, %9'unun
-karşılığı yok, %3'ü İspanyolca kalmış.
+Çevirinin ürettiği hata üç türlü: sözcüğü İspanyolca bırakmak (148 raporda en az
+bir örnek), var olmayan bir sözcük uydurmak (hiliary, goalstasis, tangled glass),
+ve doğru görünen ama yanlış olan bir terime çevirmek (derrame → spill,
+pericárdico → pericardic, nódulo → nodes).
 
-Çevirinin ürettiği hata üç türlü: sözcüğü İspanyolca bırakmak, var olmayan bir
-sözcük uydurmak (hiliary, goalstasis, tangled glass), ve doğru görünen ama
-yanlış olan bir terime çevirmek (derrame → spill, pericárdico → pericardic,
-nódulo → nodes). Üçüncüsü en tehlikelisi: metin akıcı İngilizce görünüyor ama
-klinik içerik yanlış.
+İngilizce sütun bu haliyle çıkarım için kullanılamaz. Deney 1, 2 ve 3'ün
+tamamında zemin doğrusu İspanyolca metinden çıkarılmıştır.
 
-İngilizce sütun bu haliyle çıkarım için kullanılamaz. Bu raporun bütün çıkarımı
-İspanyolca metinden yapılmıştır.
+---
+
+# 6. Etiketleme güvenilirliği: iki değerlendirici
+
+Deney 1'in zemin doğrusu rapor metninden çıkarılan etiketlere dayanıyor. Bu
+etiketlerin ne kadar tekrarlanabilir olduğunu ölçmek için 76 seri ikinci bir
+değerlendirici tarafından bağımsız etiketlendi.
+
+Örneklem katmanlı: pozitif katmanlar seyrek olduğu için tamamı alındı (20
+torasik malignite, 7 yalnız öykü) ve 49 seri rastgele seçildi. İkinci
+değerlendirici yalnız İspanyolca rapor metnini ve etiketleme talimatını gördü;
+birinci değerlendiricinin etiketlerini, skorları ve bu raporu görmedi.
+
+Etiketleme her iki tarafta da otomatik çıkarımla yapıldı; değerlendiricilerin
+hiçbiri radyolog değildir. Buradaki kappa değerleri uzmanlar arası uyum olarak
+okunamaz, yalnızca şemanın ne kadar tekrarlanabilir biçimde uygulanabildiğini
+gösterir.
+
+## 6.1 Uyum
+
+| Ölçüm | Değer | Yorum |
+| :-- | --: | :-- |
+| Malignite düzeyi (7 kademe), birebir aynı | 45/76 (%59,2) | |
+| Malignite düzeyi, Cohen kappa | 0,507 | orta |
+| Malignite düzeyi, bir kademe içinde | 59/76 | |
+| Türetilmiş ikili: toraksta lezyon var mı | kappa 0,577 | orta |
+| **Dar hedef katmanı** | **kappa 0,669** | **iyi** |
+| **Geniş torasik malignite katmanı** | **kappa 0,828** | **çok iyi** |
+
+Bağlam etiketleri ayrı ayrı:
+
+| Etiket | 1. | 2. | İkisi | Kappa |
+| :-- | --: | --: | --: | --: |
+| Mediastinal/plevral malignite | 5 | 4 | 4 | 0,882 |
+| Pulmoner metastaz | 5 | 4 | 4 | 0,882 |
+| Maligniteyle ilişkili kanıt yok | 42 | 41 | 39 | 0,867 |
+| Toraks kemik metastazı | 4 | 6 | 4 | 0,787 |
+| Toraks dışı malignite | 11 | 11 | 7 | 0,575 |
+| Şüpheli primer pulmoner lezyon | 5 | 5 | 3 | 0,572 |
+| Yalnız öykü veya endikasyon | 11 | 9 | 6 | 0,540 |
+| Güncel primer akciğer kanseri | 5 | 4 | 2 | 0,410 |
+
+Deneylerde fiilen kullanılan katmanlarda uyum yüksek: geniş torasik malignite
+0,828, dar hedef 0,669. İnce ayrım gerektiren 7 kademeli ölçekte uyum orta
+düzeyde (0,507). Ayrışma, kategorilerin sınırlarında yoğunlaşıyor: kesin
+malignite ile şüpheli malignite arasında ve belirsiz nodül ile benign nodül
+arasında.
+
+## 6.2 Ayrışmaların incelenmesi
+
+Eksen A'da ayrışan 31 serinin tamamı okundu. Üç örüntü çıktı.
+
+**Şema belirsizliği (5 seri).** Akciğer temiz, malignite başka organda. Birinci
+değerlendirici malignite düzeyini toraksla sınırlı okuyup `none` demiş, ikinci
+değerlendirici raporun tamamına bakıp `high` demiş ve bağlamı doğru biçimde
+`toraks_disi_malignite` işaretlemiş. Talimatta düzeyin toraksa mı yoksa rapora
+mı ait olduğu belirtilmemişti. İki okuma da savunulabilir; bağlam etiketinde
+ayrışma yok.
+
+**Birinci değerlendiricide çekince duyarsızlığı (6 seri).** Çekinceli malignite
+ifadeleri kesin beyan gibi işlenmişti: "puede corresponder a una neoplasia",
+"sugestivos de origen metastasico", "sospechosa de metastasis". İkinci
+değerlendirici bunları `intermediate` saymış. Bu değerlendirme daha doğru;
+kural düzeltildi ve `high` sayılan seri sayısı 17'den 9'a indi.
+
+**Birinci değerlendiricide benign niteleme kaçağı (4 seri).** "nodulo
+calcificado ... de características benignas" ve "nodulo ... calcio en su
+interior" gibi ifadelerde benign niteleme, nodül sözcüğünden uzakta kaldığı için
+görülmemişti. Niteleme penceresi genişletildi.
+
+Ayrıca ikinci değerlendirici bir seride birinci değerlendiricinin kaçırdığı
+toraks kemik metastazını yakaladı: "esqueleto toracoabdominopelvico ... cuerpos
+vertebrales de d3 d7 d8 d9 d10 d11". Bileşik anatomi sözcüğü en yakın anatomi
+kuralını yanıltmıştı. Kural düzeltildi.
+
+İkinci değerlendiricinin etiketlerinde de 7 seride iç tutarsızlık var: lezyon
+düzeyi verilmiş ama bağlam `kanit_yok` işaretlenmiş.
+
+## 6.3 Hüküm
+
+Deneylerde kullanılan katman tanımları tekrarlanabilir (kappa 0,669 ve 0,828).
+Yedi kademeli ince ölçek orta düzeyde tekrarlanabilir (0,507) ve tek başına
+kullanılmamalıdır.
+
+İnceleme, birinci değerlendiricinin sınıflamasında üç kusur ortaya çıkardı;
+üçü de düzeltildi ve bütün sayılar yeniden üretildi. Düzeltmelerin tek etkisi
+geniş torasik katmanın 20'den 21 seriye çıkması oldu.
+
+Buradaki kappa değerleri **düzeltme öncesi** etiketlemeye aittir. Düzeltmeler
+tek tek seriler üzerinde değil, kural düzeyinde yapıldı ve 317 serinin tamamına
+uygulandı; bu nedenle düzeltme sonrası uyumun yeniden ölçülmesi anlamlıdır ve
+uyuşmazlığın ne kadarının kural kusurundan, ne kadarının gerçek yorum farkından
+kaynaklandığını gösterir. Bu ikinci ölçüm beklemededir: ikinci değerlendiricinin
+düzeltilmiş şemayla yeniden etiketlemesi gerekiyor.
 
 ---
 
@@ -645,6 +762,9 @@ lezyonu tarif ediyor. Karşılığında 24 ek yanlış işaret geliyor.
 bulunamıyor; kavramın metinde hiç geçmediği oran %9,9. Buzlu cam 110 raporda
 tarif edilmiş, doğru terim hiçbirinde yok.
 
+**Etiketleme.** Deneylerde kullanılan katmanlarda uyum yüksek (kappa 0,828 ve
+0,669), yedi kademeli ince ölçekte orta (0,507).
+
 **Ana çıkarım.** Bu kohortta üç sistemin çıktıları ne raporla ne birbirleriyle
 kullanılabilir düzeyde örtüşüyor. Bu, modellerin geçerliliği hakkında bir hüküm
 değildir: patoloji ve takip verisi yok, pozitif seri sayısı 8 ile 21 arasında,
@@ -666,7 +786,8 @@ Astra 28,9 sn.
 python scripts/66_bimcv_rapor_uyumu.py            # Deney 1
 python scripts/67_astra_rapor_karsilastirma.py    # Deney 2
 python scripts/68_uclu_sistem_uyumu.py            # Deney 3
-python scripts/71_ceviri_terim_denetimi.py        # Deney 5, terim denetimi
+python scripts/69_ikinci_degerlendirici_paketi.py # kor etiketleme paketi
+python scripts/70_ikinci_degerlendirici_uyum.py   # Deney 6
 ```
 
 Rapordaki bütün tablolar, AUC değerleri, bootstrap güven aralıkları ve etiket
@@ -680,5 +801,3 @@ Deney 2 çıktıları: `astra_bulgu_matrisi.csv`, `astra_uyum_tablosu.csv`,
 
 Deney 3 çıktıları: `uclu_uyum_ikili.csv`, `uclu_uyum_uclu_capraz.csv`,
 `uclu_uyum_tablolari.txt`.
-
-Deney 5 çıktısı: `ceviri_terim_denetimi.csv`.
