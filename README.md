@@ -36,9 +36,28 @@ için gereken veri bileşiminin (aynı hastalarda hekim raporu, risk skoru ve
 doğrulanmış kanser sonucu) hiçbir kohortta bulunmadığı anlaşıldı ve proje
 donduruldu.
 
+Eksiklik her kohortta başka bir yerdedir. NLST'de takiple doğrulanmış kanser sonucu ve
+risk skoru vardır ama insan yazımı referans rapor yoktur; eldeki üç metin de model
+çıktısıdır. BIMCV-R'de gerçek hekim raporu ve risk skoru vardır, patoloji veya takip
+sonucu yoktur. CT-RATE'te gerçek hekim raporu vardır, görüntü tabanlı risk skoru hiç
+üretilmemiştir ve kohortun kendi etiketleri arasında malignite bulunmaz. Kohortları
+birleştirmek boşluğu kapatmaz, çünkü hastalar farklıdır: bir hastanın raporu başka bir
+hastanın risk skoruyla eşleştirilemez.
+
+![Veri açmazı matrisi. Satırlar gereken üç veri parçası, sütunlar üç kohort. NLST'de gerçek hekim raporu yok, BIMCV-R'de doğrulanmış kanser sonucu yok, CT-RATE'te hem risk skoru hem kanser sonucu yok. Hiçbir kohortta üçü birden bulunmadığı için hipotez doğrudan sınanamadı.](docs/diagrams/veri_acmazi.svg)
+
 ---
 
 ## Kurulan hat
+
+Hat, ham rapor metnini değerlendirmeye hazır yapılandırılmış çıktıya çeviren katmanlardan
+oluşur. Rapor önce cümlelere bölünür ve her cümle kaynak metindeki karakter konumunu
+taşır; ardından varlıklar, aralarındaki ilişkiler ve ölçüler çıkarılır; sonra her bulgunun
+kesinliği ve zamansallığı çözümlenir. Sözlükler ve çıkarım şeması hatta yandan bağlanır,
+şema aynı zamanda bir yazma kapısıdır: üretilen tablo şemaya uymazsa yazılmaz. Hekim
+raporu hatta doğrudan girer; Astra çıktısı önce kendi kapsam sözleşmesinden geçer.
+
+![Metin işleme hattı. Hekim raporu ve Astra çıktısı iki ayrı giriş noktasından cümle bölütlemeye girer, varlık ve ölçü çıkarımından sonra bağlam çözümlemesine geçer, malignite değerlendirme şemasına bağlanır ve seri düzeyi yapılandırılmış çıktı üretir. Sözlükler ve çıkarım şeması hatta yandan bağlanır; bağlam çözümleme katmanı ölçülmüş zayıf nokta olarak işaretlidir.](docs/diagrams/metin_hatti.svg)
 
 Kapanışta kullanılan ana katmanların sürümleri aşağıda kaydedilmiştir.
 
@@ -84,48 +103,24 @@ belirsizliğini tamamen ortadan kaldırmaz.
 
 ## Denenen yollar
 
-Karar defterine kayıtlı eleme penceresi 25 Ağustos ile 10 Eylül 2026 arasıdır. Beş
-aşamada on dört yol ölçümle kapandı: Faz 1 ve CT-RATE korpusunda iki, Türkçe ve dil
-ablasyonunda beş, malignite şemasında bir, NLST geçişinde iki, model değerlendirmesinde
-dört. Bir yol sınanamadan açık kaldı ve dondurma kararı onun içindir.
+Proje, sınanabilen her soruyu bir ölçümle kapatarak ilerledi. Beş aşamada on dört yol
+kapandı. Faz 1 ve CT-RATE korpusunda ontoloji eşlemesi ile klinik kılavuz seçimi kapsam
+dışına alındı. Türkçe ve dil ablasyonunda beş yol kapandı; belirleyici bulgu, hangi dilde
+çalışıldığının değil nasıl çevrildiğinin önemli olmasıydı. Malignite şemasında hedeflenen
+uyum eşiği ulaşılamaz ölçüldü ve şema, sınırları ilan edilerek donduruldu. NLST geçişinde
+seçilen klinik çerçeve uygulanamadı ve negatif beyanın riski azaltmadığı görüldü. Model
+değerlendirmesinde üç rapor üreten sistem hasta düzeyinde ayırt edici klinik içerik
+gösteremedi.
+
+Bir yol kapanmadı: rapordan çıkarılan benign kanıtın yanlış alarmları azaltıp
+azaltmadığı. O ne doğrulandı ne çürütüldü, gereken veri bileşimi bulunmadığı için
+sınanamadı. Dondurma kararı bunun içindir.
+
+![Karar aşamalarının zaman çizgisi. Beş aşama soldan sağa sıralanır ve her aşamada kaç yolun kapandığı yazılıdır: Faz 1 ve CT-RATE korpusunda iki, Türkçe ve dil ablasyonunda beş, malignite şemasında bir, NLST geçişinde iki, model değerlendirmesinde dört. Son olay, ana tezin sınanamadan kaldığı dondurma kararıdır.](docs/diagrams/karar_asamalari.svg)
 
 Her yolu kapatan ölçümün tek tek dökümü ve kapanma gerekçelerinin anlatısı
-[DONDURMA_RAPORU.md](DONDURMA_RAPORU.md) bölüm 2 ve 5'tedir; görsel özeti aşağıdaki
-diyagramlar bölümündedir.
-
----
-
-## Diyagramlar
-
-Dört devir diyagramı. Kaynakları ve tam boyutlu sürümleri `docs/diagrams/` altındadır.
-
-### Metin işleme hattı
-
-Ham raporun değerlendirmeye hazır yapılandırılmış çıktıya dönüşene kadar geçtiği
-katmanlar. Hekim raporu ve model üretimi rapor iki ayrı giriş noktasından girer;
-sözlükler ve çıkarım şeması hatta yandan bağlanır.
-
-![Metin işleme hattı: hekim raporu ve VLM raporu iki ayrı giriş noktasından cümle bölütlemeye girer, varlık ve ölçü çıkarımından sonra bağlam çözümlemesine geçer, malignite şemasına bağlanır ve seri düzeyi yapılandırılmış çıktı üretir. Bağlam çözümleme katmanı ölçülmüş zayıf nokta olarak işaretlidir.](docs/diagrams/metin_hatti.svg)
-
-### Veri açmazı
-
-Ana hipotezi doğrudan sınamak için aynı hastalarda bulunması gereken üç şey ve hiçbir
-kohortun bunları bir arada sağlayamaması.
-
-![Veri açmazı matrisi: NLST'de gerçek hekim raporu yok, BIMCV-R'de doğrulanmış kanser sonucu yok, CT-RATE'te hem risk skoru hem kanser sonucu yok. Hiçbir kohortta üçü birden bulunmadığı için hipotez doğrudan sınanamadı.](docs/diagrams/veri_acmazi.svg)
-
-### Karar aşamaları
-
-Beş aşamanın zaman içindeki sırası ve her aşamada kaç yolun kapandığı.
-
-![Karar aşamalarının zaman çizgisi: 28 Ağustos Faz 1 ve CT-RATE korpusu iki yol, 1 Eylül Türkçe ve dil ablasyonu beş yol, 4 Eylül malignite şeması, 8 Eylül NLST geçişi iki yol, 9 Eylül model değerlendirmesi dört yol, 10 Eylül dondurma.](docs/diagrams/karar_asamalari.svg)
-
-### Denenen yollar ve kapanma ölçümleri
-
-Her dal bir yaklaşım, her alt dal onu kapatan ölçüm. Sağ uçtaki dal kapanmadı:
-sınanamadan açık kaldı ve projenin ana tezidir. Geniş çizimdir, büyütmek için tıklayın.
-
-![Denenen yolların balık kılçığı dökümü: yedi kategoriye ayrılmış on dört kapanan yol ve her birini kapatan ölçüm, sağ uçta sınanamadan açık kalan ana tez, balığın başında dondurma kararı.](docs/diagrams/denenen_yollar.svg)
+[DONDURMA_RAPORU.md](DONDURMA_RAPORU.md) bölüm 2 ve 5'tedir; görsel dökümü
+[docs/diagrams](docs/diagrams/) altındadır.
 
 ---
 

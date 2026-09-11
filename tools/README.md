@@ -10,6 +10,12 @@ Sayım yalnızca **train**'de yapılır (D11/D16).
 | `terim_madeni.py` | Aday terim madeni — frekans ve kapsama |
 | `negex_tara.py` | İthal NegEx listesinin korpustaki karşılığını ölçer |
 
+Belge araçları:
+
+| Araç | Ne yapar |
+|---|---|
+| `diyagram_svg_disa_aktar.py` | `docs/diagrams/*.html` içindeki çizimi gömülebilir SVG olarak dışa aktarır. `--tumu` hepsini yeniler |
+
 ## ⚠ Kullanmadan önce
 
 **Bu araçlar YAML'ı ÜZERİNE YAZAR.** Çalıştırmadan önce `git status` temiz olsun

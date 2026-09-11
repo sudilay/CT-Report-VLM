@@ -165,7 +165,7 @@
     <div class="diagram-container">
       <svg viewBox="0 0 1280 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="metin-hatti-title metin-hatti-desc">
         <title id="metin-hatti-title">CT-Report-VLM metin işleme hattı</title>
-        <desc id="metin-hatti-desc">Hekim raporu ve model üretimi rapor iki ayrı giriş noktasından cümle bölütlemeye girer, varlık çıkarımı ve bağlam çözümlemesinden geçer, malignite değerlendirme şemasına bağlanır ve seri düzeyi yapılandırılmış çıktı üretir; sözlükler ve çıkarım şeması hatta yandan bağlanır, bağlam katmanı ölçülmüş zayıf nokta olarak işaretlidir.</desc>
+        <desc id="metin-hatti-desc">Hekim raporu ve Astra çıktısı iki ayrı giriş noktasından cümle bölütlemeye girer, varlık çıkarımı ve bağlam çözümlemesinden geçer, malignite değerlendirme şemasına bağlanır ve seri düzeyi yapılandırılmış çıktı üretir; sözlükler ve çıkarım şeması hatta yandan bağlanır, bağlam katmanı ölçülmüş zayıf nokta olarak işaretlidir.</desc>
         <defs>
           <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
             <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
@@ -255,7 +255,7 @@
         <rect x="80" y="320" width="160" height="56" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
         <rect x="88" y="328" width="36" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
         <text x="106" y="337" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">GİRDİ</text>
-        <text x="160" y="356" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">VLM raporu</text>
+        <text x="160" y="356" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Astra raporu</text>
         <text x="160" y="370" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">astra-sozlesme-1.1</text>
 
         <!-- C · Bölünme kilidi (state / lock) -->
@@ -279,8 +279,8 @@
         <rect x="560" y="200" width="160" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
         <rect x="568" y="208" width="20" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
         <text x="578" y="217" fill="#2d3142" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">02</text>
-        <text x="640" y="236" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Varlık ve ölçü</text>
-        <text x="640" y="250" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ent-1.1 · meas-1.2</text>
+        <text x="640" y="236" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Varlık, ilişki, ölçü</text>
+        <text x="640" y="250" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ent-1.1 · rel-1.0 · meas-1.2</text>
 
         <!-- F · Bağlam çözümleme — THE ONE FOCAL NODE (measured weak point) -->
         <rect x="760" y="200" width="160" height="56" rx="6" fill="#f5f5f5"/>
@@ -368,8 +368,9 @@
           <h3>Girişler, kilit ve Türkçe kol</h3>
         </div>
         <ul>
-          <li>Hekim raporu doğrudan girer; VLM çıktısı önce kapsam sözleşmesinden geçer</li>
+          <li>Hekim raporu doğrudan girer; Astra çıktısı önce kapsam sözleşmesinden geçer</li>
           <li>Adaptör yalnız PID, seri anahtarı ve rapor metnini okur, etiket kolonları hiç açılmaz</li>
+          <li>MedMo ve BTB3D çıktıları bu adaptörü kullanmaz; aynı çıkarım hattına hekim raporuyla aynı yoldan girer</li>
           <li>Türkçe kol kendi korpusu ve tr-1.1 sözlüğüyle ayrışır, negasyon kapsamı geri yönlüdür</li>
         </ul>
       </div>

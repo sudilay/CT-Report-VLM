@@ -26,14 +26,14 @@
       },
       {
         "id": "vlm-girisi",
-        "label": "VLM giriş noktası",
+        "label": "Astra giriş noktası",
         "focus": [
           "vlm",
           "adaptor",
           "bolunme",
           "segment"
         ],
-        "note": "Model üretimi rapor hatta ayrı bir sözleşmeden girer; bölünme kilidi metin katmanında devreye girer."
+        "note": "Astra çıktısı hatta ayrı bir sözleşmeden girer; bölünme kilidi metin katmanında devreye girer."
       },
       {
         "id": "iki-sema",
@@ -109,9 +109,9 @@
     {
       "id": "vlm",
       "type": "external",
-      "label": "VLM rapor çıktısı",
-      "sublabel": "Astra · MedMo · BTB3D",
-      "tag": "NLST kohortu",
+      "label": "Astra rapor çıktısı",
+      "sublabel": "NLST kohortu",
+      "tag": "model üretimi metin",
       "stage": 0,
       "row": 0,
       "width": 152
@@ -468,6 +468,15 @@
         "Zaman ekseni: prior F1 %36,4, stabilite güvenilir değil",
         "Kavram düzeyi işaretleyici uyumu kappa 0,34",
         "known_malignancy ve low otomatik üretilemiyor"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Diğer iki model nereden girer",
+      "items": [
+        "astra-sozlesme-1.1 adaptörü yalnız Astra çıktısına özgüdür (src/radyovlm/extraction/astra.py)",
+        "MedMo ve BTB3D çıktıları bu adaptörü kullanmaz, aynı dondurulmuş çıkarım hattına doğrudan girer",
+        "Üçü de scripts/79_nlst_uclu_cikarim.py ile aynı hattan geçirilir, fark yöntemden değil çıktıdan gelir"
       ]
     }
   ]
