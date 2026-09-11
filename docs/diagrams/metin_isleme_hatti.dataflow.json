@@ -1,0 +1,474 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "CT-Report-VLM Metin İşleme Hattı",
+    "output": "docs/diagrams/metin_isleme_hatti.html",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      605
+    ],
+    "views": [
+      {
+        "id": "ana-hat",
+        "label": "Ana hat",
+        "focus": [
+          "hekim",
+          "segment",
+          "cikarim",
+          "baglam",
+          "filtre",
+          "sema10",
+          "cikti"
+        ],
+        "note": "Hekim raporunun yapılandırılmış çıktıya dönüşene kadar izlediği sıra."
+      },
+      {
+        "id": "vlm-girisi",
+        "label": "VLM giriş noktası",
+        "focus": [
+          "vlm",
+          "adaptor",
+          "bolunme",
+          "segment"
+        ],
+        "note": "Model üretimi rapor hatta ayrı bir sözleşmeden girer; bölünme kilidi metin katmanında devreye girer."
+      },
+      {
+        "id": "iki-sema",
+        "label": "İki şema",
+        "focus": [
+          "sema13",
+          "cikarim",
+          "sema10",
+          "cikti"
+        ],
+        "note": "sema-1.3 çıkarım şemasıdır, sema-1.0 malignite değerlendirme şemasıdır."
+      },
+      {
+        "id": "sozlukler",
+        "label": "Sözlük bağlantıları",
+        "focus": [
+          "sozluk",
+          "ipucu",
+          "cikarim",
+          "baglam"
+        ],
+        "note": "Sözlükler configs/ altındadır ve hatta iki ayrı noktadan bağlanır."
+      },
+      {
+        "id": "turkce-kol",
+        "label": "Türkçe kol",
+        "focus": [
+          "radtr",
+          "tr"
+        ],
+        "note": "Kendi korpusu ve sözlüğüyle ayrışan, değerlendirme şemasına bağlanmayan kol."
+      }
+    ],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "emphasis": {
+          "label": "ana veri yolu"
+        },
+        "security": {
+          "label": "kilit ve kapı"
+        },
+        "dashed": {
+          "label": "sözlük bağlantısı"
+        },
+        "database": {
+          "label": "yapılandırma deposu"
+        },
+        "default": {
+          "label": "yan kol"
+        }
+      }
+    }
+  },
+  "stages": [
+    {
+      "label": "Girdi ve sözleşme"
+    },
+    {
+      "label": "Metin hazırlığı"
+    },
+    {
+      "label": "Bilgi çıkarımı"
+    },
+    {
+      "label": "Bağlam ve filtre"
+    },
+    {
+      "label": "Değerlendirme"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "vlm",
+      "type": "external",
+      "label": "VLM rapor çıktısı",
+      "sublabel": "Astra · MedMo · BTB3D",
+      "tag": "NLST kohortu",
+      "stage": 0,
+      "row": 0,
+      "width": 152
+    },
+    {
+      "id": "adaptor",
+      "type": "backend",
+      "label": "Astra adaptörü",
+      "sublabel": "astra-sozlesme-1.1",
+      "tag": "kapsam sözleşmesi",
+      "stage": 0,
+      "row": 1,
+      "width": 152
+    },
+    {
+      "id": "hekim",
+      "type": "external",
+      "label": "Hekim raporu",
+      "sublabel": "CT-RATE · BIMCV-R",
+      "tag": "İngilizce",
+      "stage": 0,
+      "row": 2,
+      "width": 152
+    },
+    {
+      "id": "radtr",
+      "type": "external",
+      "label": "Türkçe hekim raporu",
+      "sublabel": "RadTr toraks alt kümesi",
+      "tag": "Türkçe",
+      "stage": 0,
+      "row": 3,
+      "width": 152
+    },
+    {
+      "id": "sozluk",
+      "type": "database",
+      "label": "Varlık sözlükleri",
+      "sublabel": "anat-1.1 · bulgu-1.2",
+      "tag": "configs/",
+      "stage": 1,
+      "row": 0,
+      "width": 152
+    },
+    {
+      "id": "bolunme",
+      "type": "security",
+      "label": "Bölünme kilidi",
+      "sublabel": "astra-split-1.0 · hasta düzeyi",
+      "tag": "motordan önce donduruldu",
+      "stage": 1,
+      "row": 1,
+      "width": 152
+    },
+    {
+      "id": "segment",
+      "type": "backend",
+      "label": "Cümle bölütleme",
+      "sublabel": "seg-1.1 · şablon tmpl-1.0",
+      "tag": "ofsetler doğrulanır",
+      "stage": 1,
+      "row": 2,
+      "width": 152
+    },
+    {
+      "id": "ipucu",
+      "type": "database",
+      "label": "İpucu sözlüğü",
+      "sublabel": "ipucu-1.0 · dokuz bölüm",
+      "tag": "configs/",
+      "stage": 2,
+      "row": 0,
+      "width": 152
+    },
+    {
+      "id": "sema13",
+      "type": "security",
+      "label": "Çıkarım şeması",
+      "sublabel": "sema-1.3 · extraction_schema",
+      "tag": "geçmezse yazılmaz",
+      "stage": 2,
+      "row": 1,
+      "width": 152
+    },
+    {
+      "id": "cikarim",
+      "type": "backend",
+      "label": "Varlık çıkarımı",
+      "sublabel": "ent-1.1 · rel-1.0 · meas-1.2",
+      "tag": "deterministik, LLM yok",
+      "stage": 2,
+      "row": 2,
+      "width": 152
+    },
+    {
+      "id": "tr",
+      "type": "backend",
+      "label": "Türkçe eşleyici",
+      "sublabel": "tr-1.1 · 144 kavram",
+      "tag": "değerlendirme şemasına bağlanmaz",
+      "stage": 2,
+      "row": 3,
+      "width": 152
+    },
+    {
+      "id": "filtre",
+      "type": "security",
+      "label": "Girdi kalite filtresi",
+      "sublabel": "düşük güven kanalı",
+      "tag": "sınıfı yükseltemez",
+      "stage": 3,
+      "row": 1,
+      "width": 152
+    },
+    {
+      "id": "baglam",
+      "type": "backend",
+      "label": "Bağlam çözümleme",
+      "sublabel": "ctx-1.1 · zaman ekseni F1 %36,4",
+      "tag": "var, yok, şüpheli, geçmiş",
+      "stage": 3,
+      "row": 2,
+      "width": 152
+    },
+    {
+      "id": "sema10",
+      "type": "backend",
+      "label": "Değerlendirme şeması",
+      "sublabel": "sema-1.0 · altı sıralı düzey",
+      "tag": "malignite şüphesi",
+      "stage": 4,
+      "row": 1,
+      "width": 152
+    },
+    {
+      "id": "cikti",
+      "type": "database",
+      "label": "Yapılandırılmış çıktı",
+      "sublabel": "seri düzeyi tablo",
+      "tag": "değerlendirmeye hazır",
+      "stage": 4,
+      "row": 2,
+      "width": 152
+    }
+  ],
+  "flows": [
+    {
+      "id": "vlm-adaptor",
+      "from": "vlm",
+      "to": "adaptor",
+      "label": "bölüm çözümlemesi",
+      "classification": "yalnız PID, seri, rapor metni",
+      "variant": "emphasis",
+      "labelAt": [
+        100,
+        214
+      ],
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "adaptor-segment",
+      "from": "adaptor",
+      "to": "segment",
+      "label": "toraks kapsamı",
+      "classification": "akciğer dışı organ elenir",
+      "variant": "emphasis",
+      "labelAt": [
+        275,
+        214
+      ]
+    },
+    {
+      "id": "kilit-segment",
+      "from": "bolunme",
+      "to": "segment",
+      "label": "split kilitten türetilir",
+      "classification": "etiketten değil, kör üretim",
+      "variant": "security",
+      "labelAt": [
+        315,
+        328
+      ],
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "hekim-segment",
+      "from": "hekim",
+      "to": "segment",
+      "label": "ham rapor metni",
+      "classification": "ofsetlerin kaynağı",
+      "variant": "emphasis",
+      "labelAt": [
+        207,
+        442
+      ],
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "straight"
+    },
+    {
+      "id": "segment-cikarim",
+      "from": "segment",
+      "to": "cikarim",
+      "label": "ofsetli cümleler",
+      "classification": "479.051 cümle",
+      "variant": "emphasis",
+      "labelAt": [
+        422,
+        442
+      ],
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "straight"
+    },
+    {
+      "id": "sozluk-cikarim",
+      "from": "sozluk",
+      "to": "cikarim",
+      "label": "en uzun eşleşme",
+      "classification": "sözlük ve kural",
+      "variant": "dashed",
+      "route": "vertical-channel",
+      "channelX": 422,
+      "labelAt": [
+        422,
+        214
+      ]
+    },
+    {
+      "id": "sema13-kapi",
+      "from": "sema13",
+      "to": "cikarim",
+      "label": "yazmadan doğrula",
+      "classification": "ihlal varsa tablo yazılmaz",
+      "variant": "security",
+      "labelAt": [
+        530,
+        328
+      ],
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "cikarim-baglam",
+      "from": "cikarim",
+      "to": "baglam",
+      "label": "varlık tabloları",
+      "classification": "kesinlik henüz atanmadı",
+      "variant": "emphasis",
+      "labelAt": [
+        637,
+        442
+      ],
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "straight"
+    },
+    {
+      "id": "ipucu-baglam",
+      "from": "ipucu",
+      "to": "baglam",
+      "label": "47 ipucu",
+      "classification": "kapsam kuralları",
+      "variant": "dashed",
+      "route": "vertical-channel",
+      "channelX": 637,
+      "labelAt": [
+        637,
+        214
+      ]
+    },
+    {
+      "id": "baglam-filtre",
+      "from": "baglam",
+      "to": "filtre",
+      "label": "kesinlik atanmış varlıklar",
+      "classification": "ipucu ve kural kayıtlı",
+      "variant": "emphasis",
+      "labelAt": [
+        745,
+        328
+      ],
+      "fromSide": "top",
+      "toSide": "bottom",
+      "route": "straight"
+    },
+    {
+      "id": "radtr-tr",
+      "from": "radtr",
+      "to": "tr",
+      "label": "Türkçe kol ayrışır",
+      "classification": "kendi korpusu, geri yönlü kapsam",
+      "variant": "default"
+    },
+    {
+      "id": "filtre-sema10",
+      "from": "filtre",
+      "to": "sema10",
+      "label": "güven etiketli varlıklar",
+      "classification": "cümle metniyle birlikte",
+      "variant": "emphasis",
+      "labelAt": [
+        852,
+        214
+      ],
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "straight"
+    },
+    {
+      "id": "sema10-cikti",
+      "from": "sema10",
+      "to": "cikti",
+      "label": "malignite sınıfı",
+      "classification": "altı düzey ve not_mentioned",
+      "variant": "emphasis",
+      "labelAt": [
+        960,
+        328
+      ],
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Sıra ve sürüm kilitleri",
+      "items": [
+        "seg-1.1, tmpl-1.0, meas-1.2, ent-1.1, rel-1.0, ctx-1.1",
+        "Deterministik: her atama ipucu ve kuralıyla kaydedilir",
+        "Test kümesi: çeldirici reddi %98,5, kapsama %88,1"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "İki şema, farklı nesne",
+      "items": [
+        "sema-1.3: hangi alanlar çıkarılacak, tabloları doğrular",
+        "sema-1.0: bulguları altı sıralı düzeye çevirir",
+        "Kapı iki kez işler; geçmezse tablo yazılmaz"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Ölçülmüş zayıf noktalar",
+      "items": [
+        "Zaman ekseni: prior F1 %36,4, stabilite güvenilir değil",
+        "Kavram düzeyi işaretleyici uyumu kappa 0,34",
+        "known_malignancy ve low otomatik üretilemiyor"
+      ]
+    }
+  ]
+}

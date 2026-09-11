@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 756 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="veri-acmazi-title veri-acmazi-desc">
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap');</style></defs>
+        <title id="veri-acmazi-title">CT-Report-VLM veri açmazı</title>
+        <desc id="veri-acmazi-desc">Üç kohortun ana hipotez için gereken üç veri gereksinimini karşılama durumunu gösteren matris. NLST'de gerçek hekim raporu yok, BIMCV-R'de doğrulanmış kanser sonucu yok, CT-RATE'te hem risk skoru hem kanser sonucu yok; hiçbir kohortta üçü birden bulunmadığı için hipotez doğrudan sınanamıyor.</desc>
+
+        <!-- Background -->
+        <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+        <!-- ================= HEADER ROW (y=72, h=52) ================= -->
+        <rect x="12" y="72" width="208" height="52" rx="6" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.8"/>
+        <text x="116" y="96" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Gereksinim</text>
+        <text x="116" y="112" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">kohorta göre</text>
+
+        <rect x="232" y="72" width="148" height="52" rx="6" fill="#2d3142"/>
+        <text x="306" y="92" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">NLST</text>
+        <text x="306" y="108" fill="#f5f5f5" fill-opacity="0.85" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">1.201 hasta</text>
+
+        <rect x="396" y="72" width="148" height="52" rx="6" fill="#2d3142"/>
+        <text x="470" y="92" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">BIMCV-R</text>
+        <text x="470" y="108" fill="#f5f5f5" fill-opacity="0.85" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">315 hasta</text>
+
+        <rect x="560" y="72" width="148" height="52" rx="6" fill="#2d3142"/>
+        <text x="634" y="92" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">CT-RATE</text>
+        <text x="634" y="108" fill="#f5f5f5" fill-opacity="0.85" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">21.304 hasta</text>
+
+        <!-- ================= ROW 0 · Gerçek hekim raporu (y=140) ================= -->
+        <rect x="12" y="140" width="208" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.8"/>
+        <text x="24" y="162" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif">Gerçek hekim raporu</text>
+
+        <!-- FOCAL: NLST'nin tek eksiği -->
+        <rect x="232" y="140" width="148" height="36" rx="4" fill="#eb6c36" fill-opacity="0.07" stroke="#eb6c36" stroke-width="1.4"/>
+        <text x="306" y="158" fill="#eb6c36" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">YOK</text>
+        <text x="306" y="170" fill="#eb6c36" fill-opacity="0.85" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">tek eksik parça</text>
+
+        <rect x="396" y="140" width="148" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="470" y="162" fill="#2d3142" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">VAR</text>
+
+        <rect x="560" y="140" width="148" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="634" y="162" fill="#2d3142" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">VAR</text>
+
+        <!-- ================= ROW 1 · Görüntü risk skoru (y=180) ================= -->
+        <rect x="12" y="180" width="208" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.8"/>
+        <text x="24" y="202" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif">Görüntü risk skoru</text>
+
+        <rect x="232" y="180" width="148" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="306" y="202" fill="#2d3142" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">VAR</text>
+
+        <rect x="396" y="180" width="148" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="470" y="202" fill="#2d3142" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">VAR</text>
+
+        <rect x="560" y="180" width="148" height="36" rx="4" fill="#b85450" fill-opacity="0.12" stroke="#b85450" stroke-opacity="0.45" stroke-width="1"/>
+        <text x="634" y="198" fill="#b85450" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">YOK</text>
+        <text x="634" y="210" fill="#b85450" fill-opacity="0.85" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">görüntü işlenmedi</text>
+
+        <!-- ================= ROW 2 · Doğrulanmış kanser sonucu (y=220) ================= -->
+        <rect x="12" y="220" width="208" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.8"/>
+        <text x="24" y="242" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif">Doğrulanmış kanser sonucu</text>
+
+        <rect x="232" y="220" width="148" height="36" rx="4" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="306" y="242" fill="#2d3142" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">VAR</text>
+
+        <rect x="396" y="220" width="148" height="36" rx="4" fill="#b85450" fill-opacity="0.12" stroke="#b85450" stroke-opacity="0.45" stroke-width="1"/>
+        <text x="470" y="238" fill="#b85450" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">YOK</text>
+        <text x="470" y="250" fill="#b85450" fill-opacity="0.85" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">patoloji, takip yok</text>
+
+        <rect x="560" y="220" width="148" height="36" rx="4" fill="#b85450" fill-opacity="0.12" stroke="#b85450" stroke-opacity="0.45" stroke-width="1"/>
+        <text x="634" y="238" fill="#b85450" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">YOK</text>
+        <text x="634" y="250" fill="#b85450" fill-opacity="0.85" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">18 etikette kanser yok</text>
+
+        <!-- ================= ROW 3 · Sonuç satırı (y=260) ================= -->
+        <rect x="12" y="260" width="208" height="36" rx="4" fill="#b85450" fill-opacity="0.06" stroke="#b85450" stroke-opacity="0.45" stroke-width="0.8"/>
+        <text x="24" y="282" fill="#b85450" font-size="11" font-weight="600" font-family="'Geist', sans-serif">Üçü aynı hastalarda</text>
+
+        <rect x="232" y="260" width="148" height="36" rx="4" fill="#f5f5f5" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="306" y="282" fill="#7a8399" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">HAYIR</text>
+
+        <rect x="396" y="260" width="148" height="36" rx="4" fill="#f5f5f5" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="470" y="282" fill="#7a8399" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">HAYIR</text>
+
+        <rect x="560" y="260" width="148" height="36" rx="4" fill="#f5f5f5" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="634" y="282" fill="#7a8399" font-size="10" font-family="'Geist', sans-serif" text-anchor="middle">HAYIR</text>
+
+        <!-- ================= LEGEND (y_top = 316) ================= -->
+        <line x1="12" y1="316" x2="708" y2="316" stroke="#2d3142" stroke-opacity="0.10" stroke-width="0.8"/>
+        <text x="12" y="336" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">GÖSTERGE</text>
+
+        <rect x="100" y="326" width="14" height="12" rx="2" fill="#ffffff" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="120" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">Kohortta var</text>
+
+        <rect x="240" y="326" width="14" height="12" rx="2" fill="#b85450" fill-opacity="0.12" stroke="#b85450" stroke-opacity="0.45" stroke-width="1"/>
+        <text x="260" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">Eksik</text>
+
+        <rect x="340" y="326" width="14" height="12" rx="2" fill="#eb6c36" fill-opacity="0.07" stroke="#eb6c36" stroke-width="1.4"/>
+        <text x="360" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">Tek eksik parça</text>
+
+        <rect x="480" y="326" width="14" height="12" rx="2" fill="#f5f5f5" stroke="#2d3142" stroke-opacity="0.12" stroke-width="0.6"/>
+        <text x="500" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace">Sonuç: sınanamaz</text>
+      </svg>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 132 1180 276" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="karar-akisi-title karar-akisi-desc">
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap');</style></defs>
+        <title id="karar-akisi-title">Karar aşamalarının zaman çizgisi</title>
+        <desc id="karar-akisi-desc">25 Ağustos ile 10 Eylül 2026 arasında beş karar aşaması ve dondurma kararı. Her aşamada kaç yolun kapandığı yazılıdır; son olay mercan renkte, ana tezin sınanamadan kaldığı dondurma kararıdır.</desc>
+        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <line x1="64" y1="220" x2="1120" y2="220" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="56" y="256" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" letter-spacing="0.12em">25 AĞU</text>
+        <text x="1120" y="256" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.12em">11 EYL</text>
+        <line x1="256" y1="220" x2="256" y2="188" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="256" y="140" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">28 Ağu</text>
+        <text x="256" y="158" fill="#2d3142" font-size="14" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Faz 1 · CT-RATE korpusu</text>
+        <text x="256" y="174" fill="#4f5d75" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">iki yol kapandı</text>
+        <circle cx="256" cy="220" r="4" fill="#2d3142"/>
+        <line x1="512" y1="220" x2="512" y2="256" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="512" y="272" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">1 Eyl</text>
+        <text x="512" y="290" fill="#2d3142" font-size="14" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Türkçe ve dil ablasyonu</text>
+        <text x="512" y="306" fill="#4f5d75" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">beş yol kapandı</text>
+        <circle cx="512" cy="220" r="4" fill="#2d3142"/>
+        <line x1="704" y1="220" x2="704" y2="188" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="704" y="140" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">4 Eyl</text>
+        <text x="704" y="158" fill="#2d3142" font-size="14" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Malignite şeması</text>
+        <text x="704" y="174" fill="#4f5d75" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">%100 uyum ulaşılamaz</text>
+        <circle cx="704" cy="220" r="4" fill="#2d3142"/>
+        <line x1="960" y1="220" x2="960" y2="256" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="960" y="272" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">8 Eyl</text>
+        <text x="960" y="290" fill="#2d3142" font-size="14" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">NLST geçişi</text>
+        <text x="960" y="306" fill="#4f5d75" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">iki yol kapandı</text>
+        <circle cx="960" cy="220" r="4" fill="#2d3142"/>
+        <line x1="1024" y1="220" x2="1024" y2="188" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="1024" y="140" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">9 Eyl</text>
+        <text x="1024" y="158" fill="#2d3142" font-size="14" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Model değerlendirmesi</text>
+        <text x="1024" y="174" fill="#4f5d75" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">dört yol kapandı</text>
+        <circle cx="1024" cy="220" r="4" fill="#2d3142"/>
+        <line x1="1088" y1="220" x2="1088" y2="256" stroke="#2d3142" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="1088" y="272" fill="#7a8399" font-size="10" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">10 Eyl</text>
+        <text x="1088" y="290" fill="#eb6c36" font-size="14" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Dondurma</text>
+        <text x="1088" y="306" fill="#4f5d75" font-size="11" font-family="'Geist Mono', monospace" text-anchor="middle">ana tez sınanmadı</text>
+        <circle cx="1088" cy="220" r="6" fill="#eb6c36"/>
+        <line x1="40" y1="356" x2="1140" y2="356" stroke="#2d3142" stroke-opacity="0.10" stroke-width="0.8"/>
+        <text x="40" y="376" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">GÖSTERGE</text>
+        <circle cx="140" cy="392" r="4" fill="#2d3142"/>
+        <text x="154" y="396" fill="#4f5d75" font-size="9" font-family="'Geist', sans-serif">Kapanan aşama</text>
+        <circle cx="300" cy="392" r="6" fill="#eb6c36"/>
+        <text x="316" y="396" fill="#4f5d75" font-size="9" font-family="'Geist', sans-serif">Dondurma kararı</text>
+      </svg>

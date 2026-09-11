@@ -82,6 +82,53 @@ belirsizliğini tamamen ortadan kaldırmaz.
 
 ---
 
+## Denenen yollar
+
+Karar defterine kayıtlı eleme penceresi 25 Ağustos ile 10 Eylül 2026 arasıdır. Beş
+aşamada on dört yol ölçümle kapandı: Faz 1 ve CT-RATE korpusunda iki, Türkçe ve dil
+ablasyonunda beş, malignite şemasında bir, NLST geçişinde iki, model değerlendirmesinde
+dört. Bir yol sınanamadan açık kaldı ve dondurma kararı onun içindir.
+
+Her yolu kapatan ölçümün tek tek dökümü ve kapanma gerekçelerinin anlatısı
+[DONDURMA_RAPORU.md](DONDURMA_RAPORU.md) bölüm 2 ve 5'tedir; görsel özeti aşağıdaki
+diyagramlar bölümündedir.
+
+---
+
+## Diyagramlar
+
+Dört devir diyagramı. Kaynakları ve tam boyutlu sürümleri `docs/diagrams/` altındadır.
+
+### Metin işleme hattı
+
+Ham raporun değerlendirmeye hazır yapılandırılmış çıktıya dönüşene kadar geçtiği
+katmanlar. Hekim raporu ve model üretimi rapor iki ayrı giriş noktasından girer;
+sözlükler ve çıkarım şeması hatta yandan bağlanır.
+
+![Metin işleme hattı: hekim raporu ve VLM raporu iki ayrı giriş noktasından cümle bölütlemeye girer, varlık ve ölçü çıkarımından sonra bağlam çözümlemesine geçer, malignite şemasına bağlanır ve seri düzeyi yapılandırılmış çıktı üretir. Bağlam çözümleme katmanı ölçülmüş zayıf nokta olarak işaretlidir.](docs/diagrams/metin_hatti.svg)
+
+### Veri açmazı
+
+Ana hipotezi doğrudan sınamak için aynı hastalarda bulunması gereken üç şey ve hiçbir
+kohortun bunları bir arada sağlayamaması.
+
+![Veri açmazı matrisi: NLST'de gerçek hekim raporu yok, BIMCV-R'de doğrulanmış kanser sonucu yok, CT-RATE'te hem risk skoru hem kanser sonucu yok. Hiçbir kohortta üçü birden bulunmadığı için hipotez doğrudan sınanamadı.](docs/diagrams/veri_acmazi.svg)
+
+### Karar aşamaları
+
+Beş aşamanın zaman içindeki sırası ve her aşamada kaç yolun kapandığı.
+
+![Karar aşamalarının zaman çizgisi: 28 Ağustos Faz 1 ve CT-RATE korpusu iki yol, 1 Eylül Türkçe ve dil ablasyonu beş yol, 4 Eylül malignite şeması, 8 Eylül NLST geçişi iki yol, 9 Eylül model değerlendirmesi dört yol, 10 Eylül dondurma.](docs/diagrams/karar_asamalari.svg)
+
+### Denenen yollar ve kapanma ölçümleri
+
+Her dal bir yaklaşım, her alt dal onu kapatan ölçüm. Sağ uçtaki dal kapanmadı:
+sınanamadan açık kaldı ve projenin ana tezidir. Geniş çizimdir, büyütmek için tıklayın.
+
+![Denenen yolların balık kılçığı dökümü: yedi kategoriye ayrılmış on dört kapanan yol ve her birini kapatan ölçüm, sağ uçta sınanamadan açık kalan ana tez, balığın başında dondurma kararı.](docs/diagrams/denenen_yollar.svg)
+
+---
+
 ## Kurulum
 
 Aşağıdaki komutlar yalnız temel CT-RATE metin hattını kurar. NLST, BIMCV-R ve
@@ -181,6 +228,7 @@ scripts/              numaralı betikler, korpus kurulumundan değerlendirmeye
 configs/              şemalar, sözlükler ve dondurulmuş kilitler
 tests/                508 gerileme testi
 docs/                 çalışma planları, gerekçeler, karar defteri
+  diagrams/           devir diyagramları (bağımsız HTML ve SVG)
 reports/              ölçüm sonuçları ve değerlendirme raporları
 outputs/              deney artefaktları, kör paketler
 tools/                yardımcı araçlar

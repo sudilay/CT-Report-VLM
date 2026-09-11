@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="-40 100 1760 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="denenen-yollar-title denenen-yollar-desc">
+        <title id="denenen-yollar-title">Denenen yollar ve kapanma nedenleri</title>
+        <desc id="denenen-yollar-desc">Proje boyunca denenen yaklaşımların beş aşamaya gruplanmış dökümü. Her dal bir yaklaşım, her alt dal onu kapatan ölçüm. Sağ uçtaki mercan dal, kapanmayan ama sınanamayan ana tezdir; balık başındaki kutu projenin dondurulmasıdır.</desc>
+        <defs>
+          <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap');</style>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+        </defs>
+        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <line x1="40" y1="320" x2="1512" y2="320" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+        <line x1="240" y1="320" x2="144" y2="152" stroke="#2d3142" stroke-width="1.2"/>
+        <line x1="400" y1="320" x2="304" y2="488" stroke="#2d3142" stroke-width="1.2"/>
+        <line x1="560" y1="320" x2="464" y2="152" stroke="#2d3142" stroke-width="1.2"/>
+        <line x1="720" y1="320" x2="624" y2="488" stroke="#2d3142" stroke-width="1.2"/>
+        <line x1="880" y1="320" x2="784" y2="152" stroke="#2d3142" stroke-width="1.2"/>
+        <line x1="1040" y1="320" x2="944" y2="488" stroke="#2d3142" stroke-width="1.2"/>
+        <line x1="1200" y1="320" x2="1104" y2="152" stroke="#eb6c36" stroke-width="1.4"/>
+        <line x1="208" y1="264" x2="176" y2="264" stroke="#7a8399" stroke-width="1"/>
+        <text x="172" y="260" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">RadLex · kapsam dışı</text>
+        <line x1="176" y1="208" x2="144" y2="208" stroke="#7a8399" stroke-width="1"/>
+        <text x="140" y="204" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Fleischner · Lung-RADS lehine</text>
+        <line x1="368" y1="376" x2="336" y2="376" stroke="#7a8399" stroke-width="1"/>
+        <text x="332" y="388" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">RadTr · 429 belgede 7 malignite</text>
+        <line x1="352" y1="404" x2="320" y2="404" stroke="#7a8399" stroke-width="1"/>
+        <text x="316" y="416" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Dil ablasyonu · fark 4,06 puan</text>
+        <line x1="336" y1="432" x2="304" y2="432" stroke="#7a8399" stroke-width="1"/>
+        <text x="300" y="444" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Makine çevirisi · %38 terim kaybı</text>
+        <line x1="512" y1="236" x2="480" y2="236" stroke="#7a8399" stroke-width="1"/>
+        <text x="476" y="232" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">%100 uyum eşiği · 24/30 ölçüldü</text>
+        <line x1="688" y1="376" x2="656" y2="376" stroke="#7a8399" stroke-width="1"/>
+        <text x="652" y="388" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Lung-RADS · nodül ve ölçü %1,2</text>
+        <line x1="656" y1="432" x2="624" y2="432" stroke="#7a8399" stroke-width="1"/>
+        <text x="620" y="444" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Negatif beyan · güven aralığı örtüştü</text>
+        <line x1="848" y1="264" x2="816" y2="264" stroke="#7a8399" stroke-width="1"/>
+        <text x="812" y="260" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Üç sistem ortak karar · yalnız 4 seri</text>
+        <line x1="832" y1="236" x2="800" y2="236" stroke="#7a8399" stroke-width="1"/>
+        <text x="796" y="232" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Lezyonlu 68 serinin 31'inde üçü sessiz</text>
+        <line x1="816" y1="208" x2="784" y2="208" stroke="#7a8399" stroke-width="1"/>
+        <text x="780" y="204" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Astra · efüzyon %79, nodül %14</text>
+        <line x1="1008" y1="376" x2="976" y2="376" stroke="#7a8399" stroke-width="1"/>
+        <text x="972" y="388" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">BTB3D · 0,183 · rastgele 0,151</text>
+        <line x1="992" y1="404" x2="960" y2="404" stroke="#7a8399" stroke-width="1"/>
+        <text x="956" y="416" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">MedMo · izlenimde duyarlılık %12</text>
+        <line x1="976" y1="432" x2="944" y2="432" stroke="#7a8399" stroke-width="1"/>
+        <text x="940" y="444" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Kurtarma kuralı · 1 kansere 55 alarm</text>
+        <line x1="1168" y1="264" x2="1136" y2="264" stroke="#7a8399" stroke-width="1"/>
+        <text x="1132" y="260" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Benign kanıt · SINANMADI</text>
+        <line x1="1136" y1="208" x2="1104" y2="208" stroke="#7a8399" stroke-width="1"/>
+        <text x="1100" y="204" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end">Veri açmazı · üçü aynı kohortta yok</text>
+        <rect x="80" y="136" width="128" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="80" y="136" width="128" height="32" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="144" y="156" fill="#2d3142" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Faz 1 · CT-RATE</text>
+        <rect x="216" y="472" width="176" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="216" y="472" width="176" height="32" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="304" y="492" fill="#2d3142" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Türkçe ve dil ablasyonu</text>
+        <rect x="398" y="136" width="132" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="398" y="136" width="132" height="32" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="464" y="156" fill="#2d3142" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Malignite şeması</text>
+        <rect x="574" y="472" width="100" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="574" y="472" width="100" height="32" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="624" y="492" fill="#2d3142" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">NLST geçişi</text>
+        <rect x="694" y="136" width="180" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="694" y="136" width="180" height="32" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="784" y="156" fill="#2d3142" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">BIMCV-R değerlendirmesi</text>
+        <rect x="864" y="472" width="160" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="864" y="472" width="160" height="32" rx="4" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="944" y="492" fill="#2d3142" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">NLST değerlendirmesi</text>
+        <rect x="1028" y="136" width="152" height="32" rx="4" fill="#f5f5f5"/>
+        <rect x="1028" y="136" width="152" height="32" rx="4" fill="#eb6c36" fill-opacity="0.08" stroke="#eb6c36" stroke-width="1"/>
+        <text x="1104" y="156" fill="#eb6c36" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Ana tez · sınanmadı</text>
+        <rect x="1520" y="288" width="180" height="64" rx="6" fill="#f5f5f5"/>
+        <rect x="1520" y="288" width="180" height="64" rx="6" fill="#eb6c36" fill-opacity="0.08" stroke="#eb6c36" stroke-width="1.4"/>
+        <text x="1610" y="316" fill="#eb6c36" font-size="12" font-family="'Geist', sans-serif" font-weight="600" text-anchor="middle">Proje donduruldu</text>
+        <text x="1610" y="332" fill="#eb6c36" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" fill-opacity="0.85">10 Eylül 2026</text>
+        <line x1="-16" y1="548" x2="1696" y2="548" stroke="#2d3142" stroke-opacity="0.10" stroke-width="0.8"/>
+        <text x="-16" y="568" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">GÖSTERGE</text>
+        <rect x="80" y="586" width="14" height="10" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+        <text x="100" y="595" fill="#4f5d75" font-size="9" font-family="'Geist', sans-serif">Kapanan aşama</text>
+        <rect x="240" y="586" width="14" height="10" rx="2" fill="#eb6c36" fill-opacity="0.08" stroke="#eb6c36" stroke-width="1.4"/>
+        <text x="260" y="595" fill="#4f5d75" font-size="9" font-family="'Geist', sans-serif">Sınanamadan açık kalan tek yol</text>
+        <line x1="500" y1="591" x2="532" y2="591" stroke="#7a8399" stroke-width="1"/>
+        <text x="540" y="595" fill="#4f5d75" font-size="9" font-family="'Geist', sans-serif">Kapatan ölçüm</text>
+      </svg>
