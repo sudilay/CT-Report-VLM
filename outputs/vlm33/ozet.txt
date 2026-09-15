@@ -1,0 +1,86 @@
+== ctrate_siniflama n=491 hasta=426
+  spectre macro_auc 0.7871 [0.7725, 0.801] | macro_auc_seed0 0.7838 [0.7678, 0.7988] | micro_auc 0.8248 [0.8134, 0.8364] | macro_ap 0.4582 [0.4367, 0.4889]
+  mg3d macro_auc 0.6445 [0.6239, 0.6637] | macro_auc_seed0 0.6516 [0.6302, 0.6727] | micro_auc 0.694 [0.6781, 0.7099] | macro_ap 0.287 [0.2663, 0.3157]
+  m3d macro_auc 0.6196 [0.5987, 0.6425] | macro_auc_seed0 0.6198 [0.598, 0.6433] | micro_auc 0.6797 [0.6638, 0.6957] | macro_ap 0.2783 [0.2599, 0.3074]
+  spectre-mg3d:macro_auc +0.1426 [0.1223, 0.1634]
+  spectre-mg3d:micro_auc +0.1308 [0.1158, 0.1468]
+  spectre-mg3d:macro_ap +0.1712 [0.1465, 0.1965]
+  spectre-m3d:macro_auc +0.1675 [0.1438, 0.1911]
+  spectre-m3d:micro_auc +0.1451 [0.1282, 0.1618]
+  spectre-m3d:macro_ap +0.1799 [0.1534, 0.2062]
+  mg3d-m3d:macro_auc +0.0249 [0.0029, 0.0474]
+  mg3d-m3d:micro_auc +0.0143 [-0.0035, 0.0317]
+  mg3d-m3d:macro_ap +0.0087 [-0.0112, 0.0288]
+  holm<0,05 spectre-mg3d Arterial wall calcification +0.2344 [0.1852, 0.2837] p_holm=0.0000
+  holm<0,05 spectre-mg3d Atelectasis +0.138 [0.0681, 0.2102] p_holm=0.0052
+  holm<0,05 spectre-mg3d Consolidation +0.2497 [0.1768, 0.3267] p_holm=0.0000
+  holm<0,05 spectre-mg3d Coronary artery wall calcification +0.1811 [0.127, 0.2382] p_holm=0.0000
+  holm<0,05 spectre-mg3d Emphysema +0.1358 [0.0642, 0.2042] p_holm=0.0048
+  holm<0,05 spectre-mg3d Interlobular septal thickening +0.153 [0.0634, 0.2461] p_holm=0.0412
+  holm<0,05 spectre-mg3d Lung opacity +0.2794 [0.2189, 0.3391] p_holm=0.0000
+  holm<0,05 spectre-mg3d Medical material +0.2516 [0.143, 0.3498] p_holm=0.0001
+  holm<0,05 spectre-mg3d Pleural effusion +0.1495 [0.0825, 0.2192] p_holm=0.0006
+  holm<0,05 spectre-mg3d Pulmonary fibrotic sequela +0.1538 [0.0843, 0.2204] p_holm=0.0005
+  holm<0,05 spectre-m3d Arterial wall calcification +0.224 [0.1684, 0.2818] p_holm=0.0000
+  holm<0,05 spectre-m3d Bronchiectasis +0.1846 [0.0831, 0.2887] p_holm=0.0151
+  holm<0,05 spectre-m3d Cardiomegaly +0.179 [0.1012, 0.2625] p_holm=0.0005
+  holm<0,05 spectre-m3d Consolidation +0.2692 [0.1968, 0.3456] p_holm=0.0000
+  holm<0,05 spectre-m3d Coronary artery wall calcification +0.2198 [0.1588, 0.2797] p_holm=0.0000
+  holm<0,05 spectre-m3d Emphysema +0.2352 [0.1571, 0.3083] p_holm=0.0000
+  holm<0,05 spectre-m3d Interlobular septal thickening +0.27 [0.1641, 0.3725] p_holm=0.0000
+  holm<0,05 spectre-m3d Lung opacity +0.3162 [0.2551, 0.3743] p_holm=0.0000
+  holm<0,05 spectre-m3d Medical material +0.1485 [0.0682, 0.2288] p_holm=0.0119
+  holm<0,05 spectre-m3d Peribronchial thickening +0.2367 [0.1149, 0.3509] p_holm=0.0031
+  holm<0,05 spectre-m3d Pleural effusion +0.1669 [0.097, 0.2436] p_holm=0.0005
+  holm<0,05 spectre-m3d Pulmonary fibrotic sequela +0.16 [0.0966, 0.2258] p_holm=0.0001
+== bimcv_siniflama n=317 hasta=315
+  spectre macro_auc 0.6222 [0.6035, 0.6408] | macro_auc_seed0 0.6182 [0.5962, 0.6405] | micro_auc 0.6918 [0.6757, 0.7091] | macro_ap 0.2647 [0.2537, 0.2868]
+  mg3d macro_auc 0.5283 [0.5085, 0.5493] | macro_auc_seed0 0.5307 [0.5089, 0.5529] | micro_auc 0.5902 [0.5715, 0.6088] | macro_ap 0.1687 [0.1584, 0.1893]
+  m3d macro_auc 0.5512 [0.5325, 0.5705] | macro_auc_seed0 0.553 [0.5333, 0.5733] | micro_auc 0.6159 [0.6005, 0.6316] | macro_ap 0.1813 [0.171, 0.2025]
+  spectre-mg3d:macro_auc +0.0939 [0.0674, 0.1194]
+  spectre-mg3d:micro_auc +0.1016 [0.0805, 0.1222]
+  spectre-mg3d:macro_ap +0.096 [0.0796, 0.1136]
+  spectre-m3d:macro_auc +0.071 [0.0447, 0.0966]
+  spectre-m3d:micro_auc +0.0759 [0.0567, 0.0959]
+  spectre-m3d:macro_ap +0.0834 [0.0657, 0.102]
+  mg3d-m3d:macro_auc -0.0229 [-0.047, 0.0036]
+  mg3d-m3d:micro_auc -0.0256 [-0.0452, -0.0062]
+  mg3d-m3d:macro_ap -0.0126 [-0.0274, 0.0022]
+  holm<0,05 spectre-mg3d COVID 19 +0.1748 [0.0992, 0.2512] p_holm=0.0007
+  holm<0,05 spectre-mg3d emphysema +0.3348 [0.2449, 0.4234] p_holm=0.0000
+  holm<0,05 spectre-mg3d ground glass pattern +0.2063 [0.1324, 0.2794] p_holm=0.0000
+  holm<0,05 spectre-mg3d pleural effusion +0.2434 [0.1622, 0.3222] p_holm=0.0000
+  holm<0,05 spectre-mg3d pneumonia +0.2454 [0.1633, 0.3262] p_holm=0.0000
+  holm<0,05 spectre-mg3d surgery +0.2062 [0.0912, 0.318] p_holm=0.0236
+  holm<0,05 spectre-m3d COVID 19 +0.2166 [0.1532, 0.2836] p_holm=0.0000
+  holm<0,05 spectre-m3d calcified densities +0.1746 [0.0855, 0.2666] p_holm=0.0110
+  holm<0,05 spectre-m3d emphysema +0.1889 [0.0984, 0.29] p_holm=0.0060
+  holm<0,05 spectre-m3d ground glass pattern +0.1314 [0.0629, 0.2002] p_holm=0.0152
+  holm<0,05 spectre-m3d pleural effusion +0.2269 [0.1514, 0.3026] p_holm=0.0000
+  holm<0,05 spectre-m3d pneumonia +0.2152 [0.1395, 0.2878] p_holm=0.0000
+== bimcv_temiz_siniflama n=256 hasta=254
+  spectre macro_auc 0.6149 [0.5943, 0.6365] | macro_auc_seed0 0.6186 [0.5958, 0.6434] | micro_auc 0.6925 [0.6762, 0.7098] | macro_ap 0.2622 [0.2485, 0.2877]
+  mg3d macro_auc 0.5351 [0.5133, 0.5573] | macro_auc_seed0 0.5354 [0.5109, 0.5608] | micro_auc 0.5988 [0.5773, 0.6199] | macro_ap 0.1767 [0.1658, 0.2016]
+  m3d macro_auc 0.5513 [0.5293, 0.5739] | macro_auc_seed0 0.5517 [0.5283, 0.5752] | micro_auc 0.6245 [0.6056, 0.6428] | macro_ap 0.1895 [0.1769, 0.2132]
+  spectre-mg3d:macro_auc +0.0798 [0.0539, 0.1059]
+  spectre-mg3d:micro_auc +0.0937 [0.0719, 0.1149]
+  spectre-mg3d:macro_ap +0.0855 [0.0663, 0.1043]
+  spectre-m3d:macro_auc +0.0635 [0.0365, 0.0915]
+  spectre-m3d:micro_auc +0.068 [0.0472, 0.0899]
+  spectre-m3d:macro_ap +0.0726 [0.053, 0.0936]
+  mg3d-m3d:macro_auc -0.0163 [-0.0425, 0.0127]
+  mg3d-m3d:micro_auc -0.0257 [-0.0478, -0.0031]
+  mg3d-m3d:macro_ap -0.0128 [-0.0296, 0.0054]
+  holm<0,05 spectre-mg3d COVID 19 +0.2556 [0.1785, 0.3353] p_holm=0.0000
+  holm<0,05 spectre-mg3d emphysema +0.3197 [0.2127, 0.4338] p_holm=0.0000
+  holm<0,05 spectre-mg3d ground glass pattern +0.217 [0.1422, 0.2913] p_holm=0.0000
+  holm<0,05 spectre-mg3d pleural effusion +0.2562 [0.1672, 0.3564] p_holm=0.0000
+  holm<0,05 spectre-mg3d pneumonia +0.2614 [0.1692, 0.3529] p_holm=0.0000
+  holm<0,05 spectre-mg3d surgery +0.2669 [0.1555, 0.368] p_holm=0.0001
+  holm<0,05 spectre-m3d COVID 19 +0.2821 [0.207, 0.3535] p_holm=0.0000
+  holm<0,05 spectre-m3d ground glass pattern +0.1426 [0.0715, 0.2151] p_holm=0.0090
+  holm<0,05 spectre-m3d increased density -0.2799 [-0.4417, -0.127] p_holm=0.0317
+  holm<0,05 spectre-m3d pleural effusion +0.234 [0.1533, 0.3218] p_holm=0.0000
+  holm<0,05 spectre-m3d pneumonia +0.2496 [0.1677, 0.3312] p_holm=0.0000
+  holm<0,05 mg3d-m3d emphysema -0.2116 [-0.3175, -0.1119] p_holm=0.0048
+  holm<0,05 mg3d-m3d surgery -0.2056 [-0.3202, -0.0913] p_holm=0.0254

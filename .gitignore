@@ -172,3 +172,6 @@ astra_radiology_reports_with_labels*.csv
 medmo_radiology_reports_with_labels*.xlsx
 medmo_radiology_reports_with_labels*.csv
 *_cancered_series.csv
+
+# SUDE-VLM-33 - BIMCV hasta goruntusu iceren onizleme sayfalari depoya girmez
+outputs/vlm33/onizleme_yerel/
