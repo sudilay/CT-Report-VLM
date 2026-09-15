@@ -1,0 +1,50 @@
+{
+ "pozitif": 13,
+ "sybil_yakalanan": 4,
+ "sybil_kacirilan": 9,
+ "sybil_alarm": 16,
+ "sybil_auc": 0.6471,
+ "sybil_auc_ga": [
+  0.453,
+  0.8238
+ ],
+ "rastgele_beklenen": 0.48,
+ "modeller": {
+  "spectre": {
+   "auc": 0.6501,
+   "auc_ga": [
+    0.5327,
+    0.7644
+   ],
+   "sybil_negatif_auc": 0.704,
+   "ek_alarmda_yakalanan": 1,
+   "p_rastgele": 0.393,
+   "ust_yuzde20_seri": 60,
+   "ust_yuzde20_yakalanan": 3
+  },
+  "m3d": {
+   "auc": 0.6726,
+   "auc_ga": [
+    0.4911,
+    0.8269
+   ],
+   "sybil_negatif_auc": 0.6526,
+   "ek_alarmda_yakalanan": 1,
+   "p_rastgele": 0.393,
+   "ust_yuzde20_seri": 60,
+   "ust_yuzde20_yakalanan": 4
+  },
+  "mg3d": {
+   "auc": 0.6435,
+   "auc_ga": [
+    0.4869,
+    0.7782
+   ],
+   "sybil_negatif_auc": 0.6553,
+   "ek_alarmda_yakalanan": 2,
+   "p_rastgele": 0.077,
+   "ust_yuzde20_seri": 60,
+   "ust_yuzde20_yakalanan": 3
+  }
+ }
+}

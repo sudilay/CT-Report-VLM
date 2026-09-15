@@ -11,22 +11,23 @@ temsil ettiğini değil, genel amaçlı bir hacim temsili olarak ne kadar işe y
 
 ## 1. Temel bulgular
 
-- **En iyi genel hacim temsili SPECTRE'de.** CT-RATE'te 18 bulgunun ortalamasında Macro-AUC SPECTRE
+- En iyi genel hacim temsili SPECTRE'de. CT-RATE'te 18 bulgunun ortalamasında Macro-AUC SPECTRE
   `0,787`, MG-3D `0,645`, M3D `0,620`. BIMCV-R'de SPECTRE `0,622`, M3D `0,551`, MG-3D `0,528`. Farklar
   büyük ve görüntüsü sorunlu seriler çıkarıldığında da korunuyor.
-- **Tarama ile raporu eşleştirmede SPECTRE çok önde.** CT-RATE'te bir taramanın doğru raporu SPECTRE'de
+- Tarama ile raporu eşleştirmede SPECTRE çok önde. CT-RATE'te bir taramanın doğru raporu SPECTRE'de
   vakaların %37'sinde ilk 10 aday arasında; M3D'de %2,6'sında. Bu güçlü bir araştırma sinyali, ama
   klinik kullanım düzeyinde değil.
-- **Akciğer nodülünde başarı orta-zayıf.** CT-RATE'te SPECTRE'nin nodül AUC'si `0,659`, diğer iki model
+- Akciğer nodülünde başarı orta-zayıf. CT-RATE'te SPECTRE'nin nodül AUC'si `0,659`, diğer iki model
   `0,575`; özgüllük %90'da tutulduğunda SPECTRE nodüllerin yalnız %25'ini yakalıyor. BIMCV'de SPECTRE ile
   M3D arasında fark yok (`0,576` ve `0,573`).
-- **Sybil'e ek katman olarak SPECTRE ilginç ama henüz kanıtlanmış değil.** Sybil'in alarm vermediği
+- Sybil'e ek katman olarak SPECTRE umut veriyor, ama kanıt henüz zayıf. Sybil'in alarm vermediği
   BIMCV serilerinde SPECTRE'ye Sybil kadar ek alarm hakkı verildiğinde, kaçan 74 rapor-nodülünden 8'ini
   öne çıkardı; rastgele seçimde beklenen 3,9. Bunun bedeli alarm sayısının iki katına çıkması. Üç model
   için yapılan düzeltmeden sonra birincil analizde sonuç anlamlı değil. M3D'ye üstünlüğü de gösterilemedi.
-- **Kanserin kaçırılması konusunda bu verilerle sonuç çıkarılamaz.** İki veri kümesinde de patoloji ya
-  da yeterli kanser sonlanımı yok; hedef rapordan türetilmiş nodül etiketi.
-- **BIMCV-R'de ciddi veri sorunları var.** Resmî listenin %17,7'sinde görüntü ile rapor eşleşmiyor.
+- Kanserin kaçırılması konusunda bu verilerle sonuç çıkarılamaz. Raporunda akciğer parankiminde
+  malignite bulgusu olan 13 vakanın 9'unu Sybil kaçırıyor; SPECTRE bunlardan 16 ek alarmla yalnız 1'ini
+  yakalıyor. Patoloji ya da yeterli kanser sonlanımı yok.
+- BIMCV-R'de ciddi veri sorunları var. Resmî listenin %17,7'sinde görüntü ile rapor eşleşmiyor.
   Kimliği doğru 317 serinin 55'inde görüntü geometrisi bozuk, 6'sı göğüs taraması değil.
 
 ## 2. Veri ve yöntem
@@ -44,42 +45,42 @@ BIMCV-R'de kimlik şu kuralla doğrulandı: dosya adındaki `sub-S…` ve `ses-E
 
 ### 2.2 Embeddingler
 
-- **M3D-CLIP ve MG-3D Swin-B:** Hugging Face sonuç paketlerindeki görüntü embeddingleri kullanıldı
+- M3D-CLIP ve MG-3D Swin-B: Hugging Face sonuç paketlerindeki görüntü embeddingleri kullanıldı
   (bölüm 11).
-- **SPECTRE-Large:** Embeddingler bu çalışmada çıkarıldı. Taramalar RAS yönelimine çevrildi, HU değerleri
+- SPECTRE-Large: Embeddingler bu çalışmada çıkarıldı. Taramalar RAS yönelimine çevrildi, HU değerleri
   [-1000, 1000] aralığından [0, 1]'e ölçeklendi, 0,5×0,5×1,0 mm'ye yeniden örneklendi ve 128×128×64'lük
   parçalara bölündü. Özellik birleştiricinin CLS vektörü sınıflandırmada, SigLIP görüntü projeksiyonu
   eşleştirmede kullanıldı. Yeniden örneklemenin doğruluğu her seride ölçüldü (bölüm 3.1).
 
 ### 2.3 Değerlendirme
 
-- **Sınıflandırıcı:** Her bulgu için dondurulmuş embedding üzerinde lineer sınıflandırıcı
+- Sınıflandırıcı: Her bulgu için dondurulmuş embedding üzerinde lineer sınıflandırıcı
   (`StandardScaler` ve `LogisticRegression(C=1, class_weight="balanced")`).
-- **Çapraz doğrulama:** Beş katlı, hasta gruplu. Üç model aynı donmuş kat dosyasını kullandı; hiçbir
+- Çapraz doğrulama: Beş katlı, hasta gruplu. Üç model aynı donmuş kat dosyasını kullandı; hiçbir
   hasta aynı bulgu ve tohumda iki kata düşmüyor. Beş farklı kat bölünmesi (tohum) yapıldı ve sonuçların
   ortalaması raporlandı.
-- **Güven aralıkları:** %95 güven aralığı (GA), kat dışı tahminler üzerinde 2.000 kez hasta-kümeli
+- Güven aralıkları: %95 güven aralığı (GA), kat dışı tahminler üzerinde 2.000 kez hasta-kümeli
   bootstrap ile hesaplandı. Model farkları aynı bootstrap örneklemiyle eşleştirildi. Sınıflandırıcı her
   bootstrap örnekleminde yeniden eğitilmedi. Bu yüzden GA'lar hasta örnekleme belirsizliğini kapsıyor,
   sınıflandırıcı eğitiminden gelen belirsizliği tam kapsamıyor. Büyük farkları etkilemesi beklenmez;
   sınırdaki p değerleri temkinle okunmalı.
-- **Çoklu karşılaştırma:** Bulgu bazındaki farklara Holm düzeltmesi uygulandı. Akciğer nodülü önceden
+- Çoklu karşılaştırma: Bulgu bazındaki farklara Holm düzeltmesi uygulandı. Akciğer nodülü önceden
   belirlenmiş birincil bulgu olduğu için ayrıca iki karşılaştırmalık Bonferroni düzeltmesiyle
   değerlendirildi.
-- **Duyarlılık analizi:** Sınıflandırıcı temiz 256 seriyle yeniden eğitildi. Bu alt küme aynı kohortun
+- Duyarlılık analizi: Sınıflandırıcı temiz 256 seriyle yeniden eğitildi. Bu alt küme aynı kohortun
   parçasıdır, bağımsız bir doğrulama kümesi değildir.
 
-**AUC nedir?** Rastgele seçilmiş pozitif bir serinin, rastgele seçilmiş negatif bir seriden daha yüksek
+AUC nedir? Rastgele seçilmiş pozitif bir serinin, rastgele seçilmiş negatif bir seriden daha yüksek
 skor alma olasılığıdır. `0,50` rastgele sıralama, `1,00` kusursuz sıralamadır; doğruluk ya da duyarlılık
 yüzdesi değildir. Macro-AUC her bulgunun AUC'sine eşit ağırlık verir ve bu raporun ana ölçütüdür.
 Micro-AUC bütün seri-bulgu çiftlerini tek havuzda toplar.
 
-**Tarama-rapor eşleştirmesi (retrieval) nasıl ölçüldü?** Model hem taramaları hem raporları aynı vektör
+Tarama-rapor eşleştirmesi (retrieval) nasıl ölçüldü? Model hem taramaları hem raporları aynı vektör
 uzayına yerleştiriyor. Bu uzayda iki yönde arama yapıldı:
 
-- **Görüntüden rapora (I2T, image-to-text):** Bir tarama sorgu olarak verilir ve bütün raporlar
+- Görüntüden rapora (I2T, image-to-text): Bir tarama sorgu olarak verilir ve bütün raporlar
   benzerliğe göre sıralanır. Soru: bu taramanın kendi raporu listenin kaçıncı sırasında?
-- **Rapordan görüntüye (T2I, text-to-image):** Bir rapor sorgu olarak verilir ve bütün taramalar
+- Rapordan görüntüye (T2I, text-to-image): Bir rapor sorgu olarak verilir ve bütün taramalar
   sıralanır. Soru: bu raporun ait olduğu tarama kaçıncı sırada?
 
 R@10, doğru eşin ilk 10 aday içinde bulunduğu sorguların oranıdır. MedR, doğru eşin medyan sırasıdır;
@@ -115,11 +116,11 @@ sürümünde de bu şekilde düzeltilmiş.
 
 Ön işlemenin doğruluğu üç yolla ölçüldü:
 
-- **Sentetik küp testi:** Bilinen konuma konmuş bir küp yeniden örnekleme sonrası 0,2 mm hatayla doğru
+- Sentetik küp testi: Bilinen konuma konmuş bir küp yeniden örnekleme sonrası 0,2 mm hatayla doğru
   yerde ve tam hacimde çıktı. Kütüphanenin kendi yolunda 29 mm kaydı.
-- **Geri-korelasyon:** Modelin gördüğü hacim, girdi ızgarasına geri indirilip girdiyle karşılaştırıldı.
+- Geri-korelasyon: Modelin gördüğü hacim, girdi ızgarasına geri indirilip girdiyle karşılaştırıldı.
   Doğru örneklemede yaklaşık 0,99, hatalı örneklemede 0'a yakın değer çıkıyor.
-- **Görsel kontrol:** Beş seride aksiyel, koronal ve sagittal orta kesitlerde modelin gördüğü görüntü
+- Görsel kontrol: Beş seride aksiyel, koronal ve sagittal orta kesitlerde modelin gördüğü görüntü
   taramanın kendisiyle örtüşüyor.
 
 | Kontrol | CT-RATE 500 | BIMCV 317 |
@@ -235,7 +236,7 @@ türetilmiştir ve benign ile malign nodülleri birlikte içerir.
 | Görüntüden rapora (I2T) | +34,6 [30,3; 39,1] | +49,1 [44,1; 54,5] |
 | Rapordan görüntüye (T2I) | +38,9 [33,9; 43,8] | +51,7 [46,2; 56,9] |
 
-Okuması şöyle: SPECTRE'ye bir tarama verildiğinde, 460 rapor içinden doğru rapor vakaların %37'sinde
+SPECTRE'ye bir tarama verildiğinde, 460 rapor içinden doğru rapor vakaların %37'sinde
 ilk 10 aday arasında çıkıyor. Bir rapor verildiğinde doğru tarama vakaların %41'inde ilk 10 arasında.
 Bu, rastgele beklentinin yaklaşık 17-19 katı. M3D'de değerler rastgele düzeye yakın. SPECTRE'nin görüntü
 ile rapor arasında gerçek bir anlam eşleşmesi kurduğu açık; buna rağmen doğru eş vakaların üçte ikisinde
@@ -327,7 +328,7 @@ Kurulum:
 
 ### 6.2 Sonuçlar
 
-**317 seri.** Sybil'in negatif bıraktığı 301 seride 74 nodül var (%24,6). 16 ek alarmda rastgele
+317 seri. Sybil'in negatif bıraktığı 301 seride 74 nodül var (%24,6). 16 ek alarmda rastgele
 seçimle ortalama 3,9 nodül beklenir.
 
 | Model | Nodül AUC [%95 GA] | 16 ek alarmda yakalanan nodül | Ek yanlış alarm | Ek alarmların nodül oranı | Keşifsel p |
@@ -336,7 +337,7 @@ seçimle ortalama 3,9 nodül beklenir.
 | M3D-CLIP | 0,574 [0,508; 0,640] | 5 | 11 | %31 | 0,35 |
 | MG-3D Swin-B | 0,460 [0,396; 0,526] | 6 | 10 | %38 | 0,17 |
 
-**Temiz 256 seri (duyarlılık analizi).** Sybil'in negatif bıraktığı 243 seride 59 nodül var (%24,3).
+Temiz 256 seri (duyarlılık analizi). Sybil'in negatif bıraktığı 243 seride 59 nodül var (%24,3).
 Sybil burada 13 alarm veriyor; 13 ek alarmda rastgele beklenen 3,2 nodül.
 
 | Model | Nodül AUC [%95 GA] | 13 ek alarmda yakalanan nodül | Ek yanlış alarm | Ek alarmların nodül oranı | Keşifsel p |
@@ -348,17 +349,39 @@ Sybil burada 13 alarm veriyor; 13 ek alarmda rastgele beklenen 3,2 nodül.
 Keşifsel p, aynı sayıda serinin rastgele seçilmesi durumunda en az bu kadar nodül yakalanma olasılığıdır
 (hipergeometrik test).
 
-### 6.3 FN azaltma açısından ne anlama geliyor?
+### 6.3 Akciğer parankiminde malignite bulgusu olan vakalar
 
-**Kazanç.** Sybil tek başına 83 rapor-nodülünün 9'unu işaretliyor. SPECTRE'nin 16 ek alarmı eklenince bu
+Nodül etiketi benign nodülleri de içerdiği için aynı soru, raporunda akciğer parankiminde malignite
+bulgusu olan vakalarda ayrıca incelendi. Bu gruba güncel primer akciğer tümörü, şüpheli primer pulmoner
+lezyon ya da pulmoner metastaz tanımlanan 13 seri girdi. Modellerin doğrudan bir malignite çıktısı
+olmadığı için her modelin nodül ve pulmoner kitle olasılıklarından büyük olanı skor olarak kullanıldı;
+yeni bir sınıflandırıcı eğitilmedi.
+
+| 317 seri, 13 parankim malignitesi | Sybil | SPECTRE | M3D | MG-3D |
+|---|---:|---:|---:|---:|
+| AUC [%95 GA] | 0,647 [0,453; 0,824] | 0,650 [0,533; 0,764] | 0,673 [0,491; 0,827] | 0,643 [0,487; 0,778] |
+| Sybil 0,20 eşiğinde yakalanan / kaçırılan | 4 / 9 | - | - | - |
+| Sybil'in negatif bıraktığı 301 seride AUC (9 pozitif) | - | 0,704 | 0,653 | 0,655 |
+| 16 ek alarmda yakalanan kaçmış vaka (rastgele beklenen 0,48) | - | 1 | 1 | 2 |
+| En yüksek skorlu 60 seride (havuzun %20'si) yakalanan | - | 3 | 4 | 3 |
+
+Sybil parankim malignitesi olan 13 vakanın 9'unu 0,20 eşiğinin altında bıraktı. Üç model de bu vakaları
+rastgele sıralamadan biraz daha iyi sıralıyor, ama güven aralıkları çok geniş ve modeller arasında fark
+yok. Sybil kadar ek alarmla SPECTRE kaçan 9 vakadan yalnız 1'ini yakalıyor. Pozitif sayısı bu kadar az
+olduğunda sonuç ancak betimsel okunabilir. Ayrıca bu malignite etiketi raporlardan kural tabanlı olarak
+türetildi ve ikinci bir değerlendiriciyle doğrulanmadı.
+
+### 6.4 FN azaltma açısından ne anlama geliyor?
+
+Sybil tek başına 83 rapor-nodülünün 9'unu işaretliyor. SPECTRE'nin 16 ek alarmı eklenince bu
 sayı 17'ye çıkıyor; kaçan nodül 74'ten 66'ya iniyor (%10,8 azalma). Temiz alt kümede kaçan nodül 59'dan
 51'e iniyor (%13,6 azalma). SPECTRE'nin ek alarmlarının yarısı nodüllü seriye düşüyor; havuzdaki nodül
 oranı %24,6.
 
-**Bedel.** Toplam alarm sayısı 16'dan 32'ye, yani iki katına çıkıyor. Kurtarılan her nodül için bir
+Bunun karşılığında toplam alarm sayısı 16'dan 32'ye, yani iki katına çıkıyor. Kurtarılan her nodül için bir
 yanlış alarm ekleniyor. Buna rağmen nodüllerin %80'i hâlâ alarmsız kalıyor.
 
-**İstatistiksel güven.** Sonuç düşündürücü ama zayıf:
+Sonuç umut verici olsa da istatistiksel dayanağı zayıf:
 
 - Üç model birlikte değerlendirildiği için p değerleri düzeltilmeli. Düzeltmeden sonra birincil 317
   serilik analizde p = 0,063 ve %5 eşiğinin altında kalmıyor. Temiz alt kümede düzeltilmiş p = 0,012;
@@ -371,13 +394,13 @@ yanlış alarm ekleniyor. Buna rağmen nodüllerin %80'i hâlâ alarmsız kalıy
   okunmalı. Hasta düzeyinde etiket permütasyonuyla bütün hattı yeniden çalıştıran bir test yapılmadı.
 - Hedef kanser değil, rapor-kökenli nodül; benign nodülleri de içeriyor.
 
-### 6.4 SPECTRE bu amaçla kullanılabilir mi?
+### 6.5 SPECTRE bu amaçla kullanılabilir mi?
 
-**Klinik bir güvenlik katmanı olarak şu an hayır.** Kazanç küçük: 74 kaçan nodülden 8'i. Alarm yükü iki
-katına çıkıyor. Birincil analizde sonuç çoklu karşılaştırmadan sonra anlamlı değil. En önemlisi, ölçülen
-hedef kanser değil.
+Klinik bir güvenlik katmanı olarak şu an kullanılamaz. Kazanç küçük: 74 kaçan nodülden 8'i. Alarm yükü iki
+katına çıkıyor. Birincil analizde sonuç çoklu karşılaştırmadan sonra anlamlı değil. Parankim malignitesi olan
+vakalarda da SPECTRE belirgin bir katkı göstermedi (bölüm 6.3). En önemlisi, ölçülen hedef kanser değil.
 
-**Araştırma adayı olarak evet, üç model içinde en umut vericisi SPECTRE.** Sabit ek alarm bütçesinde en
+Araştırma amacıyla ise üç model içinde denenmeye en uygun olanı SPECTRE. Sabit ek alarm bütçesinde en
 güçlü zenginleşmeyi gösteren model o. Sinyal görüntüsü temiz serilerde daha belirgin. Ayrıca genel bulgu
 temsilinde ve eşleştirmede diğer iki modelden açıkça iyi. Tamamlayıcı olarak ciddiye alınması için şunlar
 gerekiyor:
@@ -390,16 +413,16 @@ gerekiyor:
 
 ## 7. Genel değerlendirme
 
-- **Sıralama tutarlı.** SPECTRE iki veri kümesinde, genel bulgu temsilinde ve eşleştirmede birinci.
+- Sıralama tutarlı. SPECTRE iki veri kümesinde, genel bulgu temsilinde ve eşleştirmede birinci.
   M3D ile MG-3D arasındaki farklar küçük ve veri kümesine göre yön değiştiriyor: CT-RATE'te MG-3D,
   BIMCV'de M3D sayısal olarak önde.
-- **SPECTRE en iyi genel aktarılabilir hacim temsilini üretiyor.** Bu, rapordaki bulguların
+- SPECTRE en iyi genel aktarılabilir hacim temsilini üretiyor. Bu, rapordaki bulguların
   ayrılabilirliği ve tarama-rapor eşleşmesiyle ölçüldü. Anatomik lokalizasyon ve lezyon tespiti
   ölçülmediği için "anatomiyi en iyi temsil eden model" demek bu çalışmanın gösterdiğinden geniş bir
   iddia olur.
-- **Güç yaygın bulgularda, zayıflık küçük lezyonlarda.** Sıvı, konsolidasyon, buzlu cam, amfizem ve
+- Güç yaygın bulgularda, zayıflık küçük lezyonlarda. Sıvı, konsolidasyon, buzlu cam, amfizem ve
   kalsifikasyonda fark büyük. Nodülde fark küçük, BIMCV'de hiç yok.
-- **BIMCV sonuçları veri kalitesiyle sınırlı.** Serilerin yaklaşık beşte biri bu karşılaştırma için
+- BIMCV sonuçları veri kalitesiyle sınırlı. Serilerin yaklaşık beşte biri bu karşılaştırma için
   güvenilir değil ve etiketler gürültülü. Buna rağmen model sıralaması temiz alt kümede değişmiyor.
 
 ## 8. Kullanım kararı
@@ -416,23 +439,23 @@ gerekiyor:
 
 ## 9. Sınırlar
 
-- **Etiketler:** CT-RATE ve BIMCV bulgu etiketleri rapordan otomatik türetilmiş gümüş etiketlerdir;
+- Etiketler: CT-RATE ve BIMCV bulgu etiketleri rapordan otomatik türetilmiş gümüş etiketlerdir;
   patoloji değildir.
-- **Ölçülen şey:** Dondurulmuş embedding ve lineer sınıflandırıcı başarısı; ince ayarlı model değil.
+- Ölçülen şey: Dondurulmuş embedding ve lineer sınıflandırıcı başarısı; ince ayarlı model değil.
   Lokalizasyon, lezyon tespiti ve segmentasyon ölçülmedi.
-- **Örneklem:** Küçük (491 ve 317 seri); seyrek bulgularda güven aralıkları geniş.
-- **Güven aralıkları koşullu:** Sabit kat dışı tahminler üzerinde hesaplandı. Sınıflandırıcı eğitim
+- Örneklem: Küçük (491 ve 317 seri); seyrek bulgularda güven aralıkları geniş.
+- Güven aralıkları koşullu: Sabit kat dışı tahminler üzerinde hesaplandı. Sınıflandırıcı eğitim
   belirsizliğini tam içermiyor; sınırdaki p değerleri iyimser olabilir.
-- **Çalışma noktaları:** Duyarlılık ve özgüllük noktaları aynı veride seçildi; GA verilmedi. Klinik
+- Çalışma noktaları: Duyarlılık ve özgüllük noktaları aynı veride seçildi; GA verilmedi. Klinik
   eşik olarak kullanılmadan önce iç katlarda seçilmeli ya da dış veride doğrulanmalı.
-- **Eşdeğerlik:** Karşılaştırma uçtan uca tam eşdeğer değil (bölüm 2.4).
-- **Ön-eğitim maruziyeti:** CT-RATE'teki farkın bir kısmı SPECTRE ve MG-3D için alan içi avantajdan
+- Eşdeğerlik: Karşılaştırma uçtan uca tam eşdeğer değil (bölüm 2.4).
+- Ön-eğitim maruziyeti: CT-RATE'teki farkın bir kısmı SPECTRE ve MG-3D için alan içi avantajdan
   gelebilir.
-- **Yönelim:** CT-RATE girdileri SPECTRE'nin kendi CT-RATE ön işlemesiyle aynı yönelim kuralıyla
+- Yönelim: CT-RATE girdileri SPECTRE'nin kendi CT-RATE ön işlemesiyle aynı yönelim kuralıyla
   hazırlandı; BIMCV girdileri NIfTI başlığına göre RAS yönelimine çevrildi.
-- **BIMCV veri sorunları:** 61 seri birincil analizde yer alıyor (bölüm 3.2). Görsel kalite
+- BIMCV veri sorunları: 61 seri birincil analizde yer alıyor (bölüm 3.2). Görsel kalite
   sınıflaması tek okuyucuya dayanıyor.
-- **Sybil analizi:** Keşifsel. Hedef rapor-kökenli nodül; eşik ve alarm bütçesi dış veride
+- Sybil analizi: Keşifsel. Hedef rapor-kökenli nodül; eşik ve alarm bütçesi dış veride
   doğrulanmadı; hipergeometrik p tam hattın belirsizliğini içermiyor.
 
 ## 10. Öneriler
@@ -456,6 +479,7 @@ gerekiyor:
 |---|---|
 | Değerlendirme betiği (CPU, yaklaşık 15 dk) | `scripts/84_vlm33_benchmark_degerlendirme.py` |
 | Değerlendirme çıktıları | `outputs/vlm33/sonuclar.json`, `outputs/vlm33/ozet.txt` |
+| Parankim malignitesi analizi (bölüm 6.3) | `scripts/86_vlm33_parankim_malignite.py`, `outputs/vlm33/parankim_malignite.json`, `outputs/vlm33/bimcv317_parankim_malignite_etiket.csv` |
 | SPECTRE embedding çıkarım betiği (GPU) | `scripts/85_vlm33_spectre_embedding_cikarimi.py` |
 | SPECTRE kontrol raporları ve seri manifestleri | `outputs/vlm33/kapi_raporu_*.md`, `outputs/vlm33/spectre_*_manifest.csv` |
 | SPECTRE embeddingleri ve çıkarım logları (yerel, depoya girmez) | `data/external/vlm33_spectre/` |
