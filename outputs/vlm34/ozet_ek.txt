@@ -1,0 +1,86 @@
+==============================================================================
+SUDE-VLM-34 EKI - ESLESTIRILMIS FARKLAR VE KARISTIRICI KONTROLU
+==============================================================================
+
+## 1. Eslestirilmis model farklari (1. yil, seri duzeyi, ayni bootstrap ornegi)
+   Ayni hasta-kumeli bootstrap ornekleminde iki modelin AUC farki hesaplanir.
+
+  karsilastirma             DeltaAUC               %95 GA         p
+  SPECTRE - Sybil             +0.028 [ -0.012;  +0.075]    0.1620
+  SPECTRE - M3D               +0.532 [ +0.447;  +0.619]    0.0000
+  SPECTRE - MG-3D             +0.450 [ +0.346;  +0.552]    0.0000
+  Sybil - M3D                 +0.504 [ +0.405;  +0.604]    0.0000
+  Sybil - MG-3D               +0.422 [ +0.313;  +0.525]    0.0000
+  MG-3D - M3D                 +0.082 [ -0.049;  +0.215]    0.2110
+
+  Holm duzeltmesi (6 karsilastirma):
+    SPECTRE-M3D              ham p=0.0000  Holm p=0.0000  anlamli
+    SPECTRE-MG-3D            ham p=0.0000  Holm p=0.0000  anlamli
+    Sybil-M3D                ham p=0.0000  Holm p=0.0000  anlamli
+    Sybil-MG-3D              ham p=0.0000  Holm p=0.0000  anlamli
+    SPECTRE-Sybil            ham p=0.1620  Holm p=0.3240  -
+    MG-3D-M3D                ham p=0.2110  Holm p=0.3240  -
+
+## 2. M3D ve MG-3D neden sansin ALTINDA? (AUC 0,41 ve 0,49)
+   Sans-alti AUC rastgele gurultu degildir: sistematik ters siralama demektir.
+   Hipotez: kohortta kayit teknigi ile sonlanim arasinda karistirici var; bu iki
+   model patoloji yerine kayit teknigini tasiyor.
+
+  2a. Kayit parametrelerinin tek basina yonu (1. yil hedefi, ham AUC)
+    kesit_sayisi       AUC=0.487  (poz medyan=170.000, neg medyan=169.000)
+    kesit_kalinligi    AUC=0.503  (poz medyan=2.000, neg medyan=2.000)
+    piksel_mm          AUC=0.490  (poz medyan=0.644, neg medyan=0.652)
+
+  2b. Uretici/protokol basina 1. yil kanser orani
+    PHMX               n=  130 poz=  5 oran=3.85%
+    GELS               n=  100 poz=  2 oran=2.00%
+    SESEN              n=  963 poz= 15 oran=1.56%
+    TOAQUL             n=  435 poz=  6 oran=1.38%
+    SEVZOOMB           n=  986 poz= 12 oran=1.22%
+    GELSPR             n=  113 poz=  1 oran=0.88%
+    GELSULTSTANDARD    n=  121 poz=  0 oran=0.00%
+
+  2c. Modeller kayit teknigini ne kadar tasiyor? (embeddingden kesit kalinligi tahmini)
+      Hedef: kesit kalinligi medyanin ustunde mi (ikili). Yuksek AUC = model teknigi kodluyor.
+    model       kesit kalinligi    uretici
+    SPECTRE               0.911      0.965
+    M3D                   0.776      0.871
+    MG-3D                 0.802      0.767
+
+  2d. Karistirici katman icinde (uretici sabit tutularak) 1. yil AUC
+      Her uretici grubunda ayri AUC, grup buyuklugune gore agirlikli ortalama.
+    Sybil      katman-ici AUC=0.916  (ham AUC=0.914, 4 uretici grubu)
+    SPECTRE    katman-ici AUC=0.945  (ham AUC=0.942, 4 uretici grubu)
+    M3D        katman-ici AUC=0.379  (ham AUC=0.410, 4 uretici grubu)
+    MG-3D      katman-ici AUC=0.449  (ham AUC=0.492, 4 uretici grubu)
+
+## 3. Permutasyon null: lineer probun BOS hipotez altindaki AUC dagilimi
+   Etiketler HASTA duzeyinde permute edilip kat-disi AUC null dagilimi olculur.
+
+   HAT ESLESMESI (denetim duzeltmesi): null ile karsilastirilan 'gercek' deger de
+   permutasyonla BIREBIR AYNI hattan uretilir - tek kat bolunmesi (tohum 0),
+   max_iter=3000. Raporun baska yerlerindeki 5 tohum ortalamasi DEGILDIR;
+   ortalama varyansi dusurur, bu yuzden iki deger karistirilmamalidir.
+
+   Tekrar sayisi modele gore: M3D'nin p degeri 0,05 civarinda oldugu icin
+   orada cok daha fazla tekrar gerekir.
+
+  model       tekrar  gercek(1 tohum)   5 tohum  null medyan        null %2,5-%97,5        p
+  SPECTRE        200            0.935     0.942        0.493 [   0.389;    0.608]   0.0100
+  M3D           1000            0.435     0.410        0.501 [   0.395;    0.606]   0.2338
+  MG-3D          200            0.499     0.492        0.503 [   0.405;    0.582]   0.9851
+
+  Holm duzeltmesi (3 model birlikte sinandi):
+    SPECTRE    ham p=0.010  Holm p=0.030  anlamli
+    M3D        ham p=0.234  Holm p=0.468  anlamli DEGIL
+    MG-3D      ham p=0.985  Holm p=0.985  anlamli DEGIL
+
+  Yorum notu (denetim duzeltmesi): bootstrap GA ile permutasyon null'i AYNI SEYI
+  olcmez, biri digerinden 'dogru' degildir.
+    - Bootstrap: sabit, egitilmis bir OOF skorun orneklem belirsizligi.
+      Soru: 'bu skoru baska hastalarda olcsek AUC ne olurdu?'
+    - Permutasyon: etiket-sonuc baginin olmadigi durumda, YENIDEN EGITIMLI hattin
+      davranisi. Soru: 'bu hat hic sinyal yokken hangi AUC'leri uretir?'
+  Ikisi farkli sorulara cevap verdigi icin aralik genislikleri de farklidir; sans
+  duzeyine yakin degerleri yorumlarken permutasyon daha uygun referanstir, ama
+  bootstrap 'yanlis' degildir.

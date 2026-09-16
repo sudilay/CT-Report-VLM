@@ -175,3 +175,10 @@ medmo_radiology_reports_with_labels*.csv
 
 # SUDE-VLM-33 - BIMCV hasta goruntusu iceren onizleme sayfalari depoya girmez
 outputs/vlm33/onizleme_yerel/
+
+# outputs/vlm34 gorselleri: scripts/90 ile yeniden uretilir, politika geregi girmez.
+# Istisna: raporun (reports/vlm34_*.md) dogrudan bagladigi iki sekil.
+outputs/vlm34/*.png
+outputs/vlm34/*.svg
+!outputs/vlm34/sekil_9_fn_kurtarma.svg
+!outputs/vlm34/sekil_10_vaka_matrisi.svg

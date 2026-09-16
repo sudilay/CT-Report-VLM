@@ -1,0 +1,144 @@
+================================================================================
+SUDE-VLM-34 - BAGIMSIZ DENETIM DUZELTMELERI
+================================================================================
+
+## A. Uc estimand yan yana (1. yil kanseri)
+
+  Ayni veriden uc FARKLI soru sorulabilir. Onceki rapor birincil olarak hasta-max
+  kuralini kullaniyordu; bu, tek bir BT'den risk tahmini DEGILDIR.
+
+  tarama başına (seri)  —  n=2940, pozitif=41 (1.39%)
+    Sybil=0.914  Pillar=0.976  SPECTRE=0.942  M3D=0.410  MG-3D=0.492
+  indeks BT (en erken tarama)  —  n=1198, pozitif=28 (2.34%)
+    Sybil=0.915  Pillar=0.980  SPECTRE=0.937  M3D=0.343  MG-3D=0.518
+  hasta-max (herhangi bir yıl)  —  n=1198, pozitif=40 (3.34%)
+    Sybil=0.881  Pillar=0.967  SPECTRE=0.918  M3D=0.345  MG-3D=0.405
+
+  Not: indeks BT hasta basina tek gozlemdir; hasta kumelenmesi yoktur, guven
+  araliklari icin bootstrap'ta ozel islem gerekmez. Tarama basina analiz ise
+  yayimlanmis tek-BT sonuclariyla AYNI soruyu sorar.
+
+## B. Dondurulmus astra-split-1.0 ile degerlendirme
+
+  bolum        seri  hasta  1y poz seri  1y poz PID  6y poz PID
+  train        2050    838           28          28          50
+  dev           450    180            7           6          11
+  held_out      440    180            6           6          11
+
+  ! Kilitteki 'pozitif_pid: 11' degeri 6 YILLIK kanser sayisidir. Bu calismanin
+    birincil hedefi olan 1. yil kanserinde held-out'ta 6 PID vardir.
+
+  Probe yalniz TRAIN'de egitildi, DEV'de esik sabitlendi, HELD-OUT'ta bir kez olculdu.
+
+  model       dev AUC  held-out AUC  dev esik  HO: TP/FN   HO duyarlilik [Wilson %95]  HO FP
+  Sybil         0.907         0.871     0.198     5/1         0.833 [0.436; 0.970]    102
+  Pillar        0.965         0.961     0.102     6/0         1.000 [0.610; 1.000]     99
+  SPECTRE       0.942         0.903     0.000     5/1         0.833 [0.436; 0.970]    128
+  M3D           0.427         0.455     0.250     2/4         0.333 [0.097; 0.700]    139
+  MG-3D         0.466         0.472     0.002     1/5         0.167 [0.030; 0.564]    128
+
+  ! Held-out'ta 6 pozitif seri vardir. Kusursuz 6/6 sonucta bile Wilson %95 alt
+    siniri %61.0'dir; bu kume hicbir esigi SINAYAMAZ, yalniz
+    nokta tahmin ve cok genis bir aralik raporlar (kilit karari D100).
+  ! Havuzlanmis 5 katli OOF olcumu (raporun geri kalani) bir GELISTIRME olcumudur,
+    dondurulmus held-out'un yerini tutmaz.
+
+## C. FP/FN tablosu - Pillar ikincil baseline olarak geri alindi
+   (tarama basina estimand; birincil hedef 1. yil)
+
+  model       esik/butce   TP   FN    FP    TN  duyarlilik  ozgulluk     PPV
+  Sybil            0.200   35    6   640  2259       0.854     0.779   0.052
+  Pillar           0.110   41    0   634  2265       1.000     0.781   0.061
+  SPECTRE          0.003   38    3   637  2262       0.927     0.780   0.056
+  M3D              0.340    7   34   668  2231       0.171     0.770   0.010
+  MG-3D            0.007   11   30   664  2235       0.268     0.771   0.016
+
+## D. FN kumelerinin vaka duzeyinde ortusmesi (tarama basina, 41 pozitif seri)
+  model        FN  kacirdigi seri anahtarlari (kisaltilmis)
+  Sybil         6  101066, 115520, 127890, 206564, 214822, 215311
+  Pillar        0  
+  SPECTRE       3  127890, 204087, 217951
+  M3D          34  100012, 101066, 102136, 102581, 104248, 106286, 106498, 107682, 109852, 112575, 113623, 115520 ...
+  MG-3D        30  100012, 102136, 102581, 104248, 106498, 107682, 109198, 109852, 113623, 115520, 115520, 118681 ...
+
+  Sybil ∩ Pillar   = 0 ortak FN
+  Sybil ∩ SPECTRE  = 1 ortak FN
+  Yalniz Sybil FN  = 5
+  Uc modelin ortak FN'i = 0
+  En az bir model yakaliyor = 41/41
+
+## E. Sybil-negatif havuzda KUCUK ek alarm butceleri (hasta duzeyi)
+  Havuz: 770 hasta, 5 kacan kanser (taban oran %0.65)
+  Onceki rapordaki +428 butcesi kohortun %71.5'ine alarm demekti; asagida gerceklci butceler.
+
+  Her hucre: kurtarilan kanser (parantezde ayni butcedeki ek YANLIS alarm).
+  Ek yanlis alarm = butce - kurtarilan; FN-FP odunlesmesini dogrudan gosterir.
+
+   ek butce  rastgele bekl.       Pillar      SPECTRE          M3D        MG-3D
+         10            0.06     2 (   8)     2 (   8)     0 (  10)     0 (  10)
+         25            0.16     3 (  22)     2 (  23)     0 (  25)     0 (  25)
+         50            0.32     3 (  47)     2 (  48)     0 (  50)     0 (  50)
+        100            0.65     5 (  95)     3 (  97)     1 (  99)     0 ( 100)
+        200            1.30     5 ( 195)     4 ( 196)     1 ( 199)     1 ( 199)
+        428            2.78     5 ( 423)     4 ( 424)     3 ( 425)     3 ( 425)
+
+  ! Havuzda yalniz 5 FN var. Tek bir vakanin yer degistirmesi kurtarma
+    oranini 20 puan oynatir. Bu sayilarla ne 'tamamlayicilik var'
+    ne 'yok' denebilir; hüküm KARAR VERILEMEZ'dir.
+
+## F. Gelecek risk: 2-6. yil ufuklari (resmi Kanser_Yil/Mask, tarama basina)
+   Ileri yillarda tani alan 99 seri analiz disi BIRAKILMAZ; Sybil'in asli gorevi
+   olan gelecek riski burada olculur.
+
+   Her ufukta o ufkun kendi risk skoru kullanilir (Sybil/Pillar y1..y6); onceki
+   surum her ufukta y1 skorunu kullaniyordu (ikinci denetim bulgusu 1b).
+
+   ufuk  pozitif  gecerli     Sybil    Pillar   SPECTRE       M3D     MG-3D
+      1       41     2940     0.914     0.976     0.942     0.410     0.492
+      2       19     2899     0.786     0.794     0.777     0.486     0.491
+      3       24     2853     0.635     0.724     0.760     0.520     0.579
+      4       22     2794     0.609     0.688     0.668     0.462     0.461
+      5       23     2625     0.597     0.697     0.684     0.589     0.508
+      6       11     1799     0.639     0.756     0.679     0.606     0.685
+
+  Birlesik 2.-6. yil penceresi:
+    ONCEKI SURUM HATALIYDI. `mask_y6 == 1` sarti, 2.-5. yilda kanser cikanlari
+    disliyordu (olay sonrasi maske sifirlaniyor); geriye yalniz 6. yil olaylari
+    kaliyordu: 11 pozitif / 1.799 seri, 11'inin 11'i 6. yil.
+    DOGRU KURGU: pozitif = 2.-6. yilda olay; negatif = 6. yila kadar olaysiz takip;
+    1. yil kanserleri her iki taraftan da cikarilir.
+    -> 99 pozitif / 1887 seri
+    Sybil=0.659  Pillar=0.736  SPECTRE=0.721  M3D=0.531  MG-3D=0.532
+
+## G. Yanlis pozitiflerin ileride kanserle iliskisi (payda duzeltildi)
+   Onceki surum her modelin FP oranini SYBIL'in TN oranina boluyordu. Her model
+   kendi TN grubuyla karsilastirilir (ikinci denetim bulgusu 4).
+   Not: ileride kanser tanisi almak, ilk alarmin dogru oldugunu lezyon kaniti
+   olmadan GOSTERMEZ; olculen sey 'ileride kanserle iliskili alarm' oranidir.
+
+  model         FP  FP icinde 2-6y  FP orani  kendi TN orani  zenginlesme
+  Sybil        393              18      4.6%            1.8%        2.50x
+  Pillar       388              23      5.9%            1.2%        5.07x
+  SPECTRE      391              23      5.9%            1.2%        5.01x
+  M3D          420              12      2.9%            2.7%        1.05x
+  MG-3D        418              10      2.4%            3.0%        0.80x
+
+## I. Pillar'in farki eslestirilmis testle (tarama basina, 1. yil)
+   Pillar'in ustunlugu once yalniz nokta tahminle soylenmisti; burada ayni
+   hasta-kumeli bootstrap ornekleminde eslestirilmis fark hesaplanir.
+
+  karsilastirma               DeltaAUC               %95 GA         p
+  Pillar - SPECTRE              +0.034 [ +0.009;  +0.069]    0.0020
+  Pillar - Sybil                +0.062 [ +0.031;  +0.099]    0.0000
+  Pillar - M3D                  +0.566 [ +0.482;  +0.654]    0.0000
+  Pillar - MG-3D                +0.484 [ +0.386;  +0.581]    0.0000
+  Holm duzeltmesi (4 karsilastirma):
+    Pillar-M3D                 ham p=0.0000  Holm p=0.0000  anlamli
+    Pillar-MG-3D               ham p=0.0000  Holm p=0.0000  anlamli
+    Pillar-Sybil               ham p=0.0000  Holm p=0.0000  anlamli
+    Pillar-SPECTRE             ham p=0.0020  Holm p=0.0020  anlamli
+
+## H. Hasta ici kontrolun 'ayni cihaz/protokol' varsayimi
+  Sekil 5'teki 12 hastadan protokolu sabit kalan: 5; protokolu degisen: 7
+  -> 'ayni cihaz ve protokol, fark yalniz zaman' ifadesi bu hastalarin cogunlugu
+     icin DOGRU DEGIL; hasta ici kontrol sanildigi kadar siki degil.
